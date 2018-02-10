@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:397bb5c8fd71113f3a4b84dad0448f24:80ad197c6025444ee8fe448ffeb41ffd:d76b48efa97aa1a27bbb81230b16aa09$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="jojoWalk.png" width="96" height="462">
+    <sprite n="AttackBox0.png" x="0" y="0" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="CursorBox0.png" x="48" y="0" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="CursorBox1.png" x="0" y="48" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoBWalk0.png" x="48" y="48" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoBWalk1.png" x="0" y="96" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoLWalk0.png" x="48" y="96" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoLWalk1.png" x="0" y="144" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoRWalk0.png" x="48" y="144" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoRWalk1.png" x="0" y="192" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoTWalk0.png" x="48" y="192" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoTWalk1.png" x="0" y="240" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="Ui.png" x="0" y="288" w="88" h="174" pX="0.5" pY="0.5"/>
+</TextureAtlas>

@@ -1,0 +1,277 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="SGAFrameWork">
+      <UniqueIdentifier>{f18a6854-8648-4e57-9ee4-cd445ef1acdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TinyXML">
+      <UniqueIdentifier>{a06f4053-add2-4a12-a299-a531b290f472}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.MainGame">
+      <UniqueIdentifier>{79acdada-025c-4baa-bead-5b4e0a99b1f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Scene">
+      <UniqueIdentifier>{6d5bc065-8e87-484b-9ee7-7a72585def66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Object">
+      <UniqueIdentifier>{bc3a4c7b-0ce4-4a76-8d5f-550e8cb9a746}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Scene\01.Logo">
+      <UniqueIdentifier>{38420efd-0ae0-4418-847e-c245255900f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Scene\02.Stage">
+      <UniqueIdentifier>{7a198673-7d96-483f-8d8a-5b42d3f72b38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Mgrs">
+      <UniqueIdentifier>{68555376-5056-4761-acd6-490c5cad2e06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Mgrs\ySortMgr">
+      <UniqueIdentifier>{2885236d-6a8a-4c51-b5ed-c586a0217c24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Mgrs\SceneMgr">
+      <UniqueIdentifier>{a7c3c9a5-c8e7-4ef3-912a-4048ab918e24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Mgrs\ScrollMgr">
+      <UniqueIdentifier>{1afcb36b-5ac8-407f-90d2-19b338adfb5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.AStar">
+      <UniqueIdentifier>{da80c54d-94f3-42c9-8d74-d36b3bdf309f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Object\01.UI">
+      <UniqueIdentifier>{b618304e-0f0b-4139-96d8-6b6894f9f993}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Object\02.Character">
+      <UniqueIdentifier>{0d545f27-a454-4cfb-ba42-dc0804060e15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.AI">
+      <UniqueIdentifier>{bbf04b87-ca23-47e3-8823-b0f5fa67e0cf}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="directxjojo.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SGAActor.h">
+      <Filter>SGAFrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="SGAActorManager.h">
+      <Filter>SGAFrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="SGAFramework.h">
+      <Filter>SGAFrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="SGAProjectile.h">
+      <Filter>SGAFrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="SGAResourceManager.h">
+      <Filter>SGAFrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="SGASpriteSheet.h">
+      <Filter>SGAFrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="SGATimer.h">
+      <Filter>SGAFrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="dxerr.h">
+      <Filter>SGAFrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml2.h">
+      <Filter>TinyXML</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMain.h">
+      <Filter>00.MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>02.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>02.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>02.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="ySortMgr.h">
+      <Filter>99.Mgrs\ySortMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneMgr.h">
+      <Filter>99.Mgrs\SceneMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>01.Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Logo.h">
+      <Filter>01.Scene\01.Logo</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>01.Scene\02.Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="ScrollMgr.h">
+      <Filter>99.Mgrs\ScrollMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="struct.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="AStar.h">
+      <Filter>03.AStar</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveBox.h">
+      <Filter>02.Object\01.UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Jojo.h">
+      <Filter>02.Object\02.Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>02.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="FotMan.h">
+      <Filter>02.Object\02.Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GunGeon(21강AI완성)\GunGeon\EnemyState.h">
+      <Filter>04.AI</Filter>
+    </ClInclude>
+    <ClInclude Include="SGAFSM.h">
+      <Filter>04.AI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>02.Object\01.UI</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackBox.h">
+      <Filter>02.Object\01.UI</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="directxjojo.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SGAActor.cpp">
+      <Filter>SGAFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="SGAActorManager.cpp">
+      <Filter>SGAFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="SGAFramework.cpp">
+      <Filter>SGAFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="SGAProjectile.cpp">
+      <Filter>SGAFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="SGAResourceManager.cpp">
+      <Filter>SGAFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="SGASpriteSheet.cpp">
+      <Filter>SGAFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="SGATimer.cpp">
+      <Filter>SGAFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="dxerr.cpp">
+      <Filter>SGAFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml2.cpp">
+      <Filter>TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMain.cpp">
+      <Filter>00.MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>02.Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>02.Object</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>02.Object</Filter>
+    </ClCompile>
+    <ClCompile Include="ySortMgr.cpp">
+      <Filter>99.Mgrs\ySortMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneMgr.cpp">
+      <Filter>99.Mgrs\SceneMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>01.Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Logo.cpp">
+      <Filter>01.Scene\01.Logo</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>01.Scene\02.Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="ScrollMgr.cpp">
+      <Filter>99.Mgrs\ScrollMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="AStar.cpp">
+      <Filter>03.AStar</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveBox.cpp">
+      <Filter>02.Object\01.UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Jojo.cpp">
+      <Filter>02.Object\02.Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>02.Object</Filter>
+    </ClCompile>
+    <ClCompile Include="FotMan.cpp">
+      <Filter>02.Object\02.Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GunGeon(21강AI완성)\GunGeon\EnemyState.cpp">
+      <Filter>04.AI</Filter>
+    </ClCompile>
+    <ClCompile Include="SGAFSM.cpp">
+      <Filter>04.AI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>02.Object\01.UI</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackBox.cpp">
+      <Filter>02.Object\01.UI</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="directxjojo.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="directxjojo.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>

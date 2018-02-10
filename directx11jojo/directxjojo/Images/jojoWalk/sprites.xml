@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:69b56e4372b88db606798fd8c628d562:c72d11a502892a7545c512cda3c35e07:a3c246832ea35f0bdda766159aff8361$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="sprites.png" width="256" height="256">
+    <sprite n="Bush.png" x="224" y="48" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="Cactus.png" x="0" y="96" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="Demon1.png" x="192" y="48" w="32" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="Demon2.png" x="128" y="48" w="32" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="Demon3.png" x="32" y="96" w="32" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="Hero01.png" x="96" y="96" w="32" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="Hero02.png" x="128" y="96" w="32" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="Hero03.png" x="64" y="96" w="32" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="Hero04.png" x="160" y="96" w="32" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="Hero05.png" x="192" y="96" w="32" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="Hero06.png" x="160" y="48" w="32" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="Hero07.png" x="32" y="0" w="32" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="Hero08.png" x="96" y="0" w="32" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="Hero09.png" x="128" y="0" w="32" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="Hero10.png" x="96" y="48" w="32" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="Hero11.png" x="0" y="0" w="32" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="Hero12.png" x="160" y="0" w="32" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="I_Chest01.png" x="136" y="144" w="34" h="34" pX="0.5" pY="0.5"/>
+    <sprite n="I_Chest02.png" x="102" y="144" w="34" h="34" pX="0.5" pY="0.5"/>
+    <sprite n="I_Key02.png" x="170" y="144" w="34" h="34" pX="0.5" pY="0.5"/>
+    <sprite n="Jelly1.png" x="224" y="0" w="32" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="Jelly2.png" x="32" y="48" w="32" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="Jelly3.png" x="64" y="48" w="32" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="W_Mace008.png" x="34" y="144" w="34" h="34" pX="0.5" pY="0.5"/>
+    <sprite n="W_Sword001.png" x="68" y="144" w="34" h="34" pX="0.5" pY="0.5"/>
+    <sprite n="W_Sword015.png" x="0" y="144" w="34" h="34" pX="0.5" pY="0.5"/>
+    <sprite n="Wolf1.png" x="0" y="48" w="32" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="Wolf2.png" x="192" y="0" w="32" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="Wolf3.png" x="64" y="0" w="32" h="48" pX="0.5" pY="0.5"/>
+</TextureAtlas>
