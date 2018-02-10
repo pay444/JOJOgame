@@ -32,7 +32,7 @@ HRESULT Logo::Initialize(SpriteBatch* spriteBatch, SpriteFont* spriteFont)
 	mpAttackBox->Init(E_SORTID_THIRD, XMFLOAT2((mScreenWidth * 0.5f) + 100, mScreenHeight * 0.5f),false);
 
 	mpJojo = SGAActorManager::Instance().Create<Jojo>(spriteBatch, pSheet, spriteFont);
-	GunGeon::Blackboard::Instance().SetPlayer(mpJojo);
+	//GunGeon::Blackboard::Instance().SetPlayer(mpJojo);
 
 
 	mpJojo->Init(

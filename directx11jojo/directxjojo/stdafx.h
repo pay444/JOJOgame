@@ -55,7 +55,7 @@ using namespace DirectX::SimpleMath;
 #include "SceneMgr.h"
 #include "ScrollMgr.h"
 //#include "ySortMgr.h"
-
+//#include "EnemyState.h"
 
 #include "World.h"
 #include "GameMain.h"

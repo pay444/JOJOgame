@@ -139,7 +139,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\GunGeon(21강AI완성)\GunGeon\EnemyState.h" />
     <ClInclude Include="AStar.h" />
     <ClInclude Include="AttackBox.h" />
     <ClInclude Include="Character.h" />
@@ -175,7 +174,6 @@
     <ClInclude Include="ySortMgr.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\GunGeon(21강AI완성)\GunGeon\EnemyState.cpp" />
     <ClCompile Include="AStar.cpp" />
     <ClCompile Include="AttackBox.cpp" />
     <ClCompile Include="Character.cpp" />

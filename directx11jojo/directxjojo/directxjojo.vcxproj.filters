@@ -153,9 +153,6 @@
     <ClInclude Include="FotMan.h">
       <Filter>02.Object\02.Character</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\GunGeon(21강AI완성)\GunGeon\EnemyState.h">
-      <Filter>04.AI</Filter>
-    </ClInclude>
     <ClInclude Include="SGAFSM.h">
       <Filter>04.AI</Filter>
     </ClInclude>
@@ -244,9 +241,6 @@
     </ClCompile>
     <ClCompile Include="FotMan.cpp">
       <Filter>02.Object\02.Character</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\GunGeon(21강AI완성)\GunGeon\EnemyState.cpp">
-      <Filter>04.AI</Filter>
     </ClCompile>
     <ClCompile Include="SGAFSM.cpp">
       <Filter>04.AI</Filter>
