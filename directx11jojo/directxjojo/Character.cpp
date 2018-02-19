@@ -153,14 +153,22 @@ void Character::Draw()
 
 void Character::OnHit(SGAActor * pCollidee)
 {
-	if (typeid(*pCollidee) == typeid(Player))
+	if (this->GetCamp() != pCollidee->GetCamp())
 	{
-		int x = 1;
+		DoDamage(pCollidee);
 	}
 }
 
 void Character::DoDamage(SGAActor * pAttacker)
 {
+	//AttackBox* pCharacter = (AttackBox*)pAttacker;
+	this->mHealth -= ((AttackBox*)pAttacker)->GetAttack();
+
+	mspShake->Start(0.1f, 5);
+	mspTint->Start(0.1f, (Color)Colors::Wheat, (Color)Colors::Red);
+	SGAActorManager::Instance().SetUiCheck(false);
+	if (this->mHealth <= 0)
+		this->SetDestroyed();
 }
 
 void Character::MoveStateCheck()

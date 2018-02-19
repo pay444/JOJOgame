@@ -2,7 +2,10 @@
 #include "SGAActorManager.h"
 
 
-SGAActorManager::SGAActorManager()
+SGAActorManager::SGAActorManager() :
+	tmpPos(XMFLOAT2(0.0f, 0.0f)),
+	posIndex2(0),
+	mUiCheck(false)
 {
 }
 
@@ -26,9 +29,28 @@ E_SCENE SGAActorManager::Update(float dt)
 
 	}
 
+	CheckAction();
 
+	
+	if (!mUiCheck)
+	{
+		//클릭한 해당놈의 위치와 보여주는 여부를 무브 박스 에게 넘겨줌
+		RePosAndVisiMB();
+
+		RePosAndVisiAt();
+
+		//클릭한 해당놈의의 위치와 보여주는 여부를 UI에게 넘겨줌
+		RePosAndVisiUI();
+	}
+	
+	if (SGAFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+	{
+		mUiCheck = false;
+	}
+	//MoveBox::Instance().Update(dt);
+	//AttackBox::Instance().Update(dt);
 	//CheckCollidion();
-	//CheckAction();
+	
 	auto iter = mActors.begin();
 	while (iter != mActors.cend())
 	{
@@ -46,13 +68,7 @@ E_SCENE SGAActorManager::Update(float dt)
 
 	}
 
-	//클릭한 해당놈의 위치와 보여주는 여부를 무브 박스 에게 넘겨줌
-	RePosAndVisi();
 
-	AtRePosAndVisi();
-
-	//클릭한 해당놈의의 위치와 보여주는 여부를 UI에게 넘겨줌
-	UIRePosAndVisi();
 
 
 
@@ -79,6 +95,7 @@ void SGAActorManager::CheckCollidion()
 			if (pCollider->IntersecRect(pCollidee))
 				pCollider->OnHit(pCollidee);
 
+
 			iter2++;
 		}
 		iter1++;
@@ -93,32 +110,57 @@ void SGAActorManager::CheckAction()
 	for (const auto &actor : mActors)
 	{
 		pCollider = actor.get();
-		if (typeid(*actor)==typeid(UI))
+		if (typeid(*pCollider) == typeid(UI))
 		{
+			//공격 UI를 눌렀을때
 			if (((UI*)pCollider)->CheckAttackArea())
 			{
-				for (const auto &actor : mActors)
+				mUiCheck = true;
+				SetAtVisible(true);
+				((UI*)pCollider)->SetVisible(false);
+				break;
+			}
+			
+		}
+
+	}
+	//ui 어택버튼이 눌렸을때 어택 범위 클릭하였고
+	//그자리에 캐릭터가 있고 공격 가능한지 확인한후에 공격.
+	if (mUiCheck)
+	{
+		if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+		{
+			auto vecAtIndex = SGAActorManager::Instance().GetvecAtScopeIndex();
+
+			for (const auto &actor : mActors)
+			{
+				pCollider = actor.get();
+				if (typeid(*pCollider) == typeid(AttackBox))
 				{
-					if (typeid(*actor) == typeid(AttackBox))
+
+					if (((AttackBox*)pCollider)->AttackScopeSeek())
 					{
-						//vecAtScopeIndx = &((AttackBox*)actor.get())->GetVecAtScopeIndex();
-						break;
-					}
-				}
-				for (const auto &actor : mActors)
-				{
-					if (typeid(*actor) == typeid(AttackBox))
-					{
-						//vecAtScopeIndx = &((AttackBox*)actor.get())->GetVecAtScopeIndex();
+						for (const auto &actor : mActors)
+						{
+							pCollidee = actor.get();
+							if (((AttackBox*)pCollider)->IntersecRectScope(pCollidee) &&
+								dynamic_cast<Character*>(pCollidee))
+							{
+								pCollidee->OnHit(pCollider);
+								SGAActorManager::Instance().SetAtVisible(false);
+								mClickCount = 0;
+								//uiCheck = false;
+							}
+
+						}
 					}
 				}
 			}
-			
 		}
 	}
 }
 
-void SGAActorManager::RePosAndVisi()
+void SGAActorManager::RePosAndVisiMB()
 {
 	//클릭한 해당놈의 위치와 보여주는 여부를 무브 박스 에게 넘겨줌
 	if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
@@ -186,10 +228,14 @@ void SGAActorManager::RePosAndVisi()
 								actor->SetPosition(pos);
 								((MoveBox *)actor.get())->SetMoveDis(movedis);
 								((MoveBox *)actor.get())->SetVisible(visible);
+								break;
 							}
 
 						}
 					}
+					//MoveBox::Instance()->SetPosition(pos);
+					//MoveBox::Instance()->SetMoveDis(movedis);
+					//MoveBox::Instance()->SetVisible(visible);
 				}
 				else
 				{
@@ -198,16 +244,17 @@ void SGAActorManager::RePosAndVisi()
 						if (typeid(*actor) == typeid(MoveBox))
 						{
 							((MoveBox *)actor.get())->SetVisible(visible);
+							break;
 						}
 					}
-
+					//MoveBox::Instance()->SetVisible(visible);
 				}
 			}
 		}
 	}
 }
 
-void SGAActorManager::UIRePosAndVisi()
+void SGAActorManager::RePosAndVisiUI()
 {
 	if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	{
@@ -240,6 +287,7 @@ void SGAActorManager::UIRePosAndVisi()
 				{
 					if (typeid(*actor) == typeid(MoveBox))
 						MBVisible = ((MoveBox*)actor.get())->GetVisible();
+					break;
 				}
 
 				if (mClickCount >= 2 && mouseIndex == posIndex)
@@ -248,15 +296,13 @@ void SGAActorManager::UIRePosAndVisi()
 					{
 						if (typeid(*actor) == typeid(UI))
 						{
+							//MoveBox::Instance()->SetVisible(false);
 							SetMBVisible(false);
 							SetAtVisible(false);
 							actor->SetPosition(pos + XMFLOAT2(100.0f, 0.0f));
 							((UI *)actor.get())->SetVisible(true);
 							mClickCount = 0;
-						}
-						if (typeid(*actor) == typeid(AttackBox))
-						{
-							//((AttackBox *)actor.get())->SetVisible(true);
+							break;
 						}
 
 					}
@@ -269,10 +315,7 @@ void SGAActorManager::UIRePosAndVisi()
 						{
 							((UI *)actor.get())->SetVisible(false);
 							mClickCount = 0;
-						}
-						if (typeid(*actor) == typeid(AttackBox))
-						{
-							//((AttackBox *)actor.get())->SetVisible(false);
+							break;
 						}
 					}
 
@@ -282,7 +325,7 @@ void SGAActorManager::UIRePosAndVisi()
 	}
 }
 
-void SGAActorManager::AtRePosAndVisi()
+void SGAActorManager::RePosAndVisiAt()
 {
 	//클릭한 해당놈의 위치와 보여주는 여부를 공격 박스 에게 넘겨줌
 	if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
@@ -290,6 +333,7 @@ void SGAActorManager::AtRePosAndVisi()
 		int posIndex = 0;
 		int mouseIndex = 0;
 		XMFLOAT2 pos;
+		XMFLOAT2 pos2;
 		bool visible = false;
 		float fScrollx = ScrollMgr::Instance().GetScroll().x;
 		float fScrolly = ScrollMgr::Instance().GetScroll().y;
@@ -307,11 +351,12 @@ void SGAActorManager::AtRePosAndVisi()
 			//캐릭터를 상속받는 녀석이라면 공격박스 통제
 			if (dynamic_cast<Character*>(pCollider))
 			{
-				pos = actor->GetPosition();
-				posIndex = actor->GetTileIndex(pos);
-				
-				int Attackdis = ((Character*)actor.get())->GetAttackDistance();
+				pos = pCollider->GetPosition();
+				posIndex = pCollider->GetTileIndex(pos);
 
+				int attackdis = ((Character*)actor.get())->GetAttackDistance();
+				int attackDag = ((Character*)actor.get())->GetAttack();
+				int camp = ((Character*)actor.get())->GetCamp();
 				//먼저 캐릭터와 마우스위치 판정
 				if (mouseIndex == posIndex)
 				{
@@ -323,27 +368,44 @@ void SGAActorManager::AtRePosAndVisi()
 					{
 
 						if (typeid(*actor) == typeid(AttackBox))
-						{
-							if (mouseIndex == posIndex)
+						{	
+							if (posIndex != posIndex2)
 							{
-								actor->SetPosition(pos);
-								((AttackBox *)actor.get())->SetAttackDis(Attackdis);
-								((AttackBox *)actor.get())->SetVisible(visible);
+								((AttackBox *)actor.get())->Release();
 							}
+							
+							actor->SetPosition(pos);
+							((AttackBox *)actor.get())->SetAttackDis(attackdis);
 
-						}
-					}
-				}
-				else
-				{
-					for (const auto &actor : mActors)
-					{
-						if (typeid(*actor) == typeid(AttackBox))
-						{
 							((AttackBox *)actor.get())->SetVisible(visible);
+
+							((AttackBox *)actor.get())->SetAttackDamge(attackDag);
+
+							((AttackBox *)actor.get())->SetCamp(camp);
+							posIndex2 = posIndex;
+							break;
 						}
 					}
+					//AttackBox::Instance().SetPosition(pos);
+					//AttackBox::Instance().SetAttackDis(Attackdis);
+					//AttackBox::Instance().GetVecAtScopeIndex().clear();
+					//AttackBox::Instance().SetVisible(visible);
+				}
+				else //if(!GetUICheckArea() && mouseIndex == posIndex)
+				{
+					//if(posIndex != posIndex2)
+					//for (const auto &actor : mActors)
+					//{
+					//	if (typeid(*actor) == typeid(AttackBox))
+					//	{
+					//		((AttackBox *)actor.get())->Release();
 
+					//		((AttackBox *)actor.get())->SetVisible(visible);
+					//		break;
+					//	}
+					//}
+					//AttackBox::Instance().GetVecAtScopeIndex().clear();
+					//AttackBox::Instance().SetVisible(visible);
 				}
 			}
 		}
@@ -352,10 +414,14 @@ void SGAActorManager::AtRePosAndVisi()
 
 void SGAActorManager::Draw()
 {
+	//MoveBox::Instance().Draw();
+	//AttackBox::Instance().Draw();
 	for (const auto &actor : mActors)
 	{
 		actor->Draw();
+
 	}
+
 }
 
 void SGAActorManager::Release()
@@ -369,7 +435,17 @@ void SGAActorManager::Release()
 	auto iter = mActors.begin();
 	while (iter != mActors.end())
 	{
-		auto pActor = iter->get();
+		//auto pActor = iter->get();
+
+		//if (typeid(*pActor) == typeid(MoveBox))
+		//{
+		//	++iter;
+		//	if (iter == mActors.end())
+		//	{
+		//		break;
+		//	}
+
+		//}
 
 		iter->reset();
 		iter = mActors.erase(iter);	//지우고 이터레이터도 다음것으로 넘어감
@@ -402,8 +478,6 @@ void SGAActorManager::SortActors()
 	auto iter1 = mActors.begin();
 	while (iter1 != mActors.cend())
 	{
-		auto pActor = iter1->get();
-
 		if (iter1->get() == NULL)
 		{
 			iter1->reset();
@@ -436,6 +510,30 @@ bool SGAActorManager::GetMBSeekScope()
 	return false;
 }
 
+bool SGAActorManager::GetUICheckArea()
+{
+	for (const auto &actor : mActors)
+	{
+		if (typeid(*actor) == typeid(UI))
+		{
+			return ((UI *)actor.get())->CheckAttackArea();
+		}
+	}
+	return false;
+}
+
+vector<unique_ptr<int>>* SGAActorManager::GetvecAtScopeIndex()
+{
+
+	for (const auto &actor : mActors)
+	{
+		if (typeid(*actor) == typeid(AttackBox))
+		{
+			return ((AttackBox *)actor.get())->GetVecAtScopeIndex();
+		}
+	}
+}
+
 void SGAActorManager::SetMBVisible(bool visible)
 {
 	for (auto &actor : mActors)
@@ -443,6 +541,7 @@ void SGAActorManager::SetMBVisible(bool visible)
 		if (typeid(*actor) == typeid(MoveBox))
 		{
 			((MoveBox*)(actor.get()))->SetVisible(visible);
+			break;
 		}
 		//if (typeid(*actor) == typeid(UI))
 		//{
@@ -463,23 +562,6 @@ vector<unique_ptr<TILE>>* SGAActorManager::GetTileInfo()
 	return nullptr;
 }
 
-vector<unique_ptr<int>>* SGAActorManager::GetCharacterPosIndex()
-{
-	vector <unique_ptr<int>> vecCharacterPosIndex;
-	SGAActor* pActor;
-
-	for (const auto &actor : mActors)
-	{
-		pActor = actor.get();
-		if (dynamic_cast<Character*>(pActor))
-		{
-			int positionIndex = actor->GetTileIndex(((Character*)actor.get())->GetPosition());
-			vecCharacterPosIndex.push_back(unique_ptr<int>(new int(positionIndex)));
-		}
-	}
-	
-	return &vecCharacterPosIndex;
-}
 
 void SGAActorManager::SetUIVisible(bool visible)
 {

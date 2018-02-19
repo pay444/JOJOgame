@@ -16,6 +16,7 @@ public:
 	virtual void Draw();
 	virtual void SetAnimation(string name);
 	virtual bool IntersecRect(SGAActor* pActor);
+	//virtual bool IntersecRectScope(SGAActor* pActor);
 	virtual void OnHit(SGAActor* pCollider) {};
 
 protected:

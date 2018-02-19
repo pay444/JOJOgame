@@ -21,6 +21,7 @@ AttackBox::~AttackBox()
 
 void AttackBox::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
 {
+
 	Animation anim[] = {
 		{ "AttackBox", 1,{ { "AttackBox0", 0.3f } }
 		},
@@ -45,91 +46,139 @@ void AttackBox::Draw()
 {
 	XMFLOAT2 offset = XMFLOAT2(0, 0);
 	Color tint = Colors::White;
+	auto mouse = Mouse::Get().GetState();
+	int mouseIndex = 0;
+	int posIndex = 0;
+	float fScrollx = ScrollMgr::Instance().GetScroll().x;
+	float fScrolly = ScrollMgr::Instance().GetScroll().y;
 
 	offset.x = (int)ScrollMgr::Instance().GetScroll().x;
 	offset.y = (int)ScrollMgr::Instance().GetScroll().y;
-
 	vector<unique_ptr<TILE>> *pVecTile = SGAActorManager::Instance().GetTileInfo();
 
+	posIndex = GetTileIndex(mPosition);
 
 	//공격범위를 보여줄때
 	if (mAtVisible)
 	{
+		Vector2 mousePos = Vector2(mouse.x + fScrollx, mouse.y + fScrolly);
+		mouseIndex =GetTileIndex(mousePos);
+
 		AttackScope();
-		mAtSeekScope = AttackScopeSeek();
-		for (int x = 0; x < vecAtScopeIndex.size(); ++x)
+		//mAtSeekScope = AttackScopeSeek();
+		for (int x = 0; x < vecAtScopeIndex2.size(); ++x)
 		{
+			auto a = *vecAtScopeIndex2[x].get();
 			Vector2 vTilePos = Vector2(
-				(*pVecTile)[vecAtScopeIndex[x]]->vPos.x + JOJOTILESX / 2,
-				(*pVecTile)[vecAtScopeIndex[x]]->vPos.y + JOJOTILESY / 2);
+				(*pVecTile)[*vecAtScopeIndex2[x].get()]->vPos.x + JOJOTILESX / 2,
+				(*pVecTile)[*vecAtScopeIndex2[x].get()]->vPos.y + JOJOTILESY / 2);
 			mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + vTilePos - offset, tint);
 		}
-		for (int x = 0; x < vecAtScopeIndex.size(); ++x)
+		//타일의 위치 측정 초기화
+		(*pVecTile)[GetTileIndex(mPosition)]->AttackNum = 0;
+		for (int x = 0; x < vecAtScopeIndex2.size(); ++x)
 		{
-			(*pVecTile)[vecAtScopeIndex[x]]->AttackNum = 0;
+			(*pVecTile)[*vecAtScopeIndex2[x].get()]->AttackNum = 0;
 		}
-		vecAtScopeIndex.clear();
 	}
-	else
+	else //if(!SGAActorManager::Instance().GetUICheckArea() && mAtVisible== false && posIndex!=mouseIndex)
 	{
-		mAtSeekScope = false;
+		//vecAtScopeIndex.clear();
+		//Release();
+		//mAtSeekScope = false;
 	}
 
 }
 
+void AttackBox::OnHit(SGAActor * pCollidee)
+{
+	if (typeid(*pCollidee) == typeid(FotMan))
+	{
+		int x = 1;
+	}
+}
+
+void AttackBox::Release()
+{
+	vecAtScopeIndex.clear();
+	auto iter = vecAtScopeIndex2.begin();
+	while (iter != vecAtScopeIndex2.end())
+	{
+		iter->reset();
+		iter = vecAtScopeIndex2.erase(iter);
+	}
+}
+
+bool AttackBox::IntersecRectScope(SGAActor * pActor)
+{
+
+	RECT src = GetBoundScope();
+	RECT trg = pActor->GetBound();
+	RECT intersect;
+	return	::IntersectRect(&intersect, &src, &trg);
+}
+
 void AttackBox::AttackScope()
 {
-	float fScrollx = ScrollMgr::Instance().GetScroll().x;
-	float fScrolly = ScrollMgr::Instance().GetScroll().y;
-	auto mouse = Mouse::Get().GetState();
-	XMFLOAT2 mMousePos = XMFLOAT2(mouse.x + fScrollx, mouse.y + fScrolly);
-
-	vector<unique_ptr<TILE>> *pVecTile = SGAActorManager::Instance().GetTileInfo();
-
-	//케릭터의 위치타일에 공격거리를 넣음
-	(*pVecTile)[GetTileIndex(mPosition)]->AttackNum = mAttackDistance;
-	vecAtScopeIndex.push_back(GetTileIndex(mPosition));
-	for (int mDis = mAttackDistance; mDis > 0; --mDis)
+	if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	{
-		for (int i = 0; i < 20; ++i)
+		float fScrollx = ScrollMgr::Instance().GetScroll().x;
+		float fScrolly = ScrollMgr::Instance().GetScroll().y;
+		auto mouse = Mouse::Get().GetState();
+		XMFLOAT2 mMousePos = XMFLOAT2(mouse.x + fScrollx, mouse.y + fScrolly);
+
+		vector<unique_ptr<TILE>> *pVecTile = SGAActorManager::Instance().GetTileInfo();
+
+		//케릭터의 위치타일에 공격거리를 넣음
+		(*pVecTile)[GetTileIndex(mPosition)]->AttackNum = mAttackDistance;
+		//vecAtScopeIndex.push_back(GetTileIndex(mPosition));
+		//vecAtScopeIndex2.push_back(make_unique<int>(GetTileIndex(mPosition)));
+		for (int mDis = mAttackDistance; mDis > 0; --mDis)
 		{
-			for (int j = 0; j < 20; ++j)
+			for (int i = 0; i < 20; ++i)
 			{
-				if ((*pVecTile)[i * (20) + j]->AttackNum == mDis)
+				for (int j = 0; j < 20; ++j)
 				{
-					if ((*pVecTile)[i * (20) + j]->AttackNum > 0)
+					if ((*pVecTile)[i * (20) + j]->AttackNum == mDis)
 					{
-						if (i - 1 >= 0 && (*pVecTile)[(i - 1) * (20) + j]->AttackNum < mDis)
+						if ((*pVecTile)[i * (20) + j]->AttackNum > 0)
 						{
-							(*pVecTile)[(i - 1) * (20) + j]->AttackNum = mDis - 1;
-							vecAtScopeIndex.push_back((i - 1) * (20) + j);
-						}
-						if (i + 1 < 20 && (*pVecTile)[(i + 1) * (20) + j]->AttackNum < mDis)
-						{
-							(*pVecTile)[(i + 1) * (20) + j]->AttackNum = mDis - 1;
-							vecAtScopeIndex.push_back((i + 1) * (20) + j);
-						}
+							if (i - 1 >= 0 && (*pVecTile)[(i - 1) * (20) + j]->AttackNum < mDis)
+							{
+								(*pVecTile)[(i - 1) * (20) + j]->AttackNum = mDis - 1;
+								//vecAtScopeIndex.push_back((i - 1) * (20) + j);
+								vecAtScopeIndex2.push_back(make_unique<int>((i - 1) * (20) + j));
+							}
+							if (i + 1 < 20 && (*pVecTile)[(i + 1) * (20) + j]->AttackNum < mDis)
+							{
+								(*pVecTile)[(i + 1) * (20) + j]->AttackNum = mDis - 1;
+								//vecAtScopeIndex.push_back((i + 1) * (20) + j);
+								vecAtScopeIndex2.push_back(make_unique<int>((i + 1) * (20) + j));
+								
+							}
 
-						if (j + 1 < 20 && (*pVecTile)[i * (20) + (j + 1)]->AttackNum < mDis)
-						{
-							(*pVecTile)[i * (20) + (j + 1)]->AttackNum = mDis - 1;
-							vecAtScopeIndex.push_back(i * (20) + (j + 1));
+							if (j + 1 < 20 && (*pVecTile)[i * (20) + (j + 1)]->AttackNum < mDis)
+							{
+								(*pVecTile)[i * (20) + (j + 1)]->AttackNum = mDis - 1;
+								//vecAtScopeIndex.push_back(i * (20) + (j + 1));
+								vecAtScopeIndex2.push_back(make_unique<int>(i * (20) + (j + 1)));
+							}
+
+							if (j - 1 >= 0 && (*pVecTile)[i * (20) + (j - 1)]->AttackNum < mDis)
+							{
+								(*pVecTile)[i * (20) + (j - 1)]->AttackNum = mDis - 1;
+								//vecAtScopeIndex.push_back(i * (20) + (j - 1));
+								vecAtScopeIndex2.push_back(make_unique<int>(i * (20) + (j - 1)));
+							}
+
+
 						}
-
-						if (j - 1 >= 0 && (*pVecTile)[i * (20) + (j - 1)]->AttackNum < mDis)
-						{
-							(*pVecTile)[i * (20) + (j - 1)]->AttackNum = mDis - 1;
-							vecAtScopeIndex.push_back(i * (20) + (j - 1));
-						}
-
-
 					}
 				}
 			}
 		}
+
 	}
-
-
 }
 
 bool AttackBox::AttackScopeSeek()
@@ -145,12 +194,38 @@ bool AttackBox::AttackScopeSeek()
 
 	Vector2 vecMousePos = (*pVecTile)[mouseIndex]->vPos + XMFLOAT2(JOJOTILESX / 2, JOJOTILESY / 2);
 
-	for (int i = 0; i < vecAtScopeIndex.size(); ++i)
+	for (int i = 0; i < vecAtScopeIndex2.size(); ++i)
 	{
-		Vector2 vec2ScopePos = (*pVecTile)[vecAtScopeIndex[i]]->vPos + XMFLOAT2(JOJOTILESX / 2, JOJOTILESY / 2);
+		Vector2 vec2ScopePos = (*pVecTile)[*vecAtScopeIndex2[i]]->vPos + XMFLOAT2(JOJOTILESX / 2, JOJOTILESY / 2);
 		if (vec2ScopePos.x == vecMousePos.x && vec2ScopePos.y == vecMousePos.y)
 			return true;
 	}
 
 	return false;
+}
+
+RECT AttackBox::GetBoundScope()
+{
+
+	RECT rct;
+	ZeroMemory(&rct, sizeof(RECT));
+	float fScrollx = ScrollMgr::Instance().GetScroll().x;
+	float fScrolly = ScrollMgr::Instance().GetScroll().y;
+	vector<unique_ptr<TILE>> *pVecTile = SGAActorManager::Instance().GetTileInfo();
+	auto mouse = Mouse::Get().GetState();
+	XMFLOAT2 mmousePos = XMFLOAT2(mouse.x + fScrollx, mouse.y + fScrolly);
+	int mouseIndex = GetTileIndex(mmousePos);
+	Vector2 vec2MousePos = (*pVecTile)[mouseIndex]->vPos + XMFLOAT2(JOJOTILESX / 2, JOJOTILESY / 2);
+
+	if (mAtSeekScope)
+	{
+		if (mpSpriteFrame != NULL)
+		{
+			rct = mpSpriteFrame->sourceRect;
+			OffsetRect(&rct,
+				static_cast<int>(vec2MousePos.x - mpSpriteFrame->pivot.x) - rct.left,
+				static_cast<int>(vec2MousePos.y - mpSpriteFrame->pivot.y) - rct.top);
+		}
+	}
+	return rct;
 }

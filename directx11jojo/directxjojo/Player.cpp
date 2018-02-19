@@ -158,7 +158,7 @@ void Player::UpdateMove(float dt)
 		if ((distance <= limitDistance&&mVisbleScope))//
 		{
 			//해당범위에 해당해야 알고리즘 시작
-			if (SGAActorManager::Instance().GetMBSeekScope())
+			if (SGAActorManager::Instance().GetMBSeekScope())//MoveBox::Instance().GetSeekScope()
 			{
 				//ASTAR 알고리즘 루트 짜기 시작
 				JoAstar_Start(mPosition, mmousePos);
@@ -183,6 +183,7 @@ void Player::UpdateMove(float dt)
 	if (SGAFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	{
 		SGAActorManager::Instance().SetMBVisible(false);
+		//MoveBox::Instance()->SetVisible(false);
 		SGAActorManager::Instance().SetUIVisible(false);
 		SGAActorManager::Instance().SetAtVisible(false);
 		SGAActorManager::Instance().SetClickCount(0);

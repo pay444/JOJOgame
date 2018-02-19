@@ -3,14 +3,17 @@
 #include "MoveBox.h"
 
 
-MoveBox::MoveBox()
+MoveBox::MoveBox():SGAActor(),
+mSeekScope(false)
 {
+	mAnimations.clear();
 }
 
 MoveBox::MoveBox(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * pFont)
 	:SGAActor(pBatch, pSheet, pFont),
 	mSeekScope(false)
 {
+	
 }
 
 
@@ -20,6 +23,12 @@ MoveBox::~MoveBox()
 
 void MoveBox::Init(E_SORTID eSortID, XMFLOAT2 pos,float limitDis,bool visible)
 {
+	//MoveBox(pBatch, pSheet, pFont);
+
+	//mpBatch = pBatch;
+	//mpSheet = pSheet;
+	//mpFont = pFont;
+
 	Animation anim[] = {
 		{ "CursorBox", 2,{ { "CursorBox0", 0.3f },
 		{ "CursorBox1", 0.3f }, }
@@ -35,6 +44,32 @@ void MoveBox::Init(E_SORTID eSortID, XMFLOAT2 pos,float limitDis,bool visible)
 	SetPosition(pos);
 	SetAnimation("CursorBox");
 
+}
+
+void MoveBox::Init(SpriteBatch* pBatch, SGASpriteSheet *pSheet, SpriteFont *pFont, E_SORTID eSortID, XMFLOAT2 pos, float limitDis, bool visible)
+{
+	SGAActor();
+
+	//mAnimations.clear();
+
+	mpBatch = pBatch;
+	mpSheet = pSheet;
+	mpFont = pFont;
+
+	Animation anim[] = {
+		{ "CursorBox", 2,{ { "CursorBox0", 0.3f },
+		{ "CursorBox1", 0.3f }, }
+		},
+	};
+	//한계거리
+	mLimitDis = limitDis;
+	//이동거리
+	//mMoveDistance = moveDis;
+	//보이고 안보이고
+	mVisible = visible;
+	SGAActor::Init(anim, 1, eSortID);
+	SetPosition(pos);
+	SetAnimation("CursorBox");
 }
 
 E_SCENE MoveBox::Update(float dt)

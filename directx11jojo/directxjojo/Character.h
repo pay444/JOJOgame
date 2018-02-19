@@ -113,6 +113,7 @@ protected:
 	float limitDistance; //이동거리한계
 	int mMoveDistance;	//이동거리
 	int mAttackDistance; //근접공격거리
+	int mActionTurn;	//행동 턴
 	//MoveBox *mpMoveBox;
 public:
 	void SetStaus(int health, int attack,int moveDis,int AttackDis)//

@@ -27,9 +27,15 @@ HRESULT Logo::Initialize(SpriteBatch* spriteBatch, SpriteFont* spriteFont)
 	mpMoveBox = SGAActorManager::Instance().Create<MoveBox>(spriteBatch, pSheet, spriteFont);
 	mpMoveBox->Init(E_SORTID_THIRD, XMFLOAT2((mScreenWidth * 0.5f) + 100, mScreenHeight * 0.5f),
 		200.0f, false);
+	//SGAActorManager::Instance().SingleRegister(MoveBox::Instance());
+	//MoveBox::Instance()->Init(spriteBatch, pSheet, spriteFont,E_SORTID_THIRD,
+	//	XMFLOAT2((mScreenWidth * 0.5f) + 100, mScreenHeight * 0.5f),
+	//	200.0f, false);
 
 	mpAttackBox = SGAActorManager::Instance().Create<AttackBox>(spriteBatch, pSheet, spriteFont);
 	mpAttackBox->Init(E_SORTID_THIRD, XMFLOAT2((mScreenWidth * 0.5f) + 100, mScreenHeight * 0.5f),false);
+	//AttackBox::Instance().Init(spriteBatch, pSheet, spriteFont, E_SORTID_THIRD, 
+	//	XMFLOAT2((mScreenWidth * 0.5f) + 100, mScreenHeight * 0.5f), false);
 
 	mpJojo = SGAActorManager::Instance().Create<Jojo>(spriteBatch, pSheet, spriteFont);
 	//GunGeon::Blackboard::Instance().SetPlayer(mpJojo);
@@ -41,10 +47,10 @@ HRESULT Logo::Initialize(SpriteBatch* spriteBatch, SpriteFont* spriteFont)
 
 	mpJojo->SetStaus(100, 10,4,1);
 
-	//Jojo *m2pPlayer;
-	//m2pPlayer = SGAActorManager::Instance().Create<Jojo>(spriteBatch, pSheet, spriteFont);
-	//m2pPlayer->Init(500.0f, XMFLOAT2((24.0f), 24.0f), E_SORTID_FIRST, 200.0f);
-	//m2pPlayer->SetStaus(100, 10, 5);
+	Jojo *m2pPlayer;
+	m2pPlayer = SGAActorManager::Instance().Create<Jojo>(spriteBatch, pSheet, spriteFont);
+	m2pPlayer->Init(500.0f, XMFLOAT2((24.0f), 24.0f), E_SORTID_FIRST, 200.0f);
+	m2pPlayer->SetStaus(100, 10, 5,2);
 	//mpPlayer->SetScene(mLogoScene);
 
 	auto pTexture2 = SGAResourceManager::Instance().GetShaderResource(L"Images\\\EnemyWalk\\FotmanWalk.png");

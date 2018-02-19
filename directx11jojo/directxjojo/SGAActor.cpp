@@ -29,6 +29,7 @@ SGAActor::SGAActor(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * p
 
 SGAActor::~SGAActor()
 {
+	//int x = 0;
 }
 
 void SGAActor::Init(SpriteBatch* pBatch, SGASpriteSheet *pSheet, Animation *anims, int animCount,E_SORTID eSortID)

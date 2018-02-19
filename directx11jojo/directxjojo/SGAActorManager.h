@@ -24,13 +24,16 @@ private:
 	E_SCENE meScene;
 private:
 	int mClickCount;
+	int posIndex2;
+	bool mUiCheck;
+	XMFLOAT2 tmpPos;
 public:
 	E_SCENE Update(float dt);
 	void CheckCollidion();
 	void CheckAction();
-	void RePosAndVisi();
-	void UIRePosAndVisi();
-	void AtRePosAndVisi();
+	void RePosAndVisiMB();
+	void RePosAndVisiUI();
+	void RePosAndVisiAt();
 
 	void Draw();
 	void Release();
@@ -38,12 +41,15 @@ public:
 	
 	E_SCENE GetScene();
 	bool GetMBSeekScope();
+	bool GetUICheckArea();
+	vector<unique_ptr<int>>* GetvecAtScopeIndex();
+
 	void SetMBVisible(bool visible);
 	vector<unique_ptr<TILE>>* GetTileInfo();
-	vector<unique_ptr<int>>* GetCharacterPosIndex();
 	void SetUIVisible(bool visible);
 	void SetClickCount(int count) { mClickCount = count; }
 	void SetAtVisible(bool visible);
+	void SetUiCheck(bool uiCheck) { mUiCheck = uiCheck; }
 	//void InsertMap(string str, unique_ptr<SGAActor> actor);
 public:
 	//템플릿의 통일화 몇개의 인자를 받아도 사용가능하도록
@@ -57,7 +63,42 @@ public:
 		);
 		return dynamic_cast<T*>(mActors.back().get());
 	}
-
+public:
+	void SingleRegister(SGAActor* pActors)
+	{
+		//auto iter = mActors.begin();
+		//while (iter != mActors.cend())
+		//{
+		//	auto iter2 = iter;
+		//	std::advance(iter2, 1);
+		//	if (typeid(*iter->get()) == typeid(*pActors))
+		//	{
+		//		break;
+		//	}
+		//	else if (iter2 == mActors.cend())
+		//	{
+		//		mActors.push_back(unique_ptr<SGAActor>(pActors));
+		//	}
+		//	iter++;
+		//}
+		
+		//for (auto &actor : mActors)
+		//{
+		//	if (typeid(*actor) == typeid(*pActors))
+		//	{
+		//		break;
+		//	}
+		//	else if (iter == mActors.cend())
+		//	{
+		//		iter = actor;
+		//		mActors.push_back(unique_ptr<SGAActor>(pActors));
+		//	}
+		//}
+		//if (mActors.size() == 0) 
+		//{
+		//	mActors.push_back(unique_ptr<SGAActor>(pActors));
+		//}
+	}
 private:
 	//map<string, unique_ptr <SGAActor>> mMapActors;
 	list<unique_ptr <SGAActor>> mActors;

@@ -2,7 +2,7 @@
 #include "UI.h"
 
 
-UI::UI()
+UI::UI():SGAActor()
 {
 }
 
@@ -72,10 +72,11 @@ void UI::Draw()
 
 bool UI::CheckAttackArea()
 {
-	if (mUIVisible)
+	if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	{
-		if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+		if (mUIVisible)
 		{
+
 			float fScrollx = ScrollMgr::Instance().GetScroll().x;
 			float fScrolly = ScrollMgr::Instance().GetScroll().y;
 			auto mouse = Mouse::Get().GetState();
@@ -93,6 +94,7 @@ bool UI::CheckAttackArea()
 			{
 				return true;
 			}
+
 		}
 	}
 	return false;
