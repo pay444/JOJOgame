@@ -21,7 +21,7 @@ public:
 	virtual void Draw();
 	virtual void OnHit(SGAActor* pCollidee);
 	void Release();
-	
+
 	bool IntersecRectScope(SGAActor* pActor);
 	void AttackScope();
 	bool AttackScopeSeek();
@@ -29,7 +29,7 @@ public:
 	void SetAttackDamge(int damge) { mAttackDamge = damge; }
 	void SetCamp(int camp) { mCamp = camp; }
 	void SetCharacter(Character * character) { mpCharacter = character; }
-	
+
 	Character* GetCharacter() { return mpCharacter; }
 	int GetAttack() { return mAttackDamge; }
 	bool GetAtScopeSeek() { return mAtSeekScope; }

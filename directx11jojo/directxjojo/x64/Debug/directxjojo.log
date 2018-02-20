@@ -1,0 +1,67 @@
+﻿  stdafx.cpp
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\struct.h(16): warning C4091: 'typedef ': 변수를 선언하지 않으면 'TileSet' 왼쪽은 무시됩니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\struct.h(25): warning C4091: 'typedef ': 변수를 선언하지 않으면 'TILE' 왼쪽은 무시됩니다.
+  ySortMgr.cpp
+  directxjojo.cpp
+  World.cpp
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\world.cpp(43): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\world.cpp(44): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\world.cpp(209): warning C4101: 'src' :참조되지 않은 지역 변수입니다.
+  UI.cpp
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\ui.cpp(56): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\ui.cpp(57): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\ui.cpp(89): warning C4244: '인수': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\ui.cpp(90): warning C4244: '인수': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Stage.cpp
+  ScrollMgr.cpp
+  SceneMgr.cpp
+  Scene.cpp
+  SGATimer.cpp
+  SGASpriteSheet.cpp
+  SGAResourceManager.cpp
+  SGAProjectile.cpp
+  SGAFramework.cpp
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\sgaframework.cpp(391): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  SGAFSM.cpp
+  SGAActorManager.cpp
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\sgaactormanager.cpp(109): warning C4101: 'vecAtScopeIndx' :참조되지 않은 지역 변수입니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\sgaactormanager.cpp(336): warning C4101: 'pos2' :참조되지 않은 지역 변수입니다.
+  SGAActor.cpp
+  Player.cpp
+  MoveBox.cpp
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\movebox.cpp(90): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\movebox.cpp(91): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\movebox.cpp(155): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\movebox.cpp(156): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\movebox.cpp(157): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\movebox.cpp(158): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\movebox.cpp(162): warning C4244: '인수': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\movebox.cpp(163): warning C4244: '인수': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\movebox.cpp(164): warning C4244: '인수': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\movebox.cpp(165): warning C4244: '인수': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\movebox.cpp(213): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\movebox.cpp(218): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\movebox.cpp(224): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\movebox.cpp(230): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  Logo.cpp
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\logo.cpp(56): warning C4129: 'E': 문자 이스케이프 시퀀스를 인식할 수 없습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\logo.cpp(57): warning C4129: 'E': 문자 이스케이프 시퀀스를 인식할 수 없습니다.
+  Jojo.cpp
+  코드를 생성하고 있습니다...
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\sgaactormanager.cpp(535): warning C4715: 'SGAActorManager::GetvecAtScopeIndex': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  컴파일하고 있습니다...
+  GameMain.cpp
+  FotMan.cpp
+  Enemy.cpp
+  Character.cpp
+  AttackBox.cpp
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\attackbox.cpp(55): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\attackbox.cpp(56): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\attackbox.cpp(146): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\attackbox.cpp(152): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\attackbox.cpp(160): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\hi\source\jojogame\directx11jojo\directxjojo\attackbox.cpp(167): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  AStar.cpp
+  코드를 생성하고 있습니다...
+  LINK : C:\Users\hi\Source\JOJOgame\directx11jojo\x64\Debug\directxjojo.exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
+  directxjojo.vcxproj -> C:\Users\hi\Source\JOJOgame\directx11jojo\x64\Debug\directxjojo.exe

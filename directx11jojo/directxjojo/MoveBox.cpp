@@ -3,7 +3,7 @@
 #include "MoveBox.h"
 
 
-MoveBox::MoveBox():SGAActor(),
+MoveBox::MoveBox() :SGAActor(),
 mSeekScope(false)
 {
 	mAnimations.clear();
@@ -14,7 +14,7 @@ MoveBox::MoveBox(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * pFo
 	mSeekScope(false),
 	mpPlayer(nullptr)
 {
-	
+
 }
 
 
@@ -22,7 +22,7 @@ MoveBox::~MoveBox()
 {
 }
 
-void MoveBox::Init(E_SORTID eSortID, XMFLOAT2 pos,float limitDis,bool visible)
+void MoveBox::Init(E_SORTID eSortID, XMFLOAT2 pos, float limitDis, bool visible)
 {
 	//MoveBox(pBatch, pSheet, pFont);
 
@@ -36,12 +36,12 @@ void MoveBox::Init(E_SORTID eSortID, XMFLOAT2 pos,float limitDis,bool visible)
 		},
 	};
 	//한계거리
-	mLimitDis = limitDis;	
+	mLimitDis = limitDis;
 	//이동거리
 	//mMoveDistance = moveDis;
 	//보이고 안보이고
 	mVisible = visible;
-	SGAActor::Init(anim, 1,eSortID);
+	SGAActor::Init(anim, 1, eSortID);
 	SetPosition(pos);
 	SetAnimation("CursorBox");
 
@@ -112,7 +112,7 @@ void MoveBox::Draw()
 	//	}
 	//	vecScopePos.clear();
 	//}
-	
+
 	if (mVisible)
 	{
 		TileScope();
@@ -134,7 +134,7 @@ void MoveBox::Draw()
 	{
 		mSeekScope = false;
 	}
-	
+
 }
 
 void MoveBox::TileScope()
@@ -169,7 +169,7 @@ void MoveBox::TileScope()
 	int sRTIndex = GetTileIndex(sRightt);
 	int sLBIndex = GetTileIndex(sLeftb);
 	int sRBIndex = GetTileIndex(sRightb);
-	
+
 	//if (sLTIndex < 0)
 	//	sLTIndex = 0;
 	//if (sRTIndex > 400)
@@ -207,9 +207,9 @@ void MoveBox::TileScope()
 		{
 			for (int j = 0; j < 20; ++j)
 			{
-				if ((*pVecTile)[i * (20) + j]->moveNum == mDis )
+				if ((*pVecTile)[i * (20) + j]->moveNum == mDis)
 				{
-					if ((*pVecTile)[i * (20) + j]->moveNum > 0 )
+					if ((*pVecTile)[i * (20) + j]->moveNum > 0)
 					{
 						if (i - 1 >= 0 && (*pVecTile)[(i - 1) * (20) + j]->moveNum < mDis && (*pVecTile)[(i - 1) * (20) + j]->byOption != 1)
 						{
@@ -221,20 +221,20 @@ void MoveBox::TileScope()
 							(*pVecTile)[(i + 1) * (20) + j]->moveNum = mDis - 1;
 							vecScopeIndex.push_back((i + 1) * (20) + j);
 						}
-						
-						if ( j+1 < 20 && (*pVecTile)[i * (20) + (j + 1)]->moveNum < mDis && (*pVecTile)[i * 20 + (j + 1)]->byOption != 1)
+
+						if (j + 1 < 20 && (*pVecTile)[i * (20) + (j + 1)]->moveNum < mDis && (*pVecTile)[i * 20 + (j + 1)]->byOption != 1)
 						{
 							(*pVecTile)[i * (20) + (j + 1)]->moveNum = mDis - 1;
 							vecScopeIndex.push_back(i * (20) + (j + 1));
 						}
-					
-						if (j-1>=0 &&(*pVecTile)[i * (20) + (j - 1)]->moveNum < mDis && (*pVecTile)[i * 20 + (j - 1)]->byOption != 1)
+
+						if (j - 1 >= 0 && (*pVecTile)[i * (20) + (j - 1)]->moveNum < mDis && (*pVecTile)[i * 20 + (j - 1)]->byOption != 1)
 						{
 							(*pVecTile)[i * (20) + (j - 1)]->moveNum = mDis - 1;
 							vecScopeIndex.push_back(i * (20) + (j - 1));
 						}
-					
-						
+
+
 					}
 				}
 			}
@@ -244,179 +244,179 @@ void MoveBox::TileScope()
 	/*
 	for (int i = sLTIndex; i < sRBIndex; i+=11)
 	{
-		for (int j = 1; j < 10; ++j)
-		{
-			if (i > 400 || i < 0)
-			{
-				i = 0;
-			}
-			//if ((*pVecTile)[i * (sLTIndex)+j]->byOption == 1)
-				//	continue;
-				
-			Vector2 vTilePos = Vector2((*pVecTile)[i]->vPos.x + JOJOTILESX / 2, (*pVecTile)[i]->vPos.y + JOJOTILESY / 2);
-			Vector2 vPos = mPosition;
+	for (int j = 1; j < 10; ++j)
+	{
+	if (i > 400 || i < 0)
+	{
+	i = 0;
+	}
+	//if ((*pVecTile)[i * (sLTIndex)+j]->byOption == 1)
+	//	continue;
 
-			//float Distance = Vector2::Distance(vPos, vTilePos);
+	Vector2 vTilePos = Vector2((*pVecTile)[i]->vPos.x + JOJOTILESX / 2, (*pVecTile)[i]->vPos.y + JOJOTILESY / 2);
+	Vector2 vPos = mPosition;
 
-			//if (Distance <= mLimitDis)
-			//{
-			//	vecScopePos.push_back(vTilePos);
-			//}
+	//float Distance = Vector2::Distance(vPos, vTilePos);
 
-			float x = vPos.x - vTilePos.x;
-			float y = vPos.y - vTilePos.y;
+	//if (Distance <= mLimitDis)
+	//{
+	//	vecScopePos.push_back(vTilePos);
+	//}
 
-			if (abs(x) + abs(y) <= abs(mLimitDis))
-			{
-				vecScopePos.push_back(vTilePos);
-			}
-			i += 1;
-		}
+	float x = vPos.x - vTilePos.x;
+	float y = vPos.y - vTilePos.y;
+
+	if (abs(x) + abs(y) <= abs(mLimitDis))
+	{
+	vecScopePos.push_back(vTilePos);
+	}
+	i += 1;
+	}
 	}
 	*/
 
 	/*
 	while (true)	// 탈출조건 ? 노드가 목적지에 도달할때까지...
 	{
-		int JOJOCX = 20;
-		int JOJOCY = 20;
-
-		
-		//if(존재하는 타일이냐?,
-		//갈수 있는 타일이냐?,
-		//이미조사했거나,
-		//오픈리스트에 추가되있는 녀석 제외)
-		
-		// 위
-		iIndex = GetTileIndex(mPosition) - JOJOCX*i;
-
-		vTilePos = Vector2((*pVecTile)[iIndex]->vPos.x + JOJOTILESX / 2, (*pVecTile)[iIndex]->vPos.y + JOJOTILESY / 2);
+	int JOJOCX = 20;
+	int JOJOCY = 20;
 
 
-		Distance = Vector2::Distance(vPos, vTilePos);
+	//if(존재하는 타일이냐?,
+	//갈수 있는 타일이냐?,
+	//이미조사했거나,
+	//오픈리스트에 추가되있는 녀석 제외)
 
-		if (iIndex >= JOJOCX && Distance <= mLimitDis)
-		{
-			vecScopePos.push_back(vTilePos);
-		}
+	// 위
+	iIndex = GetTileIndex(mPosition) - JOJOCX*i;
 
-		// 오른쪽 위
-		iIndex = GetTileIndex(mPosition) -
-			(JOJOCX - 1)*i;
-		vTilePos = Vector2((*pVecTile)[iIndex]->vPos.x + JOJOTILESX / 2, (*pVecTile)[iIndex]->vPos.y + JOJOTILESY / 2);
+	vTilePos = Vector2((*pVecTile)[iIndex]->vPos.x + JOJOTILESX / 2, (*pVecTile)[iIndex]->vPos.y + JOJOTILESY / 2);
 
 
-		Distance = Vector2::Distance(vPos, vTilePos);
+	Distance = Vector2::Distance(vPos, vTilePos);
 
-		if (iIndex >= JOJOCX &&
-			iIndex % (JOJOCX) != JOJOCX - 1 &&
-			Distance <= mLimitDis)
-		{
-			vecScopePos.push_back(vTilePos);
-		}
-		// 오른쪽
-		iIndex = GetTileIndex(mPosition) + 1 * i;
-		vTilePos = Vector2((*pVecTile)[iIndex]->vPos.x + JOJOTILESX / 2, (*pVecTile)[iIndex]->vPos.y + JOJOTILESY / 2);
+	if (iIndex >= JOJOCX && Distance <= mLimitDis)
+	{
+	vecScopePos.push_back(vTilePos);
+	}
 
-		Distance = Vector2::Distance(vPos, vTilePos);
-
-		if (iIndex % JOJOCX != JOJOCX - 1 &&
-			Distance <= mLimitDis)
-		{
-			vecScopePos.push_back(vTilePos);
-		}
-
-		// 오른쪽 아래
-		iIndex = GetTileIndex(mPosition) +
-			(JOJOCX + 1) * i;
-
-		vTilePos = Vector2((*pVecTile)[iIndex]->vPos.x + JOJOTILESX / 2, (*pVecTile)[iIndex]->vPos.y + JOJOTILESY / 2);
+	// 오른쪽 위
+	iIndex = GetTileIndex(mPosition) -
+	(JOJOCX - 1)*i;
+	vTilePos = Vector2((*pVecTile)[iIndex]->vPos.x + JOJOTILESX / 2, (*pVecTile)[iIndex]->vPos.y + JOJOTILESY / 2);
 
 
-		Distance = Vector2::Distance(vPos, vTilePos);
+	Distance = Vector2::Distance(vPos, vTilePos);
 
-		if (iIndex < JOJOCX * JOJOCY &&
-			iIndex % JOJOCX != JOJOCX - 1 &&
-			Distance <= mLimitDis)
-		{
-			vecScopePos.push_back(vTilePos);
-		}
-		// 아래
-		iIndex = GetTileIndex(mPosition) + JOJOCX*i;
+	if (iIndex >= JOJOCX &&
+	iIndex % (JOJOCX) != JOJOCX - 1 &&
+	Distance <= mLimitDis)
+	{
+	vecScopePos.push_back(vTilePos);
+	}
+	// 오른쪽
+	iIndex = GetTileIndex(mPosition) + 1 * i;
+	vTilePos = Vector2((*pVecTile)[iIndex]->vPos.x + JOJOTILESX / 2, (*pVecTile)[iIndex]->vPos.y + JOJOTILESY / 2);
 
-		vTilePos = Vector2((*pVecTile)[iIndex]->vPos.x + JOJOTILESX / 2, (*pVecTile)[iIndex]->vPos.y + JOJOTILESY / 2);
+	Distance = Vector2::Distance(vPos, vTilePos);
 
+	if (iIndex % JOJOCX != JOJOCX - 1 &&
+	Distance <= mLimitDis)
+	{
+	vecScopePos.push_back(vTilePos);
+	}
 
-		float Distance = Vector2::Distance(vPos, vTilePos);
+	// 오른쪽 아래
+	iIndex = GetTileIndex(mPosition) +
+	(JOJOCX + 1) * i;
 
-		if (iIndex < JOJOCX * JOJOCY - JOJOCX &&
-			Distance <= mLimitDis)
-		{
-			vecScopePos.push_back(vTilePos);
-		}
-
-		// 왼쪽 아래
-		iIndex = GetTileIndex(mPosition) +
-			(JOJOCX - 1)*i;
-
-		vTilePos = Vector2((*pVecTile)[iIndex]->vPos.x + JOJOTILESX / 2, (*pVecTile)[iIndex]->vPos.y + JOJOTILESY / 2);
+	vTilePos = Vector2((*pVecTile)[iIndex]->vPos.x + JOJOTILESX / 2, (*pVecTile)[iIndex]->vPos.y + JOJOTILESY / 2);
 
 
-		Distance = Vector2::Distance(vPos, vTilePos);
+	Distance = Vector2::Distance(vPos, vTilePos);
 
-		if (iIndex < JOJOCX * JOJOCY - JOJOCX &&
-			iIndex % JOJOCX != 0 &&
-			Distance <= mLimitDis)
-		{
-			vecScopePos.push_back(vTilePos);
-		}
+	if (iIndex < JOJOCX * JOJOCY &&
+	iIndex % JOJOCX != JOJOCX - 1 &&
+	Distance <= mLimitDis)
+	{
+	vecScopePos.push_back(vTilePos);
+	}
+	// 아래
+	iIndex = GetTileIndex(mPosition) + JOJOCX*i;
 
-		// 왼쪽
-		iIndex = GetTileIndex(mPosition) - 1 * i;
-
-		vTilePos = Vector2((*pVecTile)[iIndex]->vPos.x + JOJOTILESX / 2, (*pVecTile)[iIndex]->vPos.y + JOJOTILESY / 2);
-
-
-		Distance = Vector2::Distance(vPos, vTilePos);
-
-		if (iIndex % (JOJOCX) != 0 && Distance <= mLimitDis)
-		{
-			vecScopePos.push_back(vTilePos);
-		}
-		// 왼쪽 위
-		iIndex = GetTileIndex(mPosition) -
-			(JOJOCX + 1)*i;
-
-		vTilePos = Vector2((*pVecTile)[iIndex]->vPos.x + JOJOTILESX / 2, (*pVecTile)[iIndex]->vPos.y + JOJOTILESY / 2);
+	vTilePos = Vector2((*pVecTile)[iIndex]->vPos.x + JOJOTILESX / 2, (*pVecTile)[iIndex]->vPos.y + JOJOTILESY / 2);
 
 
-		Distance = Vector2::Distance(vPos, vTilePos);
+	float Distance = Vector2::Distance(vPos, vTilePos);
 
-		if (iIndex >= JOJOCX &&
-			iIndex % (JOJOCX) != 0 &&
-			Distance <= mLimitDis)
-		{
-			vecScopePos.push_back(vTilePos);
-		}
+	if (iIndex < JOJOCX * JOJOCY - JOJOCX &&
+	Distance <= mLimitDis)
+	{
+	vecScopePos.push_back(vTilePos);
+	}
 
-		// Parent로 부터 8방향 조사가 끝이 났고,
-		// 8개의 노드중에 갈 수 있는 노드를 OpenList에 넣어두었다.
-		// 이 중에서 코스트가 가장 적을 고른다. -> 오름차순 정렬
-		// Sort(함수포인터);
-		//sort(vecScopePos.begin(),vecScopePos.end());
+	// 왼쪽 아래
+	iIndex = GetTileIndex(mPosition) +
+	(JOJOCX - 1)*i;
 
-		i++;
-		if (i >= JOJOCX)
-			i = 1;
+	vTilePos = Vector2((*pVecTile)[iIndex]->vPos.x + JOJOTILESX / 2, (*pVecTile)[iIndex]->vPos.y + JOJOTILESY / 2);
 
-		if (vecScopePos.empty())
-			return;
 
-		// 탈출 !
-		if (Distance >= mLimitDis)
-		{
-			break;
-		}
+	Distance = Vector2::Distance(vPos, vTilePos);
+
+	if (iIndex < JOJOCX * JOJOCY - JOJOCX &&
+	iIndex % JOJOCX != 0 &&
+	Distance <= mLimitDis)
+	{
+	vecScopePos.push_back(vTilePos);
+	}
+
+	// 왼쪽
+	iIndex = GetTileIndex(mPosition) - 1 * i;
+
+	vTilePos = Vector2((*pVecTile)[iIndex]->vPos.x + JOJOTILESX / 2, (*pVecTile)[iIndex]->vPos.y + JOJOTILESY / 2);
+
+
+	Distance = Vector2::Distance(vPos, vTilePos);
+
+	if (iIndex % (JOJOCX) != 0 && Distance <= mLimitDis)
+	{
+	vecScopePos.push_back(vTilePos);
+	}
+	// 왼쪽 위
+	iIndex = GetTileIndex(mPosition) -
+	(JOJOCX + 1)*i;
+
+	vTilePos = Vector2((*pVecTile)[iIndex]->vPos.x + JOJOTILESX / 2, (*pVecTile)[iIndex]->vPos.y + JOJOTILESY / 2);
+
+
+	Distance = Vector2::Distance(vPos, vTilePos);
+
+	if (iIndex >= JOJOCX &&
+	iIndex % (JOJOCX) != 0 &&
+	Distance <= mLimitDis)
+	{
+	vecScopePos.push_back(vTilePos);
+	}
+
+	// Parent로 부터 8방향 조사가 끝이 났고,
+	// 8개의 노드중에 갈 수 있는 노드를 OpenList에 넣어두었다.
+	// 이 중에서 코스트가 가장 적을 고른다. -> 오름차순 정렬
+	// Sort(함수포인터);
+	//sort(vecScopePos.begin(),vecScopePos.end());
+
+	i++;
+	if (i >= JOJOCX)
+	i = 1;
+
+	if (vecScopePos.empty())
+	return;
+
+	// 탈출 !
+	if (Distance >= mLimitDis)
+	{
+	break;
+	}
 	}
 	*/
 }
@@ -427,9 +427,9 @@ bool MoveBox::ScopeSeek()
 	float fScrolly = ScrollMgr::Instance().GetScroll().y;
 	auto mouse = Mouse::Get().GetState();
 	vector<unique_ptr<TILE>> *pVecTile = SGAActorManager::Instance().GetTileInfo();
-	
+
 	XMFLOAT2 mmousePos = XMFLOAT2(mouse.x + fScrollx, mouse.y + fScrolly);
-	
+
 	int mouseIndex = GetTileIndex(mmousePos);
 	//Vector2 vecMousePos = (*pVecTile)[mouseIndex]->vPos + XMFLOAT2(JOJOTILESX / 2, JOJOTILESY / 2);
 	//for (int i = 0; i < vecScopePos.size(); ++i)
@@ -438,7 +438,7 @@ bool MoveBox::ScopeSeek()
 	//		return true;
 	//}
 	Vector2 vecMousePos = (*pVecTile)[mouseIndex]->vPos + XMFLOAT2(JOJOTILESX / 2, JOJOTILESY / 2);
-	
+
 	for (int i = 0; i < vecScopeIndex.size(); ++i)
 	{
 		Vector2 vec2ScopePos = (*pVecTile)[vecScopeIndex[i]]->vPos + XMFLOAT2(JOJOTILESX / 2, JOJOTILESY / 2);

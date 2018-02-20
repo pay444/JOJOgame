@@ -31,7 +31,7 @@ E_SCENE SGAActorManager::Update(float dt)
 
 	CheckAction();
 
-	
+
 	if (!mUiCheck)
 	{
 		//클릭한 해당놈의 위치와 보여주는 여부를 무브 박스 에게 넘겨줌
@@ -42,7 +42,7 @@ E_SCENE SGAActorManager::Update(float dt)
 		//클릭한 해당놈의의 위치와 보여주는 여부를 UI에게 넘겨줌
 		RePosAndVisiUI();
 	}
-	
+
 	if (SGAFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	{
 		mUiCheck = false;
@@ -50,7 +50,7 @@ E_SCENE SGAActorManager::Update(float dt)
 	//MoveBox::Instance().Update(dt);
 	//AttackBox::Instance().Update(dt);
 	//CheckCollidion();
-	
+
 	auto iter = mActors.begin();
 	while (iter != mActors.cend())
 	{
@@ -125,14 +125,14 @@ void SGAActorManager::CheckAction()
 		{
 			UI * pUi = ((UI*)pCollider);
 			//공격 UI를 눌렀을때
-			if (((UI*)pCollider)->CheckAttackArea() && ((Character*)pUi->GetPlayer())->GetActionTurn()<2)
+			if (((UI*)pCollider)->CheckAttackArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
 			{
 				mUiCheck = true;
 				SetAtVisible(true);
 				((UI*)pCollider)->SetVisible(false);
 				break;
 			}
-			
+
 		}
 
 	}
@@ -217,13 +217,13 @@ void SGAActorManager::RePosAndVisiMB()
 						mClickCount = 0;
 						for (const auto &actor : mActors)
 						{
-							if (typeid(*actor)==typeid(UI))
+							if (typeid(*actor) == typeid(UI))
 							{
 								((UI *)actor.get())->SetVisible(false);
 								break;
 							}
 						}
-						
+
 					}
 
 					//그뒤에 무브박스 클래스를 찾은후 대입
@@ -235,13 +235,13 @@ void SGAActorManager::RePosAndVisiMB()
 						{
 							if (mouseIndex == posIndex)
 							{
-								if ((pCollider)== ((MoveBox *)actor.get())->GetPlayer())
+								if ((pCollider) == ((MoveBox *)actor.get())->GetPlayer())
 								{
 									mClickCount++;
 								}
 								else if ((pCollider) != ((MoveBox *)actor.get())->GetPlayer() && ((MoveBox *)actor.get())->GetPlayer() != nullptr)
 								{
-									mClickCount=1;
+									mClickCount = 1;
 								}
 								else
 								{
@@ -314,7 +314,7 @@ void SGAActorManager::RePosAndVisiUI()
 					break;
 				}
 
-				if (mClickCount >= 2 && mouseIndex == posIndex && ((Character*)pCollider)->GetActionTurn()<2)
+				if (mClickCount >= 2 && mouseIndex == posIndex && ((Character*)pCollider)->GetActionTurn() < 2)
 				{
 					for (const auto &actor : mActors)
 					{
@@ -394,12 +394,12 @@ void SGAActorManager::RePosAndVisiAt()
 					{
 
 						if (typeid(*actor) == typeid(AttackBox))
-						{	
+						{
 							if (posIndex != posIndex2)
 							{
 								((AttackBox *)actor.get())->Release();
 							}
-							
+
 							actor->SetPosition(pos);
 							((AttackBox *)actor.get())->SetCharacter((Character*)pCollider);
 
@@ -477,10 +477,10 @@ void SGAActorManager::Release()
 
 		iter->reset();
 		iter = mActors.erase(iter);	//지우고 이터레이터도 다음것으로 넘어감
-		//if (iter != mActors.end())
-		//	std::advance(iter, 1);
-		//else
-		//	break;
+									//if (iter != mActors.end())
+									//	std::advance(iter, 1);
+									//else
+									//	break;
 	}
 }
 

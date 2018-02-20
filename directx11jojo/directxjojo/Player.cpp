@@ -7,8 +7,8 @@ Player::Player()
 }
 
 Player::Player(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * pFont)
-	:Character(pBatch,pSheet,pFont),
-	mvForward(0.0f,0.0f)
+	:Character(pBatch, pSheet, pFont),
+	mvForward(0.0f, 0.0f)
 {
 }
 
@@ -17,7 +17,7 @@ Player::~Player()
 {
 }
 
-void Player::Init(float moveSpeed, XMFLOAT2 startpos,E_SORTID eSortID)
+void Player::Init(float moveSpeed, XMFLOAT2 startpos, E_SORTID eSortID)
 {
 	//Animation anim[] = {
 	//	{ "DOWN", 2,{ { "jojoBWalk0", 0.3f },
@@ -69,8 +69,8 @@ void Player::Init(float moveSpeed, XMFLOAT2 startpos,E_SORTID eSortID)
 	int istartIndex = GetTileIndex(mPosition);
 	(*pVecTile)[istartIndex]->underObject = 1;
 	(*pVecTile)[istartIndex]->byOption = 1;
-	mPosition = XMFLOAT2((*pVecTile)[istartIndex]->vPos.x + JOJOTILESX/2,
-		(*pVecTile)[istartIndex]->vPos.y +JOJOTILESY/2);
+	mPosition = XMFLOAT2((*pVecTile)[istartIndex]->vPos.x + JOJOTILESX / 2,
+		(*pVecTile)[istartIndex]->vPos.y + JOJOTILESY / 2);
 
 	//mpUi = SGAActorManager::Instance().Create<UI>(mpBatch, mpSheet, mpFont);
 	//mpUi->Init(E_SORTID_FIRST, mPosition, mVisbleScope);
@@ -107,7 +107,7 @@ void Player::UpdateMove(float dt)
 {
 	float fScrollx = ScrollMgr::Instance().GetScroll().x;
 	float fScrolly = ScrollMgr::Instance().GetScroll().y;
-	
+
 
 	/////////////////////////////벡터를 이용한 각도와 이동 구현하기
 	auto mouse = Mouse::Get().GetState();
@@ -149,7 +149,7 @@ void Player::UpdateMove(float dt)
 		mmousePos = XMFLOAT2(mouse.x + fScrollx, mouse.y + fScrolly);
 		//mPosition = XMFLOAT2(mPosition.x + fScrollx, mPosition.y + fScrolly);
 		int mouseIndex = GetTileIndex(mmousePos);
-		Vector2 vecMousePos= (*pVecTile)[mouseIndex]->vPos + XMFLOAT2(JOJOTILESX/2, JOJOTILESY / 2);
+		Vector2 vecMousePos = (*pVecTile)[mouseIndex]->vPos + XMFLOAT2(JOJOTILESX / 2, JOJOTILESY / 2);
 		Vector2 vecPos = mPosition;
 
 		float distance = Vector2::Distance(vecPos, vecMousePos);
@@ -158,14 +158,14 @@ void Player::UpdateMove(float dt)
 		if ((distance <= limitDistance&&mVisbleScope))//
 		{
 			//해당범위에 해당해야 알고리즘 시작
-			if (SGAActorManager::Instance().GetMBSeekScope()&&mActionTurn<1)//MoveBox::Instance().GetSeekScope()
+			if (SGAActorManager::Instance().GetMBSeekScope() && mActionTurn < 1)//MoveBox::Instance().GetSeekScope()
 			{
 				//ASTAR 알고리즘 루트 짜기 시작
 				JoAstar_Start(mPosition, mmousePos);
 			}
-			
+
 		}
-		
+
 		//dir = XMVector2Normalize(dir - XMLoadFloat2(&mPosition));
 		//this->mvForward = XMFLOAT2(XMVectorGetX(dir), XMVectorGetY(dir));	
 	}
@@ -177,7 +177,7 @@ void Player::UpdateMove(float dt)
 	//	(mPosition.y >= (mmousePos.y - 10)) && (mPosition.y <= (mmousePos.y + 10))
 	//	)
 	//	mvForward = { 0.f,0.f };
-	
+
 	//실질적인 이동
 	JoAStar_Move(dt);
 	if (SGAFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
@@ -199,6 +199,6 @@ void Player::UpdateMove(float dt)
 	//JoAstar_Start(mPosition)
 
 	//this->mPosition = mPosition + (mvForward * this->mfMoveSpeed * dt);
-	
+
 }
 

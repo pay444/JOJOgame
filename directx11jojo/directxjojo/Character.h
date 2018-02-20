@@ -116,9 +116,9 @@ protected:
 	int mAttackDistance; //근접공격거리
 	int mActionTurn;	//행동 턴
 
-	//MoveBox *mpMoveBox;
+						//MoveBox *mpMoveBox;
 public:
-	void SetStaus(int health, int attack,int moveDis,int AttackDis)
+	void SetStaus(int health, int attack, int moveDis, int AttackDis)
 	{
 		this->mHealth = health;
 		this->mAttack = attack;

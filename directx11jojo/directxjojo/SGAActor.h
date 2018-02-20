@@ -62,7 +62,7 @@ public:
 		if (mpSpriteFrame != NULL)
 		{
 			rct = mpSpriteFrame->sourceRect;
-			OffsetRect(&rct, 
+			OffsetRect(&rct,
 				static_cast<int>(mPosition.x - mpSpriteFrame->pivot.x) - rct.left,
 				static_cast<int>(mPosition.y - mpSpriteFrame->pivot.y) - rct.top);
 		}

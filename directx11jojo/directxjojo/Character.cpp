@@ -21,14 +21,14 @@ Character::Character(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont *
 	//	},
 	//};
 	//SGAActor::Init(anim, 1);
-	
+
 }
 
 Character::Character(SpriteBatch * pBatch)
 {
 	InitEffect();
 	mStartIndex = 0;
-	
+
 }
 
 
@@ -57,7 +57,7 @@ E_SCENE Character::Update(float dt)
 
 	//마우스 버튼을 눌렀을때 그 타일위에 어떤 오브젝트가 있는지 확인
 	if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
-	{	
+	{
 		auto mouse = Mouse::Get().GetState();
 
 		Vector2 mousePos = Vector2(mouse.x + fScrollx, mouse.y + fScrolly);
@@ -78,10 +78,10 @@ E_SCENE Character::Update(float dt)
 		if (mouseIndex == posIndex)
 		{
 			mVisbleScope = true;
-				//SGAActorManager::Instance().SetMBVisible(mVisbleScope);
-				//SGAActorManager::Instance().SetMBVisible(mVisbleScope);
-				//mpMoveBox->SetVisible(mVisbleScope);
-				//mpMoveBox->SetPosition(mPosition);
+			//SGAActorManager::Instance().SetMBVisible(mVisbleScope);
+			//SGAActorManager::Instance().SetMBVisible(mVisbleScope);
+			//mpMoveBox->SetVisible(mVisbleScope);
+			//mpMoveBox->SetPosition(mPosition);
 		}
 		else
 		{
@@ -89,7 +89,7 @@ E_SCENE Character::Update(float dt)
 			//SGAActorManager::Instance().SetMBVisible(mVisbleScope);
 			//mpMoveBox->SetVisible(mVisbleScope);	
 		}
-		
+
 	}
 
 
@@ -137,7 +137,7 @@ void Character::Draw()
 	offset.x += (int)ScrollMgr::Instance().GetScroll().x;
 	offset.y += (int)ScrollMgr::Instance().GetScroll().y;
 	SetAnimation(mAnimName2);
-	
+
 	mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + mPosition - offset, tint);
 	//if (mVisbleScope)
 	//{

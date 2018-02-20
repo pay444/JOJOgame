@@ -28,16 +28,16 @@ private:
 	vector<int> vecScopeIndex;			//범위에 해당하는 타일 인덱스 저장
 	Player* mpPlayer;
 public:
-	virtual void Init(E_SORTID eSortID,XMFLOAT2 pos, float limitDis, bool visible);
-	virtual void Init(SpriteBatch *pBatch,SGASpriteSheet *pSheet, SpriteFont *pFont, E_SORTID eSortID, XMFLOAT2 pos, float limitDis, bool visible);
+	virtual void Init(E_SORTID eSortID, XMFLOAT2 pos, float limitDis, bool visible);
+	virtual void Init(SpriteBatch *pBatch, SGASpriteSheet *pSheet, SpriteFont *pFont, E_SORTID eSortID, XMFLOAT2 pos, float limitDis, bool visible);
 	virtual E_SCENE Update(float dt);
 	virtual void Draw();
 	void TileScope();
 	//virtual void OnHit(SGAActor* pCollidee);
-		//unique_ptr<MoveBox> mpMoveBox;
+	//unique_ptr<MoveBox> mpMoveBox;
 
 	void SetVisible(bool visible) { mVisible = visible; }
-	bool GetVisible() {return mVisible; }
+	bool GetVisible() { return mVisible; }
 	void SetMoveDis(int moveDis) { mMoveDistance = moveDis; }
 	void SetPlayer(Player* player) { mpPlayer = player; }
 
