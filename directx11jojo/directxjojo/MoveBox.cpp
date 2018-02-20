@@ -11,7 +11,8 @@ mSeekScope(false)
 
 MoveBox::MoveBox(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * pFont)
 	:SGAActor(pBatch, pSheet, pFont),
-	mSeekScope(false)
+	mSeekScope(false),
+	mpPlayer(nullptr)
 {
 	
 }

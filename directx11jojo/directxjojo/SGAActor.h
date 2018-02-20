@@ -18,7 +18,7 @@ public:
 	virtual bool IntersecRect(SGAActor* pActor);
 	//virtual bool IntersecRectScope(SGAActor* pActor);
 	virtual void OnHit(SGAActor* pCollider) {};
-
+	virtual void OnHit(SGAActor* pCollider, SGAActor* pCollidee) {};
 protected:
 	map<string, vector<FrameInfo>>	mAnimations;
 	SGASpriteSheet*	mpSheet;

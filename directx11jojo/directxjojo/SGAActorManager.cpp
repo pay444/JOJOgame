@@ -68,7 +68,18 @@ E_SCENE SGAActorManager::Update(float dt)
 
 	}
 
+	auto state = Keyboard::Get().GetState();
 
+	if (state.A)
+	{
+		SGAActorManager::Instance().SetMBVisible(false);
+		//MoveBox::Instance()->SetVisible(false);
+		SGAActorManager::Instance().SetUIVisible(false);
+		SGAActorManager::Instance().SetAtVisible(false);
+		SGAActorManager::Instance().SetClickCount(0);
+		mUiCheck = false;
+		//mActionTurn = 0;
+	}
 
 
 
@@ -112,8 +123,9 @@ void SGAActorManager::CheckAction()
 		pCollider = actor.get();
 		if (typeid(*pCollider) == typeid(UI))
 		{
+			UI * pUi = ((UI*)pCollider);
 			//공격 UI를 눌렀을때
-			if (((UI*)pCollider)->CheckAttackArea())
+			if (((UI*)pCollider)->CheckAttackArea() && ((Character*)pUi->GetPlayer())->GetActionTurn()<2)
 			{
 				mUiCheck = true;
 				SetAtVisible(true);
@@ -146,7 +158,8 @@ void SGAActorManager::CheckAction()
 							if (((AttackBox*)pCollider)->IntersecRectScope(pCollidee) &&
 								dynamic_cast<Character*>(pCollidee))
 							{
-								pCollidee->OnHit(pCollider);
+
+								pCollidee->OnHit(pCollider, ((AttackBox*)pCollider)->GetCharacter());
 								SGAActorManager::Instance().SetAtVisible(false);
 								mClickCount = 0;
 								//uiCheck = false;
@@ -198,10 +211,7 @@ void SGAActorManager::RePosAndVisiMB()
 
 					visible = ((Character*)actor.get())->GetVisible();
 
-					if (dynamic_cast<Player*>(pCollider))
-					{
-						mClickCount++;
-					}
+
 					if (dynamic_cast<Enemy*>(pCollider))
 					{
 						mClickCount = 0;
@@ -225,7 +235,21 @@ void SGAActorManager::RePosAndVisiMB()
 						{
 							if (mouseIndex == posIndex)
 							{
+								if ((pCollider)== ((MoveBox *)actor.get())->GetPlayer())
+								{
+									mClickCount++;
+								}
+								else if ((pCollider) != ((MoveBox *)actor.get())->GetPlayer() && ((MoveBox *)actor.get())->GetPlayer() != nullptr)
+								{
+									mClickCount=1;
+								}
+								else
+								{
+									mClickCount++;
+								}
+
 								actor->SetPosition(pos);
+								((MoveBox *)actor.get())->SetPlayer((Player*)pCollider);
 								((MoveBox *)actor.get())->SetMoveDis(movedis);
 								((MoveBox *)actor.get())->SetVisible(visible);
 								break;
@@ -290,17 +314,19 @@ void SGAActorManager::RePosAndVisiUI()
 					break;
 				}
 
-				if (mClickCount >= 2 && mouseIndex == posIndex)
+				if (mClickCount >= 2 && mouseIndex == posIndex && ((Character*)pCollider)->GetActionTurn()<2)
 				{
 					for (const auto &actor : mActors)
 					{
 						if (typeid(*actor) == typeid(UI))
 						{
 							//MoveBox::Instance()->SetVisible(false);
+
 							SetMBVisible(false);
 							SetAtVisible(false);
 							actor->SetPosition(pos + XMFLOAT2(100.0f, 0.0f));
 							((UI *)actor.get())->SetVisible(true);
+							((UI *)actor.get())->SetPlayer((Player*)pCollider);
 							mClickCount = 0;
 							break;
 						}
@@ -313,8 +339,8 @@ void SGAActorManager::RePosAndVisiUI()
 					{
 						if (typeid(*actor) == typeid(UI))
 						{
-							((UI *)actor.get())->SetVisible(false);
-							mClickCount = 0;
+							//((UI *)actor.get())->SetVisible(false);
+							//mClickCount = 0;
 							break;
 						}
 					}
@@ -375,6 +401,8 @@ void SGAActorManager::RePosAndVisiAt()
 							}
 							
 							actor->SetPosition(pos);
+							((AttackBox *)actor.get())->SetCharacter((Character*)pCollider);
+
 							((AttackBox *)actor.get())->SetAttackDis(attackdis);
 
 							((AttackBox *)actor.get())->SetVisible(visible);
@@ -394,16 +422,16 @@ void SGAActorManager::RePosAndVisiAt()
 				else //if(!GetUICheckArea() && mouseIndex == posIndex)
 				{
 					//if(posIndex != posIndex2)
-					//for (const auto &actor : mActors)
-					//{
-					//	if (typeid(*actor) == typeid(AttackBox))
-					//	{
-					//		((AttackBox *)actor.get())->Release();
+					for (const auto &actor : mActors)
+					{
+						if (typeid(*actor) == typeid(AttackBox))
+						{
+							((AttackBox *)actor.get())->Release();
 
-					//		((AttackBox *)actor.get())->SetVisible(visible);
-					//		break;
-					//	}
-					//}
+							((AttackBox *)actor.get())->SetVisible(visible);
+							break;
+						}
+					}
 					//AttackBox::Instance().GetVecAtScopeIndex().clear();
 					//AttackBox::Instance().SetVisible(visible);
 				}

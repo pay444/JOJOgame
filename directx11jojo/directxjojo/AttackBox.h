@@ -14,7 +14,7 @@ private:
 	vector<XMFLOAT2> vecAtScopePos;		//범위에 해당하는 위치 저장
 	vector<int> vecAtScopeIndex;			//범위에 해당하는 타일 인덱스 저장
 	vector<unique_ptr<int>> vecAtScopeIndex2;			//범위에 해당하는 타일 인덱스2 안사라짐
-
+	Character* mpCharacter;
 public:
 	virtual void Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible);
 	virtual E_SCENE Update(float dt);
@@ -28,7 +28,9 @@ public:
 	void SetAttackDis(int AttackDis) { mAttackDistance = AttackDis; }
 	void SetAttackDamge(int damge) { mAttackDamge = damge; }
 	void SetCamp(int camp) { mCamp = camp; }
-
+	void SetCharacter(Character * character) { mpCharacter = character; }
+	
+	Character* GetCharacter() { return mpCharacter; }
 	int GetAttack() { return mAttackDamge; }
 	bool GetAtScopeSeek() { return mAtSeekScope; }
 	RECT GetBoundScope();

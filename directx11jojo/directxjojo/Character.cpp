@@ -14,6 +14,7 @@ Character::Character(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont *
 	InitEffect();
 	mStartIndex = 0;
 	mVisbleScope = false;
+	mActionTurn = 0;
 	//Animation anim[] = {
 	//	{ "CursorBox", 2,{ { "CursorBox0", 0.3f },
 	//	{ "CursorBox1", 0.3f }, }
@@ -156,6 +157,16 @@ void Character::OnHit(SGAActor * pCollidee)
 	if (this->GetCamp() != pCollidee->GetCamp())
 	{
 		DoDamage(pCollidee);
+	}
+}
+
+void Character::OnHit(SGAActor * pCollider, SGAActor * pCollidee)
+{
+	if (this->GetCamp() != pCollidee->GetCamp())
+	{
+		((Character*)pCollidee)->SetActionTurn(2);
+		//mActionTurn++;
+		DoDamage(pCollider);
 	}
 }
 
@@ -304,6 +315,10 @@ bool Character::JoAStar_Move(float dt)
 		pBestList->pop_front();
 	}
 
+	if (pBestList->size() == 0)
+	{
+		mActionTurn++;
+	}
 	mVisbleScope = false;
 	//mpMoveBox->SetVisible(mVisbleScope);
 

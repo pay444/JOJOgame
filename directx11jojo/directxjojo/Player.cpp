@@ -158,7 +158,7 @@ void Player::UpdateMove(float dt)
 		if ((distance <= limitDistance&&mVisbleScope))//
 		{
 			//해당범위에 해당해야 알고리즘 시작
-			if (SGAActorManager::Instance().GetMBSeekScope())//MoveBox::Instance().GetSeekScope()
+			if (SGAActorManager::Instance().GetMBSeekScope()&&mActionTurn<1)//MoveBox::Instance().GetSeekScope()
 			{
 				//ASTAR 알고리즘 루트 짜기 시작
 				JoAstar_Start(mPosition, mmousePos);
@@ -187,8 +187,15 @@ void Player::UpdateMove(float dt)
 		SGAActorManager::Instance().SetUIVisible(false);
 		SGAActorManager::Instance().SetAtVisible(false);
 		SGAActorManager::Instance().SetClickCount(0);
+		//mActionTurn = 0;
 	}
 
+	auto state = Keyboard::Get().GetState();
+
+	if (state.A)
+	{
+		mActionTurn = 0;
+	}
 	//JoAstar_Start(mPosition)
 
 	//this->mPosition = mPosition + (mvForward * this->mfMoveSpeed * dt);

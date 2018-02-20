@@ -95,6 +95,7 @@ public:
 	virtual E_SCENE Update(float dt);
 	virtual void Draw();
 	virtual void OnHit(SGAActor* pCollidee);
+	virtual void OnHit(SGAActor* pCollider, SGAActor* pCollidee);
 	virtual void DoDamage(SGAActor* pAttacker);
 	void MoveStateCheck();
 protected:
@@ -114,9 +115,10 @@ protected:
 	int mMoveDistance;	//이동거리
 	int mAttackDistance; //근접공격거리
 	int mActionTurn;	//행동 턴
+
 	//MoveBox *mpMoveBox;
 public:
-	void SetStaus(int health, int attack,int moveDis,int AttackDis)//
+	void SetStaus(int health, int attack,int moveDis,int AttackDis)
 	{
 		this->mHealth = health;
 		this->mAttack = attack;
@@ -124,11 +126,14 @@ public:
 		this->mAttackDistance = AttackDis;
 		//mpMoveBox->SetMoveDis(mMoveDistance);
 	}
+	void SetActionTurn(int actionTurn) { mActionTurn = actionTurn; }
+
 	int GetHealth() { return mHealth; }
 	int GetAttack() { return mAttack; }
 	int GetMoveDistance() { return mMoveDistance; }
 	int GetAttackDistance() { return mAttackDistance; }
 	bool GetVisible() { return mVisbleScope; }
+	int GetActionTurn() { return mActionTurn; }
 
 	void JoAstar_Start(const Vector2 &vDestPos, const Vector2 &vSorcePos);
 	bool JoAStar_Move(float dt);
