@@ -177,7 +177,7 @@ void Character::DoDamage(SGAActor * pAttacker)
 
 	mspShake->Start(0.1f, 5);
 	mspTint->Start(0.1f, (Color)Colors::Wheat, (Color)Colors::Red);
-	SGAActorManager::Instance().SetUiCheck(false);
+	//SGAActorManager::Instance().SetUiCheck(false);
 	if (this->mHealth <= 0)
 		this->SetDestroyed();
 }

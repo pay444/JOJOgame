@@ -5,7 +5,9 @@
 SGAActorManager::SGAActorManager() :
 	tmpPos(XMFLOAT2(0.0f, 0.0f)),
 	posIndex2(0),
-	mUiCheck(false)
+	mUiCheck(false),
+	mTurn(true),
+	mActionAter(true)
 {
 }
 
@@ -70,7 +72,7 @@ E_SCENE SGAActorManager::Update(float dt)
 
 	auto state = Keyboard::Get().GetState();
 
-	if (state.A)
+	if (state.R)
 	{
 		SGAActorManager::Instance().SetMBVisible(false);
 		//MoveBox::Instance()->SetVisible(false);
@@ -78,6 +80,7 @@ E_SCENE SGAActorManager::Update(float dt)
 		SGAActorManager::Instance().SetAtVisible(false);
 		SGAActorManager::Instance().SetClickCount(0);
 		mUiCheck = false;
+		mTurn = true;
 		//mActionTurn = 0;
 	}
 
@@ -162,7 +165,7 @@ void SGAActorManager::CheckAction()
 								pCollidee->OnHit(pCollider, ((AttackBox*)pCollider)->GetCharacter());
 								SGAActorManager::Instance().SetAtVisible(false);
 								mClickCount = 0;
-								//uiCheck = false;
+								mUiCheck = false;
 							}
 
 						}
@@ -209,6 +212,7 @@ void SGAActorManager::RePosAndVisiMB()
 				if (mouseIndex == posIndex)
 				{
 
+					mActionAter = true;
 					visible = ((Character*)actor.get())->GetVisible();
 
 

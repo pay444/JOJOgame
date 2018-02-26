@@ -26,6 +26,8 @@ private:
 	int mClickCount;
 	int posIndex2;
 	bool mUiCheck;
+	bool mTurn;
+	bool mActionAter;
 	XMFLOAT2 tmpPos;
 public:
 	E_SCENE Update(float dt);
@@ -43,6 +45,7 @@ public:
 	bool GetMBSeekScope();
 	bool GetUICheckArea();
 	vector<unique_ptr<int>>* GetvecAtScopeIndex();
+	bool GetTurn() { return mTurn; }
 
 	void SetMBVisible(bool visible);
 	vector<unique_ptr<TILE>>* GetTileInfo();
@@ -50,6 +53,7 @@ public:
 	void SetClickCount(int count) { mClickCount = count; }
 	void SetAtVisible(bool visible);
 	void SetUiCheck(bool uiCheck) { mUiCheck = uiCheck; }
+	void SetTurn(bool turn) { mTurn = turn; }
 	//void InsertMap(string str, unique_ptr<SGAActor> actor);
 public:
 	//템플릿의 통일화 몇개의 인자를 받아도 사용가능하도록
