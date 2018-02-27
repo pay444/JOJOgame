@@ -94,7 +94,7 @@ void AttackBox::OnHit(SGAActor * pCollidee)
 {
 	if (typeid(*pCollidee) == typeid(FotMan))
 	{
-		int x = 1;
+//		int x = 1;
 	}
 }
 

@@ -47,6 +47,11 @@ public:
 	vector<unique_ptr<int>>* GetvecAtScopeIndex();
 	bool GetTurn() { return mTurn; }
 
+	class UI *GetClassUi();
+	class AttackBox* GetClassAttackBox();
+	//Player * GetPlayer() { return nullptr; }
+
+	//void SetUiPos(XMFLOAT2 pos);
 	void SetMBVisible(bool visible);
 	vector<unique_ptr<TILE>>* GetTileInfo();
 	void SetUIVisible(bool visible);

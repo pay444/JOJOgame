@@ -31,19 +31,21 @@ E_SCENE SGAActorManager::Update(float dt)
 
 	}
 
-	CheckAction();
+	
 
 
 	if (!mUiCheck)
 	{
 		//클릭한 해당놈의 위치와 보여주는 여부를 무브 박스 에게 넘겨줌
 		RePosAndVisiMB();
-
+		
 		RePosAndVisiAt();
 
 		//클릭한 해당놈의의 위치와 보여주는 여부를 UI에게 넘겨줌
 		RePosAndVisiUI();
 	}
+
+	CheckAction();
 
 	if (SGAFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	{
@@ -79,6 +81,7 @@ E_SCENE SGAActorManager::Update(float dt)
 		SGAActorManager::Instance().SetUIVisible(false);
 		SGAActorManager::Instance().SetAtVisible(false);
 		SGAActorManager::Instance().SetClickCount(0);
+		mClickCount = 0;
 		mUiCheck = false;
 		mTurn = true;
 		//mActionTurn = 0;
@@ -565,6 +568,33 @@ vector<unique_ptr<int>>* SGAActorManager::GetvecAtScopeIndex()
 		}
 	}
 }
+
+UI * SGAActorManager::GetClassUi()
+{
+	for (auto &actor : mActors)
+	{
+		if (typeid(*actor) == typeid(UI))
+		{
+			return ((UI*)(actor.get()));
+			//break;
+		}
+	}
+	return nullptr;
+}
+
+AttackBox * SGAActorManager::GetClassAttackBox()
+{
+	for (auto &actor : mActors)
+	{
+		if (typeid(*actor) == typeid(AttackBox))
+		{
+			return ((AttackBox*)(actor.get()));
+			break;
+		}
+	}
+	return nullptr;
+}
+
 
 void SGAActorManager::SetMBVisible(bool visible)
 {

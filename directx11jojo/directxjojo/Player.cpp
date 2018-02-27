@@ -141,7 +141,7 @@ void Player::UpdateMove(float dt)
 	//	this->mvForward = XMFLOAT2(XMVectorGetX(dir), XMVectorGetY(dir));	//이내용이 없음 17강은
 	//}
 
-	if (SGAFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+	if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	{
 		vector<unique_ptr<TILE>> *pVecTile = SGAActorManager::Instance().GetTileInfo();
 		//mvForward = { 0.0f - ScrollMgr::Instance().GetScroll().x, 0.0f - ScrollMgr::Instance().GetScroll().y };
@@ -182,17 +182,29 @@ void Player::UpdateMove(float dt)
 	JoAStar_Move(dt);
 	if (SGAFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	{
-		SGAActorManager::Instance().SetMBVisible(false);
-		//MoveBox::Instance()->SetVisible(false);
-		SGAActorManager::Instance().SetUIVisible(false);
-		SGAActorManager::Instance().SetAtVisible(false);
-		SGAActorManager::Instance().SetClickCount(0);
+		//SGAActorManager::Instance().SetMBVisible(false);
+		////MoveBox::Instance()->SetVisible(false);
+		//SGAActorManager::Instance().SetUIVisible(false);
+		//SGAActorManager::Instance().SetAtVisible(false);
+		//SGAActorManager::Instance().SetClickCount(0);
 		//mActionTurn = 0;
 	}
+	list<int>* pBestList = mpJoAStar->GetBestList();
+
+	if (pBestList->size() == 0)
+	{
+		//mActionTurn++;
+		//SGAActorManager::Instance().GetClassUi()->SetPosition(mPosition + XMFLOAT2(100.0f, 0.0f));
+		//SGAActorManager::Instance().GetClassAttackBox()->SetPosition(mPosition);
+		//SGAActorManager::Instance().SetAtVisible(true);
+		//SGAActorManager::Instance().SetMBVisible(false);
+		//SGAActorManager::Instance().SetUIVisible(true);
+	}
+
 
 	auto state = Keyboard::Get().GetState();
 
-	if (state.A)
+	if (state.R)
 	{
 		mActionTurn = 0;
 	}

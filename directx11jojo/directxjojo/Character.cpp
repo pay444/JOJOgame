@@ -75,7 +75,7 @@ E_SCENE Character::Update(float dt)
 		//{
 		//	pMoveBox->SetDestroyed();
 		//}
-		if (mouseIndex == posIndex)
+		if (mouseIndex == posIndex || SGAActorManager::Instance().GetMBSeekScope())
 		{
 			mVisbleScope = true;
 			//SGAActorManager::Instance().SetMBVisible(mVisbleScope);
@@ -318,6 +318,8 @@ bool Character::JoAStar_Move(float dt)
 	if (pBestList->size() == 0)
 	{
 		mActionTurn++;
+		//SGAActorManager::Instance().GetUi()->SetPosition(mPosition + XMFLOAT2(100.0f,0.0f));
+		//SGAActorManager::Instance().SetUIVisible(true);
 	}
 	mVisbleScope = false;
 	//mpMoveBox->SetVisible(mVisbleScope);

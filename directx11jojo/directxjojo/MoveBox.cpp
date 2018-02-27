@@ -200,7 +200,7 @@ void MoveBox::TileScope()
 	//}
 	//케릭터의 위치타일에 이동거리를 넣음
 	(*pVecTile)[GetTileIndex(mPosition)]->moveNum = mMoveDistance;
-	vecScopeIndex.push_back(GetTileIndex(mPosition));
+	//vecScopeIndex.push_back(GetTileIndex(mPosition));
 	for (int mDis = mMoveDistance; mDis > 0; --mDis)
 	{
 		for (int i = 0; i < 20; ++i)
