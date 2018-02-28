@@ -162,6 +162,9 @@
     <ClInclude Include="AttackBox.h">
       <Filter>02.Object\01.UI</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyState.h">
+      <Filter>04.AI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -250,6 +253,9 @@
     </ClCompile>
     <ClCompile Include="AttackBox.cpp">
       <Filter>02.Object\01.UI</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyState.cpp">
+      <Filter>04.AI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

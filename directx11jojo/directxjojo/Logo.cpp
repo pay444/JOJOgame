@@ -47,6 +47,8 @@ HRESULT Logo::Initialize(SpriteBatch* spriteBatch, SpriteFont* spriteFont)
 
 	mpJojo->SetStaus(100, 10,4,1);
 
+	GunGeon::Blackboard::Instance().SetPlayer(mpJojo);
+
 	Jojo *m2pPlayer;
 	m2pPlayer = SGAActorManager::Instance().Create<Jojo>(spriteBatch, pSheet, spriteFont);
 	m2pPlayer->Init(500.0f, XMFLOAT2((24.0f), 24.0f), E_SORTID_FIRST, 200.0f);
@@ -59,7 +61,7 @@ HRESULT Logo::Initialize(SpriteBatch* spriteBatch, SpriteFont* spriteFont)
 	FotMan* pEnemy = SGAActorManager::Instance().Create<FotMan>(spriteBatch, pSheet2, spriteFont);
 	pEnemy->Init(500.0f, XMFLOAT2(200.0f, 200.0f), E_SORTID_SECOND, 200.0f);
 	pEnemy->SetStaus(100, 10, 3,2);
-
+	pEnemy->SetAI(40.0f, 200.0f, 100.0f, 0.5f);
 	return S_OK;
 }
 

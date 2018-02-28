@@ -320,7 +320,11 @@ void SGAActorManager::RePosAndVisiUI()
 						MBVisible = ((MoveBox*)actor.get())->GetVisible();
 					break;
 				}
-
+				//내가 클릭한 캐릭터만 넣기
+				if (mouseIndex == posIndex)
+				{
+					GetClassUi()->SetPlayer((Player*)pCollider);
+				}
 				if (mClickCount >= 2 && mouseIndex == posIndex && ((Character*)pCollider)->GetActionTurn() < 2)
 				{
 					for (const auto &actor : mActors)

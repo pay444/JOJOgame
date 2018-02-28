@@ -146,6 +146,7 @@
     <ClInclude Include="directxjojo.h" />
     <ClInclude Include="dxerr.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyState.h" />
     <ClInclude Include="FotMan.h" />
     <ClInclude Include="GameMain.h" />
     <ClInclude Include="Jojo.h" />
@@ -183,6 +184,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyState.cpp" />
     <ClCompile Include="FotMan.cpp" />
     <ClCompile Include="GameMain.cpp" />
     <ClCompile Include="Jojo.cpp" />

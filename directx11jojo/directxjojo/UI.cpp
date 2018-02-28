@@ -7,7 +7,8 @@ UI::UI():SGAActor()
 }
 
 UI::UI(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * pFont)
-	:SGAActor(pBatch,pSheet,pFont)
+	:SGAActor(pBatch,pSheet,pFont),
+	mpPlayer(nullptr)
 {
 }
 

@@ -75,7 +75,12 @@ E_SCENE Character::Update(float dt)
 		//{
 		//	pMoveBox->SetDestroyed();
 		//}
-		if (mouseIndex == posIndex || SGAActorManager::Instance().GetMBSeekScope())
+		int uiPlayerPosIndex = -1;
+		if (SGAActorManager::Instance().GetClassUi()->GetPlayer() != nullptr)
+		{
+			uiPlayerPosIndex = GetTileIndex(SGAActorManager::Instance().GetClassUi()->GetPlayer()->GetPosition());
+		}
+		if (mouseIndex == posIndex || posIndex == uiPlayerPosIndex)
 		{
 			mVisbleScope = true;
 			//SGAActorManager::Instance().SetMBVisible(mVisbleScope);
@@ -318,8 +323,16 @@ bool Character::JoAStar_Move(float dt)
 	if (pBestList->size() == 0)
 	{
 		mActionTurn++;
-		//SGAActorManager::Instance().GetUi()->SetPosition(mPosition + XMFLOAT2(100.0f,0.0f));
-		//SGAActorManager::Instance().SetUIVisible(true);
+		if (GetCamp() == GunGeon::CampType::PLAYER)
+		{
+			SGAActorManager::Instance().GetClassUi()->SetPosition(mPosition + XMFLOAT2(100.0f, 0.0f));
+			SGAActorManager::Instance().GetClassUi()->SetVisible(true);
+
+			SGAActorManager::Instance().GetClassAttackBox()->SetPosition(mPosition);
+			SGAActorManager::Instance().GetClassAttackBox()->SetVisible(true);
+
+			SGAActorManager::Instance().SetMBVisible(false);
+		}
 	}
 	mVisbleScope = false;
 	//mpMoveBox->SetVisible(mVisbleScope);

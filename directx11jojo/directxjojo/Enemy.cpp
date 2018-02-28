@@ -35,12 +35,20 @@ void Enemy::Init(float moveSpeed, XMFLOAT2 startpos, E_SORTID eSortID)
 	(*pVecTile)[istartIndex]->byOption = 1;
 	mPosition = XMFLOAT2((*pVecTile)[istartIndex]->vPos.x + JOJOTILESX / 2,
 		(*pVecTile)[istartIndex]->vPos.y + JOJOTILESY / 2);
+
+	mspFSM = make_unique<SGAFSM>();
+	mspFSM->SetOwner(this);
+	mspFSM->AddState<IdleState>(GunGeon::EnemyState::Enemy_Idle);
+	mspFSM->AddState<ChaseState>(GunGeon::EnemyState::Enemy_Chase);
+	mspFSM->AddState<AttackState>(GunGeon::EnemyState::Enemy_Attack);
+	mspFSM->ChangeState(GunGeon::EnemyState::Enemy_Idle);
 }
 
 E_SCENE Enemy::Update(float dt)
 {
 	Character::Update(dt);
 
+	mspFSM->Update(dt);
 	//auto state = Keyboard::Get().GetState();
 
 	//if (state.D2)

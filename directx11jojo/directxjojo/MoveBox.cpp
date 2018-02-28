@@ -124,6 +124,8 @@ void MoveBox::Draw()
 				(*pVecTile)[vecScopeIndex[x]]->vPos.y + JOJOTILESY / 2);
 			mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + vTilePos - offset, tint);
 		}
+		//타일 위치 값 초기화
+		(*pVecTile)[GetTileIndex(mPosition)]->moveNum = 0;
 		for (int x = 0; x < vecScopeIndex.size(); ++x)
 		{
 			(*pVecTile)[vecScopeIndex[x]]->moveNum = 0;
