@@ -9,7 +9,8 @@ Character::Character()
 }
 
 Character::Character(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * pFont)
-	: SGAActor(pBatch, pSheet, pFont)
+	: SGAActor(pBatch, pSheet, pFont),
+	mFontVisible(false)
 {
 	InitEffect();
 	mStartIndex = 0;
@@ -144,6 +145,8 @@ void Character::Draw()
 	SetAnimation(mAnimName2);
 
 	mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + mPosition - offset, tint);
+
+
 	//if (mVisbleScope)
 	//{
 	//	XMFLOAT2 a = { 100, 100 };

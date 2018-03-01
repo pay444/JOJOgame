@@ -106,15 +106,14 @@ protected:
 	int mHealth;
 	int mAttack;
 	int mStartIndex;
-	//이동 범위를 보여줄지 안보여줄지 결정
-	bool mVisbleScope;
-	//애니메이션 상태를 저장할 변수
-	char * mAnimName;
-	char * mAnimName2;
+	bool mVisbleScope; //이동 범위를 보여줄지 안보여줄지 결정
+	char * mAnimName;	//애니메이션 상태를 저장할 변수
+	char * mAnimName2;	//애니메이션 상태를 저장할 변수
 	float limitDistance; //이동거리한계
 	int mMoveDistance;	//이동거리
 	int mAttackDistance; //근접공격거리
 	int mActionTurn;	//행동 턴
+	bool mFontVisible;
 
 						//MoveBox *mpMoveBox;
 public:

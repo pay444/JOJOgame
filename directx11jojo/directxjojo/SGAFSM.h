@@ -23,10 +23,11 @@ private:
 	SGAState* mpCurrent;
 	map<int, unique_ptr<SGAState>> mStateMap;
 	SGAActor* mpOwner;
-
+	int mStateID;
 public:
 	void SetOwner(SGAActor* pOwner) { this->mpOwner = pOwner; }
 	SGAActor* GetOwner() { return mpOwner; }
+	int GetStateID() { return mStateID; }
 
 public:
 	template<class T>

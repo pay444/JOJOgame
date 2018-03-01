@@ -31,7 +31,7 @@ E_SCENE SGAActorManager::Update(float dt)
 
 	}
 
-	
+	CheckEnemyTarget();
 
 
 	if (!mUiCheck)
@@ -255,10 +255,17 @@ void SGAActorManager::RePosAndVisiMB()
 									mClickCount++;
 								}
 
+								if (posIndex != posIndex2)
+								{
+									((MoveBox *)actor.get())->Release();
+								}
+
 								actor->SetPosition(pos);
 								((MoveBox *)actor.get())->SetPlayer((Player*)pCollider);
 								((MoveBox *)actor.get())->SetMoveDis(movedis);
 								((MoveBox *)actor.get())->SetVisible(visible);
+
+								posIndex2 = posIndex;
 								break;
 							}
 
@@ -274,6 +281,8 @@ void SGAActorManager::RePosAndVisiMB()
 					{
 						if (typeid(*actor) == typeid(MoveBox))
 						{
+							((AttackBox *)actor.get())->Release();
+
 							((MoveBox *)actor.get())->SetVisible(visible);
 							break;
 						}
@@ -532,6 +541,54 @@ void SGAActorManager::SortActors()
 	mActors.reverse();
 }
 
+void SGAActorManager::CheckEnemyTarget()
+{
+	struct SGAActorAnddis
+	{
+		SGAActor* pActor;
+		float distance;
+	};
+	struct less_than_distance
+	{
+		inline bool operator() (const SGAActorAnddis& struct1, const SGAActorAnddis& struct2)
+		{
+			return (struct1.distance < struct2.distance);
+		}
+	};
+
+	//적에서 가장 가까운 플레이어 를 가져온다.
+	for (const auto &actor : mActors)
+	{
+		SGAActor* pEnemyActor;
+		pEnemyActor = actor.get();
+		vector<SGAActorAnddis> vecActorAndindex;
+		if (dynamic_cast<Enemy*>(pEnemyActor))
+		{
+			for (const auto &actor : mActors)
+			{
+				SGAActor* pPlayerActor;
+				pPlayerActor = actor.get();
+				if (dynamic_cast<Player*>(pPlayerActor))
+				{
+					SGAActorAnddis actorAnddis;
+
+					float dist = Vector2::Distance(pEnemyActor->GetPosition(), pPlayerActor->GetPosition());
+					actorAnddis.pActor = pPlayerActor;
+					actorAnddis.distance = dist;
+
+					vecActorAndindex.push_back(actorAnddis);
+
+				}
+			}
+
+			std::sort(vecActorAndindex.begin(), vecActorAndindex.end(),less_than_distance());
+			((Enemy*)pEnemyActor)->SetTarget(vecActorAndindex[0].pActor);
+		}
+		vecActorAndindex.clear();
+
+	}
+}
+
 E_SCENE SGAActorManager::GetScene()
 {
 	return meScene;
@@ -593,6 +650,19 @@ AttackBox * SGAActorManager::GetClassAttackBox()
 		if (typeid(*actor) == typeid(AttackBox))
 		{
 			return ((AttackBox*)(actor.get()));
+			break;
+		}
+	}
+	return nullptr;
+}
+
+MoveBox * SGAActorManager::GetClassMoveBox()
+{
+	for (auto &actor : mActors)
+	{
+		if (typeid(*actor) == typeid(MoveBox))
+		{
+			return ((MoveBox*)(actor.get()));
 			break;
 		}
 	}

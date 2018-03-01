@@ -66,19 +66,19 @@ void AttackBox::Draw()
 
 		AttackScope();
 		//mAtSeekScope = AttackScopeSeek();
-		for (int x = 0; x < vecAtScopeIndex2.size(); ++x)
+		for (int x = 0; x < mspVecAtScopeIndex.size(); ++x)
 		{
-			auto a = *vecAtScopeIndex2[x].get();
+			auto a = *mspVecAtScopeIndex[x].get();
 			Vector2 vTilePos = Vector2(
-				(*pVecTile)[*vecAtScopeIndex2[x].get()]->vPos.x + JOJOTILESX / 2,
-				(*pVecTile)[*vecAtScopeIndex2[x].get()]->vPos.y + JOJOTILESY / 2);
+				(*pVecTile)[*mspVecAtScopeIndex[x].get()]->vPos.x + JOJOTILESX / 2,
+				(*pVecTile)[*mspVecAtScopeIndex[x].get()]->vPos.y + JOJOTILESY / 2);
 			mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + vTilePos - offset, tint);
 		}
 		//타일의 위치 측정 초기화
 		(*pVecTile)[GetTileIndex(mPosition)]->AttackNum = 0;
-		for (int x = 0; x < vecAtScopeIndex2.size(); ++x)
+		for (int x = 0; x < mspVecAtScopeIndex.size(); ++x)
 		{
-			(*pVecTile)[*vecAtScopeIndex2[x].get()]->AttackNum = 0;
+			(*pVecTile)[*mspVecAtScopeIndex[x].get()]->AttackNum = 0;
 		}
 	}
 	else //if(!SGAActorManager::Instance().GetUICheckArea() && mAtVisible== false && posIndex!=mouseIndex)
@@ -100,12 +100,12 @@ void AttackBox::OnHit(SGAActor * pCollidee)
 
 void AttackBox::Release()
 {
-	vecAtScopeIndex.clear();
-	auto iter = vecAtScopeIndex2.begin();
-	while (iter != vecAtScopeIndex2.end())
+	mVecAtScopeIndex.clear();
+	auto iter = mspVecAtScopeIndex.begin();
+	while (iter != mspVecAtScopeIndex.end())
 	{
 		iter->reset();
-		iter = vecAtScopeIndex2.erase(iter);
+		iter = mspVecAtScopeIndex.erase(iter);
 	}
 }
 
@@ -147,13 +147,13 @@ void AttackBox::AttackScope()
 							{
 								(*pVecTile)[(i - 1) * (20) + j]->AttackNum = mDis - 1;
 								//vecAtScopeIndex.push_back((i - 1) * (20) + j);
-								vecAtScopeIndex2.push_back(make_unique<int>((i - 1) * (20) + j));
+								mspVecAtScopeIndex.push_back(make_unique<int>((i - 1) * (20) + j));
 							}
 							if (i + 1 < 20 && (*pVecTile)[(i + 1) * (20) + j]->AttackNum < mDis)
 							{
 								(*pVecTile)[(i + 1) * (20) + j]->AttackNum = mDis - 1;
 								//vecAtScopeIndex.push_back((i + 1) * (20) + j);
-								vecAtScopeIndex2.push_back(make_unique<int>((i + 1) * (20) + j));
+								mspVecAtScopeIndex.push_back(make_unique<int>((i + 1) * (20) + j));
 								
 							}
 
@@ -161,14 +161,14 @@ void AttackBox::AttackScope()
 							{
 								(*pVecTile)[i * (20) + (j + 1)]->AttackNum = mDis - 1;
 								//vecAtScopeIndex.push_back(i * (20) + (j + 1));
-								vecAtScopeIndex2.push_back(make_unique<int>(i * (20) + (j + 1)));
+								mspVecAtScopeIndex.push_back(make_unique<int>(i * (20) + (j + 1)));
 							}
 
 							if (j - 1 >= 0 && (*pVecTile)[i * (20) + (j - 1)]->AttackNum < mDis)
 							{
 								(*pVecTile)[i * (20) + (j - 1)]->AttackNum = mDis - 1;
 								//vecAtScopeIndex.push_back(i * (20) + (j - 1));
-								vecAtScopeIndex2.push_back(make_unique<int>(i * (20) + (j - 1)));
+								mspVecAtScopeIndex.push_back(make_unique<int>(i * (20) + (j - 1)));
 							}
 
 
@@ -194,9 +194,9 @@ bool AttackBox::AttackScopeSeek()
 
 	Vector2 vecMousePos = (*pVecTile)[mouseIndex]->vPos + XMFLOAT2(JOJOTILESX / 2, JOJOTILESY / 2);
 
-	for (int i = 0; i < vecAtScopeIndex2.size(); ++i)
+	for (int i = 0; i < mspVecAtScopeIndex.size(); ++i)
 	{
-		Vector2 vec2ScopePos = (*pVecTile)[*vecAtScopeIndex2[i]]->vPos + XMFLOAT2(JOJOTILESX / 2, JOJOTILESY / 2);
+		Vector2 vec2ScopePos = (*pVecTile)[*mspVecAtScopeIndex[i]]->vPos + XMFLOAT2(JOJOTILESX / 2, JOJOTILESY / 2);
 		if (vec2ScopePos.x == vecMousePos.x && vec2ScopePos.y == vecMousePos.y)
 			return true;
 	}

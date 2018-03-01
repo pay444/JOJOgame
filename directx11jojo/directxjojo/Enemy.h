@@ -10,15 +10,16 @@ public:
 		float moveSpeed,
 		XMFLOAT2 startpos, E_SORTID eSortID);
 	virtual E_SCENE Update(float dt);
+	virtual void Draw();
 protected:
 	XMFLOAT2 mmousePos;
-
 	unique_ptr<SGAFSM> mspFSM;
 	SGAActor* mpTarget;
 	float mfSpeed;
 	float mfDetectRange;
 	float mfAttackRange;
 	float mfAttackDelay;
+	bool mFontVisible;
 public:
 	void SetAI(float speed, float detectRange, float attackRange, float attackDelay)
 	{
@@ -28,6 +29,8 @@ public:
 		this->mfAttackDelay = attackDelay;
 	}
 	void SetTarget(SGAActor* pActor) { this->mpTarget = pActor; }
+
+	SGAActor* GetTarget() { return mpTarget; }
 	float GetDetectRange() { return mfDetectRange; }
 	float GetAttackRange() { return mfAttackRange; }
 	float GetAttackDelay() { return mfAttackDelay; }

@@ -12,8 +12,8 @@ private:
 	int mAttackDamge;	//해당 캐릭터의 공격력
 	int mCamp;			//해당 캐릭터의 진영
 	vector<XMFLOAT2> vecAtScopePos;		//범위에 해당하는 위치 저장
-	vector<int> vecAtScopeIndex;			//범위에 해당하는 타일 인덱스 저장
-	vector<unique_ptr<int>> vecAtScopeIndex2;			//범위에 해당하는 타일 인덱스2 안사라짐
+	vector<int> mVecAtScopeIndex;			//범위에 해당하는 타일 인덱스 저장
+	vector<unique_ptr<int>> mspVecAtScopeIndex;			//범위에 해당하는 타일 인덱스2 안사라짐
 	Character* mpCharacter;
 public:
 	virtual void Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible);
@@ -34,7 +34,7 @@ public:
 	int GetAttack() { return mAttackDamge; }
 	bool GetAtScopeSeek() { return mAtSeekScope; }
 	RECT GetBoundScope();
-	vector<unique_ptr<int>>* GetVecAtScopeIndex() { return &vecAtScopeIndex2; }
+	vector<unique_ptr<int>>* GetVecAtScopeIndex() { return &mspVecAtScopeIndex; }
 	vector<XMFLOAT2> GetVecAtScopePos() { return vecAtScopePos; }
 	void SetVisible(bool visible) { mAtVisible = visible; }
 };

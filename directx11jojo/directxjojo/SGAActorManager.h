@@ -40,6 +40,7 @@ public:
 	void Draw();
 	void Release();
 	void SortActors();
+	void CheckEnemyTarget();
 	
 	E_SCENE GetScene();
 	bool GetMBSeekScope();
@@ -49,6 +50,7 @@ public:
 
 	class UI *GetClassUi();
 	class AttackBox* GetClassAttackBox();
+	class MoveBox* GetClassMoveBox();
 	//Player * GetPlayer() { return nullptr; }
 
 	//void SetUiPos(XMFLOAT2 pos);

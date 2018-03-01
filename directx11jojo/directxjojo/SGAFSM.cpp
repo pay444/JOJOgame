@@ -13,11 +13,13 @@ void SGAFSM::ChangeState(int stateID)
 		DXTRACE_ERR_MSGBOX(L"can not find stateID", 0);
 		return;
 	}
-
+	
 	this->mpCurrent = result->second.get(); 
 
 	if (this->mpCurrent != NULL)
 		this->mpCurrent->Enter();
+
+	mStateID = stateID;
 }
 
 void SGAFSM::Update(float dt)

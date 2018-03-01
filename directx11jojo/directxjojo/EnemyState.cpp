@@ -9,8 +9,13 @@ void IdleState::Enter()
 void IdleState::Execute(float dt)
 {
 	//플레이어, 소유자
-	Player *pPlayer = GunGeon::Blackboard::Instance().GetPlayer();
+	//Player *pPlayer = GunGeon::Blackboard::Instance().GetPlayer();
+	//Enemy *pEnemy = (Enemy*)(this->mpFSM->GetOwner());
+
+	//플레이어, 소유자
 	Enemy *pEnemy = (Enemy*)(this->mpFSM->GetOwner());
+	Player *pPlayer = (Player*)pEnemy->GetTarget();
+
 
 	if (pPlayer == NULL || pEnemy == NULL)
 		return;
@@ -20,11 +25,11 @@ void IdleState::Execute(float dt)
 	float dist = Vector2::Distance(pPlayer->GetPosition(), pEnemy->GetPosition());
 
 	//범위 내에 플레이어 발견
-	//if (dist < pEnemy->GetDetectRange())
-	//{
-	//	//상태 전이
-	//	mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Chase);
-	//}
+	if (dist < pEnemy->GetDetectRange())
+	{
+		//상태 전이
+		mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Chase);
+	}
 
 	
 }
@@ -42,20 +47,25 @@ void ChaseState::Enter()
 void ChaseState::Execute(float dt)
 {
 	//플레이어, 소유자
-	Player *pPlayer = GunGeon::Blackboard::Instance().GetPlayer();
-	Enemy *pEnemy = (Enemy*)(this->mpFSM->GetOwner());
+	//Player *pPlayer = GunGeon::Blackboard::Instance().GetPlayer();
+	//Enemy *pEnemy = (Enemy*)(this->mpFSM->GetOwner());
 
+	//플레이어, 소유자
+	Enemy *pEnemy = (Enemy*)(this->mpFSM->GetOwner());
+	Player *pPlayer = (Player*)pEnemy->GetTarget();
 	if (pPlayer == NULL || pEnemy == NULL)
 		return;
+
 	//거리//탐지
 	float dist = Vector2::Distance(pEnemy->GetPosition(), pPlayer->GetPosition());
-	//// 사정거리 안에 돌아오면 -> Atack
+
+	// 사정거리 안에 돌아오면 -> Atack
 	//if (dist < pEnemy->GetAttackRange())
 	//{
 	//	mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Attack);
 	//	return;
 	//}
-	//// 타겟 놓침 -> Idle
+	// 타겟 놓침 -> Idle
 	//if (dist > pEnemy->GetDetectRange())
 	//{
 	//	mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Idle);

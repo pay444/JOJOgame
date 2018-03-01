@@ -117,20 +117,19 @@ void MoveBox::Draw()
 	{
 		TileScope();
 		mSeekScope = ScopeSeek();
-		for (int x = 0; x < vecScopeIndex.size(); ++x)
+		for (int x = 0; x < mspVecScopeIndex.size(); ++x)
 		{
 			Vector2 vTilePos = Vector2(
-				(*pVecTile)[vecScopeIndex[x]]->vPos.x + JOJOTILESX / 2,
-				(*pVecTile)[vecScopeIndex[x]]->vPos.y + JOJOTILESY / 2);
+				(*pVecTile)[*mspVecScopeIndex[x]]->vPos.x + JOJOTILESX / 2,
+				(*pVecTile)[*mspVecScopeIndex[x]]->vPos.y + JOJOTILESY / 2);
 			mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + vTilePos - offset, tint);
 		}
 		//타일 위치 값 초기화
 		(*pVecTile)[GetTileIndex(mPosition)]->moveNum = 0;
-		for (int x = 0; x < vecScopeIndex.size(); ++x)
+		for (int x = 0; x < mspVecScopeIndex.size(); ++x)
 		{
-			(*pVecTile)[vecScopeIndex[x]]->moveNum = 0;
+			(*pVecTile)[*mspVecScopeIndex[x]]->moveNum = 0;
 		}
-		vecScopeIndex.clear();
 	}
 	else
 	{
@@ -139,108 +138,123 @@ void MoveBox::Draw()
 
 }
 
+void MoveBox::Release()
+{
+	mVecScopeIndex.clear();
+	auto iter = mspVecScopeIndex.begin();
+	while (iter != mspVecScopeIndex.end())
+	{
+		iter->reset();
+		iter = mspVecScopeIndex.erase(iter);
+	}
+}
+
 void MoveBox::TileScope()
 {
-	float fScrollx = ScrollMgr::Instance().GetScroll().x;
-	float fScrolly = ScrollMgr::Instance().GetScroll().y;
-	auto mouse = Mouse::Get().GetState();
-	XMFLOAT2 mMousePos = XMFLOAT2(mouse.x + fScrollx, mouse.y + fScrolly);
-
-	vector<unique_ptr<TILE>> *pVecTile = SGAActorManager::Instance().GetTileInfo();
-
-	//int iIndex = 0;
-
-	//int i = 1;
-	//float Distance = 0;
-	//Vector2 vPos = mPosition;
-	//Vector2 vTilePos = XMFLOAT2(0.0f, 0.0f);
-	RECT rectScope;
-	rectScope.left = mPosition.x - mLimitDis;
-	rectScope.right = mPosition.x + mLimitDis;
-	rectScope.top = mPosition.y - mLimitDis;
-	rectScope.bottom = mPosition.y + mLimitDis;
-
-	//XMFLOAT2 fiindex = XMFLOAT2(mPosition.x + mLimitDis, mPosition + mLimitDis);
-	//int iindex = GetTileIndex(mPosition.x + mLimitDis);
-	XMFLOAT2 sLeftt = XMFLOAT2(rectScope.left, rectScope.top);
-	XMFLOAT2 sRightt = XMFLOAT2(rectScope.right, rectScope.top);
-	XMFLOAT2 sLeftb = XMFLOAT2(rectScope.left, rectScope.bottom);
-	XMFLOAT2 sRightb = XMFLOAT2(rectScope.right, rectScope.bottom);
-
-	int sLTIndex = GetTileIndex(sLeftt);
-	int sRTIndex = GetTileIndex(sRightt);
-	int sLBIndex = GetTileIndex(sLeftb);
-	int sRBIndex = GetTileIndex(sRightb);
-
-	//if (sLTIndex < 0)
-	//	sLTIndex = 0;
-	//if (sRTIndex > 400)
-	//	sRTIndex = 400;
-	//if (sLBIndex < 0)
-	//	sLBIndex = 0;
-	//if (sRBIndex > 400)
-	//	sRBIndex = 400;
-	//for (int i = 0; i < sLBIndex- sLTIndex; ++i)
-	//{
-	//	for (int j = 0; j < sRBIndex - sLBIndex; ++j)
-	//	{
-	//		if (i * (20) + j+(sLTIndex) >= 400)
-	//			break;
-	//		//if ((*pVecTile)[i * (sLTIndex) + j]->byOption == 1)
-	//		//	continue;
-	//		Vector2 vTilePos = Vector2((*pVecTile)[i * (20) + j+(sLTIndex)]->vPos.x + JOJOTILESX / 2, (*pVecTile)[i * (20) + j+(sLTIndex)]->vPos.y + JOJOTILESY / 2);
-	//		Vector2 vPos = mPosition;
-
-	//		float Distance = Vector2::Distance(vPos, vTilePos);
-
-	//		if (Distance <= mLimitDis)
-	//		{
-	//			vecScopePos.push_back(vTilePos);
-	//		}
-
-	//	}
-	//}
-	//케릭터의 위치타일에 이동거리를 넣음
-	(*pVecTile)[GetTileIndex(mPosition)]->moveNum = mMoveDistance;
-	//vecScopeIndex.push_back(GetTileIndex(mPosition));
-	for (int mDis = mMoveDistance; mDis > 0; --mDis)
+	if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	{
-		for (int i = 0; i < 20; ++i)
+		float fScrollx = ScrollMgr::Instance().GetScroll().x;
+		float fScrolly = ScrollMgr::Instance().GetScroll().y;
+		auto mouse = Mouse::Get().GetState();
+		XMFLOAT2 mMousePos = XMFLOAT2(mouse.x + fScrollx, mouse.y + fScrolly);
+
+		vector<unique_ptr<TILE>> *pVecTile = SGAActorManager::Instance().GetTileInfo();
+
+		//int iIndex = 0;
+
+		//int i = 1;
+		//float Distance = 0;
+		//Vector2 vPos = mPosition;
+		//Vector2 vTilePos = XMFLOAT2(0.0f, 0.0f);
+		RECT rectScope;
+		rectScope.left = mPosition.x - mLimitDis;
+		rectScope.right = mPosition.x + mLimitDis;
+		rectScope.top = mPosition.y - mLimitDis;
+		rectScope.bottom = mPosition.y + mLimitDis;
+
+		//XMFLOAT2 fiindex = XMFLOAT2(mPosition.x + mLimitDis, mPosition + mLimitDis);
+		//int iindex = GetTileIndex(mPosition.x + mLimitDis);
+		XMFLOAT2 sLeftt = XMFLOAT2(rectScope.left, rectScope.top);
+		XMFLOAT2 sRightt = XMFLOAT2(rectScope.right, rectScope.top);
+		XMFLOAT2 sLeftb = XMFLOAT2(rectScope.left, rectScope.bottom);
+		XMFLOAT2 sRightb = XMFLOAT2(rectScope.right, rectScope.bottom);
+
+		int sLTIndex = GetTileIndex(sLeftt);
+		int sRTIndex = GetTileIndex(sRightt);
+		int sLBIndex = GetTileIndex(sLeftb);
+		int sRBIndex = GetTileIndex(sRightb);
+
+		//if (sLTIndex < 0)
+		//	sLTIndex = 0;
+		//if (sRTIndex > 400)
+		//	sRTIndex = 400;
+		//if (sLBIndex < 0)
+		//	sLBIndex = 0;
+		//if (sRBIndex > 400)
+		//	sRBIndex = 400;
+		//for (int i = 0; i < sLBIndex- sLTIndex; ++i)
+		//{
+		//	for (int j = 0; j < sRBIndex - sLBIndex; ++j)
+		//	{
+		//		if (i * (20) + j+(sLTIndex) >= 400)
+		//			break;
+		//		//if ((*pVecTile)[i * (sLTIndex) + j]->byOption == 1)
+		//		//	continue;
+		//		Vector2 vTilePos = Vector2((*pVecTile)[i * (20) + j+(sLTIndex)]->vPos.x + JOJOTILESX / 2, (*pVecTile)[i * (20) + j+(sLTIndex)]->vPos.y + JOJOTILESY / 2);
+		//		Vector2 vPos = mPosition;
+
+		//		float Distance = Vector2::Distance(vPos, vTilePos);
+
+		//		if (Distance <= mLimitDis)
+		//		{
+		//			vecScopePos.push_back(vTilePos);
+		//		}
+
+		//	}
+		//}
+		//케릭터의 위치타일에 이동거리를 넣음
+		(*pVecTile)[GetTileIndex(mPosition)]->moveNum = mMoveDistance;
+		//vecScopeIndex.push_back(GetTileIndex(mPosition));
+		for (int mDis = mMoveDistance; mDis > 0; --mDis)
 		{
-			for (int j = 0; j < 20; ++j)
+			for (int i = 0; i < 20; ++i)
 			{
-				if ((*pVecTile)[i * (20) + j]->moveNum == mDis)
+				for (int j = 0; j < 20; ++j)
 				{
-					if ((*pVecTile)[i * (20) + j]->moveNum > 0)
+					if ((*pVecTile)[i * (20) + j]->moveNum == mDis)
 					{
-						if (i - 1 >= 0 && (*pVecTile)[(i - 1) * (20) + j]->moveNum < mDis && (*pVecTile)[(i - 1) * (20) + j]->byOption != 1)
+						if ((*pVecTile)[i * (20) + j]->moveNum > 0)
 						{
-							(*pVecTile)[(i - 1) * (20) + j]->moveNum = mDis - 1;
-							vecScopeIndex.push_back((i - 1) * (20) + j);
-						}
-						if (i + 1 < 20 && (*pVecTile)[(i + 1) * (20) + j]->moveNum < mDis && (*pVecTile)[(i + 1) * 20 + j]->byOption != 1)
-						{
-							(*pVecTile)[(i + 1) * (20) + j]->moveNum = mDis - 1;
-							vecScopeIndex.push_back((i + 1) * (20) + j);
-						}
+							if (i - 1 >= 0 && (*pVecTile)[(i - 1) * (20) + j]->moveNum < mDis && (*pVecTile)[(i - 1) * (20) + j]->byOption != 1)
+							{
+								(*pVecTile)[(i - 1) * (20) + j]->moveNum = mDis - 1;
+								mspVecScopeIndex.push_back(make_unique<int>((i - 1) * (20) + j));
+							}
+							if (i + 1 < 20 && (*pVecTile)[(i + 1) * (20) + j]->moveNum < mDis && (*pVecTile)[(i + 1) * 20 + j]->byOption != 1)
+							{
+								(*pVecTile)[(i + 1) * (20) + j]->moveNum = mDis - 1;
+								mspVecScopeIndex.push_back(make_unique<int>((i + 1) * (20) + j));
+							}
 
-						if (j + 1 < 20 && (*pVecTile)[i * (20) + (j + 1)]->moveNum < mDis && (*pVecTile)[i * 20 + (j + 1)]->byOption != 1)
-						{
-							(*pVecTile)[i * (20) + (j + 1)]->moveNum = mDis - 1;
-							vecScopeIndex.push_back(i * (20) + (j + 1));
+							if (j + 1 < 20 && (*pVecTile)[i * (20) + (j + 1)]->moveNum < mDis && (*pVecTile)[i * 20 + (j + 1)]->byOption != 1)
+							{
+								(*pVecTile)[i * (20) + (j + 1)]->moveNum = mDis - 1;
+								mspVecScopeIndex.push_back(make_unique<int>(i * (20) + (j + 1)));
+							}
+
+							if (j - 1 >= 0 && (*pVecTile)[i * (20) + (j - 1)]->moveNum < mDis && (*pVecTile)[i * 20 + (j - 1)]->byOption != 1)
+							{
+								(*pVecTile)[i * (20) + (j - 1)]->moveNum = mDis - 1;
+								mspVecScopeIndex.push_back(make_unique<int>(i * (20) + (j - 1)));
+							}
+
+
 						}
-
-						if (j - 1 >= 0 && (*pVecTile)[i * (20) + (j - 1)]->moveNum < mDis && (*pVecTile)[i * 20 + (j - 1)]->byOption != 1)
-						{
-							(*pVecTile)[i * (20) + (j - 1)]->moveNum = mDis - 1;
-							vecScopeIndex.push_back(i * (20) + (j - 1));
-						}
-
-
 					}
 				}
 			}
 		}
+
 	}
 	//절대값 다이아 몬드 모양으로 하는방법
 	/*
@@ -441,9 +455,9 @@ bool MoveBox::ScopeSeek()
 	//}
 	Vector2 vecMousePos = (*pVecTile)[mouseIndex]->vPos + XMFLOAT2(JOJOTILESX / 2, JOJOTILESY / 2);
 
-	for (int i = 0; i < vecScopeIndex.size(); ++i)
+	for (int i = 0; i < mspVecScopeIndex.size(); ++i)
 	{
-		Vector2 vec2ScopePos = (*pVecTile)[vecScopeIndex[i]]->vPos + XMFLOAT2(JOJOTILESX / 2, JOJOTILESY / 2);
+		Vector2 vec2ScopePos = (*pVecTile)[*mspVecScopeIndex[i]]->vPos + XMFLOAT2(JOJOTILESX / 2, JOJOTILESY / 2);
 		if (vec2ScopePos.x == vecMousePos.x && vec2ScopePos.y == vecMousePos.y)
 			return true;
 	}
