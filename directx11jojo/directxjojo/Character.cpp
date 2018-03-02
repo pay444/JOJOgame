@@ -92,6 +92,7 @@ E_SCENE Character::Update(float dt)
 		else
 		{
 			mVisbleScope = false;
+			//SGAActorManager::Instance().SetClickCount(0)
 			//SGAActorManager::Instance().SetMBVisible(mVisbleScope);
 			//mpMoveBox->SetVisible(mVisbleScope);	
 		}
@@ -333,6 +334,13 @@ bool Character::JoAStar_Move(float dt)
 
 			SGAActorManager::Instance().GetClassAttackBox()->SetPosition(mPosition);
 			SGAActorManager::Instance().GetClassAttackBox()->SetVisible(true);
+
+			SGAActorManager::Instance().SetMBVisible(false);
+			//SGAActorManager::Instance().SetClickCount(0);
+		}
+		if (GetCamp() == GunGeon::CampType::MONSTER)
+		{
+			SGAActorManager::Instance().GetClassAttackBox()->SetVisible(false);
 
 			SGAActorManager::Instance().SetMBVisible(false);
 		}

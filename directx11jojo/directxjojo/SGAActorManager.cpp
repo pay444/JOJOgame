@@ -265,6 +265,7 @@ void SGAActorManager::RePosAndVisiMB()
 								if (posIndex != posIndex2)
 								{
 									((MoveBox *)actor.get())->Release();
+									//mClickCount = 0;
 								}
 
 								actor->SetPosition(pos);
@@ -291,6 +292,7 @@ void SGAActorManager::RePosAndVisiMB()
 							((AttackBox *)actor.get())->Release();
 
 							((MoveBox *)actor.get())->SetVisible(visible);
+
 							break;
 						}
 					}

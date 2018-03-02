@@ -64,7 +64,10 @@ void AttackBox::Draw()
 		Vector2 mousePos = Vector2(mouse.x + fScrollx, mouse.y + fScrolly);
 		mouseIndex =GetTileIndex(mousePos);
 
-		AttackScope();
+		if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+		{
+			AttackScope();
+		}
 		//mAtSeekScope = AttackScopeSeek();
 		for (int x = 0; x < mspVecAtScopeIndex.size(); ++x)
 		{
@@ -120,8 +123,7 @@ bool AttackBox::IntersecRectScope(SGAActor * pActor)
 
 void AttackBox::AttackScope()
 {
-	if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
-	{
+
 		float fScrollx = ScrollMgr::Instance().GetScroll().x;
 		float fScrolly = ScrollMgr::Instance().GetScroll().y;
 		auto mouse = Mouse::Get().GetState();
@@ -178,7 +180,7 @@ void AttackBox::AttackScope()
 			}
 		}
 
-	}
+	
 }
 
 bool AttackBox::AttackScopeSeek()

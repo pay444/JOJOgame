@@ -115,7 +115,10 @@ void MoveBox::Draw()
 
 	if (mVisible)
 	{
-		TileScope();
+		if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+		{
+			TileScope();
+		}
 		mSeekScope = ScopeSeek();
 		for (int x = 0; x < mspVecScopeIndex.size(); ++x)
 		{
@@ -140,7 +143,15 @@ void MoveBox::Draw()
 
 void MoveBox::Release()
 {
+	vector<unique_ptr<TILE>> *pVecTile = SGAActorManager::Instance().GetTileInfo();
+
 	mVecScopeIndex.clear();
+	//타일 위치 값 초기화
+	(*pVecTile)[GetTileIndex(mPosition)]->moveNum = 0;
+	for (int x = 0; x < mspVecScopeIndex.size(); ++x)
+	{
+		(*pVecTile)[*mspVecScopeIndex[x]]->moveNum = 0;
+	}
 	auto iter = mspVecScopeIndex.begin();
 	while (iter != mspVecScopeIndex.end())
 	{
@@ -151,8 +162,8 @@ void MoveBox::Release()
 
 void MoveBox::TileScope()
 {
-	if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
-	{
+	//if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+	//{
 		float fScrollx = ScrollMgr::Instance().GetScroll().x;
 		float fScrolly = ScrollMgr::Instance().GetScroll().y;
 		auto mouse = Mouse::Get().GetState();
@@ -255,7 +266,7 @@ void MoveBox::TileScope()
 			}
 		}
 
-	}
+	//}
 	//절대값 다이아 몬드 모양으로 하는방법
 	/*
 	for (int i = sLTIndex; i < sRBIndex; i+=11)

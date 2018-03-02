@@ -96,6 +96,10 @@ E_SCENE Player::Update(float dt)
 
 	auto state = Keyboard::Get().GetState();
 
+	if (state.R)
+	{
+		mActionTurn = 0;
+	}
 	if (state.D2)
 		meScene = E_SCENE_LOGO;
 	else if (state.D3)
@@ -160,7 +164,7 @@ void Player::UpdateMove(float dt)
 		float distance = Vector2::Distance(vecPos, vecMousePos);
 
 		//마우스와 케릭터간 거리에따른 이동 가능
-		if ((distance <= limitDistance&&mVisbleScope))//
+		if ((mVisbleScope))//distance <= limitDistance&&
 		{
 			//해당범위에 해당해야 알고리즘 시작
 			if (SGAActorManager::Instance().GetMBSeekScope() && mActionTurn < 1)//MoveBox::Instance().GetSeekScope()
@@ -184,7 +188,11 @@ void Player::UpdateMove(float dt)
 	//	mvForward = { 0.f,0.f };
 
 	//실질적인 이동
-	JoAStar_Move(dt);
+	if (mActionTurn < 1)
+	{
+		JoAStar_Move(dt);
+	}
+	
 	if (SGAFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	{
 		//SGAActorManager::Instance().SetMBVisible(false);
@@ -207,12 +215,9 @@ void Player::UpdateMove(float dt)
 	}
 
 
-	auto state = Keyboard::Get().GetState();
+	//auto state = Keyboard::Get().GetState();
 
-	if (state.R)
-	{
-		mActionTurn = 0;
-	}
+
 	//JoAstar_Start(mPosition)
 
 	//this->mPosition = mPosition + (mvForward * this->mfMoveSpeed * dt);

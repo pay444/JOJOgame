@@ -60,7 +60,7 @@ void AStar::MakeRoute()
 		if(존재하는 타일이냐?,
 		갈수 있는 타일이냐?,
 		이미조사했거나,
-		오픈리스트에 추가되있는 녀석 제hh외)
+		오픈리스트에 추가되있는 녀석 제외)
 		*/
 		// 위
 		iIndex = pParent2->iIndex - JOJOCX;

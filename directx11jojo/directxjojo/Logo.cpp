@@ -51,7 +51,7 @@ HRESULT Logo::Initialize(SpriteBatch* spriteBatch, SpriteFont* spriteFont)
 
 	Jojo *m2pPlayer;
 	m2pPlayer = SGAActorManager::Instance().Create<Jojo>(spriteBatch, pSheet, spriteFont);
-	m2pPlayer->Init(500.0f, XMFLOAT2((24.0f), 24.0f), E_SORTID_FIRST, 200.0f);
+	m2pPlayer->Init(500.0f, XMFLOAT2((72.0f), 72.0f), E_SORTID_FIRST, 200.0f);
 	m2pPlayer->SetStaus(100, 10, 5,2);
 	//mpPlayer->SetScene(mLogoScene);
 
