@@ -82,7 +82,12 @@ E_SCENE Player::Update(float dt)
 
 	Character::Update(dt);
 
-	UpdateMove(dt);
+	//현재 플레이어의 턴일때 true 일때 이동가능
+	if (SGAActorManager::Instance().GetTurn())
+	{
+		UpdateMove(dt);
+	}
+	
 
 	MoveStateCheck();
 

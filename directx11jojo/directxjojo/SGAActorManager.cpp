@@ -31,18 +31,21 @@ E_SCENE SGAActorManager::Update(float dt)
 
 	}
 
+	//가장 가까운 플레이어가 누구인지 측정후 에너미의 타겟 설정
 	CheckEnemyTarget();
 
 
 	if (!mUiCheck)
 	{
-		//클릭한 해당놈의 위치와 보여주는 여부를 무브 박스 에게 넘겨줌
+		//클릭한 해당놈의 위치와 보여주는 여부를 넘겨줌
 		RePosAndVisiMB();
 		
 		RePosAndVisiAt();
 
-		//클릭한 해당놈의의 위치와 보여주는 여부를 UI에게 넘겨줌
-		RePosAndVisiUI();
+		if (mTurn)
+		{
+			RePosAndVisiUI();
+		}
 	}
 
 	CheckAction();
@@ -85,6 +88,10 @@ E_SCENE SGAActorManager::Update(float dt)
 		mUiCheck = false;
 		mTurn = true;
 		//mActionTurn = 0;
+	}
+	if (state.T)
+	{
+		mTurn = false;
 	}
 
 

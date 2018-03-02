@@ -25,7 +25,7 @@ void IdleState::Execute(float dt)
 	float dist = Vector2::Distance(pPlayer->GetPosition(), pEnemy->GetPosition());
 
 	//범위 내에 플레이어 발견
-	if (dist < pEnemy->GetDetectRange())
+	if (dist < pEnemy->GetDetectRange() && !SGAActorManager::Instance().GetTurn())
 	{
 		//상태 전이
 		mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Chase);
@@ -58,6 +58,12 @@ void ChaseState::Execute(float dt)
 
 	//거리//탐지
 	float dist = Vector2::Distance(pEnemy->GetPosition(), pPlayer->GetPosition());
+
+	//턴이 플레이어 일때 정지 상태로 변경
+	if (SGAActorManager::Instance().GetTurn())
+	{
+		mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Idle);
+	}
 
 	// 사정거리 안에 돌아오면 -> Atack
 	//if (dist < pEnemy->GetAttackRange())
@@ -93,6 +99,13 @@ void AttackState::Execute(float dt)
 	Player* pPlayer = GunGeon::Blackboard::Instance().GetPlayer();
 
 	mfElapsedTime += dt;
+
+	//턴이 플레이어 일때 정지 상태로 변경
+	if (SGAActorManager::Instance().GetTurn())
+	{
+		mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Idle);
+		mfElapsedTime = 0;
+	}
 
 	//if (mfElapsedTime > pOwner->GetAttackDelay())
 	//{

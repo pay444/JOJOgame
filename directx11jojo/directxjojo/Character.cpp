@@ -209,7 +209,7 @@ void Character::MoveStateCheck()
 		mAnimName2 = "UP";
 		SetAnimation(mAnimName2);
 	}
-	//아래 변경
+	//아래 애니매이션 변경
 	else if (mPosition.y <
 		(*pVecTile)[iDestinationIdx]->vPos.y)// + JOJOTILESY / 2 - JOJOTILESY / 2)
 	{

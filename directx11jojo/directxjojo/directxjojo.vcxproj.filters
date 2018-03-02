@@ -75,9 +75,6 @@
     <ClInclude Include="directxjojo.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="SGAActor.h">
-      <Filter>SGAFrameWork</Filter>
-    </ClInclude>
     <ClInclude Include="SGAActorManager.h">
       <Filter>SGAFrameWork</Filter>
     </ClInclude>
@@ -165,6 +162,9 @@
     <ClInclude Include="EnemyState.h">
       <Filter>04.AI</Filter>
     </ClInclude>
+    <ClInclude Include="SGAActor.h">
+      <Filter>SGAFrameWork</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -172,9 +172,6 @@
     </ClCompile>
     <ClCompile Include="directxjojo.cpp">
       <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SGAActor.cpp">
-      <Filter>SGAFrameWork</Filter>
     </ClCompile>
     <ClCompile Include="SGAActorManager.cpp">
       <Filter>SGAFrameWork</Filter>
@@ -256,6 +253,9 @@
     </ClCompile>
     <ClCompile Include="EnemyState.cpp">
       <Filter>04.AI</Filter>
+    </ClCompile>
+    <ClCompile Include="SGAActor.cpp">
+      <Filter>SGAFrameWork</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
