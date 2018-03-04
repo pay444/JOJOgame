@@ -343,6 +343,9 @@ bool Character::JoAStar_Move(float dt)
 			SGAActorManager::Instance().GetClassAttackBox()->SetVisible(false);
 
 			SGAActorManager::Instance().SetMBVisible(false);
+
+			SGAActorManager::Instance().GetClassMoveBox()->Release();
+			SGAActorManager::Instance().GetClassAttackBox()->Release();
 		}
 	}
 	mVisbleScope = false;

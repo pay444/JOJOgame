@@ -22,7 +22,8 @@ public:
 	virtual void OnHit(SGAActor* pCollidee);
 	void Release();
 
-	bool IntersecRectScope(SGAActor* pActor);
+	bool UIntersecRectScope(SGAActor* pActor);
+	bool AIIntersecRectScope(SGAActor* pActor);
 	void AttackScope();
 	bool AttackScopeSeek();
 	void SetAttackDis(int AttackDis) { mAttackDistance = AttackDis; }
@@ -34,6 +35,7 @@ public:
 	int GetAttack() { return mAttackDamge; }
 	bool GetAtScopeSeek() { return mAtSeekScope; }
 	RECT GetBoundScope();
+	RECT GetAtBoundScope(int i);
 	vector<unique_ptr<int>>* GetVecAtScopeIndex() { return &mspVecAtScopeIndex; }
 	vector<XMFLOAT2> GetVecAtScopePos() { return vecAtScopePos; }
 	void SetVisible(bool visible) { mAtVisible = visible; }

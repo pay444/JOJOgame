@@ -25,6 +25,7 @@ private:
 private:
 	int mClickCount;
 	int posIndex2;
+	int posIndex3;
 	bool mUiCheck;
 	bool mTurn;
 	bool mActionAter;

@@ -263,10 +263,15 @@ void World::Draw()
 				mpBatch->Draw(mpTileTexture, mWorldPos + mPosition , &src);
 				if(visible)
 				{
-					wchar_t wch[5];
+					wchar_t wch[64];
 					//swprintf_s(wch, L"%d", index);
 					swprintf_s(wch, L"%d", index);//mTileInfo[index]->underObject
 					mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition), DirectX::Colors::Black, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+					
+					int x = mTileInfo[index]->vPos.x;
+					int y = mTileInfo[index]->vPos.y;
+					swprintf_s(wch, L"x=%d \n y=%d",x , y);
+					mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-10.0f, 10.0f)), DirectX::Colors::Black, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.4f, 0.4f));
 				}
 			}
 		}

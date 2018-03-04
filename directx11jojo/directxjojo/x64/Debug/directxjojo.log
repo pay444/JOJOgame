@@ -1,10 +1,2 @@
 ﻿  EnemyState.cpp
-  AttackBox.cpp
-c:\users\hi\source\repos\jojogame\directx11jojo\directxjojo\attackbox.cpp(55): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\hi\source\repos\jojogame\directx11jojo\directxjojo\attackbox.cpp(56): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\hi\source\repos\jojogame\directx11jojo\directxjojo\attackbox.cpp(148): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\hi\source\repos\jojogame\directx11jojo\directxjojo\attackbox.cpp(154): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\hi\source\repos\jojogame\directx11jojo\directxjojo\attackbox.cpp(162): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\hi\source\repos\jojogame\directx11jojo\directxjojo\attackbox.cpp(169): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-  코드를 생성하고 있습니다...
   directxjojo.vcxproj -> C:\Users\hi\Source\Repos\JOJOgame\directx11jojo\x64\Debug\directxjojo.exe

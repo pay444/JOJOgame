@@ -93,6 +93,10 @@ E_SCENE SGAActorManager::Update(float dt)
 	{
 		mTurn = false;
 	}
+	if (state.Y)
+	{
+		mTurn = true;
+	}
 
 
 
@@ -157,6 +161,7 @@ void SGAActorManager::CheckAction()
 		{
 			auto vecAtIndex = SGAActorManager::Instance().GetvecAtScopeIndex();
 
+			//auto a = vecAtIndex[0];
 			for (const auto &actor : mActors)
 			{
 				pCollider = actor.get();
@@ -168,7 +173,7 @@ void SGAActorManager::CheckAction()
 						for (const auto &actor : mActors)
 						{
 							pCollidee = actor.get();
-							if (((AttackBox*)pCollider)->IntersecRectScope(pCollidee) &&
+							if (((AttackBox*)pCollider)->UIntersecRectScope(pCollidee) &&
 								dynamic_cast<Character*>(pCollidee))
 							{
 
@@ -262,7 +267,7 @@ void SGAActorManager::RePosAndVisiMB()
 									mClickCount++;
 								}
 
-								if (posIndex != posIndex2)
+								if (posIndex != posIndex3)
 								{
 									((MoveBox *)actor.get())->Release();
 									//mClickCount = 0;
@@ -273,7 +278,7 @@ void SGAActorManager::RePosAndVisiMB()
 								((MoveBox *)actor.get())->SetMoveDis(movedis);
 								((MoveBox *)actor.get())->SetVisible(visible);
 
-								posIndex2 = posIndex;
+								posIndex3 = posIndex;
 								break;
 							}
 

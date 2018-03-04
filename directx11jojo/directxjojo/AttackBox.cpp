@@ -112,13 +112,30 @@ void AttackBox::Release()
 	}
 }
 
-bool AttackBox::IntersecRectScope(SGAActor * pActor)
+bool AttackBox::UIntersecRectScope(SGAActor * pActor)
 {
 
 	RECT src = GetBoundScope();
 	RECT trg = pActor->GetBound();
 	RECT intersect;
 	return	::IntersectRect(&intersect, &src, &trg);
+}
+
+bool AttackBox::AIIntersecRectScope(SGAActor * pActor)
+{
+	for (int i = 0; i < mspVecAtScopeIndex.size(); ++i)
+	{
+		RECT src = GetAtBoundScope(i);
+		RECT trg = pActor->GetBound();
+		RECT intersect;
+
+		if (::IntersectRect(&intersect, &src, &trg) == true)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void AttackBox::AttackScope()
@@ -228,6 +245,26 @@ RECT AttackBox::GetBoundScope()
 				static_cast<int>(vec2MousePos.x - mpSpriteFrame->pivot.x) - rct.left,
 				static_cast<int>(vec2MousePos.y - mpSpriteFrame->pivot.y) - rct.top);
 		}
+	}
+	return rct;
+}
+
+RECT AttackBox::GetAtBoundScope(int i)
+{
+	RECT rct;
+	ZeroMemory(&rct, sizeof(RECT));
+	float fScrollx = ScrollMgr::Instance().GetScroll().x;
+	float fScrolly = ScrollMgr::Instance().GetScroll().y;
+	vector<unique_ptr<TILE>> *pVecTile = SGAActorManager::Instance().GetTileInfo();
+
+	Vector2 vec2ScopePos = (*pVecTile)[*mspVecAtScopeIndex[i]]->vPos + XMFLOAT2(JOJOTILESX / 2, JOJOTILESY / 2);
+
+	if (mpSpriteFrame != NULL)
+	{
+		rct = mpSpriteFrame->sourceRect;
+		OffsetRect(&rct,
+			static_cast<int>(vec2ScopePos.x - mpSpriteFrame->pivot.x) - rct.left,
+			static_cast<int>(vec2ScopePos.y - mpSpriteFrame->pivot.y) - rct.top);
 	}
 	return rct;
 }
