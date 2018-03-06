@@ -24,16 +24,20 @@ private:
 	E_SCENE meScene;
 private:
 	int mClickCount;
-	int posIndex2;
-	int posIndex3;
-	bool mUiCheck;
-	bool mTurn;
-	bool mActionAter;
+	int posIndex2;	//어택 박스 의 삭제에 영향을주는 위치변수
+	int posIndex3;	//무브 박스 의 삭제에 영향을주는 위치변수
+	int mPlayerCount;	//플레이어가 몇명있는지
+	int mEnemyCount;	//에너미가 몇명있는지
+	int mEndTrunPlayerCount;	//턴종료된 플레이어가 몇명인지
+	int mEndTurnEnemyCount;		//턴종료되 적이 몇명인지
+	bool mUiCheck;	//ui공격버튼이 눌렷는지에 대한여부
+	bool mTurn;		//전체 턴제어
 	XMFLOAT2 tmpPos;
 public:
 	E_SCENE Update(float dt);
 	void CheckCollidion();
 	void CheckAction();
+	void CheckAllActionTurn();
 	void RePosAndVisiMB();
 	void RePosAndVisiUI();
 	void RePosAndVisiAt();
@@ -73,6 +77,16 @@ public:
 				new T(forward<Types>(args)...)	//생성자에 들어가는 파라미터값
 				)
 		);
+		// 플레이어가 몇명인지
+		if (dynamic_cast<Player*>(mActors.back().get()))
+		{
+			mPlayerCount++;
+		}
+		//에너미가 몇명인지
+		else if (dynamic_cast<Enemy*>(mActors.back().get()))
+		{
+			mEnemyCount++;
+		}
 		return dynamic_cast<T*>(mActors.back().get());
 	}
 public:

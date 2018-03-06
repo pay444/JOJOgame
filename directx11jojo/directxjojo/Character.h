@@ -107,13 +107,15 @@ protected:
 	int mAttack;
 	int mStartIndex;
 	bool mVisbleScope; //이동 범위를 보여줄지 안보여줄지 결정
-	char * mAnimName;	//애니메이션 상태를 저장할 변수
+	char * mAnimName;	//애니메이션 공격 상태를 저장할 변수
 	char * mAnimName2;	//애니메이션 상태를 저장할 변수
 	float limitDistance; //이동거리한계
 	int mMoveDistance;	//이동거리
 	int mAttackDistance; //근접공격거리
 	int mActionTurn;	//행동 턴
-	bool mFontVisible;
+	bool mFontVisible;	// 폰트 보여주는 여부
+	Color mColor;		//턴종료시 그레이로 바꿔줌
+	bool mColorAllow;	//색깔 바꿔주는 여부
 
 						//MoveBox *mpMoveBox;
 public:
@@ -126,7 +128,10 @@ public:
 		//mpMoveBox->SetMoveDis(mMoveDistance);
 	}
 	void SetActionTurn(int actionTurn) { mActionTurn = actionTurn; }
+	void SetColor(Color color) { mColor = color; }
+	void SetColorAllow(bool colorBool) { mColorAllow = colorBool; }
 
+	bool GetColorAllow() { return mColorAllow; }
 	int GetHealth() { return mHealth; }
 	int GetAttack() { return mAttack; }
 	int GetMoveDistance() { return mMoveDistance; }

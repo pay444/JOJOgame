@@ -10,7 +10,9 @@ Character::Character()
 
 Character::Character(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * pFont)
 	: SGAActor(pBatch, pSheet, pFont),
-	mFontVisible(false)
+	mFontVisible(false),
+	mColor(Colors::White),
+	mColorAllow(false)
 {
 	InitEffect();
 	mStartIndex = 0;
@@ -116,7 +118,7 @@ void Character::Draw()
 {
 	XMFLOAT2 offset = XMFLOAT2(0, 0);
 	Color tint = Colors::White;
-
+	
 	//offset = Vector2(0.0f, 0.0f);
 	//float speed = 48;
 
@@ -143,7 +145,28 @@ void Character::Draw()
 
 	offset.x += (int)ScrollMgr::Instance().GetScroll().x;
 	offset.y += (int)ScrollMgr::Instance().GetScroll().y;
-	SetAnimation(mAnimName2);
+
+	//공격 모션후 색깔 딜레이주기
+	if (mfActionElapsedTime > 0.5f)
+	{
+		SetAnimation(mAnimName2);
+		if (mColorAllow && mActionTurn >= 2)
+		{
+			mColorAllow = false;
+			mColor = Colors::Gray;
+			//tint = mColor;
+		}
+		else if(mActionTurn < 2)
+		{
+			mColor = Colors::White;
+		}
+		mfActionElapsedTime = 0.0f;
+	}
+
+	if (mActionTurn >= 2)
+	{
+		tint = mColor;
+	}
 
 	mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + mPosition - offset, tint);
 
@@ -173,7 +196,16 @@ void Character::OnHit(SGAActor * pCollider, SGAActor * pCollidee)
 {
 	if (this->GetCamp() != pCollidee->GetCamp())
 	{
+
+
 		((Character*)pCollidee)->SetActionTurn(2);
+		//때린놈의 색깔을 바꿔준다.
+		((Character*)pCollidee)->SetColorAllow(true);
+		//Color color = Colors::Gray;
+		//((Character*)pCollidee)->SetColor(color);
+		//때린놈 행동 시간 초기화
+		pCollidee->SetActionTime(0.0f);
+
 		//mActionTurn++;
 		DoDamage(pCollider);
 	}

@@ -31,12 +31,33 @@ void Jojo::Init(float moveSpeed, XMFLOAT2 startpos, E_SORTID eSortID, float limi
 		{ "UP", 2,{ { "jojoTWalk0", 0.3f },
 		{ "jojoTWalk1", 0.3f }, }
 		},
+		{ "DATTACK", 4,{ { "jojoAttack0", 0.1f },
+		{ "jojoAttack1", 0.1f },
+		{ "jojoAttack2", 0.1f } ,
+		{ "jojoAttack3", 0.1f } }
+		},
+		{ "UATTACK", 4,{ { "jojoAttack4", 0.1f },
+		{ "jojoAttack5", 0.1f },
+		{ "jojoAttack6", 0.1f } ,
+		{ "jojoAttack7", 0.1f } } 
+		},
+		{ "RATTACK", 4,{ { "jojoAttack8", 0.1f },
+		{ "jojoAttack9", 0.1f },
+		{ "jojoAttack10", 0.1f } ,
+		{ "jojoAttack11", 0.1f } }
+		},
+		{ "LATTACK", 4,{ { "jojoAttack12", 0.1f },
+		{ "jojoAttack13", 0.1f },
+		{ "jojoAttack14", 0.1f } ,
+		{ "jojoAttack15", 0.1f } }
+		},
+
 	};
 	limitDistance = limitdis;
 
 	SetCamp(GunGeon::CampType::PLAYER);
 
-	SGAActor::Init(anim, 4, eSortID);
+	SGAActor::Init(anim, 8, eSortID);
 
 	Player::Init(moveSpeed, startpos, eSortID);
 
@@ -48,7 +69,6 @@ E_SCENE Jojo::Update(float dt)
 	Player::Update(dt);
 
 	//auto state = Keyboard::Get().GetState();
-
 	//if (state.D2)
 	//	meScene = E_SCENE_LOGO;
 	//else if (state.D3)

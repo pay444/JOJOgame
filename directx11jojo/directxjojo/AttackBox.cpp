@@ -86,6 +86,12 @@ void AttackBox::Draw()
 	}
 	else //if(!SGAActorManager::Instance().GetUICheckArea() && mAtVisible== false && posIndex!=mouseIndex)
 	{
+		//타일의 위치 측정 초기화
+		(*pVecTile)[GetTileIndex(mPosition)]->AttackNum = 0;
+		for (int x = 0; x < mspVecAtScopeIndex.size(); ++x)
+		{
+			(*pVecTile)[*mspVecAtScopeIndex[x].get()]->AttackNum = 0;
+		}
 		//vecAtScopeIndex.clear();
 		//Release();
 		//mAtSeekScope = false;
@@ -127,6 +133,10 @@ bool AttackBox::AIIntersecRectScope(SGAActor * pActor)
 	{
 		RECT src = GetAtBoundScope(i);
 		RECT trg = pActor->GetBound();
+		trg.left += 10;
+		trg.right -= 10;
+		trg.top += 10;
+		trg.bottom -= 10;
 		RECT intersect;
 
 		if (::IntersectRect(&intersect, &src, &trg) == true)

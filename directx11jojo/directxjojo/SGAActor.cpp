@@ -7,6 +7,7 @@ SGAActor::SGAActor() :
 	mFrames(NULL),
 	mpSpriteFrame(NULL),
 	mfElapsedTime(0.0f),
+	mfActionElapsedTime(0.0f),
 	mPosition(0.0f, 0.0f),
 	mWorldPos(0.0f,0.0f),
 	mbDestroyed(false),
@@ -81,6 +82,7 @@ E_SCENE SGAActor::Update(float dt)
 		return E_SCENE_NONPASS;
 
 	mfElapsedTime += dt;
+	mfActionElapsedTime += dt;
 
 	if (mFrames == NULL)
 		return E_SCENE_NONPASS;

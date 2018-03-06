@@ -32,6 +32,7 @@ protected:
 	vector<FrameInfo>::iterator mCurFrame;
 	const SpriteFrame*			mpSpriteFrame;
 	float						mfElapsedTime;
+	float						mfActionElapsedTime;
 	E_SCENE			meScene;
 
 protected:
@@ -70,7 +71,9 @@ public:
 	}
 	virtual int GetCamp() { return mCamp; }
 	virtual void SetCamp(int camp) { mCamp = camp; }
+	void SetActionTime(float time) { mfActionElapsedTime = time; }
 
+	float GetActionTime() { return mfActionElapsedTime; }
 	int GetTileIndex(const Vector2 vPos);
 	bool CollisionMouseToTile(const Vector2 vPos, const TILE* pTileInfo);
 };

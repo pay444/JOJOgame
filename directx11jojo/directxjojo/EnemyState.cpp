@@ -67,10 +67,14 @@ void IdleState::Execute(float dt)
 		SGAActorManager::Instance().GetClassMoveBox()->TileScope();
 		SGAActorManager::Instance().GetClassMoveBox()->SetVisible(true);
 
+		//적의 어텍박스 위치를 바꿔줌
 		SGAActorManager::Instance().GetClassAttackBox()->SetPosition(pEnemy->GetPosition());
 		SGAActorManager::Instance().GetClassAttackBox()->SetAttackDis(pEnemy->GetAttackDistance());
 		SGAActorManager::Instance().GetClassAttackBox()->AttackScope();
-		SGAActorManager::Instance().GetClassAttackBox()->SetVisible(true);
+		SGAActorManager::Instance().GetClassAttackBox()->SetVisible(true);	
+		SGAActorManager::Instance().GetClassAttackBox()->SetCharacter(pEnemy);
+		SGAActorManager::Instance().GetClassAttackBox()->SetAttackDamge
+		(SGAActorManager::Instance().GetClassAttackBox()->GetCharacter()->GetAttack());
 
 		//정지도중에도 공격범위 안에 들어오면 
 		if (SGAActorManager::Instance().GetClassAttackBox()->AIIntersecRectScope(pPlayer))
@@ -203,7 +207,8 @@ void ChaseState::Execute(float dt)
 		}
 		else
 		{
-			//충돌이 안되었다면 상태변경 ->Idle
+			//충돌이 안되었다면 행동턴 종료후 상태변경 ->Idle
+			pEnemy->SetActionTurn(2);
 			SGAActorManager::Instance().GetClassAttackBox()->SetVisible(false);
 			mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Idle);
 		}
@@ -264,12 +269,13 @@ void AttackState::Execute(float dt)
 		mfElapsedTime = 0;
 	}
 
-	if (pEnemy->GetActionTurn() < 2)
+	if (pEnemy->GetActionTurn() < 2 && mfElapsedTime > pEnemy->GetAttackDelay())
 	{
 		pPlayer->OnHit(SGAActorManager::Instance().GetClassAttackBox(),
 			SGAActorManager::Instance().GetClassAttackBox()->GetCharacter());
 		SGAActorManager::Instance().SetAtVisible(false);
 		SGAActorManager::Instance().SetMBVisible(false);
+		mfElapsedTime = 0.0f;
 	}
 
 

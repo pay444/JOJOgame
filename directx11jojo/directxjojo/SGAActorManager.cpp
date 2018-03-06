@@ -5,9 +5,13 @@
 SGAActorManager::SGAActorManager() :
 	tmpPos(XMFLOAT2(0.0f, 0.0f)),
 	posIndex2(0),
+	posIndex3(0),
 	mUiCheck(false),
 	mTurn(true),
-	mActionAter(true)
+	mPlayerCount(0),
+	mEnemyCount(0),
+	mEndTrunPlayerCount(0),
+	mEndTurnEnemyCount(0)
 {
 }
 
@@ -31,8 +35,15 @@ E_SCENE SGAActorManager::Update(float dt)
 
 	}
 
+	//모든 자기 진영의 캐릭터가 행동을 끝내면 턴을 바꿈
+	CheckAllActionTurn();
+
+
 	//가장 가까운 플레이어가 누구인지 측정후 에너미의 타겟 설정
-	CheckEnemyTarget();
+	if (!mTurn)
+	{
+		CheckEnemyTarget();
+	}
 
 
 	if (!mUiCheck)
@@ -141,12 +152,24 @@ void SGAActorManager::CheckAction()
 		if (typeid(*pCollider) == typeid(UI))
 		{
 			UI * pUi = ((UI*)pCollider);
-			//공격 UI를 눌렀을때
+			//공격 UI를 눌럿을때
 			if (((UI*)pCollider)->CheckAttackArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
 			{
 				mUiCheck = true;
 				SetAtVisible(true);
 				((UI*)pCollider)->SetVisible(false);
+				break;
+			}
+			//대기 UI를 눌렷을때
+			else if (((UI*)pCollider)->CheckWaitArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
+			{
+				Color color = Colors::Gray;
+				((Character*)pUi->GetPlayer())->SetColor(color);
+				((Character*)pUi->GetPlayer())->SetActionTurn(2);
+				SGAActorManager::Instance().GetClassUi()->SetVisible(false);
+				//mUiCheck = true;
+				//SetAtVisible(true);
+				//((UI*)pCollider)->SetVisible(false);
 				break;
 			}
 
@@ -159,7 +182,7 @@ void SGAActorManager::CheckAction()
 	{
 		if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 		{
-			auto vecAtIndex = SGAActorManager::Instance().GetvecAtScopeIndex();
+			//auto vecAtIndex = SGAActorManager::Instance().GetvecAtScopeIndex();
 
 			//auto a = vecAtIndex[0];
 			for (const auto &actor : mActors)
@@ -176,7 +199,7 @@ void SGAActorManager::CheckAction()
 							if (((AttackBox*)pCollider)->UIntersecRectScope(pCollidee) &&
 								dynamic_cast<Character*>(pCollidee))
 							{
-
+								((AttackBox*)pCollider)->GetCharacter()->SetAnimation("LATTACK");
 								pCollidee->OnHit(pCollider, ((AttackBox*)pCollider)->GetCharacter());
 								SGAActorManager::Instance().SetAtVisible(false);
 								mClickCount = 0;
@@ -189,6 +212,74 @@ void SGAActorManager::CheckAction()
 			}
 		}
 	}
+}
+
+void SGAActorManager::CheckAllActionTurn()
+{
+
+	for (const auto &actor : mActors)
+	{
+		SGAActor* pActor;
+		pActor = actor.get();
+
+		if (dynamic_cast<Character*>(pActor))
+		{
+			if (pActor->GetCamp() == GunGeon::CampType::PLAYER)
+			{
+				if (((Character*)pActor)->GetActionTurn() == 2)
+				{
+					mEndTrunPlayerCount++;
+					if (mEndTrunPlayerCount == mPlayerCount)
+					{
+						mTurn = false;
+						SGAActorManager::Instance().SetMBVisible(false);
+						SGAActorManager::Instance().SetUIVisible(false);
+						SGAActorManager::Instance().SetAtVisible(false);
+						mClickCount = 0;
+						for (const auto &actor : mActors)
+						{
+							SGAActor* pActor;
+							pActor = actor.get();
+							if (dynamic_cast<Player*>(pActor))
+							{
+								((Character*)pActor)->SetActionTurn(0);
+							}
+						}
+						break;
+					}
+				}
+			}
+			else if (pActor->GetCamp() == GunGeon::CampType::MONSTER)
+			{
+				if (((Character*)pActor)->GetActionTurn() == 2)
+				{
+					mEndTurnEnemyCount++;
+					if (mEndTurnEnemyCount == mEnemyCount)
+					{
+						mTurn = true;
+						SGAActorManager::Instance().SetMBVisible(false);
+						SGAActorManager::Instance().SetUIVisible(false);
+						SGAActorManager::Instance().SetAtVisible(false);
+						mClickCount = 0;
+						for (const auto &actor : mActors)
+						{
+							SGAActor* pActor;
+							pActor = actor.get();
+							if (dynamic_cast<Enemy*>(pActor))
+							{
+								((Character*)pActor)->SetActionTurn(0);
+							}
+						}
+						mUiCheck = false;
+						break;
+					}
+				}
+			}
+		}
+
+	}
+	mEndTrunPlayerCount = 0;
+	mEndTurnEnemyCount = 0;
 }
 
 void SGAActorManager::RePosAndVisiMB()
@@ -226,8 +317,6 @@ void SGAActorManager::RePosAndVisiMB()
 				//먼저 캐릭터와 마우스위치 판정
 				if (mouseIndex == posIndex)
 				{
-
-					mActionAter = true;
 					visible = ((Character*)actor.get())->GetVisible();
 
 
@@ -494,6 +583,16 @@ void SGAActorManager::Release()
 	//	actor.reset();
 
 	//}
+	//신이 바뀌었거나 했을경우
+	tmpPos = XMFLOAT2(0.0f, 0.0f);
+	posIndex2 = 0;
+	posIndex3 = 0;
+	mUiCheck = false;
+	mTurn = true;
+	mPlayerCount = 0;
+	mEnemyCount = 0;
+	mEndTrunPlayerCount = 0;
+	mEndTurnEnemyCount = 0;
 	auto iter = mActors.begin();
 	while (iter != mActors.end())
 	{
