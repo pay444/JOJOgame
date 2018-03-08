@@ -65,16 +65,13 @@ E_SCENE Enemy::Update(float dt)
 			{
 				iter->reset();
 				iter = vecEnemyIndex->erase(iter);
-				int temp = SGAActorManager::Instance().GetEnemyControllCount();
-				SGAActorManager::Instance().SetEnemyControllCount(--temp);
-				//
+				SGAActorManager::Instance().SetEnemyControllCount(0);
 			}
 			else
 			{
 				++iter;
 			}
 		}
-		SGAActorManager::Instance().SetEnemyControllCount(*(*vecEnemyIndex)[0].get());
 	}
 	//나의 턴일때만 실행됨
 	if (mActionBool)
