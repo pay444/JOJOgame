@@ -44,8 +44,8 @@ void Character::Init()
 	mpJoAStar = make_unique<AStar>();
 	//mpMoveBox = make_unique<MoveBox>();
 
-	auto pTexture = SGAResourceManager::Instance().GetShaderResource(L"Images\\jojoWalk\\jojoWalk.png");
-	auto pSheet = SGAResourceManager::Instance().GetSpriteSheet(L"Images\\jojoWalk\\jojoWalk.xml", pTexture);
+	auto pTexture = SGAResourceManager::Instance().GetShaderResource(L"Images\\jojo\\jojoSprites.png");
+	auto pSheet = SGAResourceManager::Instance().GetSpriteSheet(L"Images\\jojo\\jojoSprites.xml", pTexture);
 	//auto pMoveBox = SGAActorManager::Instance().Create<MoveBox>(mpBatch, mpSheet, mpFont);
 	//mpMoveBox = SGAActorManager::Instance().Create<MoveBox>(mpBatch, mpSheet, mpFont);
 	//mpMoveBox->Init(E_SORTID_FIRST, mPosition, limitDistance,mVisbleScope,mMoveDistance);
@@ -67,17 +67,6 @@ E_SCENE Character::Update(float dt)
 		int mouseIndex = GetTileIndex(mousePos);
 		int posIndex = GetTileIndex(mPosition);
 
-		//if ((*spVecTile)[mouseIndex]->underObject == 1)
-		//{
-		//	
-		//	pMoveBox->Init(E_SORTID_FIRST,mPosition,limitDistance);
-		//	mVisbleScope = !mVisbleScope;
-		//	//pMoveBox->SetDestroyed();
-		//}
-		//else
-		//{
-		//	pMoveBox->SetDestroyed();
-		//}
 		int uiPlayerPosIndex = -1;
 		if (SGAActorManager::Instance().GetClassUi()->GetPlayer() != nullptr)
 		{
@@ -100,8 +89,28 @@ E_SCENE Character::Update(float dt)
 		}
 
 	}
+	//auto state = Keyboard::Get().GetState();
 
+	//if (state.F)
+	//{
+	//	this->SetAnimation("DEAD");
+	//}
 
+	//죽음 시간측정후 없어지도록
+	if (this->mHealth <= 0)
+	{
+		if (mfActionElapsedTime > 2.2f)
+		{
+			this->SetDestroyed();
+			mfActionElapsedTime = 0.0f;
+			return E_SCENE_NONPASS;
+		}
+	}
+	else if (mfActionElapsedTime > 2.8f)
+	{
+		SetAnimation(mAnimName2);
+		mfActionElapsedTime = 0.0f;
+	}
 	E_SCENE eResult = SGAActor::Update(dt);
 
 	mspShake->Update(dt);
@@ -146,8 +155,10 @@ void Character::Draw()
 	offset.x += (int)ScrollMgr::Instance().GetScroll().x;
 	offset.y += (int)ScrollMgr::Instance().GetScroll().y;
 
+
+
 	//공격 모션후 색깔 딜레이주기
-	if (mfActionElapsedTime > 0.5f)
+	if (mfActionElapsedTime > 0.8f)
 	{
 		SetAnimation(mAnimName2);
 		if (mColorAllow && mActionTurn >= 2)
@@ -155,12 +166,14 @@ void Character::Draw()
 			mColorAllow = false;
 			mColor = Colors::Gray;
 			//tint = mColor;
+			mfActionElapsedTime = 0.0f;
 		}
 		else if(mActionTurn < 2)
 		{
 			mColor = Colors::White;
+			//mfActionElapsedTime = 0.0f;
 		}
-		mfActionElapsedTime = 0.0f;
+		
 	}
 
 	if (mActionTurn >= 2)
@@ -168,8 +181,13 @@ void Character::Draw()
 		tint = mColor;
 	}
 
+
 	mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + mPosition - offset, tint);
 
+	//wchar_t wch[128];
+
+	//swprintf_s(wch, L"%d", mfActionElapsedTime);
+	//mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(0.0f, 25.0f)), DirectX::Colors::Black, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
 
 	//if (mVisbleScope)
 	//{
@@ -197,12 +215,44 @@ void Character::OnHit(SGAActor * pCollider, SGAActor * pCollidee)
 	if (this->GetCamp() != pCollidee->GetCamp())
 	{
 
-
+		//때린놈의 액션턴을 바꿔준다.
 		((Character*)pCollidee)->SetActionTurn(2);
 		//때린놈의 색깔을 바꿔준다.
 		((Character*)pCollidee)->SetColorAllow(true);
-		//Color color = Colors::Gray;
-		//((Character*)pCollidee)->SetColor(color);
+		
+		//때린놈의 애니메이션 상태 변경
+		const vector<unique_ptr<TILE>>* pVecTile = SGAActorManager::Instance().GetTileInfo();
+		int attackerIndex = GetTileIndex(pCollidee->GetPosition());
+		int defenderIndex = GetTileIndex(mPosition);
+		//아래 애니매이션 변경
+		if (mPosition.y >
+			(*pVecTile)[attackerIndex]->vPos.y + JOJOTILESY) //+ JOJOTILESY / 2 + JOJOTILESY / 2)
+		{
+			pCollidee->SetAnimation("DATTACK");
+			((Character*)pCollidee)->SetAniName("DOWN");
+		}
+		//위 애니매이션 변경
+		else if (mPosition.y <
+			(*pVecTile)[attackerIndex]->vPos.y)// + JOJOTILESY / 2 - JOJOTILESY / 2)
+		{
+			pCollidee->SetAnimation("UATTACK");
+			((Character*)pCollidee)->SetAniName("UP");
+		}
+
+		//오른쪽과 왼쪽 변경
+		else if ((mPosition.x <
+			(*pVecTile)[attackerIndex]->vPos.x))
+			//&&(mPosition.x != (*pVecTile)[iDestinationIdx]->vPos.x))
+		{
+			pCollidee->SetAnimation("LATTACK");
+			((Character*)pCollidee)->SetAniName("LEFT");
+		}
+		else if (mPosition.x >
+			(*pVecTile)[attackerIndex]->vPos.x + JOJOTILESX)
+		{
+			pCollidee->SetAnimation("RATTACK");
+			((Character*)pCollidee)->SetAniName("RIGHT");
+		}
 		//때린놈 행동 시간 초기화
 		pCollidee->SetActionTime(0.0f);
 
@@ -218,9 +268,19 @@ void Character::DoDamage(SGAActor * pAttacker)
 
 	mspShake->Start(0.1f, 5);
 	mspTint->Start(0.1f, (Color)Colors::Wheat, (Color)Colors::Red);
+
+	this->SetAnimation("HIT");
+	mfActionElapsedTime = 0.0f;
 	//SGAActorManager::Instance().SetUiCheck(false);
 	if (this->mHealth <= 0)
-		this->SetDestroyed();
+	{
+		mAnimName2 = "DEAD";
+		this->SetAnimation(mAnimName2);
+		mfActionElapsedTime = 0.0f;
+		//this->SetDestroyed();
+		
+	}
+		
 }
 
 void Character::MoveStateCheck()

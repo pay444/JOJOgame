@@ -30,7 +30,9 @@ public:
 	void SetAttackDamge(int damge) { mAttackDamge = damge; }
 	void SetCamp(int camp) { mCamp = camp; }
 	void SetCharacter(Character * character) { mpCharacter = character; }
+	void SetVisible(bool visible) { mAtVisible = visible; }
 
+	bool GetVisible() { return mAtVisible; }
 	Character* GetCharacter() { return mpCharacter; }
 	int GetAttack() { return mAttackDamge; }
 	bool GetAtScopeSeek() { return mAtSeekScope; }
@@ -38,6 +40,6 @@ public:
 	RECT GetAtBoundScope(int i);
 	vector<unique_ptr<int>>* GetVecAtScopeIndex() { return &mspVecAtScopeIndex; }
 	vector<XMFLOAT2> GetVecAtScopePos() { return vecAtScopePos; }
-	void SetVisible(bool visible) { mAtVisible = visible; }
+	
 };
 

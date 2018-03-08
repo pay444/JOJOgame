@@ -130,7 +130,9 @@ public:
 	void SetActionTurn(int actionTurn) { mActionTurn = actionTurn; }
 	void SetColor(Color color) { mColor = color; }
 	void SetColorAllow(bool colorBool) { mColorAllow = colorBool; }
+	void SetAniName(char* name) { mAnimName2 = name; }
 
+	char* GetAniName() { return mAnimName2; }
 	bool GetColorAllow() { return mColorAllow; }
 	int GetHealth() { return mHealth; }
 	int GetAttack() { return mAttack; }

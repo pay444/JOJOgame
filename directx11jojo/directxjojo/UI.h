@@ -20,6 +20,7 @@ public:
 	void SetPlayer(Player * player) { mpPlayer = player; }
 	void SetVisible(bool visible) { mUIVisible = visible; }
 
+	bool GetVisible() { return mUIVisible; }
 	Player * GetPlayer() { return mpPlayer; }
 };
 

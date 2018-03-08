@@ -19,8 +19,8 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 	mpWorld->Init("Images\\Map\\stage3.tmx", E_SORTID_FOURTH);
 
 	
-	auto pTexture = SGAResourceManager::Instance().GetShaderResource(L"Images\\jojoWalk\\jojoWalk.png");//(L"Images\\sprites.png");
-	auto pSheet = SGAResourceManager::Instance().GetSpriteSheet(L"Images\\jojoWalk\\jojoWalk.xml", pTexture); //(L"Images\\sprites.xml",pTexture);
+	auto pTexture = SGAResourceManager::Instance().GetShaderResource(L"Images\\jojo\\jojoSprites.png");//(L"Images\\sprites.png");
+	auto pSheet = SGAResourceManager::Instance().GetSpriteSheet(L"Images\\jojo\\jojoSprites.xml", pTexture); //(L"Images\\sprites.xml",pTexture);
 
 	//mpPlayer = SGAActorManager::Instance().Create<Player>(spriteBatch, pSheet);
 	//GunGeon::Blackboard::Instance().SetPlayer(mpPlayer);

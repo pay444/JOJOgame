@@ -56,7 +56,7 @@ void IdleState::Execute(float dt)
 
 	//범위 내에 플레이어 발견
 	if (dist < pEnemy->GetDetectRange() && !SGAActorManager::Instance().GetTurn()
-		&& pEnemy->GetActionTurn() < 1)
+		&& pEnemy->GetActionTurn() < 1&& pEnemy->GetActionTime()>0.7f)
 	{
 		//상태 전이
 		mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Chase);
@@ -68,6 +68,7 @@ void IdleState::Execute(float dt)
 		SGAActorManager::Instance().GetClassMoveBox()->SetVisible(true);
 
 		//적의 어텍박스 위치를 바꿔줌
+		SGAActorManager::Instance().GetClassAttackBox()->Release();
 		SGAActorManager::Instance().GetClassAttackBox()->SetPosition(pEnemy->GetPosition());
 		SGAActorManager::Instance().GetClassAttackBox()->SetAttackDis(pEnemy->GetAttackDistance());
 		SGAActorManager::Instance().GetClassAttackBox()->AttackScope();
@@ -80,6 +81,7 @@ void IdleState::Execute(float dt)
 		if (SGAActorManager::Instance().GetClassAttackBox()->AIIntersecRectScope(pPlayer))
 		{
 			//충돌 되었다면 상태 변경 ->Attack
+			//SGAActorManager::Instance().GetClassMoveBox()->SetVisible(false);
 			mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Attack);
 			return;
 		}
@@ -190,8 +192,9 @@ void ChaseState::Execute(float dt)
 	if (!SGAActorManager::Instance().GetTurn()
 		&& pEnemy->GetActionTurn() == 1)//dist < pEnemy->GetAttackRange()
 	{
-
+		
 		//적의 어텍박스 위치를 바꿔줌
+		SGAActorManager::Instance().GetClassAttackBox()->Release();
 		SGAActorManager::Instance().GetClassAttackBox()->SetPosition(pEnemy->GetPosition());
 		SGAActorManager::Instance().GetClassAttackBox()->SetAttackDis(pEnemy->GetAttackDistance());
 		SGAActorManager::Instance().GetClassAttackBox()->AttackScope();
@@ -210,6 +213,7 @@ void ChaseState::Execute(float dt)
 			//충돌이 안되었다면 행동턴 종료후 상태변경 ->Idle
 			pEnemy->SetActionTurn(2);
 			SGAActorManager::Instance().GetClassAttackBox()->SetVisible(false);
+			SGAActorManager::Instance().GetClassMoveBox()->SetVisible(false);
 			mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Idle);
 		}
 	}
@@ -261,16 +265,17 @@ void AttackState::Execute(float dt)
 	Player *pPlayer = (Player*)pEnemy->GetTarget();
 
 	mfElapsedTime += dt;
-
+	SGAActorManager::Instance().SetMBVisible(false);
 	//턴이 플레이어 일때 정지 상태로 변경
 	if (SGAActorManager::Instance().GetTurn())
 	{
 		mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Idle);
 		mfElapsedTime = 0;
 	}
-
+	
 	if (pEnemy->GetActionTurn() < 2 && mfElapsedTime > pEnemy->GetAttackDelay())
 	{
+		
 		pPlayer->OnHit(SGAActorManager::Instance().GetClassAttackBox(),
 			SGAActorManager::Instance().GetClassAttackBox()->GetCharacter());
 		SGAActorManager::Instance().SetAtVisible(false);

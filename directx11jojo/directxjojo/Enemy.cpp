@@ -9,7 +9,9 @@ Enemy::Enemy()
 Enemy::Enemy(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * pFont)
 	: Character(pBatch, pSheet, pFont),
 	mpTarget(nullptr),
-	mFontVisible(false)
+	mFontVisible(false),
+	mCode(0),
+	mActionBool(false)
 {
 }
 
@@ -50,8 +52,56 @@ void Enemy::Init(float moveSpeed, XMFLOAT2 startpos, E_SORTID eSortID)
 E_SCENE Enemy::Update(float dt)
 {
 	Character::Update(dt);
+	
 
-	mspFSM->Update(dt);
+	//파괴되었을시에 vectorindex 에 등록되어있는 정보를 지워줌
+	if (mbDestroyed)
+	{
+		auto vecEnemyIndex = SGAActorManager::Instance().GetVecEnemyIndex();
+		auto iter = vecEnemyIndex->begin();
+		while (iter != vecEnemyIndex->cend())
+		{
+			if (*(*iter).get() == mCode)
+			{
+				iter->reset();
+				iter = vecEnemyIndex->erase(iter);
+				int temp = SGAActorManager::Instance().GetEnemyControllCount();
+				SGAActorManager::Instance().SetEnemyControllCount(--temp);
+				//
+			}
+			else
+			{
+				++iter;
+			}
+		}
+		SGAActorManager::Instance().SetEnemyControllCount(*(*vecEnemyIndex)[0].get());
+	}
+	//나의 턴일때만 실행됨
+	if (mActionBool)
+	{
+		mspFSM->Update(dt);
+	}
+
+	
+	//나의 턴이 끝났으니 Manager 에게 다른적 실행상태라고 알려줌
+	if (mActionTurn >= 2 && mActionBool)
+	{
+		mColor = Colors::Gray;
+		mActionBool = false;
+		auto vecEnemyIndex = SGAActorManager::Instance().GetVecEnemyIndex();
+		int temp = SGAActorManager::Instance().GetEnemyControllCount();
+		SGAActorManager::Instance().SetEnemyControllCount(++temp);
+		if (SGAActorManager::Instance().GetEnemyControllCount() >=
+			SGAActorManager::Instance().GetEnemyCount())
+		{
+			SGAActorManager::Instance().SetEnemyControllCount(0);
+		}
+		//int intCode = *(*vecEnemyIndex)[SGAActorManager::Instance().GetEnemyControllCount()].get();
+		mspFSM->ChangeState(GunGeon::EnemyState::Enemy_Idle);
+		//SGAActorManager::Instance().SetEnemyControllCount(intCode);
+
+	}
+
 
 	auto state = Keyboard::Get().GetState();
 

@@ -28,11 +28,13 @@ private:
 	int posIndex3;	//무브 박스 의 삭제에 영향을주는 위치변수
 	int mPlayerCount;	//플레이어가 몇명있는지
 	int mEnemyCount;	//에너미가 몇명있는지
-	int mEndTrunPlayerCount;	//턴종료된 플레이어가 몇명인지
+	int mEndTurnPlayerCount;	//턴종료된 플레이어가 몇명인지
 	int mEndTurnEnemyCount;		//턴종료되 적이 몇명인지
+	int mEnemyControll;			//적을 누구를 움직일지 결정해줌
 	bool mUiCheck;	//ui공격버튼이 눌렷는지에 대한여부
 	bool mTurn;		//전체 턴제어
 	XMFLOAT2 tmpPos;
+	vector<unique_ptr<int>> mVecEenemyIndex;	//적을 누구를 움직일지 영향을줌
 public:
 	E_SCENE Update(float dt);
 	void CheckCollidion();
@@ -66,6 +68,11 @@ public:
 	void SetAtVisible(bool visible);
 	void SetUiCheck(bool uiCheck) { mUiCheck = uiCheck; }
 	void SetTurn(bool turn) { mTurn = turn; }
+	void SetEnemyControllCount(int enemyCount) { mEnemyControll = enemyCount; }
+	
+	int GetEnemyCount() { return mEnemyCount; }
+	vector<unique_ptr<int>>* GetVecEnemyIndex() { return &mVecEenemyIndex; }
+	int GetEnemyControllCount() { return mEnemyControll; }
 	//void InsertMap(string str, unique_ptr<SGAActor> actor);
 public:
 	//템플릿의 통일화 몇개의 인자를 받아도 사용가능하도록
@@ -85,7 +92,10 @@ public:
 		//에너미가 몇명인지
 		else if (dynamic_cast<Enemy*>(mActors.back().get()))
 		{
+			((Enemy*)mActors.back().get())->SetCode(mEnemyCount);
+			mVecEenemyIndex.push_back(make_unique<int>(mEnemyCount));
 			mEnemyCount++;
+
 		}
 		return dynamic_cast<T*>(mActors.back().get());
 	}

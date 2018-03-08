@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:40a232cf55607fcad92a231732d56324:2c2af7979fc0e7425ea01bc352a16015:f92ab80c43a78df9463fee9e77012a39$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="FotManSprites.png" width="256" height="512">
+    <sprite n="AttackBox0.png" x="0" y="0" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="CursorBox0.png" x="48" y="0" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="CursorBox1.png" x="96" y="0" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="FotManAttack0.png" x="144" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="FotManAttack1.png" x="0" y="64" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="FotManAttack2.png" x="64" y="64" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="FotManAttack3.png" x="128" y="64" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="FotManAttack04.png" x="192" y="64" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="FotManAttack5.png" x="0" y="128" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="FotManAttack6.png" x="64" y="128" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="FotManAttack7.png" x="128" y="128" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="FotManAttack8.png" x="192" y="128" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="FotManAttack9.png" x="0" y="192" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="FotManAttack10.png" x="64" y="192" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="FotManAttack11.png" x="128" y="192" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="FotManAttack12.png" x="192" y="192" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="FotManAttack13.png" x="0" y="256" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="FotManAttack14.png" x="64" y="256" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="FotManAttack15.png" x="128" y="256" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="FotmanBWalk0.png" x="192" y="256" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="FotmanBWalk1.png" x="0" y="320" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="FotManDead0.png" x="48" y="320" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="FotManDead1.png" x="96" y="320" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="FotManDefend0.png" x="144" y="320" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="FotManDefend1.png" x="192" y="320" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="FotManDefend2.png" x="0" y="368" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="FotManDefend3.png" x="48" y="368" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="FotManHit0.png" x="96" y="368" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="FotManHit1.png" x="144" y="368" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="FotmanLWalk0.png" x="192" y="368" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="FotmanLWalk1.png" x="0" y="416" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="FotManPower0.png" x="48" y="416" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="FotmanRWalk0.png" x="96" y="416" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="FotmanRWalk1.png" x="144" y="416" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="FotmanTWalk0.png" x="192" y="416" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="FotmanTWalk1.png" x="0" y="464" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="FotmanWalk_6_0.png" x="48" y="464" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="FotmanWalk_7_0.png" x="96" y="464" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="FotmanWalk_8_0.png" x="144" y="464" w="48" h="48" pX="0.5" pY="0.5"/>
+</TextureAtlas>

@@ -10,8 +10,9 @@ SGAActorManager::SGAActorManager() :
 	mTurn(true),
 	mPlayerCount(0),
 	mEnemyCount(0),
-	mEndTrunPlayerCount(0),
-	mEndTurnEnemyCount(0)
+	mEndTurnPlayerCount(0),
+	mEndTurnEnemyCount(0),
+	mEnemyControll(0)
 {
 }
 
@@ -26,6 +27,17 @@ E_SCENE SGAActorManager::Update(float dt)
 	//값이 바뀌지 않음
 	for (const auto &actor : mActors)
 	{
+		SGAActor* pActor;
+		pActor = actor.get();
+
+		//적중에 누가 움직일 것인가
+		if (dynamic_cast<Enemy*>(pActor))
+		{
+			if (((Enemy*)pActor)->GetCode() == *mVecEenemyIndex[mEnemyControll])
+			{
+				((Enemy*)pActor)->SetActionBool(true);
+			}
+		}
 
 		E_SCENE eResult = actor->Update(dt);
 		if (eResult > E_SCENE_NONPASS)
@@ -35,6 +47,10 @@ E_SCENE SGAActorManager::Update(float dt)
 
 	}
 
+	//if (mEnemyControll > mEnemyCount)
+	//{
+	//	mEnemyControll = 1;
+	//}
 	//모든 자기 진영의 캐릭터가 행동을 끝내면 턴을 바꿈
 	CheckAllActionTurn();
 
@@ -46,7 +62,7 @@ E_SCENE SGAActorManager::Update(float dt)
 	}
 
 
-	if (!mUiCheck)
+	if (!mUiCheck&&SGAActorManager::Instance().GetClassUi()!=NULL&&!SGAActorManager::Instance().GetClassUi()->GetVisible())
 	{
 		//클릭한 해당놈의 위치와 보여주는 여부를 넘겨줌
 		RePosAndVisiMB();
@@ -74,10 +90,23 @@ E_SCENE SGAActorManager::Update(float dt)
 	{
 		auto pActor = iter->get();
 
+		
 		if (pActor->GetDestroyed())
 		{
+			//캐릭터 삭제시 턴종료를 위한 설정 초기화
+			if (dynamic_cast<Player*>(pActor))
+			{
+				mPlayerCount--;
+				mEndTurnPlayerCount = 0;
+			}
+			else if (dynamic_cast<Enemy*>(pActor))
+			{
+				mEnemyCount--;
+				mEndTurnEnemyCount = 0;
+			}
 			iter->reset();
 			iter = mActors.erase(iter);	//지우고 이터레이터도 다음것으로 넘어감
+
 		}
 		else
 		{
@@ -167,6 +196,7 @@ void SGAActorManager::CheckAction()
 				((Character*)pUi->GetPlayer())->SetColor(color);
 				((Character*)pUi->GetPlayer())->SetActionTurn(2);
 				SGAActorManager::Instance().GetClassUi()->SetVisible(false);
+				SGAActorManager::Instance().GetClassAttackBox()->SetVisible(false);
 				//mUiCheck = true;
 				//SetAtVisible(true);
 				//((UI*)pCollider)->SetVisible(false);
@@ -199,7 +229,6 @@ void SGAActorManager::CheckAction()
 							if (((AttackBox*)pCollider)->UIntersecRectScope(pCollidee) &&
 								dynamic_cast<Character*>(pCollidee))
 							{
-								((AttackBox*)pCollider)->GetCharacter()->SetAnimation("LATTACK");
 								pCollidee->OnHit(pCollider, ((AttackBox*)pCollider)->GetCharacter());
 								SGAActorManager::Instance().SetAtVisible(false);
 								mClickCount = 0;
@@ -228,8 +257,8 @@ void SGAActorManager::CheckAllActionTurn()
 			{
 				if (((Character*)pActor)->GetActionTurn() == 2)
 				{
-					mEndTrunPlayerCount++;
-					if (mEndTrunPlayerCount == mPlayerCount)
+					mEndTurnPlayerCount++;
+					if (mEndTurnPlayerCount == mPlayerCount)
 					{
 						mTurn = false;
 						SGAActorManager::Instance().SetMBVisible(false);
@@ -261,6 +290,7 @@ void SGAActorManager::CheckAllActionTurn()
 						SGAActorManager::Instance().SetUIVisible(false);
 						SGAActorManager::Instance().SetAtVisible(false);
 						mClickCount = 0;
+						mEnemyControll = 0;
 						for (const auto &actor : mActors)
 						{
 							SGAActor* pActor;
@@ -278,7 +308,7 @@ void SGAActorManager::CheckAllActionTurn()
 		}
 
 	}
-	mEndTrunPlayerCount = 0;
+	mEndTurnPlayerCount = 0;
 	mEndTurnEnemyCount = 0;
 }
 
@@ -583,6 +613,7 @@ void SGAActorManager::Release()
 	//	actor.reset();
 
 	//}
+
 	//신이 바뀌었거나 했을경우
 	tmpPos = XMFLOAT2(0.0f, 0.0f);
 	posIndex2 = 0;
@@ -591,8 +622,16 @@ void SGAActorManager::Release()
 	mTurn = true;
 	mPlayerCount = 0;
 	mEnemyCount = 0;
-	mEndTrunPlayerCount = 0;
+	mEndTurnPlayerCount = 0;
 	mEndTurnEnemyCount = 0;
+	mEnemyControll = 0;
+	mVecEenemyIndex.clear();
+	auto iter1 = mVecEenemyIndex.begin();
+	while (iter1 != mVecEenemyIndex.end())
+	{
+		iter1->reset();
+		iter1 = mVecEenemyIndex.erase(iter1);	//지우고 이터레이터도 다음것으로 넘어감
+	}
 	auto iter = mActors.begin();
 	while (iter != mActors.end())
 	{

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:123c561dbe68a506610144652bba4deb:0764a61044ea5525187a242d2fae1657:3ddf5407a2ba502f34bdb17f07842341$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="jojoSprites.png" width="512" height="512">
+    <sprite n="AttackBox0.png" x="0" y="0" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="CursorBox0.png" x="48" y="0" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="CursorBox1.png" x="96" y="0" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoAttack0.png" x="144" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoAttack1.png" x="208" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoAttack2.png" x="272" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoAttack3.png" x="336" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoAttack4.png" x="400" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoAttack5.png" x="0" y="64" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoAttack6.png" x="64" y="64" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoAttack7.png" x="128" y="64" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoAttack8.png" x="192" y="64" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoAttack9.png" x="256" y="64" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoAttack10.png" x="320" y="64" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoAttack11.png" x="384" y="64" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoAttack12.png" x="448" y="64" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoAttack13.png" x="0" y="128" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoAttack14.png" x="64" y="128" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoAttack15.png" x="128" y="128" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoBWalk0.png" x="192" y="128" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoBWalk1.png" x="240" y="128" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoDead0.png" x="288" y="128" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoDead1.png" x="336" y="128" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoDefend0.png" x="384" y="128" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoDefend1.png" x="432" y="128" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoDefend2.png" x="0" y="192" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoDefend3.png" x="48" y="192" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoHit0.png" x="96" y="192" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoLWalk0.png" x="144" y="192" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoLWalk1.png" x="192" y="192" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoPower0.png" x="240" y="192" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoRWalk0.png" x="288" y="192" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoRWalk1.png" x="336" y="192" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoTWalk0.png" x="384" y="192" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="jojoTWalk1.png" x="432" y="192" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="Ui0.png" x="0" y="240" w="85" h="21" pX="0.5" pY="0.5"/>
+    <sprite n="Ui1.png" x="85" y="240" w="85" h="21" pX="0.5" pY="0.5"/>
+    <sprite n="Ui2.png" x="170" y="240" w="85" h="21" pX="0.5" pY="0.5"/>
+    <sprite n="Ui3.png" x="255" y="240" w="85" h="22" pX="0.5" pY="0.5"/>
+    <sprite n="Ui4.png" x="340" y="240" w="85" h="21" pX="0.5" pY="0.5"/>
+    <sprite n="Ui5.png" x="425" y="240" w="85" h="21" pX="0.5" pY="0.5"/>
+    <sprite n="Ui6.png" x="0" y="262" w="85" h="21" pX="0.5" pY="0.5"/>
+    <sprite n="Ui7.png" x="85" y="262" w="85" h="22" pX="0.5" pY="0.5"/>
+</TextureAtlas>
