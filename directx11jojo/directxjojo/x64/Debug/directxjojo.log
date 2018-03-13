@@ -1,2 +1,6 @@
-﻿  Enemy.cpp
+﻿  Logo.cpp
+c:\users\hi\source\repos\jojogame\directx11jojo\directxjojo\logo.cpp(57): warning C4129: 'E': 문자 이스케이프 시퀀스를 인식할 수 없습니다.
+c:\users\hi\source\repos\jojogame\directx11jojo\directxjojo\logo.cpp(58): warning C4129: 'E': 문자 이스케이프 시퀀스를 인식할 수 없습니다.
+  Character.cpp
+  코드를 생성하고 있습니다...
   directxjojo.vcxproj -> C:\Users\hi\Source\Repos\JOJOgame\directx11jojo\x64\Debug\directxjojo.exe

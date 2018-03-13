@@ -63,9 +63,11 @@ E_SCENE Enemy::Update(float dt)
 		{
 			if (*(*iter).get() == mCode)
 			{
+				mActionTurn = 2;
 				iter->reset();
 				iter = vecEnemyIndex->erase(iter);
 				SGAActorManager::Instance().SetEnemyControllCount(0);
+				return E_SCENE_NONPASS;
 			}
 			else
 			{
@@ -74,7 +76,7 @@ E_SCENE Enemy::Update(float dt)
 		}
 	}
 	//나의 턴일때만 실행됨
-	if (mActionBool)
+	if (mActionBool&&mHealth>0)
 	{
 		mspFSM->Update(dt);
 	}

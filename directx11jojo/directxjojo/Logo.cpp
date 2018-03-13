@@ -53,7 +53,6 @@ HRESULT Logo::Initialize(SpriteBatch* spriteBatch, SpriteFont* spriteFont)
 	m2pPlayer = SGAActorManager::Instance().Create<Jojo>(spriteBatch, pSheet, spriteFont);
 	m2pPlayer->Init(500.0f, XMFLOAT2((72.0f), 72.0f), E_SORTID_FIRST, 200.0f);
 	m2pPlayer->SetStaus(100, 100, 5,2);
-	//mpPlayer->SetScene(mLogoScene);
 
 	auto pTexture2 = SGAResourceManager::Instance().GetShaderResource(L"Images\\\Enemy\\FotManSprites.png");
 	auto pSheet2 = SGAResourceManager::Instance().GetSpriteSheet(L"Images\\\Enemy\\FotManSprites.xml", pTexture2);
@@ -61,17 +60,17 @@ HRESULT Logo::Initialize(SpriteBatch* spriteBatch, SpriteFont* spriteFont)
 	FotMan* pEnemy = SGAActorManager::Instance().Create<FotMan>(spriteBatch, pSheet2, spriteFont);
 	pEnemy->Init(500.0f, XMFLOAT2(200.0f, 200.0f), E_SORTID_SECOND, 200.0f);
 	pEnemy->SetStaus(100, 10, 3,2);
-	pEnemy->SetAI(40.0f, 300.0f, 100.0f, 0.8f);
+	pEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.8f);
 
 	pEnemy = SGAActorManager::Instance().Create<FotMan>(spriteBatch, pSheet2, spriteFont);
 	pEnemy->Init(500.0f, XMFLOAT2(400.0f, 200.0f), E_SORTID_SECOND, 200.0f);
 	pEnemy->SetStaus(100, 10, 3, 1);
-	pEnemy->SetAI(40.0f, 300.0f, 100.0f, 0.5f);
+	pEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.5f);
 
 	pEnemy = SGAActorManager::Instance().Create<FotMan>(spriteBatch, pSheet2, spriteFont);
 	pEnemy->Init(500.0f, XMFLOAT2(500.0f, 200.0f), E_SORTID_SECOND, 200.0f);
 	pEnemy->SetStaus(100, 10, 3, 1);
-	pEnemy->SetAI(40.0f, 300.0f, 100.0f, 0.5f);
+	pEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.5f);
 
 
 	return S_OK;

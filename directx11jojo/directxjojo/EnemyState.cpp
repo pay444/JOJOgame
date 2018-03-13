@@ -97,15 +97,21 @@ void IdleState::Execute(float dt)
 		XMFLOAT2 rightPos = pPlayer->GetPosition() + XMFLOAT2(48.0f, 0.0f);
 		vecPos.push_back(rightPos);
 
-		//0보다 작아지는 값은 제외
+		//0보다 작아지는 값은 제외 다른캐릭터가 올라와 있으면 제외
 		auto iter1 = vecPos.begin();
 		while (iter1 != vecPos.cend())
 		{
+			Vector2 vec2 = Vector2(iter1->x,iter1->y);
+			
 			if (iter1->x < 0 || iter1->y < 0)
 			{
 				iter1 = vecPos.erase(iter1);
 			}
-			else
+			else if ((*pVecTile)[pEnemy->GetTileIndex(vec2)]->byOption == 1)
+			{
+				iter1 = vecPos.erase(iter1);
+			}
+			else 
 			{
 				iter1++;
 			}

@@ -111,6 +111,7 @@ E_SCENE Character::Update(float dt)
 		SetAnimation(mAnimName2);
 		mfActionElapsedTime = 0.0f;
 	}
+
 	E_SCENE eResult = SGAActor::Update(dt);
 
 	mspShake->Update(dt);
@@ -255,7 +256,7 @@ void Character::OnHit(SGAActor * pCollider, SGAActor * pCollidee)
 		}
 		//때린놈 행동 시간 초기화
 		pCollidee->SetActionTime(0.0f);
-
+		//mfActionElapsedTime = 0;
 		//mActionTurn++;
 		DoDamage(pCollider);
 	}

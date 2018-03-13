@@ -93,16 +93,20 @@ E_SCENE SGAActorManager::Update(float dt)
 		
 		if (pActor->GetDestroyed())
 		{
+			vector<unique_ptr<TILE>> *pVecTile = SGAActorManager::Instance().GetTileInfo();
+
 			//캐릭터 삭제시 턴종료를 위한 설정 초기화
 			if (dynamic_cast<Player*>(pActor))
 			{
 				mPlayerCount--;
 				mEndTurnPlayerCount = 0;
+				(*pVecTile)[pActor->GetTileIndex(pActor->GetPosition())]->byOption = 0;
 			}
 			else if (dynamic_cast<Enemy*>(pActor))
 			{
 				mEnemyCount--;
 				mEndTurnEnemyCount = 0;
+				(*pVecTile)[pActor->GetTileIndex(pActor->GetPosition())]->byOption = 0;
 			}
 			iter->reset();
 			iter = mActors.erase(iter);	//지우고 이터레이터도 다음것으로 넘어감
