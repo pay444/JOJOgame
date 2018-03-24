@@ -59,7 +59,7 @@ public:
 	virtual void OnResize();
 	
 public:
-	void InitWindow(HINSTANCE hInstance, LPCTSTR title = L"SBSGameAcademySample", UINT width = 1280, UINT height = 720);
+	void InitWindow(HINSTANCE hInstance, LPCTSTR title = L"JoJo", UINT width = 1280, UINT height = 720);
 	virtual LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	int GameLoop();
 };
