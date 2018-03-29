@@ -178,6 +178,8 @@ void SGAActorManager::CheckAction()
 {
 	auto iter1 = mActors.begin();
 	SGAActor* pCollider, *pCollidee;
+	pCollider = nullptr;
+	pCollidee = nullptr;
 	vector<int> *vecAtScopeIndx;
 	for (const auto &actor : mActors)
 	{

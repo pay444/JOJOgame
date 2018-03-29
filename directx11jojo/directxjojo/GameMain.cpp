@@ -127,6 +127,7 @@ void GameMain::Update(float dt)
 
 void GameMain::Render()
 {
+	SGAFramework::Render();
 	//mspSpriteBatch->Begin(SpriteSortMode_Deferred, mspStates->Opaque(), mspStates->LinearWrap());
 	//mspSpriteBatch->Begin();
 	

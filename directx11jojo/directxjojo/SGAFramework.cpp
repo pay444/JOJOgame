@@ -375,8 +375,8 @@ int SGAFramework::GameLoop()
 
 				Update(mTimer.DeltaTime());
 				BeginRender();
-				SGAFramework::Render();
-				//Render();
+				//SGAFramework::Render();
+				Render();
 				EndRender();
 			}
 			else
