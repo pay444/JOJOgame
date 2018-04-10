@@ -6,6 +6,7 @@
 #include "MoveBox.h"
 #include "UI.h"
 #include "AttackBox.h"
+#include "TurnGrapic.h"
 
 class Logo:
 	public Scene
@@ -19,6 +20,7 @@ private:
 	MoveBox * mpMoveBox;
 	UI * mpUi;
 	AttackBox * mpAttackBox;
+	TurnGrapic *mpTurnGrapic;
 protected:
 	UINT		mScreenWidth;
 	UINT		mScreenHeight;

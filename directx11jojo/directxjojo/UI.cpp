@@ -43,16 +43,7 @@ void UI::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
 E_SCENE UI::Update(float dt)
 {
 
-
 	E_SCENE eResult = SGAActor::Update(dt);
-
-	
-	auto state = Keyboard::Get().GetState();
-
-	if (state.Z)
-	{
-		SetAnimation("Ui1");
-	}
 
 	if (eResult > E_SCENE_NONPASS)
 		return eResult;

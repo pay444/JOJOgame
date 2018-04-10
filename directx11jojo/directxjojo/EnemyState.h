@@ -11,6 +11,7 @@ public:
 
 class ChaseState :public SGAState
 {
+	float mfElapsedTime;
 public:
 	virtual ~ChaseState() {};
 	virtual void Enter();

@@ -82,7 +82,7 @@ E_SCENE SGAActor::Update(float dt)
 		return E_SCENE_NONPASS;
 
 	mfElapsedTime += dt;
-	mfActionElapsedTime += dt;
+	//mfActionElapsedTime += dt;
 
 	if (mFrames == NULL)
 		return E_SCENE_NONPASS;

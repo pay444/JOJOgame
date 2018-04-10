@@ -53,7 +53,7 @@ void Character::Init()
 
 E_SCENE Character::Update(float dt)
 {
-
+	mfActionElapsedTime += dt;
 	float fScrollx = ScrollMgr::Instance().GetScroll().x;
 	float fScrolly = ScrollMgr::Instance().GetScroll().y;
 	const vector<unique_ptr<TILE>>* spVecTile = SGAActorManager::Instance().GetTileInfo();
@@ -106,12 +106,30 @@ E_SCENE Character::Update(float dt)
 			return E_SCENE_NONPASS;
 		}
 	}
-	else if (mfActionElapsedTime > 2.8f)
+	//else if (mfActionElapsedTime > 2.8f)
+	//{
+	//	SetAnimation(mAnimName2);
+	//	mfActionElapsedTime = 0.0f;
+	//}
+
+	//공격 모션후 색깔 딜레이주기
+	if (mfActionElapsedTime > 0.8f)
 	{
 		SetAnimation(mAnimName2);
-		mfActionElapsedTime = 0.0f;
-	}
+		if (mColorAllow && mActionTurn >= 2)
+		{
+			mColorAllow = false;
+			mColor = Colors::Gray;
+			//tint = mColor;
+			mfActionElapsedTime = 0.0f;
+		}
+		else if (mActionTurn < 2)
+		{
+			mColor = Colors::White;
+			//mfActionElapsedTime = 0.0f;
+		}
 
+	}
 	E_SCENE eResult = SGAActor::Update(dt);
 
 	mspShake->Update(dt);
@@ -156,26 +174,6 @@ void Character::Draw()
 	offset.x += (int)ScrollMgr::Instance().GetScroll().x;
 	offset.y += (int)ScrollMgr::Instance().GetScroll().y;
 
-
-
-	//공격 모션후 색깔 딜레이주기
-	if (mfActionElapsedTime > 0.8f)
-	{
-		SetAnimation(mAnimName2);
-		if (mColorAllow && mActionTurn >= 2)
-		{
-			mColorAllow = false;
-			mColor = Colors::Gray;
-			//tint = mColor;
-			mfActionElapsedTime = 0.0f;
-		}
-		else if(mActionTurn < 2)
-		{
-			mColor = Colors::White;
-			//mfActionElapsedTime = 0.0f;
-		}
-		
-	}
 
 	if (mActionTurn >= 2)
 	{
@@ -256,6 +254,7 @@ void Character::OnHit(SGAActor * pCollider, SGAActor * pCollidee)
 		}
 		//때린놈 행동 시간 초기화
 		pCollidee->SetActionTime(0.0f);
+ 
 		//mfActionElapsedTime = 0;
 		//mActionTurn++;
 		DoDamage(pCollider);

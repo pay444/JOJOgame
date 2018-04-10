@@ -160,10 +160,12 @@ void IdleState::Exit()
 void ChaseState::Enter()
 {
 	OutputDebugString(L"Enter Chase\n");
+	//mfElapsedTime = 0.0f;
 }
 
 void ChaseState::Execute(float dt)
 {
+	mfElapsedTime += dt;
 	//플레이어, 소유자
 	//Player *pPlayer = GunGeon::Blackboard::Instance().GetPlayer();
 	//Enemy *pEnemy = (Enemy*)(this->mpFSM->GetOwner());
@@ -196,9 +198,9 @@ void ChaseState::Execute(float dt)
 
 	//범위 내에 플레이어 발견 턴이 허용하는 상태일때
 	if (!SGAActorManager::Instance().GetTurn()
-		&& pEnemy->GetActionTurn() == 1)//dist < pEnemy->GetAttackRange()
+		&& pEnemy->GetActionTurn() == 1 && mfElapsedTime > pEnemy->GetMoveDelay())//dist < pEnemy->GetAttackRange()
 	{
-		
+		mfElapsedTime = 0.0f;
 		//적의 어텍박스 위치를 바꿔줌
 		SGAActorManager::Instance().GetClassAttackBox()->Release();
 		SGAActorManager::Instance().GetClassAttackBox()->SetPosition(pEnemy->GetPosition());
@@ -222,6 +224,7 @@ void ChaseState::Execute(float dt)
 			SGAActorManager::Instance().GetClassMoveBox()->SetVisible(false);
 			mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Idle);
 		}
+		
 	}
 
 
@@ -262,6 +265,7 @@ void ChaseState::Exit()
 void AttackState::Enter()
 {
 	OutputDebugString(L"Enter Attack\n");
+	//mfElapsedTime = 0.0f;
 }
 
 void AttackState::Execute(float dt)
@@ -279,9 +283,15 @@ void AttackState::Execute(float dt)
 		mfElapsedTime = 0;
 	}
 	
-	if (pEnemy->GetActionTurn() < 2 && mfElapsedTime > pEnemy->GetAttackDelay())
+	if (pPlayer->GetHealth() <= 0)
 	{
-		
+		//플레이어팀이 죽었을때 타겟 변경
+		SGAActorManager::Instance().CheckEnemyTarget();
+		mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Idle);
+	}
+
+	if (pEnemy->GetActionTurn() < 2 && mfElapsedTime > pEnemy->GetAttackDelay())
+	{	
 		pPlayer->OnHit(SGAActorManager::Instance().GetClassAttackBox(),
 			SGAActorManager::Instance().GetClassAttackBox()->GetCharacter());
 		SGAActorManager::Instance().SetAtVisible(false);

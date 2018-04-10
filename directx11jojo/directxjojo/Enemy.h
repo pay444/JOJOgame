@@ -19,16 +19,18 @@ protected:
 	float mfDetectRange;
 	float mfAttackRange;
 	float mfAttackDelay;
+	float mfMoveDelay;
 	bool mFontVisible;
 	int mCode;			//실행 순서를 위한 코드부여
 	bool mActionBool;	//실행 순서를 위한 BOOL 부여
 public:
-	void SetAI(float speed, float detectRange, float attackRange, float attackDelay)
+	void SetAI(float speed, float detectRange, float attackRange, float attackDelay, float moveDelay)
 	{
 		this->mfSpeed = speed;
 		this->mfDetectRange = detectRange;
 		this->mfAttackRange = attackRange;
 		this->mfAttackDelay = attackDelay;
+		this->mfMoveDelay = moveDelay;
 	}
 	void SetTarget(SGAActor* pActor) { this->mpTarget = pActor; }
 	void SetCode(int code) { mCode = code; }
@@ -41,6 +43,7 @@ public:
 	float GetAttackRange() { return mfAttackRange; }
 	float GetAttackDelay() { return mfAttackDelay; }
 	float GetSpeed() { return mfSpeed; }
-
+	float GetMoveDelay() { return mfMoveDelay; }
+	
 };
 

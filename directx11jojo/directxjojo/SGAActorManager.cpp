@@ -19,6 +19,7 @@ SGAActorManager::SGAActorManager() :
 
 SGAActorManager::~SGAActorManager()
 {
+	
 }
 
 E_SCENE SGAActorManager::Update(float dt)
@@ -47,10 +48,6 @@ E_SCENE SGAActorManager::Update(float dt)
 
 	}
 
-	//if (mEnemyControll > mEnemyCount)
-	//{
-	//	mEnemyControll = 1;
-	//}
 	//모든 자기 진영의 캐릭터가 행동을 끝내면 턴을 바꿈
 	CheckAllActionTurn();
 
@@ -251,7 +248,6 @@ void SGAActorManager::CheckAction()
 
 void SGAActorManager::CheckAllActionTurn()
 {
-
 	for (const auto &actor : mActors)
 	{
 		SGAActor* pActor;
@@ -720,13 +716,14 @@ void SGAActorManager::CheckEnemyTarget()
 		SGAActor* pEnemyActor;
 		pEnemyActor = actor.get();
 		vector<SGAActorAnddis> vecActorAndindex;
+
 		if (dynamic_cast<Enemy*>(pEnemyActor))
 		{
 			for (const auto &actor : mActors)
 			{
 				SGAActor* pPlayerActor;
 				pPlayerActor = actor.get();
-				if (dynamic_cast<Player*>(pPlayerActor))
+				if (dynamic_cast<Player*>(pPlayerActor) && ((Character*)pPlayerActor)->GetHealth() > 0)
 				{
 					SGAActorAnddis actorAnddis;
 
@@ -738,7 +735,11 @@ void SGAActorManager::CheckEnemyTarget()
 
 				}
 			}
-
+			//플레이어가 아무도없으면 탈출
+			if (vecActorAndindex.empty())
+			{
+				break;
+			}
 			std::sort(vecActorAndindex.begin(), vecActorAndindex.end(),less_than_distance());
 			((Enemy*)pEnemyActor)->SetTarget(vecActorAndindex[0].pActor);
 		}

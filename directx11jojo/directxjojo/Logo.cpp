@@ -27,10 +27,10 @@ HRESULT Logo::Initialize(SpriteBatch* spriteBatch, SpriteFont* spriteFont)
 	mpMoveBox = SGAActorManager::Instance().Create<MoveBox>(spriteBatch, pSheet, spriteFont);
 	mpMoveBox->Init(E_SORTID_THIRD, XMFLOAT2((mScreenWidth * 0.5f) + 100, mScreenHeight * 0.5f),
 		200.0f, false);
-	//SGAActorManager::Instance().SingleRegister(MoveBox::Instance());
-	//MoveBox::Instance()->Init(spriteBatch, pSheet, spriteFont,E_SORTID_THIRD,
-	//	XMFLOAT2((mScreenWidth * 0.5f) + 100, mScreenHeight * 0.5f),
-	//	200.0f, false);
+
+	mpTurnGrapic = SGAActorManager::Instance().Create<TurnGrapic>(spriteBatch, pSheet, spriteFont);
+	mpTurnGrapic->Init(E_SORTID_THIRD, XMFLOAT2(mScreenWidth * 0.5f,
+		mScreenHeight * 0.5f), true);
 
 	mpAttackBox = SGAActorManager::Instance().Create<AttackBox>(spriteBatch, pSheet, spriteFont);
 	mpAttackBox->Init(E_SORTID_THIRD, XMFLOAT2((mScreenWidth * 0.5f) + 100, mScreenHeight * 0.5f),false);
@@ -59,18 +59,18 @@ HRESULT Logo::Initialize(SpriteBatch* spriteBatch, SpriteFont* spriteFont)
 
 	FotMan* pEnemy = SGAActorManager::Instance().Create<FotMan>(spriteBatch, pSheet2, spriteFont);
 	pEnemy->Init(500.0f, XMFLOAT2(200.0f, 200.0f), E_SORTID_SECOND, 200.0f);
-	pEnemy->SetStaus(100, 10, 3,2);
-	pEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.8f);
+	pEnemy->SetStaus(100, 20, 3,2);
+	pEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.8f,0.8f);
 
 	pEnemy = SGAActorManager::Instance().Create<FotMan>(spriteBatch, pSheet2, spriteFont);
 	pEnemy->Init(500.0f, XMFLOAT2(400.0f, 200.0f), E_SORTID_SECOND, 200.0f);
-	pEnemy->SetStaus(100, 10, 3, 1);
-	pEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.5f);
+	pEnemy->SetStaus(100, 20, 3, 1);
+	pEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.8f, 0.8f);
 
 	pEnemy = SGAActorManager::Instance().Create<FotMan>(spriteBatch, pSheet2, spriteFont);
 	pEnemy->Init(500.0f, XMFLOAT2(500.0f, 200.0f), E_SORTID_SECOND, 200.0f);
 	pEnemy->SetStaus(100, 10, 3, 1);
-	pEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.5f);
+	pEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.8f, 0.8f);
 
 
 	return S_OK;
