@@ -1,5 +1,5 @@
 #pragma once
-//#include "SGAActor.h"
+//#include "MActor.h"
 #include "Character.h"
 #include "UI.h"
 
@@ -8,7 +8,7 @@ class Player:
 {
 public:
 	Player();
-	Player(SpriteBatch* pBatch, SGASpriteSheet *pSheet, SpriteFont * pFont);
+	Player(SpriteBatch* pBatch, SpriteSheet *pSheet, SpriteFont * pFont);
 	virtual ~Player();
 public:
 	virtual void Init(

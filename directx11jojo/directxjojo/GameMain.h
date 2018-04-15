@@ -1,10 +1,10 @@
 #pragma once
-#include "SGAFramework.h"
+#include "MFramework.h"
 #include "CommonStates.h"
 #include "World.h"
 
 class GameMain :
-	public SGAFramework
+	public MFramework
 {
 public:
 	GameMain();

@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="SGAFrameWork">
-      <UniqueIdentifier>{f18a6854-8648-4e57-9ee4-cd445ef1acdf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="TinyXML">
       <UniqueIdentifier>{a06f4053-add2-4a12-a299-a531b290f472}</UniqueIdentifier>
     </Filter>
@@ -58,6 +55,9 @@
     <Filter Include="04.AI">
       <UniqueIdentifier>{bbf04b87-ca23-47e3-8823-b0f5fa67e0cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MFrameWork">
+      <UniqueIdentifier>{f18a6854-8648-4e57-9ee4-cd445ef1acdf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -75,26 +75,8 @@
     <ClInclude Include="directxjojo.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="SGAActorManager.h">
-      <Filter>SGAFrameWork</Filter>
-    </ClInclude>
-    <ClInclude Include="SGAFramework.h">
-      <Filter>SGAFrameWork</Filter>
-    </ClInclude>
-    <ClInclude Include="SGAProjectile.h">
-      <Filter>SGAFrameWork</Filter>
-    </ClInclude>
-    <ClInclude Include="SGAResourceManager.h">
-      <Filter>SGAFrameWork</Filter>
-    </ClInclude>
-    <ClInclude Include="SGASpriteSheet.h">
-      <Filter>SGAFrameWork</Filter>
-    </ClInclude>
-    <ClInclude Include="SGATimer.h">
-      <Filter>SGAFrameWork</Filter>
-    </ClInclude>
     <ClInclude Include="dxerr.h">
-      <Filter>SGAFrameWork</Filter>
+      <Filter>MFrameWork</Filter>
     </ClInclude>
     <ClInclude Include="tinyxml2.h">
       <Filter>TinyXML</Filter>
@@ -162,11 +144,29 @@
     <ClInclude Include="EnemyState.h">
       <Filter>04.AI</Filter>
     </ClInclude>
-    <ClInclude Include="SGAActor.h">
-      <Filter>SGAFrameWork</Filter>
-    </ClInclude>
     <ClInclude Include="TurnGrapic.h">
       <Filter>02.Object\01.UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>MFrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteSheet.h">
+      <Filter>MFrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>MFrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>MFrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="MFramework.h">
+      <Filter>MFrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="MActorManager.h">
+      <Filter>MFrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="MActor.h">
+      <Filter>MFrameWork</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -176,26 +176,8 @@
     <ClCompile Include="directxjojo.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="SGAActorManager.cpp">
-      <Filter>SGAFrameWork</Filter>
-    </ClCompile>
-    <ClCompile Include="SGAFramework.cpp">
-      <Filter>SGAFrameWork</Filter>
-    </ClCompile>
-    <ClCompile Include="SGAProjectile.cpp">
-      <Filter>SGAFrameWork</Filter>
-    </ClCompile>
-    <ClCompile Include="SGAResourceManager.cpp">
-      <Filter>SGAFrameWork</Filter>
-    </ClCompile>
-    <ClCompile Include="SGASpriteSheet.cpp">
-      <Filter>SGAFrameWork</Filter>
-    </ClCompile>
-    <ClCompile Include="SGATimer.cpp">
-      <Filter>SGAFrameWork</Filter>
-    </ClCompile>
     <ClCompile Include="dxerr.cpp">
-      <Filter>SGAFrameWork</Filter>
+      <Filter>MFrameWork</Filter>
     </ClCompile>
     <ClCompile Include="tinyxml2.cpp">
       <Filter>TinyXML</Filter>
@@ -257,11 +239,29 @@
     <ClCompile Include="EnemyState.cpp">
       <Filter>04.AI</Filter>
     </ClCompile>
-    <ClCompile Include="SGAActor.cpp">
-      <Filter>SGAFrameWork</Filter>
-    </ClCompile>
     <ClCompile Include="TurnGrapic.cpp">
       <Filter>02.Object\01.UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>MFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteSheet.cpp">
+      <Filter>MFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>MFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>MFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="MFramework.cpp">
+      <Filter>MFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="MActorManager.cpp">
+      <Filter>MFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="MActor.cpp">
+      <Filter>MFrameWork</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -3,7 +3,7 @@ class Enemy : public Character
 {
 public:
 	Enemy();
-	Enemy(SpriteBatch *pBatch, SGASpriteSheet *pSheet, SpriteFont * pFont);
+	Enemy(SpriteBatch *pBatch, SpriteSheet *pSheet, SpriteFont * pFont);
 	virtual ~Enemy();
 public:
 	virtual void Init(
@@ -14,7 +14,7 @@ public:
 protected:
 	XMFLOAT2 mmousePos;
 	unique_ptr<SGAFSM> mspFSM;
-	SGAActor* mpTarget;
+	MActor* mpTarget;
 	float mfSpeed;
 	float mfDetectRange;
 	float mfAttackRange;
@@ -32,13 +32,13 @@ public:
 		this->mfAttackDelay = attackDelay;
 		this->mfMoveDelay = moveDelay;
 	}
-	void SetTarget(SGAActor* pActor) { this->mpTarget = pActor; }
+	void SetTarget(MActor* pActor) { this->mpTarget = pActor; }
 	void SetCode(int code) { mCode = code; }
 	void SetActionBool(bool action) { mActionBool = action; }
 
 	bool GetActionBool() { return mActionBool; }
 	int GetCode() { return mCode; }
-	SGAActor* GetTarget() { return mpTarget; }
+	MActor* GetTarget() { return mpTarget; }
 	float GetDetectRange() { return mfDetectRange; }
 	float GetAttackRange() { return mfAttackRange; }
 	float GetAttackDelay() { return mfAttackDelay; }

@@ -1,8 +1,8 @@
 #pragma once
-class SGATimer
+class Timer
 {
 public:
-	SGATimer();
+	Timer();
 
 public:
 	float		TotalTime() const;

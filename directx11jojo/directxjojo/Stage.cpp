@@ -15,14 +15,14 @@ Stage::~Stage()
 
 HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 {
-	mpWorld = SGAActorManager::Instance().Create<World>(spriteBatch, spriteFont, mScreenWidth, mScreenHeight);
+	mpWorld = MActorManager::Instance().Create<World>(spriteBatch, spriteFont, mScreenWidth, mScreenHeight);
 	mpWorld->Init("Images\\Map\\stage3.tmx", E_SORTID_FOURTH);
 
 	
-	auto pTexture = SGAResourceManager::Instance().GetShaderResource(L"Images\\jojo\\jojoSprites.png");//(L"Images\\sprites.png");
-	auto pSheet = SGAResourceManager::Instance().GetSpriteSheet(L"Images\\jojo\\jojoSprites.xml", pTexture); //(L"Images\\sprites.xml",pTexture);
+	auto pTexture = ResourceManager::Instance().GetShaderResource(L"Images\\jojo\\jojoSprites.png");//(L"Images\\sprites.png");
+	auto pSheet = ResourceManager::Instance().GetSpriteSheet(L"Images\\jojo\\jojoSprites.xml", pTexture); //(L"Images\\sprites.xml",pTexture);
 
-	//mpPlayer = SGAActorManager::Instance().Create<Player>(spriteBatch, pSheet);
+	//mpPlayer = MActorManager::Instance().Create<Player>(spriteBatch, pSheet);
 	//GunGeon::Blackboard::Instance().SetPlayer(mpPlayer);
 
 	//mpPlayer->Init(
@@ -37,13 +37,13 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 
 E_SCENE Stage::Update(float dt)
 {
-	//SGAActorManager::Instance().Update(dt);
+	//MActorManager::Instance().Update(dt);
 
 	//mpPlayer->SetPosition(mpWorld->GetmCameraPosition().x, mpWorld->GetmCameraPosition().y);
 	//mpPlayer->SetCamerapos(mpWorld->GetmCameraPosition().x, mpWorld->GetmCameraPosition().y);
 
 	//E_SCENE eResult = mpPlayer->GetScene();
-	E_SCENE eResult = SGAActorManager::Instance().Update(dt);
+	E_SCENE eResult = MActorManager::Instance().Update(dt);
 	if (eResult > E_SCENE_NONPASS)
 		return eResult;
 
@@ -53,7 +53,7 @@ E_SCENE Stage::Update(float dt)
 
 void Stage::Render()
 {
-	SGAActorManager::Instance().Draw();
+	MActorManager::Instance().Draw();
 }
 
 void Stage::Release()

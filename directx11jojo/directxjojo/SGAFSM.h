@@ -22,11 +22,11 @@ class SGAFSM
 private:
 	SGAState* mpCurrent;
 	map<int, unique_ptr<SGAState>> mStateMap;
-	SGAActor* mpOwner;
+	MActor* mpOwner;
 	int mStateID;
 public:
-	void SetOwner(SGAActor* pOwner) { this->mpOwner = pOwner; }
-	SGAActor* GetOwner() { return mpOwner; }
+	void SetOwner(MActor* pOwner) { this->mpOwner = pOwner; }
+	MActor* GetOwner() { return mpOwner; }
 	int GetStateID() { return mStateID; }
 
 public:

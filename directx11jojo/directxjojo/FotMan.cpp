@@ -6,7 +6,7 @@ FotMan::FotMan()
 {
 }
 
-FotMan::FotMan(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * pFont)
+FotMan::FotMan(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont)
 	: Enemy(pBatch, pSheet, pFont)
 {
 }
@@ -63,7 +63,7 @@ void FotMan::Init(float moveSpeed, XMFLOAT2 startpos, E_SORTID eSortID, float li
 	};
 	SetCamp(GunGeon::CampType::MONSTER);
 
-	SGAActor::Init(anim, 11, eSortID);
+	MActor::Init(anim, 11, eSortID);
 
 	Enemy::Init(moveSpeed, startpos, eSortID);
 

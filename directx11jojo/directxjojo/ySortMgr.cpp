@@ -11,7 +11,7 @@ ySortMgr::~ySortMgr()
 {
 }
 
-void ySortMgr::AddSortObject(unique_ptr<SGAActor> &pActor)
+void ySortMgr::AddSortObject(unique_ptr<MActor> &pActor)
 {
 	//E_SORTID eID = pActor->GetSortID();
 

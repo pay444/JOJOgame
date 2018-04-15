@@ -1,25 +1,25 @@
 #pragma once
-class SGAActorManager final
+class MActorManager final
 {
 public:
 	// 포인터표현
-	/*static SGAActorManager* INstance2()
+	/*static MActorManager* INstance2()
 	{
-		static SGAActorManager instance;
+		static MActorManager instance;
 		return &instance;
 	}*/
 	//레퍼런스 표현
-	static SGAActorManager& Instance()
+	static MActorManager& Instance()
 	{
-		static SGAActorManager instance;
+		static MActorManager instance;
 		return instance;
 	}
 private:
-	SGAActorManager();
-	SGAActorManager(SGAActorManager const&);
-	void operator = (SGAActorManager const&);
+	MActorManager();
+	MActorManager(MActorManager const&);
+	void operator = (MActorManager const&);
 public:
-	~SGAActorManager();
+	~MActorManager();
 private:
 	E_SCENE meScene;
 private:
@@ -33,6 +33,7 @@ private:
 	int mEnemyControll;			//적을 누구를 움직일지 결정해줌
 	bool mUiCheck;	//ui공격버튼이 눌렷는지에 대한여부
 	bool mTurn;		//전체 턴제어
+	bool mTurnBool;		//TurnGrapic 제어 불변수
 	XMFLOAT2 tmpPos;
 	vector<unique_ptr<int>> mVecEenemyIndex;	//적을 누구를 움직일지 영향을줌
 public:
@@ -58,6 +59,7 @@ public:
 	class UI *GetClassUi();
 	class AttackBox* GetClassAttackBox();
 	class MoveBox* GetClassMoveBox();
+	class TurnGrapic* GetClassTurnGrapic();
 	//Player * GetPlayer() { return nullptr; }
 
 	//void SetUiPos(XMFLOAT2 pos);
@@ -73,7 +75,13 @@ public:
 	int GetEnemyCount() { return mEnemyCount; }
 	vector<unique_ptr<int>>* GetVecEnemyIndex() { return &mVecEenemyIndex; }
 	int GetEnemyControllCount() { return mEnemyControll; }
-	//void InsertMap(string str, unique_ptr<SGAActor> actor);
+
+	int GetPlayerCount() { return mPlayerCount; }
+	int GetEndTurnPlayerCount() { return mEndTurnPlayerCount; }
+
+	int GetEnemtCount() { return mEnemyCount; }
+	int GetEndTurnEnemyCount() { return mEndTurnEnemyCount; }
+	//void InsertMap(string str, unique_ptr<MActor> actor);
 public:
 	//템플릿의 통일화 몇개의 인자를 받아도 사용가능하도록
 	template<class T,class...Types> inline
@@ -99,44 +107,8 @@ public:
 		}
 		return dynamic_cast<T*>(mActors.back().get());
 	}
-public:
-	void SingleRegister(SGAActor* pActors)
-	{
-		//auto iter = mActors.begin();
-		//while (iter != mActors.cend())
-		//{
-		//	auto iter2 = iter;
-		//	std::advance(iter2, 1);
-		//	if (typeid(*iter->get()) == typeid(*pActors))
-		//	{
-		//		break;
-		//	}
-		//	else if (iter2 == mActors.cend())
-		//	{
-		//		mActors.push_back(unique_ptr<SGAActor>(pActors));
-		//	}
-		//	iter++;
-		//}
-		
-		//for (auto &actor : mActors)
-		//{
-		//	if (typeid(*actor) == typeid(*pActors))
-		//	{
-		//		break;
-		//	}
-		//	else if (iter == mActors.cend())
-		//	{
-		//		iter = actor;
-		//		mActors.push_back(unique_ptr<SGAActor>(pActors));
-		//	}
-		//}
-		//if (mActors.size() == 0) 
-		//{
-		//	mActors.push_back(unique_ptr<SGAActor>(pActors));
-		//}
-	}
 private:
-	//map<string, unique_ptr <SGAActor>> mMapActors;
-	list<unique_ptr <SGAActor>> mActors;
+	//map<string, unique_ptr <MActor>> mMapActors;
+	list<unique_ptr <MActor>> mActors;
 	//vector<TILE*> mVectile;
 };

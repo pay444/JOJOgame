@@ -2,19 +2,19 @@
 #include <fstream>
 #include <string>
 #include <regex>
-#include "SGASpriteSheet.h"
+#include "SpriteSheet.h"
 
 
-SGASpriteSheet::SGASpriteSheet()
+SpriteSheet::SpriteSheet()
 {
 }
 
 
-SGASpriteSheet::~SGASpriteSheet()
+SpriteSheet::~SpriteSheet()
 {
 }
 
-void SGASpriteSheet::Load(ID3D11ShaderResourceView * texture, const TCHAR * fileName)
+void SpriteSheet::Load(ID3D11ShaderResourceView * texture, const TCHAR * fileName)
 {
 	mFrames.clear();
 	mspTexture = texture;
@@ -76,7 +76,7 @@ void SGASpriteSheet::Load(ID3D11ShaderResourceView * texture, const TCHAR * file
 	}
 }
 
-const SpriteFrame * SGASpriteSheet::Find(const char * name) const
+const SpriteFrame * SpriteSheet::Find(const char * name) const
 {
 	auto it = mFrames.find(name);
 	
@@ -86,7 +86,7 @@ const SpriteFrame * SGASpriteSheet::Find(const char * name) const
 	return &it->second;
 }
 
-void XM_CALLCONV SGASpriteSheet::Draw(SpriteBatch * batch, const SpriteFrame & frame, XMFLOAT2 const & position, FXMVECTOR color, float rotation, float scale, SpriteEffects effects, float layer) const
+void XM_CALLCONV SpriteSheet::Draw(SpriteBatch * batch, const SpriteFrame & frame, XMFLOAT2 const & position, FXMVECTOR color, float rotation, float scale, SpriteEffects effects, float layer) const
 {
 	assert(batch != 0);
 
@@ -104,7 +104,7 @@ void XM_CALLCONV SGASpriteSheet::Draw(SpriteBatch * batch, const SpriteFrame & f
 	batch->Draw(mspTexture.Get(), position, &frame.sourceRect, color, rotation, pivot, scale, effects, layer);
 }
 
-void XM_CALLCONV SGASpriteSheet::Draw(SpriteBatch * batch, const SpriteFrame & frame, XMFLOAT2 const & position, FXMVECTOR color, float rotation, XMFLOAT2 const & scale, SpriteEffects effects, float layer) const
+void XM_CALLCONV SpriteSheet::Draw(SpriteBatch * batch, const SpriteFrame & frame, XMFLOAT2 const & position, FXMVECTOR color, float rotation, XMFLOAT2 const & scale, SpriteEffects effects, float layer) const
 {
 	assert(batch != 0);
 
@@ -122,7 +122,7 @@ void XM_CALLCONV SGASpriteSheet::Draw(SpriteBatch * batch, const SpriteFrame & f
 	batch->Draw(mspTexture.Get(), position, &frame.sourceRect, color, rotation, pivot, scale, effects, layer);
 }
 
-void XM_CALLCONV SGASpriteSheet::Draw(SpriteBatch * batch, const SpriteFrame & frame, FXMVECTOR position, FXMVECTOR color, float rotation, float scale, SpriteEffects effects, float layer) const
+void XM_CALLCONV SpriteSheet::Draw(SpriteBatch * batch, const SpriteFrame & frame, FXMVECTOR position, FXMVECTOR color, float rotation, float scale, SpriteEffects effects, float layer) const
 {
 	assert(batch != 0);
 
@@ -140,7 +140,7 @@ void XM_CALLCONV SGASpriteSheet::Draw(SpriteBatch * batch, const SpriteFrame & f
 	batch->Draw(mspTexture.Get(), position, &frame.sourceRect, color, rotation, XMLoadFloat2(&pivot), scale, effects, layer);
 }
 
-void XM_CALLCONV SGASpriteSheet::Draw(SpriteBatch * batch, const SpriteFrame & frame, FXMVECTOR position, FXMVECTOR color, float rotation, GXMVECTOR scale, SpriteEffects effects, float layer) const
+void XM_CALLCONV SpriteSheet::Draw(SpriteBatch * batch, const SpriteFrame & frame, FXMVECTOR position, FXMVECTOR color, float rotation, GXMVECTOR scale, SpriteEffects effects, float layer) const
 {
 	assert(batch != 0);
 
@@ -158,7 +158,7 @@ void XM_CALLCONV SGASpriteSheet::Draw(SpriteBatch * batch, const SpriteFrame & f
 	batch->Draw(mspTexture.Get(), position, &frame.sourceRect, color, rotation, XMLoadFloat2(&pivot), scale, effects, layer);
 }
 
-void XM_CALLCONV SGASpriteSheet::Draw(SpriteBatch * batch, const SpriteFrame & frame, RECT const & destRect, FXMVECTOR color, float rotation, SpriteEffects effects, float layer) const
+void XM_CALLCONV SpriteSheet::Draw(SpriteBatch * batch, const SpriteFrame & frame, RECT const & destRect, FXMVECTOR color, float rotation, SpriteEffects effects, float layer) const
 {
 	assert(batch != 0);
 

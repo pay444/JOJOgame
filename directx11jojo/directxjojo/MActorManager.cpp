@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "SGAActorManager.h"
+#include "MActorManager.h"
 
 
-SGAActorManager::SGAActorManager() :
+MActorManager::MActorManager() :
 	tmpPos(XMFLOAT2(0.0f, 0.0f)),
 	posIndex2(0),
 	posIndex3(0),
@@ -12,23 +12,24 @@ SGAActorManager::SGAActorManager() :
 	mEnemyCount(0),
 	mEndTurnPlayerCount(0),
 	mEndTurnEnemyCount(0),
-	mEnemyControll(0)
+	mEnemyControll(0),
+	mTurnBool(false)
 {
 }
 
 
-SGAActorManager::~SGAActorManager()
+MActorManager::~MActorManager()
 {
 	
 }
 
-E_SCENE SGAActorManager::Update(float dt)
+E_SCENE MActorManager::Update(float dt)
 {
 	//SortActors();
 	//값이 바뀌지 않음
 	for (const auto &actor : mActors)
 	{
-		SGAActor* pActor;
+		MActor* pActor;
 		pActor = actor.get();
 
 		//적중에 누가 움직일 것인가
@@ -59,7 +60,7 @@ E_SCENE SGAActorManager::Update(float dt)
 	}
 
 
-	if (!mUiCheck&&SGAActorManager::Instance().GetClassUi()!=NULL&&!SGAActorManager::Instance().GetClassUi()->GetVisible())
+	if (!mUiCheck&&MActorManager::Instance().GetClassUi()!=NULL&&!MActorManager::Instance().GetClassUi()->GetVisible())
 	{
 		//클릭한 해당놈의 위치와 보여주는 여부를 넘겨줌
 		RePosAndVisiMB();
@@ -74,7 +75,7 @@ E_SCENE SGAActorManager::Update(float dt)
 
 	CheckAction();
 
-	if (SGAFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+	if (MFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	{
 		mUiCheck = false;
 	}
@@ -90,7 +91,7 @@ E_SCENE SGAActorManager::Update(float dt)
 		
 		if (pActor->GetDestroyed())
 		{
-			vector<unique_ptr<TILE>> *pVecTile = SGAActorManager::Instance().GetTileInfo();
+			vector<unique_ptr<TILE>> *pVecTile = MActorManager::Instance().GetTileInfo();
 
 			//캐릭터 삭제시 턴종료를 위한 설정 초기화
 			if (dynamic_cast<Player*>(pActor))
@@ -120,11 +121,11 @@ E_SCENE SGAActorManager::Update(float dt)
 
 	if (state.R)
 	{
-		SGAActorManager::Instance().SetMBVisible(false);
+		MActorManager::Instance().SetMBVisible(false);
 		//MoveBox::Instance()->SetVisible(false);
-		SGAActorManager::Instance().SetUIVisible(false);
-		SGAActorManager::Instance().SetAtVisible(false);
-		SGAActorManager::Instance().SetClickCount(0);
+		MActorManager::Instance().SetUIVisible(false);
+		MActorManager::Instance().SetAtVisible(false);
+		MActorManager::Instance().SetClickCount(0);
 		mClickCount = 0;
 		mUiCheck = false;
 		mTurn = true;
@@ -144,10 +145,10 @@ E_SCENE SGAActorManager::Update(float dt)
 	return E_SCENE_NONPASS;
 }
 
-void SGAActorManager::CheckCollidion()
+void MActorManager::CheckCollidion()
 {
 	auto iter1 = mActors.begin();
-	SGAActor* pCollider, *pCollidee;
+	MActor* pCollider, *pCollidee;
 	while (iter1 != mActors.cend())
 	{
 		pCollider = iter1->get();
@@ -171,10 +172,10 @@ void SGAActorManager::CheckCollidion()
 	}
 }
 
-void SGAActorManager::CheckAction()
+void MActorManager::CheckAction()
 {
 	auto iter1 = mActors.begin();
-	SGAActor* pCollider, *pCollidee;
+	MActor* pCollider, *pCollidee;
 	pCollider = nullptr;
 	pCollidee = nullptr;
 	vector<int> *vecAtScopeIndx;
@@ -198,8 +199,8 @@ void SGAActorManager::CheckAction()
 				Color color = Colors::Gray;
 				((Character*)pUi->GetPlayer())->SetColor(color);
 				((Character*)pUi->GetPlayer())->SetActionTurn(2);
-				SGAActorManager::Instance().GetClassUi()->SetVisible(false);
-				SGAActorManager::Instance().GetClassAttackBox()->SetVisible(false);
+				MActorManager::Instance().GetClassUi()->SetVisible(false);
+				MActorManager::Instance().GetClassAttackBox()->SetVisible(false);
 				//mUiCheck = true;
 				//SetAtVisible(true);
 				//((UI*)pCollider)->SetVisible(false);
@@ -213,9 +214,9 @@ void SGAActorManager::CheckAction()
 	//그자리에 캐릭터가 있고 공격 가능한지 확인한후에 공격.
 	if (mUiCheck)
 	{
-		if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+		if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 		{
-			//auto vecAtIndex = SGAActorManager::Instance().GetvecAtScopeIndex();
+			//auto vecAtIndex = MActorManager::Instance().GetvecAtScopeIndex();
 
 			//auto a = vecAtIndex[0];
 			for (const auto &actor : mActors)
@@ -233,7 +234,7 @@ void SGAActorManager::CheckAction()
 								dynamic_cast<Character*>(pCollidee))
 							{
 								pCollidee->OnHit(pCollider, ((AttackBox*)pCollider)->GetCharacter());
-								SGAActorManager::Instance().SetAtVisible(false);
+								MActorManager::Instance().SetAtVisible(false);
 								mClickCount = 0;
 								mUiCheck = false;
 							}
@@ -246,11 +247,13 @@ void SGAActorManager::CheckAction()
 	}
 }
 
-void SGAActorManager::CheckAllActionTurn()
+void MActorManager::CheckAllActionTurn()
 {
+	TurnGrapic* turnGrapic = nullptr;
+
 	for (const auto &actor : mActors)
 	{
-		SGAActor* pActor;
+		MActor* pActor;
 		pActor = actor.get();
 
 		if (dynamic_cast<Character*>(pActor))
@@ -259,51 +262,113 @@ void SGAActorManager::CheckAllActionTurn()
 			{
 				if (((Character*)pActor)->GetActionTurn() == 2)
 				{
+
 					mEndTurnPlayerCount++;
 					if (mEndTurnPlayerCount == mPlayerCount)
 					{
-						mTurn = false;
-						SGAActorManager::Instance().SetMBVisible(false);
-						SGAActorManager::Instance().SetUIVisible(false);
-						SGAActorManager::Instance().SetAtVisible(false);
-						mClickCount = 0;
+
 						for (const auto &actor : mActors)
 						{
-							SGAActor* pActor;
-							pActor = actor.get();
-							if (dynamic_cast<Player*>(pActor))
+							if (typeid(*actor) == typeid(TurnGrapic))
 							{
-								((Character*)pActor)->SetActionTurn(0);
+								turnGrapic = (TurnGrapic*)actor.get();
+								break;
 							}
 						}
+						//모든 캐릭터의 행동이 끝나면 애니메이션 출력준비를 한다.
+						if (!mTurnBool)
+						{
+							turnGrapic->SetAnimation("eTurn");
+							//turnGrapic->SetVisible(true);
+							//AttackBox 가 위치해있는 캐릭터의 모션을 true로 바꿔주고 
+							//그러면 Chractor 쪽에서턴그래픽을 활성화 시켜줌
+							GetClassAttackBox()->GetCharacter()->SetMotion(true);
+							mTurnBool = true;
+						}
+		
+						//턴넘어가는 그래픽이 끝나야 바꿔줌
+						if (turnGrapic->GetEndTime() && turnGrapic->GetVisible() == false)
+						{
+							//GetClassAttackBox()->GetCharacter()->SetMotion(false);
+							mTurnBool = false;
+							mTurn = false;
+							MActorManager::Instance().SetMBVisible(false);
+							MActorManager::Instance().SetUIVisible(false);
+							MActorManager::Instance().SetAtVisible(false);
+							mClickCount = 0;
+							for (const auto &actor : mActors)
+							{
+								MActor* pActor;
+								pActor = actor.get();
+								if (dynamic_cast<Player*>(pActor))
+								{
+									((Character*)pActor)->SetActionTurn(0);
+								}
+							}
+							
+						}
 						break;
+	
 					}
+
 				}
 			}
 			else if (pActor->GetCamp() == GunGeon::CampType::MONSTER)
 			{
 				if (((Character*)pActor)->GetActionTurn() == 2)
 				{
+					for (const auto &actor : mActors)
+					{
+						if (typeid(*actor) == typeid(TurnGrapic))
+						{
+							turnGrapic = (TurnGrapic*)actor.get();
+							break;
+						}
+					}
 					mEndTurnEnemyCount++;
 					if (mEndTurnEnemyCount == mEnemyCount)
 					{
-						mTurn = true;
-						SGAActorManager::Instance().SetMBVisible(false);
-						SGAActorManager::Instance().SetUIVisible(false);
-						SGAActorManager::Instance().SetAtVisible(false);
-						mClickCount = 0;
-						mEnemyControll = 0;
 						for (const auto &actor : mActors)
 						{
-							SGAActor* pActor;
-							pActor = actor.get();
-							if (dynamic_cast<Enemy*>(pActor))
+							if (typeid(*actor) == typeid(TurnGrapic))
 							{
-								((Character*)pActor)->SetActionTurn(0);
+								turnGrapic = (TurnGrapic*)actor.get();
+								break;
 							}
 						}
-						mUiCheck = false;
+						if (!mTurnBool)
+						{
+							turnGrapic->SetAnimation("pTurn");
+							//turnGrapic->SetVisible(true);
+							//AttackBox 가 위치해있는 캐릭터의 모션을 true로 바꿔주고 
+							//그러면 Chractor 쪽에서턴그래픽을 활성화 시켜줌
+							GetClassAttackBox()->GetCharacter()->SetMotion(true);
+							mTurnBool = true;
+						}
+						if (turnGrapic->GetEndTime() && turnGrapic->GetVisible() == false)
+						{
+							//GetClassAttackBox()->GetCharacter()->SetMotion(false);
+							mTurnBool = false;
+							mTurn = true;
+							MActorManager::Instance().SetMBVisible(false);
+							MActorManager::Instance().SetUIVisible(false);
+							MActorManager::Instance().SetAtVisible(false);
+							mClickCount = 0;
+							mEnemyControll = 0;
+							for (const auto &actor : mActors)
+							{
+								MActor* pActor;
+								pActor = actor.get();
+								if (dynamic_cast<Enemy*>(pActor))
+								{
+									((Character*)pActor)->SetActionTurn(0);
+								}
+							}
+							mUiCheck = false;
+							break;
+						}
 						break;
+
 					}
 				}
 			}
@@ -314,10 +379,10 @@ void SGAActorManager::CheckAllActionTurn()
 	mEndTurnEnemyCount = 0;
 }
 
-void SGAActorManager::RePosAndVisiMB()
+void MActorManager::RePosAndVisiMB()
 {
 	//클릭한 해당놈의 위치와 보여주는 여부를 무브 박스 에게 넘겨줌
-	if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+	if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	{
 		int posIndex = 0;
 		int mouseIndex = 0;
@@ -334,7 +399,7 @@ void SGAActorManager::RePosAndVisiMB()
 			Vector2 mousePos = Vector2(mouse.x + fScrollx, mouse.y + fScrolly);
 			mouseIndex = actor->GetTileIndex(mousePos);
 
-			SGAActor* pCollider;
+			MActor* pCollider;
 			pCollider = actor.get();
 
 			//캐릭터를 상속받는 녀석이라면 무브박스 통제
@@ -429,9 +494,9 @@ void SGAActorManager::RePosAndVisiMB()
 	}
 }
 
-void SGAActorManager::RePosAndVisiUI()
+void MActorManager::RePosAndVisiUI()
 {
-	if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+	if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	{
 		int posIndex = 0;
 		int mouseIndex = 0;
@@ -448,7 +513,7 @@ void SGAActorManager::RePosAndVisiUI()
 			Vector2 mousePos = Vector2(mouse.x + fScrollx, mouse.y + fScrolly);
 			mouseIndex = actor->GetTileIndex(mousePos);
 
-			SGAActor* pCollider;
+			MActor* pCollider;
 			pCollider = actor.get();
 
 			//UI 통제
@@ -506,10 +571,10 @@ void SGAActorManager::RePosAndVisiUI()
 	}
 }
 
-void SGAActorManager::RePosAndVisiAt()
+void MActorManager::RePosAndVisiAt()
 {
 	//클릭한 해당놈의 위치와 보여주는 여부를 공격 박스 에게 넘겨줌
-	if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+	if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	{
 		int posIndex = 0;
 		int mouseIndex = 0;
@@ -526,7 +591,7 @@ void SGAActorManager::RePosAndVisiAt()
 			Vector2 mousePos = Vector2(mouse.x + fScrollx, mouse.y + fScrolly);
 			mouseIndex = actor->GetTileIndex(mousePos);
 
-			SGAActor* pCollider;
+			MActor* pCollider;
 			pCollider = actor.get();
 
 			//캐릭터를 상속받는 녀석이라면 공격박스 통제
@@ -595,7 +660,7 @@ void SGAActorManager::RePosAndVisiAt()
 	}
 }
 
-void SGAActorManager::Draw()
+void MActorManager::Draw()
 {
 	//MoveBox::Instance().Draw();
 	//AttackBox::Instance().Draw();
@@ -607,7 +672,7 @@ void SGAActorManager::Draw()
 
 }
 
-void SGAActorManager::Release()
+void MActorManager::Release()
 {
 	//이것은 바뀜
 	//for ( auto &actor : mActors)
@@ -627,6 +692,7 @@ void SGAActorManager::Release()
 	mEndTurnPlayerCount = 0;
 	mEndTurnEnemyCount = 0;
 	mEnemyControll = 0;
+	mTurnBool = false;
 	mVecEenemyIndex.clear();
 	auto iter1 = mVecEenemyIndex.begin();
 	while (iter1 != mVecEenemyIndex.end())
@@ -658,9 +724,9 @@ void SGAActorManager::Release()
 	}
 }
 
-void SGAActorManager::SortActors()
+void MActorManager::SortActors()
 {
-	list<unique_ptr <SGAActor>> mSortActors[E_SORTID_END];
+	list<unique_ptr <MActor>> mSortActors[E_SORTID_END];
 
 	for (auto &actor : mActors)
 	{
@@ -695,11 +761,11 @@ void SGAActorManager::SortActors()
 	mActors.reverse();
 }
 
-void SGAActorManager::CheckEnemyTarget()
+void MActorManager::CheckEnemyTarget()
 {
 	struct SGAActorAnddis
 	{
-		SGAActor* pActor;
+		MActor* pActor;
 		float distance;
 	};
 	struct less_than_distance
@@ -713,7 +779,7 @@ void SGAActorManager::CheckEnemyTarget()
 	//적에서 가장 가까운 플레이어 를 가져온다.
 	for (const auto &actor : mActors)
 	{
-		SGAActor* pEnemyActor;
+		MActor* pEnemyActor;
 		pEnemyActor = actor.get();
 		vector<SGAActorAnddis> vecActorAndindex;
 
@@ -721,7 +787,7 @@ void SGAActorManager::CheckEnemyTarget()
 		{
 			for (const auto &actor : mActors)
 			{
-				SGAActor* pPlayerActor;
+				MActor* pPlayerActor;
 				pPlayerActor = actor.get();
 				if (dynamic_cast<Player*>(pPlayerActor) && ((Character*)pPlayerActor)->GetHealth() > 0)
 				{
@@ -748,12 +814,12 @@ void SGAActorManager::CheckEnemyTarget()
 	}
 }
 
-E_SCENE SGAActorManager::GetScene()
+E_SCENE MActorManager::GetScene()
 {
 	return meScene;
 }
 
-bool SGAActorManager::GetMBSeekScope()
+bool MActorManager::GetMBSeekScope()
 {
 	for (auto &actor : mActors)
 	{
@@ -765,7 +831,7 @@ bool SGAActorManager::GetMBSeekScope()
 	return false;
 }
 
-bool SGAActorManager::GetUICheckArea()
+bool MActorManager::GetUICheckArea()
 {
 	for (const auto &actor : mActors)
 	{
@@ -777,7 +843,7 @@ bool SGAActorManager::GetUICheckArea()
 	return false;
 }
 
-vector<unique_ptr<int>>* SGAActorManager::GetvecAtScopeIndex()
+vector<unique_ptr<int>>* MActorManager::GetvecAtScopeIndex()
 {
 
 	for (const auto &actor : mActors)
@@ -789,7 +855,7 @@ vector<unique_ptr<int>>* SGAActorManager::GetvecAtScopeIndex()
 	}
 }
 
-UI * SGAActorManager::GetClassUi()
+UI * MActorManager::GetClassUi()
 {
 	for (auto &actor : mActors)
 	{
@@ -802,7 +868,7 @@ UI * SGAActorManager::GetClassUi()
 	return nullptr;
 }
 
-AttackBox * SGAActorManager::GetClassAttackBox()
+AttackBox * MActorManager::GetClassAttackBox()
 {
 	for (auto &actor : mActors)
 	{
@@ -815,7 +881,7 @@ AttackBox * SGAActorManager::GetClassAttackBox()
 	return nullptr;
 }
 
-MoveBox * SGAActorManager::GetClassMoveBox()
+MoveBox * MActorManager::GetClassMoveBox()
 {
 	for (auto &actor : mActors)
 	{
@@ -829,7 +895,7 @@ MoveBox * SGAActorManager::GetClassMoveBox()
 }
 
 
-void SGAActorManager::SetMBVisible(bool visible)
+void MActorManager::SetMBVisible(bool visible)
 {
 	for (auto &actor : mActors)
 	{
@@ -845,7 +911,7 @@ void SGAActorManager::SetMBVisible(bool visible)
 	}
 }
 
-vector<unique_ptr<TILE>>* SGAActorManager::GetTileInfo()
+vector<unique_ptr<TILE>>* MActorManager::GetTileInfo()
 {
 	for (auto &actor : mActors)
 	{
@@ -858,7 +924,7 @@ vector<unique_ptr<TILE>>* SGAActorManager::GetTileInfo()
 }
 
 
-void SGAActorManager::SetUIVisible(bool visible)
+void MActorManager::SetUIVisible(bool visible)
 {
 	for (auto &actor : mActors)
 	{
@@ -870,7 +936,7 @@ void SGAActorManager::SetUIVisible(bool visible)
 	}
 }
 
-void SGAActorManager::SetAtVisible(bool visible)
+void MActorManager::SetAtVisible(bool visible)
 {
 	for (auto &actor : mActors)
 	{
@@ -882,8 +948,20 @@ void SGAActorManager::SetAtVisible(bool visible)
 	}
 }
 
-//void SGAActorManager::InsertMap(string str, unique_ptr<SGAActor> actor)
+class TurnGrapic* MActorManager::GetClassTurnGrapic()
+{
+	for (auto &actor : mActors)
+	{
+		if (typeid(*actor) == typeid(TurnGrapic))
+		{
+			return ((TurnGrapic*)actor.get());
+			break;
+		}
+	}
+}
+
+//void MActorManager::InsertMap(string str, unique_ptr<MActor> actor)
 //{
-//	mMapActors.insert(pair<string, unique_ptr<SGAActor>>(str, move(actor)));
+//	mMapActors.insert(pair<string, unique_ptr<MActor>>(str, move(actor)));
 //}
 

@@ -6,8 +6,8 @@ AttackBox::AttackBox()
 {
 }
 
-AttackBox::AttackBox(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * pFont)
-	:SGAActor(pBatch, pSheet, pFont),
+AttackBox::AttackBox(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont)
+	:MActor(pBatch, pSheet, pFont),
 	mAtVisible(false)
 {
 	
@@ -27,14 +27,14 @@ void AttackBox::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
 		},
 	};
 	mAtVisible = visible;
-	SGAActor::Init(anim, 1, eSortID);
+	MActor::Init(anim, 1, eSortID);
 	SetPosition(pos);
 	SetAnimation("AttackBox");
 }
 
 E_SCENE AttackBox::Update(float dt)
 {
-	E_SCENE eResult = SGAActor::Update(dt);
+	E_SCENE eResult = MActor::Update(dt);
 
 	if (eResult > E_SCENE_NONPASS)
 		return eResult;
@@ -54,7 +54,7 @@ void AttackBox::Draw()
 
 	offset.x = (int)ScrollMgr::Instance().GetScroll().x;
 	offset.y = (int)ScrollMgr::Instance().GetScroll().y;
-	vector<unique_ptr<TILE>> *pVecTile = SGAActorManager::Instance().GetTileInfo();
+	vector<unique_ptr<TILE>> *pVecTile = MActorManager::Instance().GetTileInfo();
 
 	posIndex = GetTileIndex(mPosition);
 
@@ -64,7 +64,7 @@ void AttackBox::Draw()
 		Vector2 mousePos = Vector2(mouse.x + fScrollx, mouse.y + fScrolly);
 		mouseIndex =GetTileIndex(mousePos);
 
-		if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+		if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 		{
 			AttackScope();
 		}
@@ -84,7 +84,7 @@ void AttackBox::Draw()
 			(*pVecTile)[*mspVecAtScopeIndex[x].get()]->AttackNum = 0;
 		}
 	}
-	else //if(!SGAActorManager::Instance().GetUICheckArea() && mAtVisible== false && posIndex!=mouseIndex)
+	else //if(!MActorManager::Instance().GetUICheckArea() && mAtVisible== false && posIndex!=mouseIndex)
 	{
 		//타일의 위치 측정 초기화
 		(*pVecTile)[GetTileIndex(mPosition)]->AttackNum = 0;
@@ -99,7 +99,7 @@ void AttackBox::Draw()
 
 }
 
-void AttackBox::OnHit(SGAActor * pCollidee)
+void AttackBox::OnHit(MActor * pCollidee)
 {
 	if (typeid(*pCollidee) == typeid(FotMan))
 	{
@@ -118,7 +118,7 @@ void AttackBox::Release()
 	}
 }
 
-bool AttackBox::UIntersecRectScope(SGAActor * pActor)
+bool AttackBox::UIntersecRectScope(MActor * pActor)
 {
 
 	RECT src = GetBoundScope();
@@ -127,7 +127,7 @@ bool AttackBox::UIntersecRectScope(SGAActor * pActor)
 	return	::IntersectRect(&intersect, &src, &trg);
 }
 
-bool AttackBox::AIIntersecRectScope(SGAActor * pActor)
+bool AttackBox::AIIntersecRectScope(MActor * pActor)
 {
 	for (int i = 0; i < mspVecAtScopeIndex.size(); ++i)
 	{
@@ -156,7 +156,7 @@ void AttackBox::AttackScope()
 		auto mouse = Mouse::Get().GetState();
 		XMFLOAT2 mMousePos = XMFLOAT2(mouse.x + fScrollx, mouse.y + fScrolly);
 
-		vector<unique_ptr<TILE>> *pVecTile = SGAActorManager::Instance().GetTileInfo();
+		vector<unique_ptr<TILE>> *pVecTile = MActorManager::Instance().GetTileInfo();
 
 		//케릭터의 위치타일에 공격거리를 넣음
 		(*pVecTile)[GetTileIndex(mPosition)]->AttackNum = mAttackDistance;
@@ -215,7 +215,7 @@ bool AttackBox::AttackScopeSeek()
 	float fScrollx = ScrollMgr::Instance().GetScroll().x;
 	float fScrolly = ScrollMgr::Instance().GetScroll().y;
 	auto mouse = Mouse::Get().GetState();
-	vector<unique_ptr<TILE>> *pVecTile = SGAActorManager::Instance().GetTileInfo();
+	vector<unique_ptr<TILE>> *pVecTile = MActorManager::Instance().GetTileInfo();
 
 	XMFLOAT2 mmousePos = XMFLOAT2(mouse.x + fScrollx, mouse.y + fScrolly);
 
@@ -240,7 +240,7 @@ RECT AttackBox::GetBoundScope()
 	ZeroMemory(&rct, sizeof(RECT));
 	float fScrollx = ScrollMgr::Instance().GetScroll().x;
 	float fScrolly = ScrollMgr::Instance().GetScroll().y;
-	vector<unique_ptr<TILE>> *pVecTile = SGAActorManager::Instance().GetTileInfo();
+	vector<unique_ptr<TILE>> *pVecTile = MActorManager::Instance().GetTileInfo();
 	auto mouse = Mouse::Get().GetState();
 	XMFLOAT2 mmousePos = XMFLOAT2(mouse.x + fScrollx, mouse.y + fScrolly);
 	int mouseIndex = GetTileIndex(mmousePos);
@@ -265,7 +265,7 @@ RECT AttackBox::GetAtBoundScope(int i)
 	ZeroMemory(&rct, sizeof(RECT));
 	float fScrollx = ScrollMgr::Instance().GetScroll().x;
 	float fScrolly = ScrollMgr::Instance().GetScroll().y;
-	vector<unique_ptr<TILE>> *pVecTile = SGAActorManager::Instance().GetTileInfo();
+	vector<unique_ptr<TILE>> *pVecTile = MActorManager::Instance().GetTileInfo();
 
 	Vector2 vec2ScopePos = (*pVecTile)[*mspVecAtScopeIndex[i]]->vPos + XMFLOAT2(JOJOTILESX / 2, JOJOTILESY / 2);
 

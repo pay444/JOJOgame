@@ -1,9 +1,9 @@
 #pragma once
-class UI : public SGAActor
+class UI : public MActor
 {
 public:
 	UI();
-	UI(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * pFont);
+	UI(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont);
 	~UI();
 private:
 	bool mUIVisible;

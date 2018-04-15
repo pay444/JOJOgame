@@ -1,7 +1,7 @@
 #pragma once
 
 class World
-	: public SGAActor
+	: public MActor
 {
 public:
 	World(SpriteBatch *pBatch, SpriteFont * pFont,int screenWidth,int screenHeight);

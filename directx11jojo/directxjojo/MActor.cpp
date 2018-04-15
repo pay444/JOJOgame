@@ -1,8 +1,8 @@
 #include "stdafx.h"
-//#include "SGAActor.h"
+//#include "MActor.h"
 
 
-SGAActor::SGAActor() : 
+MActor::MActor() : 
 	mpSheet(NULL),
 	mFrames(NULL),
 	mpSpriteFrame(NULL),
@@ -19,8 +19,8 @@ SGAActor::SGAActor() :
 	mAnimations.clear();
 }
 
-SGAActor::SGAActor(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * pFont)
-	: SGAActor() // c++11 이후로 기본 생성자를 불러올수있음
+MActor::MActor(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont)
+	: MActor() // c++11 이후로 기본 생성자를 불러올수있음
 {
 	mpSheet = pSheet;
 	mpBatch = pBatch;
@@ -28,12 +28,12 @@ SGAActor::SGAActor(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * p
 }
 
 
-SGAActor::~SGAActor()
+MActor::~MActor()
 {
 	//int x = 0;
 }
 
-void SGAActor::Init(SpriteBatch* pBatch, SGASpriteSheet *pSheet, Animation *anims, int animCount,E_SORTID eSortID)
+void MActor::Init(SpriteBatch* pBatch, SpriteSheet *pSheet, Animation *anims, int animCount,E_SORTID eSortID)
 {
 	mpSheet = pSheet;
 	mpBatch = pBatch;
@@ -41,7 +41,7 @@ void SGAActor::Init(SpriteBatch* pBatch, SGASpriteSheet *pSheet, Animation *anim
 	Init(anims, animCount, eSortID); //연관이 되는 부분등은 빼서 함수로써 사용해야함
 }
 
-void SGAActor::Init(Animation * anims, int animCount,E_SORTID eSortID)
+void MActor::Init(Animation * anims, int animCount,E_SORTID eSortID)
 {
 	for (int i = 0; i < animCount; ++i)
 	{
@@ -59,7 +59,7 @@ void SGAActor::Init(Animation * anims, int animCount,E_SORTID eSortID)
 	meSortID = eSortID;
 }
 
-void SGAActor::Init(Animation * anims, int animCount)
+void MActor::Init(Animation * anims, int animCount)
 {
 	for (int i = 0; i < animCount; ++i)
 	{
@@ -76,7 +76,7 @@ void SGAActor::Init(Animation * anims, int animCount)
 	}
 }
 
-E_SCENE SGAActor::Update(float dt)
+E_SCENE MActor::Update(float dt)
 {
 	if (mpSheet == NULL)
 		return E_SCENE_NONPASS;
@@ -100,7 +100,7 @@ E_SCENE SGAActor::Update(float dt)
 	return meScene;
 }
 
-void SGAActor::Draw()
+void MActor::Draw()
 {
 	if (mpBatch == NULL || mpSheet == NULL)
 		return;
@@ -111,7 +111,7 @@ void SGAActor::Draw()
 	mpSheet->Draw(mpBatch, *mpSpriteFrame, mPosition);
 }
 
-void SGAActor::SetAnimation(string name)
+void MActor::SetAnimation(string name)
 {
 	if (mCurAnim == name)
 		return;
@@ -132,7 +132,7 @@ void SGAActor::SetAnimation(string name)
 	mpSpriteFrame = mpSheet->Find(mCurFrame->FrameName.c_str());
 }
 
-bool SGAActor::IntersecRect(SGAActor* pActor)
+bool MActor::IntersecRect(MActor* pActor)
 {
 	RECT src = GetBound();
 	RECT trg = pActor->GetBound();
@@ -140,10 +140,10 @@ bool SGAActor::IntersecRect(SGAActor* pActor)
 	return	::IntersectRect(&intersect, &src, &trg);
 }
 
-int SGAActor::GetTileIndex(const Vector2 vPos)
+int MActor::GetTileIndex(const Vector2 vPos)
 {
 	const vector<unique_ptr<TILE>>* spVecTIle =
-		SGAActorManager::Instance().GetTileInfo();
+		MActorManager::Instance().GetTileInfo();
 
 	for (UINT i = 0; i < spVecTIle->size(); ++i)
 	{
@@ -153,7 +153,7 @@ int SGAActor::GetTileIndex(const Vector2 vPos)
 	return -1;
 }
 
-bool SGAActor::CollisionMouseToTile(const Vector2 vPos, const TILE * pTileInfo)
+bool MActor::CollisionMouseToTile(const Vector2 vPos, const TILE * pTileInfo)
 {
 	Vector2 vPoint[4];
 	vPoint[0] = Vector2(

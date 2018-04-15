@@ -1,6 +1,6 @@
 #pragma once
 
-class MoveBox : public SGAActor
+class MoveBox : public MActor
 {
 public:
 	//static MoveBox *Instance()
@@ -15,7 +15,7 @@ public:
 	//}
 public:
 	MoveBox();
-	MoveBox(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * pFont);
+	MoveBox(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont);
 public:
 	virtual ~MoveBox();
 
@@ -30,12 +30,12 @@ private:
 	Player* mpPlayer;
 public:
 	virtual void Init(E_SORTID eSortID, XMFLOAT2 pos, float limitDis, bool visible);
-	virtual void Init(SpriteBatch *pBatch, SGASpriteSheet *pSheet, SpriteFont *pFont, E_SORTID eSortID, XMFLOAT2 pos, float limitDis, bool visible);
+	virtual void Init(SpriteBatch *pBatch, SpriteSheet *pSheet, SpriteFont *pFont, E_SORTID eSortID, XMFLOAT2 pos, float limitDis, bool visible);
 	virtual E_SCENE Update(float dt);
 	virtual void Draw();
 	void Release();
 	void TileScope();
-	//virtual void OnHit(SGAActor* pCollidee);
+	//virtual void OnHit(MActor* pCollidee);
 	//unique_ptr<MoveBox> mpMoveBox;
 
 	void SetVisible(bool visible) { mVisible = visible; }

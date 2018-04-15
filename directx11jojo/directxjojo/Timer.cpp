@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "SGATimer.h"
+#include "Timer.h"
 
 
-SGATimer::SGATimer() : mdSecondsPerCount(0.0), 
+Timer::Timer() : mdSecondsPerCount(0.0), 
 						mdDeltaTime(-1.0),
 						mfScale(1.f),
 						mllBaseTime(0),
@@ -16,7 +16,7 @@ SGATimer::SGATimer() : mdSecondsPerCount(0.0),
 	mdSecondsPerCount = 1.0 / (double)countsPerSec;
 }
 
-float SGATimer::TotalTime() const
+float Timer::TotalTime() const
 {
 	if (mbStopped)
 	{
@@ -27,12 +27,12 @@ float SGATimer::TotalTime() const
 	}
 }
 
-float SGATimer::DeltaTime() const
+float Timer::DeltaTime() const
 {
 	return (float)mdDeltaTime * mfScale;
 }
 
-void SGATimer::Start()
+void Timer::Start()
 {
 	long long currTime;
 	QueryPerformanceCounter((LARGE_INTEGER*)&currTime);
@@ -43,7 +43,7 @@ void SGATimer::Start()
 	mbStopped = false;
 }
 
-void SGATimer::Resume()
+void Timer::Resume()
 {
 	long long startTime;
 	QueryPerformanceCounter((LARGE_INTEGER*)&startTime);
@@ -58,7 +58,7 @@ void SGATimer::Resume()
 	}
 }
 
-void SGATimer::Stop()
+void Timer::Stop()
 {
 	if (!mbStopped)
 	{
@@ -70,7 +70,7 @@ void SGATimer::Stop()
 	}
 }
 
-void SGATimer::Update()
+void Timer::Update()
 {
 	if (mbStopped)
 	{
@@ -92,7 +92,7 @@ void SGATimer::Update()
 	}
 }
 
-void SGATimer::SetScale(float scale)
+void Timer::SetScale(float scale)
 {
 	mfScale = scale;
 }

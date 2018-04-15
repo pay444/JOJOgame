@@ -1,16 +1,16 @@
 #include "stdafx.h"
-//#include "SGAActor.h"
+//#include "MActor.h"
 #include "MoveBox.h"
 
 
-MoveBox::MoveBox() :SGAActor(),
+MoveBox::MoveBox() :MActor(),
 mSeekScope(false)
 {
 	mAnimations.clear();
 }
 
-MoveBox::MoveBox(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * pFont)
-	:SGAActor(pBatch, pSheet, pFont),
+MoveBox::MoveBox(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont)
+	:MActor(pBatch, pSheet, pFont),
 	mSeekScope(false),
 	mpPlayer(nullptr)
 {
@@ -41,15 +41,15 @@ void MoveBox::Init(E_SORTID eSortID, XMFLOAT2 pos, float limitDis, bool visible)
 	//mMoveDistance = moveDis;
 	//보이고 안보이고
 	mVisible = visible;
-	SGAActor::Init(anim, 1, eSortID);
+	MActor::Init(anim, 1, eSortID);
 	SetPosition(pos);
 	SetAnimation("CursorBox");
 
 }
 
-void MoveBox::Init(SpriteBatch* pBatch, SGASpriteSheet *pSheet, SpriteFont *pFont, E_SORTID eSortID, XMFLOAT2 pos, float limitDis, bool visible)
+void MoveBox::Init(SpriteBatch* pBatch, SpriteSheet *pSheet, SpriteFont *pFont, E_SORTID eSortID, XMFLOAT2 pos, float limitDis, bool visible)
 {
-	SGAActor();
+	MActor();
 
 	//mAnimations.clear();
 
@@ -68,14 +68,14 @@ void MoveBox::Init(SpriteBatch* pBatch, SGASpriteSheet *pSheet, SpriteFont *pFon
 	//mMoveDistance = moveDis;
 	//보이고 안보이고
 	mVisible = visible;
-	SGAActor::Init(anim, 1, eSortID);
+	MActor::Init(anim, 1, eSortID);
 	SetPosition(pos);
 	SetAnimation("CursorBox");
 }
 
 E_SCENE MoveBox::Update(float dt)
 {
-	E_SCENE eResult = SGAActor::Update(dt);
+	E_SCENE eResult = MActor::Update(dt);
 
 	if (eResult > E_SCENE_NONPASS)
 		return eResult;
@@ -91,7 +91,7 @@ void MoveBox::Draw()
 	offset.x = (int)ScrollMgr::Instance().GetScroll().x;
 	offset.y = (int)ScrollMgr::Instance().GetScroll().y;
 
-	vector<unique_ptr<TILE>> *pVecTile = SGAActorManager::Instance().GetTileInfo();
+	vector<unique_ptr<TILE>> *pVecTile = MActorManager::Instance().GetTileInfo();
 	//XMFLOAT2 pos1, pos2, pos3;
 	//pos1 = XMFLOAT2(24.0f, 24.0f);
 	//pos2 = XMFLOAT2(24.0f + 24.0f, 24.0f);
@@ -115,7 +115,7 @@ void MoveBox::Draw()
 
 	if (mVisible)
 	{
-		if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+		if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 		{
 			TileScope();
 		}
@@ -143,7 +143,7 @@ void MoveBox::Draw()
 
 void MoveBox::Release()
 {
-	vector<unique_ptr<TILE>> *pVecTile = SGAActorManager::Instance().GetTileInfo();
+	vector<unique_ptr<TILE>> *pVecTile = MActorManager::Instance().GetTileInfo();
 
 	mVecScopeIndex.clear();
 	//타일 위치 값 초기화
@@ -162,14 +162,14 @@ void MoveBox::Release()
 
 void MoveBox::TileScope()
 {
-	//if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+	//if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	//{
 		float fScrollx = ScrollMgr::Instance().GetScroll().x;
 		float fScrolly = ScrollMgr::Instance().GetScroll().y;
 		auto mouse = Mouse::Get().GetState();
 		XMFLOAT2 mMousePos = XMFLOAT2(mouse.x + fScrollx, mouse.y + fScrolly);
 
-		vector<unique_ptr<TILE>> *pVecTile = SGAActorManager::Instance().GetTileInfo();
+		vector<unique_ptr<TILE>> *pVecTile = MActorManager::Instance().GetTileInfo();
 
 		//int iIndex = 0;
 
@@ -453,7 +453,7 @@ bool MoveBox::ScopeSeek()
 	float fScrollx = ScrollMgr::Instance().GetScroll().x;
 	float fScrolly = ScrollMgr::Instance().GetScroll().y;
 	auto mouse = Mouse::Get().GetState();
-	vector<unique_ptr<TILE>> *pVecTile = SGAActorManager::Instance().GetTileInfo();
+	vector<unique_ptr<TILE>> *pVecTile = MActorManager::Instance().GetTileInfo();
 
 	XMFLOAT2 mmousePos = XMFLOAT2(mouse.x + fScrollx, mouse.y + fScrolly);
 

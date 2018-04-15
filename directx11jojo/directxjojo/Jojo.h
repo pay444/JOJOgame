@@ -5,7 +5,7 @@ class Jojo : public Player
 {
 public:
 	Jojo();
-	Jojo(SpriteBatch* pBatch, SGASpriteSheet *pSheet, SpriteFont * pFont);
+	Jojo(SpriteBatch* pBatch, SpriteSheet *pSheet, SpriteFont * pFont);
 	virtual ~Jojo();
 public:
 	virtual void Init(

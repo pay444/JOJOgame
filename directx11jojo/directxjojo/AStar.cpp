@@ -15,7 +15,7 @@ void AStar::AStarStat(const int & iStartidx_, const int & iGoalidx_)
 {
 	if (iStartidx_ == iGoalidx_)
 		return;
-	const vector<unique_ptr<TILE>>* pVecTile = SGAActorManager::Instance().GetTileInfo();
+	const vector<unique_ptr<TILE>>* pVecTile = MActorManager::Instance().GetTileInfo();
 
 	if (pVecTile == NULL)
 		return;
@@ -45,7 +45,7 @@ void AStar::MakeRoute()
 	NODE* pParent2 = mCloseList.back().get();
 
 	NODE* npParent = nullptr;
-	const vector<unique_ptr<TILE>>* pVecTile =SGAActorManager::Instance().GetTileInfo();
+	const vector<unique_ptr<TILE>>* pVecTile =MActorManager::Instance().GetTileInfo();
 
 	if (pVecTile == NULL)
 		return;

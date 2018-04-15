@@ -10,11 +10,11 @@ namespace DirectX
 	};
 };
 
-class SGASpriteSheet
+class SpriteSheet
 {
 public:
-	SGASpriteSheet();
-	virtual ~SGASpriteSheet();
+	SpriteSheet();
+	virtual ~SpriteSheet();
 
 private:
 	ComPtr<ID3D11ShaderResourceView>	mspTexture;

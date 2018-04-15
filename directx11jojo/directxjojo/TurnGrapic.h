@@ -1,13 +1,15 @@
 #pragma once
-class TurnGrapic : public SGAActor
+class TurnGrapic : public MActor
 {
 public:
 	TurnGrapic();
-	TurnGrapic(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * pFont);
+	TurnGrapic(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont);
 	virtual ~TurnGrapic();
 
 private:
 	bool mTGVisible;
+	bool mEndTIme;
+	float mfTEalpsdtime;
 	XMFLOAT2 mTGPos;
 public:
 	virtual void Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible);
@@ -16,5 +18,7 @@ public:
 
 	void SetVisible(bool visible) { mTGVisible = visible; }
 	bool GetVisible() { return mTGVisible; }
+
+	bool GetEndTime() { return mEndTIme; }
 };
 

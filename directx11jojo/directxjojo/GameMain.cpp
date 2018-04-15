@@ -23,17 +23,17 @@ void GameMain::InitD3D(HWND hWnd)
 	stream << __FILEW__ << " : " << __LINE__ << endl;		//현재 실행중인 소스파일이 뭔지 알수있음 라인도 알수있음
 	MessageBox(NULL, stream.str().c_str(), "TITLE", MB_OK);	//메세지 박스로 알수있음
 	*/
-	SGAFramework::InitD3D(hWnd);
+	MFramework::InitD3D(hWnd);
 
 	//mspStates = std::make_unique<CommonStates>(mspDevice.Get());
 	//mspStage = make_unique<World>(mspSpriteBatch.get(),mScreenWidth,mScreenHeight);
-	//mspStage = SGAActorManager::Instance().Create<World>(mspSpriteBatch.get(), mScreenWidth, mScreenHeight);
+	//mspStage = MActorManager::Instance().Create<World>(mspSpriteBatch.get(), mScreenWidth, mScreenHeight);
 	//mspStage->Init("Images\\Map\\stage3.tmx", E_SORTID_SECOND);
 	
 	//auto pTexture = SGAResourceManager::Instance().GetShaderResource(L"Images\\jojoWalk\\jojoWalk.png");//(L"Images\\sprites.png");
 	//auto pSheet = SGAResourceManager::Instance().GetSpriteSheet(L"Images\\jojoWalk\\jojoWalk.xml", pTexture); //(L"Images\\sprites.xml",pTexture);
 
-	//mpPlayer = SGAActorManager::Instance().Create<Player>(mspSpriteBatch.get(), pSheet);
+	//mpPlayer = MActorManager::Instance().Create<Player>(mspSpriteBatch.get(), pSheet);
 	//GunGeon::Blackboard::Instance().SetPlayer(mpPlayer);
 
 
@@ -47,23 +47,23 @@ void GameMain::InitD3D(HWND hWnd)
 
 	
 	//////
-	//Player *pPlayer = SGAActorManager::Instance().CreatePlayer();
-	//Monster *pMonster = SGAActorManager::Instance().CreateMonster();
+	//Player *pPlayer = MActorManager::Instance().CreatePlayer();
+	//Monster *pMonster = MActorManager::Instance().CreateMonster();
 
 	//unique_ptr<Player> p = make_unique<Player>();
 	//unique_ptr<Monster> m = make_unique<Monster>();
 
-	//SGAActorManager::Instance().SortActors();
+	//MActorManager::Instance().SortActors();
 }
 
 void GameMain::ClearD3D()
 {
-	SGAFramework::ClearD3D();
+	MFramework::ClearD3D();
 }
 
 void GameMain::Update(float dt)
 {
-	SGAFramework::Update(dt);
+	MFramework::Update(dt);
 
 
 	//offset = Vector2(0.0f, 0.0f);
@@ -127,14 +127,14 @@ void GameMain::Update(float dt)
 
 void GameMain::Render()
 {
-	SGAFramework::Render();
+	MFramework::Render();
 	//mspSpriteBatch->Begin(SpriteSortMode_Deferred, mspStates->Opaque(), mspStates->LinearWrap());
 	//mspSpriteBatch->Begin();
 	
 
 //	mspStage->Render();
 
-	//SGAActorManager::Instance().Draw();
+	//MActorManager::Instance().Draw();
 	
 	////디버그용 화면출력 
 	////WCHAR sre[258];

@@ -20,14 +20,14 @@ HRESULT SceneMgr::InitScene(SpriteBatch *spritBatch,SpriteFont* spriteFont,E_SCE
 	switch (eScene)
 	{
 	case E_SCENE_LOGO:
-		SGAActorManager::Instance().Release();
+		MActorManager::Instance().Release();
 		mspScene = make_unique<Logo>();
 		//mspScene->SetScene(meScene);
 		//mpLogo = dynamic_cast<Logo*>(mspScene.get());
 		//mpLogo->SetScene(eScene_);
 		break;
 	case E_SCENE_STAGE:
-		SGAActorManager::Instance().Release();
+		MActorManager::Instance().Release();
 		mspScene = make_unique<Stage>();
 		//mspScene->SetScene(meScene);
 		//mpStage = dynamic_cast<Stage*>(mspScene.get());
@@ -40,7 +40,7 @@ HRESULT SceneMgr::InitScene(SpriteBatch *spritBatch,SpriteFont* spriteFont,E_SCE
 		MessageBox(NULL, L"CScene::Initialze() Failed !", NULL, NULL);
 		return E_FAIL;
 	}
-	SGAActorManager::Instance().SortActors();
+	MActorManager::Instance().SortActors();
 	return S_OK;
 }
 
@@ -60,7 +60,7 @@ void SceneMgr::Update(float dt)
 
 void SceneMgr::Render()
 {
-	SGAActorManager::Instance().Draw();
+	MActorManager::Instance().Draw();
 }
 
 void SceneMgr::Release()

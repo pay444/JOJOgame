@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include <sstream>
 
-SGAFramework* gpDispatch = 0;
- DirectX::Mouse::ButtonStateTracker SGAFramework::mMouseTracker;
- DirectX::Keyboard::KeyboardStateTracker SGAFramework::mKeyboardTracker;
+MFramework* gpDispatch = 0;
+ DirectX::Mouse::ButtonStateTracker MFramework::mMouseTracker;
+ DirectX::Keyboard::KeyboardStateTracker MFramework::mKeyboardTracker;
 using namespace std;
 
 LRESULT CALLBACK GlobalWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -11,7 +11,7 @@ LRESULT CALLBACK GlobalWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 	return gpDispatch->WindowProc(hWnd, message, wParam, lParam);
 }
 
-SGAFramework::SGAFramework() : 
+MFramework::MFramework() : 
 	mScreenWidth(DEFAULT_SCREEN_WIDTH),
 	mScreenHeight(DEFAULT_SCREEN_HEIGHT),
 	mPaused(false),
@@ -22,11 +22,11 @@ SGAFramework::SGAFramework() :
 	gpDispatch = this;
 }
 
-SGAFramework::~SGAFramework()
+MFramework::~MFramework()
 {
 }
 
-void SGAFramework::InitD3D(HWND hWnd)
+void MFramework::InitD3D(HWND hWnd)
 {
 	DXGI_SWAP_CHAIN_DESC scd;
 
@@ -54,7 +54,7 @@ void SGAFramework::InitD3D(HWND hWnd)
 		NULL,
 		&mspDeviceCon);
 
-	SGAResourceManager::Instance().Init(hWnd, mspDevice.Get());
+	ResourceManager::Instance().Init(hWnd, mspDevice.Get());
 
 	mspKeyboard = make_unique<DirectX::Keyboard>();
 	mspMouse = make_unique<DirectX::Mouse>();
@@ -95,22 +95,22 @@ void SGAFramework::InitD3D(HWND hWnd)
 	OnResize();
 }
 
-void SGAFramework::ClearD3D()
+void MFramework::ClearD3D()
 {
-	SGAActorManager::Instance().Release();
-	SGAResourceManager::Instance().Release();
+	MActorManager::Instance().Release();
+	ResourceManager::Instance().Release();
 
 	mspSwapchain->SetFullscreenState(FALSE, NULL);
 }
 
-void SGAFramework::Update(float dt)
+void MFramework::Update(float dt)
 {
-	//SGAActorManager::Instance().Update(dt);
+	//MActorManager::Instance().Update(dt);
 	SceneMgr::Instance().Update(dt);
 
 }
 
-void SGAFramework::BeginRender()
+void MFramework::BeginRender()
 {
 	mspDeviceCon->ClearRenderTargetView(mspTargetView.Get(), Colors::LawnGreen);
 	mspDeviceCon->ClearDepthStencilView(mspDepthStencilView.Get(),
@@ -119,25 +119,25 @@ void SGAFramework::BeginRender()
 		0);
 }
 
-void SGAFramework::Render()
+void MFramework::Render()
 {
 	//mspSpriteBatch->Begin(SpriteSortMode_Deferred, mspStates->Opaque(), mspStates->LinearWrap());
 	mspSpriteBatch->Begin();
 
 	SceneMgr::Instance().Render();
-	//SGAActorManager::Instance().Draw();
+	//MActorManager::Instance().Draw();
 	RECT sre = { 0, 0 , 100 , 200 };
 	//mspspriteFont->DrawString(mspSpriteBatch.get(), sre, XMFLOAT2(100, 100));
 
 	mspSpriteBatch->End();
 }
 
-void SGAFramework::EndRender()
+void MFramework::EndRender()
 {
 	mspSwapchain->Present(0, 0);
 }
 
-void SGAFramework::OnResize()
+void MFramework::OnResize()
 {
 	/////창크기변환시 케릭터가 사라짐 이것을 방지하기위해 추가한코드
 	//NULL은 정수형 0이 되고 nullptr은 비어있는 포인터
@@ -183,7 +183,7 @@ void SGAFramework::OnResize()
 	mspDeviceCon->RSSetViewports(1, &viewport);
 }
 
-void SGAFramework::InitWindow(HINSTANCE hInstance, LPCTSTR title, UINT width, UINT height)
+void MFramework::InitWindow(HINSTANCE hInstance, LPCTSTR title, UINT width, UINT height)
 {
 	WNDCLASSEX wc;
 
@@ -220,7 +220,7 @@ void SGAFramework::InitWindow(HINSTANCE hInstance, LPCTSTR title, UINT width, UI
 	InitD3D(mHwnd);
 }
 
-LRESULT SGAFramework::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT MFramework::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
@@ -310,8 +310,8 @@ LRESULT SGAFramework::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 		case WM_ACTIVATEAPP:
 			DirectX::Keyboard::ProcessMessage(message, wParam, lParam);
 			DirectX::Mouse::ProcessMessage(message, wParam, lParam);
-			SGAFramework::mKeyboardTracker.Reset();
-			SGAFramework::mMouseTracker.Reset();
+			MFramework::mKeyboardTracker.Reset();
+			MFramework::mMouseTracker.Reset();
 			break;
 
 		case WM_INPUT:
@@ -347,7 +347,7 @@ LRESULT SGAFramework::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-int SGAFramework::GameLoop()
+int MFramework::GameLoop()
 {
 	mTimer.Start();
 
@@ -370,12 +370,12 @@ int SGAFramework::GameLoop()
 			{
 				CalculateFPS();
 
-				SGAFramework::mKeyboardTracker.Update(mspKeyboard->GetState());
-				SGAFramework::mMouseTracker.Update(mspMouse->GetState());
+				MFramework::mKeyboardTracker.Update(mspKeyboard->GetState());
+				MFramework::mMouseTracker.Update(mspMouse->GetState());
 
 				Update(mTimer.DeltaTime());
 				BeginRender();
-				//SGAFramework::Render();
+				//MFramework::Render();
 				Render();
 				EndRender();
 			}
@@ -391,7 +391,7 @@ int SGAFramework::GameLoop()
 	return msg.wParam;
 }
 
-void SGAFramework::CalculateFPS()
+void MFramework::CalculateFPS()
 {
 	static int frameCnt = 0;
 	static float timeElapsed = 0.0f;

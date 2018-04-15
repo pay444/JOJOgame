@@ -2,12 +2,12 @@
 #include "UI.h"
 
 
-UI::UI():SGAActor()
+UI::UI():MActor()
 {
 }
 
-UI::UI(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * pFont)
-	:SGAActor(pBatch,pSheet,pFont),
+UI::UI(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont)
+	:MActor(pBatch,pSheet,pFont),
 	mpPlayer(nullptr),
 	mUIVisible(false)
 {
@@ -35,7 +35,7 @@ void UI::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
 	//mMoveDistance = moveDis;
 	//보이고 안보이고
 	mUIVisible = visible;
-	SGAActor::Init(anim, 8,eSortID);
+	MActor::Init(anim, 8,eSortID);
 	SetPosition(pos + XMFLOAT2(100.0f,0.0f));
 	SetAnimation("Ui0");
 }
@@ -43,7 +43,7 @@ void UI::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
 E_SCENE UI::Update(float dt)
 {
 
-	E_SCENE eResult = SGAActor::Update(dt);
+	E_SCENE eResult = MActor::Update(dt);
 
 	if (eResult > E_SCENE_NONPASS)
 		return eResult;
@@ -64,7 +64,7 @@ void UI::Draw()
 	//이동범위를 보여줄때
 	if (mUIVisible)
 	{
-		//if (SGAFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+		//if (MFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 		//{
 
 		if (mVecUiPos.size()== 0)
@@ -96,7 +96,7 @@ void UI::Draw()
 
 bool UI::CheckAttackArea()
 {
-	if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+	if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	{
 		if (mUIVisible)
 		{
@@ -134,7 +134,7 @@ bool UI::CheckAttackArea()
 
 bool UI::CheckWaitArea()
 {
-	if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+	if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	{
 		if (mUIVisible)
 		{

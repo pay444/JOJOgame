@@ -8,8 +8,8 @@ Character::Character()
 	mStartIndex = 0;
 }
 
-Character::Character(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * pFont)
-	: SGAActor(pBatch, pSheet, pFont),
+Character::Character(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont)
+	: MActor(pBatch, pSheet, pFont),
 	mFontVisible(false),
 	mColor(Colors::White),
 	mColorAllow(false)
@@ -18,12 +18,13 @@ Character::Character(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont *
 	mStartIndex = 0;
 	mVisbleScope = false;
 	mActionTurn = 0;
+	mMotion = false;
 	//Animation anim[] = {
 	//	{ "CursorBox", 2,{ { "CursorBox0", 0.3f },
 	//	{ "CursorBox1", 0.3f }, }
 	//	},
 	//};
-	//SGAActor::Init(anim, 1);
+	//MActor::Init(anim, 1);
 
 }
 
@@ -44,10 +45,10 @@ void Character::Init()
 	mpJoAStar = make_unique<AStar>();
 	//mpMoveBox = make_unique<MoveBox>();
 
-	auto pTexture = SGAResourceManager::Instance().GetShaderResource(L"Images\\jojo\\jojoSprites.png");
-	auto pSheet = SGAResourceManager::Instance().GetSpriteSheet(L"Images\\jojo\\jojoSprites.xml", pTexture);
-	//auto pMoveBox = SGAActorManager::Instance().Create<MoveBox>(mpBatch, mpSheet, mpFont);
-	//mpMoveBox = SGAActorManager::Instance().Create<MoveBox>(mpBatch, mpSheet, mpFont);
+	auto pTexture = ResourceManager::Instance().GetShaderResource(L"Images\\jojo\\jojoSprites.png");
+	auto pSheet = ResourceManager::Instance().GetSpriteSheet(L"Images\\jojo\\jojoSprites.xml", pTexture);
+	//auto pMoveBox = MActorManager::Instance().Create<MoveBox>(mpBatch, mpSheet, mpFont);
+	//mpMoveBox = MActorManager::Instance().Create<MoveBox>(mpBatch, mpSheet, mpFont);
 	//mpMoveBox->Init(E_SORTID_FIRST, mPosition, limitDistance,mVisbleScope,mMoveDistance);
 }
 
@@ -56,10 +57,10 @@ E_SCENE Character::Update(float dt)
 	mfActionElapsedTime += dt;
 	float fScrollx = ScrollMgr::Instance().GetScroll().x;
 	float fScrolly = ScrollMgr::Instance().GetScroll().y;
-	const vector<unique_ptr<TILE>>* spVecTile = SGAActorManager::Instance().GetTileInfo();
+	const vector<unique_ptr<TILE>>* spVecTile = MActorManager::Instance().GetTileInfo();
 
 	//마우스 버튼을 눌렀을때 그 타일위에 어떤 오브젝트가 있는지 확인
-	if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+	if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	{
 		auto mouse = Mouse::Get().GetState();
 
@@ -68,23 +69,23 @@ E_SCENE Character::Update(float dt)
 		int posIndex = GetTileIndex(mPosition);
 
 		int uiPlayerPosIndex = -1;
-		if (SGAActorManager::Instance().GetClassUi()->GetPlayer() != nullptr)
+		if (MActorManager::Instance().GetClassUi()->GetPlayer() != nullptr)
 		{
-			uiPlayerPosIndex = GetTileIndex(SGAActorManager::Instance().GetClassUi()->GetPlayer()->GetPosition());
+			uiPlayerPosIndex = GetTileIndex(MActorManager::Instance().GetClassUi()->GetPlayer()->GetPosition());
 		}
 		if (mouseIndex == posIndex || posIndex == uiPlayerPosIndex)
 		{
 			mVisbleScope = true;
-			//SGAActorManager::Instance().SetMBVisible(mVisbleScope);
-			//SGAActorManager::Instance().SetMBVisible(mVisbleScope);
+			//MActorManager::Instance().SetMBVisible(mVisbleScope);
+			//MActorManager::Instance().SetMBVisible(mVisbleScope);
 			//mpMoveBox->SetVisible(mVisbleScope);
 			//mpMoveBox->SetPosition(mPosition);
 		}
 		else
 		{
 			mVisbleScope = false;
-			//SGAActorManager::Instance().SetClickCount(0)
-			//SGAActorManager::Instance().SetMBVisible(mVisbleScope);
+			//MActorManager::Instance().SetClickCount(0)
+			//MActorManager::Instance().SetMBVisible(mVisbleScope);
 			//mpMoveBox->SetVisible(mVisbleScope);	
 		}
 
@@ -121,16 +122,28 @@ E_SCENE Character::Update(float dt)
 			mColorAllow = false;
 			mColor = Colors::Gray;
 			//tint = mColor;
+			if (mMotion)
+			{
+				//MActorManager::Instance().GetClassTurnGrapic()->SetVisible(true);
+			}		
 			mfActionElapsedTime = 0.0f;
 		}
 		else if (mActionTurn < 2)
 		{
 			mColor = Colors::White;
 			//mfActionElapsedTime = 0.0f;
+			//모션 이 끝나고 난후에 턴넘기는 그래픽 출력
+			if (mMotion)
+			{
+				//MActorManager::Instance().GetClassTurnGrapic()->SetVisible(true);
+				//MActorManager::Instance().GetClassAttackBox()->GetCharacter()->SetMotion(false);
+
+			}
 		}
 
 	}
-	E_SCENE eResult = SGAActor::Update(dt);
+
+	E_SCENE eResult = MActor::Update(dt);
 
 	mspShake->Update(dt);
 
@@ -201,7 +214,7 @@ void Character::Draw()
 
 }
 
-void Character::OnHit(SGAActor * pCollidee)
+void Character::OnHit(MActor * pCollidee)
 {
 	if (this->GetCamp() != pCollidee->GetCamp())
 	{
@@ -209,7 +222,7 @@ void Character::OnHit(SGAActor * pCollidee)
 	}
 }
 
-void Character::OnHit(SGAActor * pCollider, SGAActor * pCollidee)
+void Character::OnHit(MActor * pCollider, MActor * pCollidee)
 {
 	if (this->GetCamp() != pCollidee->GetCamp())
 	{
@@ -220,7 +233,7 @@ void Character::OnHit(SGAActor * pCollider, SGAActor * pCollidee)
 		((Character*)pCollidee)->SetColorAllow(true);
 		
 		//때린놈의 애니메이션 상태 변경
-		const vector<unique_ptr<TILE>>* pVecTile = SGAActorManager::Instance().GetTileInfo();
+		const vector<unique_ptr<TILE>>* pVecTile = MActorManager::Instance().GetTileInfo();
 		int attackerIndex = GetTileIndex(pCollidee->GetPosition());
 		int defenderIndex = GetTileIndex(mPosition);
 		//아래 애니매이션 변경
@@ -261,7 +274,7 @@ void Character::OnHit(SGAActor * pCollider, SGAActor * pCollidee)
 	}
 }
 
-void Character::DoDamage(SGAActor * pAttacker)
+void Character::DoDamage(MActor * pAttacker)
 {
 	//AttackBox* pCharacter = (AttackBox*)pAttacker;
 	this->mHealth -= ((AttackBox*)pAttacker)->GetAttack();
@@ -271,7 +284,7 @@ void Character::DoDamage(SGAActor * pAttacker)
 
 	this->SetAnimation("HIT");
 	mfActionElapsedTime = 0.0f;
-	//SGAActorManager::Instance().SetUiCheck(false);
+	//MActorManager::Instance().SetUiCheck(false);
 	if (this->mHealth <= 0)
 	{
 		mAnimName2 = "DEAD";
@@ -290,7 +303,7 @@ void Character::MoveStateCheck()
 	if (pBestList->empty())	// 비어있다면..
 		return;
 
-	const vector<unique_ptr<TILE>>* pVecTile = SGAActorManager::Instance().GetTileInfo();
+	const vector<unique_ptr<TILE>>* pVecTile = MActorManager::Instance().GetTileInfo();
 
 	int iDestinationIdx = pBestList->front();
 
@@ -338,7 +351,7 @@ void Character::InitEffect()
 void Character::JoAstar_Start(const Vector2 & vDestPos, const Vector2 & vSorcePos)
 {
 
-	const vector<unique_ptr<TILE>>* pVecTile = SGAActorManager::Instance().GetTileInfo();
+	const vector<unique_ptr<TILE>>* pVecTile = MActorManager::Instance().GetTileInfo();
 
 	int iStartIdx = GetTileIndex(vDestPos);
 	mStartIndex = iStartIdx;
@@ -365,7 +378,7 @@ bool Character::JoAStar_Move(float dt)
 	if (pBestList->empty())	// 비어있다면..
 		return false;
 
-	const vector<unique_ptr<TILE>>* pVecTile = SGAActorManager::Instance().GetTileInfo();
+	const vector<unique_ptr<TILE>>* pVecTile = MActorManager::Instance().GetTileInfo();
 
 	int iDestinationIdx = pBestList->front();
 
@@ -421,23 +434,23 @@ bool Character::JoAStar_Move(float dt)
 		mActionTurn++;
 		if (GetCamp() == GunGeon::CampType::PLAYER)
 		{
-			SGAActorManager::Instance().GetClassUi()->SetPosition(mPosition + XMFLOAT2(100.0f, 0.0f));
-			SGAActorManager::Instance().GetClassUi()->SetVisible(true);
+			MActorManager::Instance().GetClassUi()->SetPosition(mPosition + XMFLOAT2(100.0f, 0.0f));
+			MActorManager::Instance().GetClassUi()->SetVisible(true);
 
-			SGAActorManager::Instance().GetClassAttackBox()->SetPosition(mPosition);
-			SGAActorManager::Instance().GetClassAttackBox()->SetVisible(true);
+			MActorManager::Instance().GetClassAttackBox()->SetPosition(mPosition);
+			MActorManager::Instance().GetClassAttackBox()->SetVisible(true);
 
-			SGAActorManager::Instance().SetMBVisible(false);
-			//SGAActorManager::Instance().SetClickCount(0);
+			MActorManager::Instance().SetMBVisible(false);
+			//MActorManager::Instance().SetClickCount(0);
 		}
 		if (GetCamp() == GunGeon::CampType::MONSTER)
 		{
-			SGAActorManager::Instance().GetClassAttackBox()->SetVisible(false);
+			MActorManager::Instance().GetClassAttackBox()->SetVisible(false);
 
-			SGAActorManager::Instance().SetMBVisible(false);
+			MActorManager::Instance().SetMBVisible(false);
 
-			SGAActorManager::Instance().GetClassMoveBox()->Release();
-			SGAActorManager::Instance().GetClassAttackBox()->Release();
+			MActorManager::Instance().GetClassMoveBox()->Release();
+			MActorManager::Instance().GetClassAttackBox()->Release();
 		}
 	}
 	mVisbleScope = false;

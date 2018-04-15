@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "SGAResourceManager.h"
+#include "ResourceManager.h"
 
 
-SGAResourceManager::SGAResourceManager()
+ResourceManager::ResourceManager()
 	:mhWnd(0),
 	mpDevice(0)
 {
 }
 
 
-SGAResourceManager::~SGAResourceManager()
+ResourceManager::~ResourceManager()
 {
 }
 
-void SGAResourceManager::Release()
+void ResourceManager::Release()
 {
 	for (auto& resource : mShaderResources)
 	{
@@ -25,7 +25,7 @@ void SGAResourceManager::Release()
 	}
 }
 
-ID3D11ShaderResourceView * SGAResourceManager::GetShaderResource(wstring filename)
+ID3D11ShaderResourceView * ResourceManager::GetShaderResource(wstring filename)
 {
 	//중복이냐?
 	// 중복이면? 기존에 있던거
@@ -86,17 +86,17 @@ ID3D11ShaderResourceView * SGAResourceManager::GetShaderResource(wstring filenam
 	return pResource;
 }
 
-SGASpriteSheet * SGAResourceManager::GetSpriteSheet(wstring filename, ID3D11ShaderResourceView * pTexture)
+SpriteSheet * ResourceManager::GetSpriteSheet(wstring filename, ID3D11ShaderResourceView * pTexture)
 {
-	SGASpriteSheet* pSheet = NULL;
+	SpriteSheet* pSheet = NULL;
 
 	auto result = mSpriteSheets.insert(
-		pair<wstring, unique_ptr<SGASpriteSheet>>(filename, nullptr)
+		pair<wstring, unique_ptr<SpriteSheet>>(filename, nullptr)
 	);
 	if (result.second == true)
 	{
 		//nullptr 아니면 reset 해야함
-		result.first->second = move(make_unique<SGASpriteSheet>());
+		result.first->second = move(make_unique<SpriteSheet>());
 		pSheet = result.first->second.get();
 		pSheet->Load(pTexture, filename.c_str());
 	}
@@ -106,7 +106,7 @@ SGASpriteSheet * SGAResourceManager::GetSpriteSheet(wstring filename, ID3D11Shad
 	return pSheet;
 }
 
-SGASpriteSheet * SGAResourceManager::GetSpriteSheet(wstring filename, wstring textureName)
+SpriteSheet * ResourceManager::GetSpriteSheet(wstring filename, wstring textureName)
 {
 	return GetSpriteSheet(filename,GetShaderResource(textureName));
 }

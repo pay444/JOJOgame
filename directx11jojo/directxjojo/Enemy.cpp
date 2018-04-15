@@ -6,7 +6,7 @@ Enemy::Enemy()
 {
 }
 
-Enemy::Enemy(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * pFont)
+Enemy::Enemy(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont)
 	: Character(pBatch, pSheet, pFont),
 	mpTarget(nullptr),
 	mFontVisible(false),
@@ -25,7 +25,7 @@ void Enemy::Init(float moveSpeed, XMFLOAT2 startpos, E_SORTID eSortID)
 
 	Character::Init();
 
-	//SGAActor::Init(anim, 4, eSortID);
+	//MActor::Init(anim, 4, eSortID);
 	mAnimName2 = "DOWN";
 	SetAnimation(mAnimName2);
 	SetPosition(startpos);
@@ -33,7 +33,7 @@ void Enemy::Init(float moveSpeed, XMFLOAT2 startpos, E_SORTID eSortID)
 	//mpJoAStar = make_unique<AStar>();
 
 	//초기 위치에 선택을 위한 값주기
-	vector<unique_ptr<TILE>> * pVecTile = SGAActorManager::Instance().GetTileInfo();
+	vector<unique_ptr<TILE>> * pVecTile = MActorManager::Instance().GetTileInfo();
 	int istartIndex = GetTileIndex(mPosition);
 	(*pVecTile)[istartIndex]->underObject = 1;
 	(*pVecTile)[istartIndex]->byOption = 1;
@@ -57,7 +57,7 @@ E_SCENE Enemy::Update(float dt)
 	//파괴되었을시에 vectorindex 에 등록되어있는 정보를 지워줌
 	if (mbDestroyed)
 	{
-		auto vecEnemyIndex = SGAActorManager::Instance().GetVecEnemyIndex();
+		auto vecEnemyIndex = MActorManager::Instance().GetVecEnemyIndex();
 		auto iter = vecEnemyIndex->begin();
 		while (iter != vecEnemyIndex->cend())
 		{
@@ -66,7 +66,7 @@ E_SCENE Enemy::Update(float dt)
 				mActionTurn = 2;
 				iter->reset();
 				iter = vecEnemyIndex->erase(iter);
-				SGAActorManager::Instance().SetEnemyControllCount(0);
+				MActorManager::Instance().SetEnemyControllCount(0);
 				return E_SCENE_NONPASS;
 			}
 			else
@@ -87,17 +87,17 @@ E_SCENE Enemy::Update(float dt)
 	{
 		mColor = Colors::Gray;
 		mActionBool = false;
-		auto vecEnemyIndex = SGAActorManager::Instance().GetVecEnemyIndex();
-		int temp = SGAActorManager::Instance().GetEnemyControllCount();
-		SGAActorManager::Instance().SetEnemyControllCount(++temp);
-		if (SGAActorManager::Instance().GetEnemyControllCount() >=
-			SGAActorManager::Instance().GetEnemyCount())
+		auto vecEnemyIndex = MActorManager::Instance().GetVecEnemyIndex();
+		int temp = MActorManager::Instance().GetEnemyControllCount();
+		MActorManager::Instance().SetEnemyControllCount(++temp);
+		if (MActorManager::Instance().GetEnemyControllCount() >=
+			MActorManager::Instance().GetEnemyCount())
 		{
-			SGAActorManager::Instance().SetEnemyControllCount(0);
+			MActorManager::Instance().SetEnemyControllCount(0);
 		}
-		//int intCode = *(*vecEnemyIndex)[SGAActorManager::Instance().GetEnemyControllCount()].get();
+		//int intCode = *(*vecEnemyIndex)[MActorManager::Instance().GetEnemyControllCount()].get();
 		mspFSM->ChangeState(GunGeon::EnemyState::Enemy_Idle);
-		//SGAActorManager::Instance().SetEnemyControllCount(intCode);
+		//MActorManager::Instance().SetEnemyControllCount(intCode);
 
 	}
 

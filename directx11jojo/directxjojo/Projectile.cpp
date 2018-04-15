@@ -1,22 +1,22 @@
 #include "stdafx.h"
-#include "SGAProjectile.h"
+#include "Projectile.h"
 
 
-SGAProjectile::SGAProjectile() : SGAActor()
+Projectile::Projectile() : MActor()
 {
 }
 
-SGAProjectile::SGAProjectile(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * pFont)
-	: SGAActor(pBatch, pSheet,pFont)
+Projectile::Projectile(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont)
+	: MActor(pBatch, pSheet,pFont)
 {
 }
 
 
-SGAProjectile::~SGAProjectile()
+Projectile::~Projectile()
 {
 }
 
-void SGAProjectile::Init(XMFLOAT2 position, XMFLOAT2 direction, float speed, float lifeTime, float distance)
+void Projectile::Init(XMFLOAT2 position, XMFLOAT2 direction, float speed, float lifeTime, float distance)
 {
 	if (lifeTime == 0.0f && distance == 0.0f)
 		DXTRACE_ERR_MSGBOX(L"Projectile's lifetime and maxdistance should ",0);
@@ -32,10 +32,10 @@ void SGAProjectile::Init(XMFLOAT2 position, XMFLOAT2 direction, float speed, flo
 
 }
 
-E_SCENE SGAProjectile::Update(float dt)
+E_SCENE Projectile::Update(float dt)
 {
 
-	SGAActor::Update(dt);
+	MActor::Update(dt);
 
 	float moveScalar = mfSpeed * dt;
 	mPosition = mPosition + mvDirection * moveScalar;

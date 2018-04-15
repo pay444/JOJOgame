@@ -1,27 +1,27 @@
 #pragma once
 #include "AStar.h"
 
-class SGAActor
+class MActor
 {
 public:
-	SGAActor();
-	SGAActor(SpriteBatch* pBatch, SGASpriteSheet* pSheet, SpriteFont * pFont);
-	virtual ~SGAActor();
+	MActor();
+	MActor(SpriteBatch* pBatch, SpriteSheet* pSheet, SpriteFont * pFont);
+	virtual ~MActor();
 
 public:
-	virtual void Init(SpriteBatch* pBatch, SGASpriteSheet *pSheet, Animation* anims, int animCount, E_SORTID eSortID);
+	virtual void Init(SpriteBatch* pBatch, SpriteSheet *pSheet, Animation* anims, int animCount, E_SORTID eSortID);
 	virtual void Init(Animation* anims, int animCount, E_SORTID eSortID);
 	virtual void Init(Animation* anims, int animCount);
 	virtual E_SCENE Update(float dt);
 	virtual void Draw();
 	virtual void SetAnimation(string name);
-	virtual bool IntersecRect(SGAActor* pActor);
-	//virtual bool IntersecRectScope(SGAActor* pActor);
-	virtual void OnHit(SGAActor* pCollider) {};
-	virtual void OnHit(SGAActor* pCollider, SGAActor* pCollidee) {};
+	virtual bool IntersecRect(MActor* pActor);
+	//virtual bool IntersecRectScope(MActor* pActor);
+	virtual void OnHit(MActor* pCollider) {};
+	virtual void OnHit(MActor* pCollider, MActor* pCollidee) {};
 protected:
 	map<string, vector<FrameInfo>>	mAnimations;
-	SGASpriteSheet*	mpSheet;
+	SpriteSheet*	mpSheet;
 	SpriteBatch*	mpBatch;
 	SpriteFont* mpFont;
 	unique_ptr<AStar> mpJoAStar;

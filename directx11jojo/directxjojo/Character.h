@@ -1,5 +1,5 @@
 #pragma once
-//#include "SGAActor.h"
+//#include "MActor.h"
 //#include "MoveBox.h"
 class EffectBase
 {
@@ -82,11 +82,11 @@ public:
 	}
 
 };
-class Character : public SGAActor
+class Character : public MActor
 {
 public:
 	Character();
-	Character(SpriteBatch* pBatch, SGASpriteSheet* pSheet, SpriteFont * pFont);
+	Character(SpriteBatch* pBatch, SpriteSheet* pSheet, SpriteFont * pFont);
 	Character(SpriteBatch* pBatch);
 	virtual ~Character();
 public:
@@ -94,9 +94,9 @@ public:
 	virtual void DoDamage(Character* pAttacker) {}
 	virtual E_SCENE Update(float dt);
 	virtual void Draw();
-	virtual void OnHit(SGAActor* pCollidee);
-	virtual void OnHit(SGAActor* pCollider, SGAActor* pCollidee);
-	virtual void DoDamage(SGAActor* pAttacker);
+	virtual void OnHit(MActor* pCollidee);
+	virtual void OnHit(MActor* pCollider, MActor* pCollidee);
+	virtual void DoDamage(MActor* pAttacker);
 	void MoveStateCheck();
 protected:
 	void InitEffect();
@@ -116,7 +116,7 @@ protected:
 	bool mFontVisible;	// 폰트 보여주는 여부
 	Color mColor;		//턴종료시 그레이로 바꿔줌
 	bool mColorAllow;	//색깔 바꿔주는 여부
-
+	bool mMotion;		//행동이 끝나야 턴을 바꿔주는 변수
 						//MoveBox *mpMoveBox;
 public:
 	void SetStaus(int health, int attack, int moveDis, int AttackDis)
@@ -141,6 +141,8 @@ public:
 	bool GetVisible() { return mVisbleScope; }
 	int GetActionTurn() { return mActionTurn; }
 
+	void SetMotion(bool motion) { mMotion = motion; }
+	bool GetMotion() { return mMotion; }
 	void JoAstar_Start(const Vector2 &vDestPos, const Vector2 &vSorcePos);
 	bool JoAStar_Move(float dt);
 };

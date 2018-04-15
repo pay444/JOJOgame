@@ -6,7 +6,7 @@ Player::Player()
 {
 }
 
-Player::Player(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * pFont)
+Player::Player(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont)
 	:Character(pBatch, pSheet, pFont),
 	mvForward(0.0f, 0.0f)
 {
@@ -57,7 +57,7 @@ void Player::Init(float moveSpeed, XMFLOAT2 startpos, E_SORTID eSortID)
 	//};
 	Character::Init();
 
-	//SGAActor::Init(anim, 4, eSortID);
+	//MActor::Init(anim, 4, eSortID);
 	mAnimName2 = "DOWN";
 	SetAnimation(mAnimName2);
 	SetPosition(startpos);
@@ -65,14 +65,14 @@ void Player::Init(float moveSpeed, XMFLOAT2 startpos, E_SORTID eSortID)
 	//mpJoAStar = make_unique<AStar>();
 
 	//초기 위치에 선택을 위한 값주기
-	vector<unique_ptr<TILE>> * pVecTile = SGAActorManager::Instance().GetTileInfo();
+	vector<unique_ptr<TILE>> * pVecTile = MActorManager::Instance().GetTileInfo();
 	int istartIndex = GetTileIndex(mPosition);
 	(*pVecTile)[istartIndex]->underObject = 1;
 	(*pVecTile)[istartIndex]->byOption = 1;
 	mPosition = XMFLOAT2((*pVecTile)[istartIndex]->vPos.x + JOJOTILESX / 2,
 		(*pVecTile)[istartIndex]->vPos.y + JOJOTILESY / 2);
 
-	//mpUi = SGAActorManager::Instance().Create<UI>(mpBatch, mpSheet, mpFont);
+	//mpUi = MActorManager::Instance().Create<UI>(mpBatch, mpSheet, mpFont);
 	//mpUi->Init(E_SORTID_FIRST, mPosition, mVisbleScope);
 
 }
@@ -83,7 +83,7 @@ E_SCENE Player::Update(float dt)
 	Character::Update(dt);
 
 	//현재 플레이어의 턴일때 true 일때 이동가능
-	if (SGAActorManager::Instance().GetTurn())
+	if (MActorManager::Instance().GetTurn())
 	{
 		UpdateMove(dt);
 	}
@@ -141,7 +141,7 @@ void Player::UpdateMove(float dt)
 	//	SetAnimation("DOWN");
 
 	//마우스 클릭시 이동
-	//if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+	//if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	//{
 	//	mvForward = { 0.0f - ScrollMgr::Instance().GetScroll().x, 0.0f - ScrollMgr::Instance().GetScroll().y };
 	//	XMVECTOR dir = XMLoadFloat2(&XMFLOAT2(mouse.x + fScrollx, mouse.y + fScrolly));
@@ -150,9 +150,9 @@ void Player::UpdateMove(float dt)
 	//	this->mvForward = XMFLOAT2(XMVectorGetX(dir), XMVectorGetY(dir));	//이내용이 없음 17강은
 	//}
 
-	if (SGAFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+	if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	{
-		vector<unique_ptr<TILE>> *pVecTile = SGAActorManager::Instance().GetTileInfo();
+		vector<unique_ptr<TILE>> *pVecTile = MActorManager::Instance().GetTileInfo();
 		//mvForward = { 0.0f - ScrollMgr::Instance().GetScroll().x, 0.0f - ScrollMgr::Instance().GetScroll().y };
 		//XMVECTOR dir = XMLoadFloat2(&XMFLOAT2(mouse.x + fScrollx, mouse.y + fScrolly));
 		mmousePos = XMFLOAT2(mouse.x + fScrollx, mouse.y + fScrolly);
@@ -167,7 +167,7 @@ void Player::UpdateMove(float dt)
 		if ((mVisbleScope))//distance <= limitDistance&&
 		{
 			//해당범위에 해당해야 알고리즘 시작
-			if (SGAActorManager::Instance().GetMBSeekScope() && mActionTurn < 1)//MoveBox::Instance().GetSeekScope()
+			if (MActorManager::Instance().GetMBSeekScope() && mActionTurn < 1)//MoveBox::Instance().GetSeekScope()
 			{
 				//ASTAR 알고리즘 루트 짜기 시작
 				JoAstar_Start(mPosition, mmousePos);
@@ -193,13 +193,13 @@ void Player::UpdateMove(float dt)
 		JoAStar_Move(dt);
 	}
 	
-	if (SGAFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+	if (MFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	{
-		//SGAActorManager::Instance().SetMBVisible(false);
+		//MActorManager::Instance().SetMBVisible(false);
 		////MoveBox::Instance()->SetVisible(false);
-		//SGAActorManager::Instance().SetUIVisible(false);
-		//SGAActorManager::Instance().SetAtVisible(false);
-		//SGAActorManager::Instance().SetClickCount(0);
+		//MActorManager::Instance().SetUIVisible(false);
+		//MActorManager::Instance().SetAtVisible(false);
+		//MActorManager::Instance().SetClickCount(0);
 		//mActionTurn = 0;
 	}
 	list<int>* pBestList = mpJoAStar->GetBestList();
@@ -207,11 +207,11 @@ void Player::UpdateMove(float dt)
 	if (pBestList->size() == 0)
 	{
 		//mActionTurn++;
-		//SGAActorManager::Instance().GetClassUi()->SetPosition(mPosition + XMFLOAT2(100.0f, 0.0f));
-		//SGAActorManager::Instance().GetClassAttackBox()->SetPosition(mPosition);
-		//SGAActorManager::Instance().SetAtVisible(true);
-		//SGAActorManager::Instance().SetMBVisible(false);
-		//SGAActorManager::Instance().SetUIVisible(true);
+		//MActorManager::Instance().GetClassUi()->SetPosition(mPosition + XMFLOAT2(100.0f, 0.0f));
+		//MActorManager::Instance().GetClassAttackBox()->SetPosition(mPosition);
+		//MActorManager::Instance().SetAtVisible(true);
+		//MActorManager::Instance().SetMBVisible(false);
+		//MActorManager::Instance().SetUIVisible(true);
 	}
 
 

@@ -6,7 +6,7 @@ Jojo::Jojo()
 {
 }
 
-Jojo::Jojo(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * pFont)
+Jojo::Jojo(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont)
 	:Player(pBatch, pSheet, pFont)
 {
 }
@@ -65,7 +65,7 @@ void Jojo::Init(float moveSpeed, XMFLOAT2 startpos, E_SORTID eSortID, float limi
 
 	SetCamp(GunGeon::CampType::PLAYER);
 
-	SGAActor::Init(anim, 11, eSortID);
+	MActor::Init(anim, 11, eSortID);
 
 	Player::Init(moveSpeed, startpos, eSortID);
 

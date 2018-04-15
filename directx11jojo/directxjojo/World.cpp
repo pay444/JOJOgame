@@ -43,7 +43,7 @@ void World::Init(string filename, E_SORTID eSortID)
 	mPictureSize.x = imageElement->IntAttribute("width");
 	mPictureSize.y = imageElement->IntAttribute("height");
 
-	mpTileTexture = SGAResourceManager::Instance().GetShaderResource(wstring(imageFile.begin(), imageFile.end()));
+	mpTileTexture = ResourceManager::Instance().GetShaderResource(wstring(imageFile.begin(), imageFile.end()));
 
 	Vector2 renderPos(0, 0);
 
@@ -101,7 +101,7 @@ void World::Init(string filename, E_SORTID eSortID)
 	mScreenTileCountX = mScreenWidth / mTileWidth;
 	mScreenTileCountY = mScreenHeight / mTileHeight;
 
-	SGAActor::SetSortID(eSortID);
+	MActor::SetSortID(eSortID);
 }
 
 E_SCENE World::Update(float dt)
@@ -163,7 +163,7 @@ E_SCENE World::Update(float dt)
 		//Scroll(offset.x, offset.y);
 	
 	//GetTIle 인덱스를 가져와서 사용하기
-	//const vector<unique_ptr<TILE>>* vec = SGAActorManager::Instance().GetTileInfo();
+	//const vector<unique_ptr<TILE>>* vec = MActorManager::Instance().GetTileInfo();
 	//TILE a;
 	//a.vPos = (*vec)[0].get()->vPos;
 

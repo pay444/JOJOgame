@@ -1,12 +1,12 @@
 #pragma once
-//#include "SGAActor.h"
-class SGAProjectile :
-	public SGAActor
+//#include "MActor.h"
+class Projectile :
+	public MActor
 {
 public:
-	SGAProjectile();
-	SGAProjectile(SpriteBatch *pBatch, SGASpriteSheet *pSheet,SpriteFont * pFont);
-	virtual ~SGAProjectile();
+	Projectile();
+	Projectile(SpriteBatch *pBatch, SpriteSheet *pSheet,SpriteFont * pFont);
+	virtual ~Projectile();
 
 public:
 	virtual void Init(XMFLOAT2 position, XMFLOAT2 direction,

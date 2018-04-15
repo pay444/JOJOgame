@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SGATimer.h"
+#include "Timer.h"
 #include "CommonStates.h"
 //#include "World.h"
 
@@ -9,11 +9,11 @@
 //#define DEFAULT_SCREEN_WIDTH	960
 //#define DEFAULT_SCREEN_HEIGHT	576
 
-class SGAFramework
+class MFramework
 {
 public:
-	SGAFramework();
-	virtual ~SGAFramework();
+	MFramework();
+	virtual ~MFramework();
 
 protected:
 	Microsoft::WRL::ComPtr<IDXGISwapChain>			mspSwapchain;
@@ -40,7 +40,7 @@ protected:
 	bool		mPaused;
 	HWND		mHwnd;
 	wstring		mTitleCaption;
-	SGATimer	mTimer;
+	Timer	mTimer;
 
 protected:
 	void CalculateFPS();

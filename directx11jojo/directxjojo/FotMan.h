@@ -5,7 +5,7 @@ class FotMan :public Enemy
 {
 public:
 	FotMan();
-	FotMan(SpriteBatch* pBatch, SGASpriteSheet *pSheet, SpriteFont * pFont);
+	FotMan(SpriteBatch* pBatch, SpriteSheet *pSheet, SpriteFont * pFont);
 	~FotMan();
 public:
 	virtual void Init(

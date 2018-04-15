@@ -1,9 +1,9 @@
 #pragma once
-class AttackBox : public SGAActor
+class AttackBox : public MActor
 {
 public:
 	AttackBox();
-	AttackBox(SpriteBatch * pBatch, SGASpriteSheet * pSheet, SpriteFont * pFont);
+	AttackBox(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont);
 	~AttackBox();
 private:
 	bool mAtVisible;
@@ -19,11 +19,11 @@ public:
 	virtual void Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible);
 	virtual E_SCENE Update(float dt);
 	virtual void Draw();
-	virtual void OnHit(SGAActor* pCollidee);
+	virtual void OnHit(MActor* pCollidee);
 	void Release();
 
-	bool UIntersecRectScope(SGAActor* pActor);
-	bool AIIntersecRectScope(SGAActor* pActor);
+	bool UIntersecRectScope(MActor* pActor);
+	bool AIIntersecRectScope(MActor* pActor);
 	void AttackScope();
 	bool AttackScopeSeek();
 	void SetAttackDis(int AttackDis) { mAttackDistance = AttackDis; }
