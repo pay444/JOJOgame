@@ -85,7 +85,7 @@ E_SCENE Enemy::Update(float dt)
 	//나의 턴이 끝났으니 Manager 에게 다른적 실행상태라고 알려줌
 	if (mActionTurn >= 2 && mActionBool)
 	{
-		mColor = Colors::Gray;
+		//mColor = Colors::Gray;
 		mActionBool = false;
 		auto vecEnemyIndex = MActorManager::Instance().GetVecEnemyIndex();
 		int temp = MActorManager::Instance().GetEnemyControllCount();
@@ -139,16 +139,16 @@ void Enemy::Draw()
 		switch (mspFSM->GetStateID())
 		{
 		case 0:
-			swprintf_s(wch,L"Enemy_Idle");
+			swprintf_s(wch,L"Enemy_Idle %d",mCode);
 			break;
 		case 1:
-			swprintf_s(wch,L"Enemy_Chase");
+			swprintf_s(wch,L"Enemy_Chase %d", mCode);
 			break;
 		case 2:
-			swprintf_s(wch,L"Enemy_Attack");
+			swprintf_s(wch,L"Enemy_Attack %d", mCode);
 			break;
 		default:
-			swprintf_s(wch,L"No_Enemy_StateID");
+			swprintf_s(wch,L"No_Enemy_StateID %d", mCode);
 			break;
 		}
 		//swprintf_s(wch, L"%d", mspFSM->GetStateID());

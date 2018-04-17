@@ -7,6 +7,7 @@
 #include "UI.h"
 #include "AttackBox.h"
 #include "TurnGrapic.h"
+#include "ProgresiveBar.h"
 
 class Logo:
 	public Scene

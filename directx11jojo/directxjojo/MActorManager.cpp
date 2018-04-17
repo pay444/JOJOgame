@@ -275,8 +275,9 @@ void MActorManager::CheckAllActionTurn()
 								break;
 							}
 						}
+						Color color = Colors::Gray;
 						//모든 캐릭터의 행동이 끝나면 애니메이션 출력준비를 한다.
-						if (!mTurnBool)
+						if (!mTurnBool&& GetClassAttackBox()->GetCharacter()->GetColor() ==color)
 						{
 							turnGrapic->SetAnimation("eTurn");
 							//turnGrapic->SetVisible(true);
@@ -336,7 +337,8 @@ void MActorManager::CheckAllActionTurn()
 								break;
 							}
 						}
-						if (!mTurnBool)
+						Color color = Colors::Gray;
+						if (!mTurnBool&& GetClassAttackBox()->GetCharacter()->GetColor() == color)
 						{
 							turnGrapic->SetAnimation("pTurn");
 							//turnGrapic->SetVisible(true);
@@ -682,6 +684,7 @@ void MActorManager::Release()
 	//}
 
 	//신이 바뀌었거나 했을경우
+	mClickCount = 0;
 	tmpPos = XMFLOAT2(0.0f, 0.0f);
 	posIndex2 = 0;
 	posIndex3 = 0;

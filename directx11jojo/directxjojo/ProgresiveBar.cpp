@@ -1,59 +1,62 @@
 #include "stdafx.h"
-#include "TurnGrapic.h"
+#include "ProgresiveBar.h"
 
 
-TurnGrapic::TurnGrapic()
+ProgresiveBar::ProgresiveBar() 
 {
 }
 
 
-TurnGrapic::TurnGrapic(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont)
-	:MActor(pBatch, pSheet, pFont), mTGVisible(false)
+ProgresiveBar::ProgresiveBar(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont)
+	:MActor(pBatch,pSheet,pFont),mPBVisible(false)
 {
 	mfTEalpsdtime = 0.0f;
 	mEndTIme = false;
 }
 
-TurnGrapic::~TurnGrapic()
+ProgresiveBar::~ProgresiveBar()
 {
 }
 
-void TurnGrapic::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
+void ProgresiveBar::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
 {
 	Animation anim[] = {
-		{ "pTurn", 1,{ { "pTurn0", 0.3f } } },
-	{ "eTurn", 1,{ { "eTurn0", 0.3f } } },
-
+		{ "PBHp", 1,{ { "HpBar0", 0.3f } } },
+		{ "PBMp", 1,{ { "MpBar0", 0.3f } } },
+	{ "PBSp", 1,{ { "SpBar0", 0.3f } } },
+	{ "HpIcon", 1,{ { "HpIcon0", 0.3f } } },
+	{ "MpIcon", 1,{ { "MpIcon0", 0.3f } } },
+	{ "SpIcon", 1,{ { "SpIcon0", 0.3f } } },
 	};
 
 	//보이고 안보이고
-	mTGVisible = visible;
-	MActor::Init(anim, 2, eSortID);
+	mPBVisible = visible;
+	MActor::Init(anim, 6, eSortID);
 	SetPosition(pos);
-	SetAnimation("pTurn");
+	SetAnimation("SpIcon");
 }
 
-E_SCENE TurnGrapic::Update(float dt)
+E_SCENE ProgresiveBar::Update(float dt)
 {
 	mEndTIme = false;
 	//보여주는것이 활성화 되었을경우
-	if (mTGVisible)
-	{	
+	if (mPBVisible)
+	{
 		mfTEalpsdtime += dt;
-		
+
 	}
 
 	if (mfTEalpsdtime > 1.0f)
 	{
-		mTGVisible = false;
+		mPBVisible = false;
 		mEndTIme = true;
 		mfTEalpsdtime = 0.0f;
 	}
 	auto key = Keyboard::Get().GetState();
 
-	if (key.G)
+	if (key.F)
 	{
-		mTGVisible = !mTGVisible;
+		mPBVisible = !mPBVisible;
 	}
 
 	E_SCENE eResult = MActor::Update(dt);
@@ -64,7 +67,7 @@ E_SCENE TurnGrapic::Update(float dt)
 	return E_SCENE_NONPASS;
 }
 
-void TurnGrapic::Draw()
+void ProgresiveBar::Draw()
 {
 	XMFLOAT2 offset = XMFLOAT2(0, 0);
 	Color tint = Colors::White;
@@ -75,9 +78,8 @@ void TurnGrapic::Draw()
 	auto mouse = Mouse::Get().GetState();
 
 	//이동범위를 보여줄때
-	if (mTGVisible)
+	if (mPBVisible)
 	{
 		mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + mPosition - offset, tint);
 	}
-
 }

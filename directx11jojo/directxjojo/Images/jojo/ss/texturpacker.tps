@@ -262,6 +262,36 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../HpBar0.png</key>
+            <key type="filename">../MpBar0.png</key>
+            <key type="filename">../SpBar0.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>32,2,64,4</rect>
+                <key>scale9Paddings</key>
+                <rect>32,2,64,4</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../HpIcon0.png</key>
+            <key type="filename">../MpIcon0.png</key>
+            <key type="filename">../SpIcon0.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>6,6,12,12</rect>
+                <key>scale9Paddings</key>
+                <rect>6,6,12,12</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../eTurn0.png</key>
             <key type="filename">../pTurn0.png</key>
             <struct type="IndividualSpriteSettings">
@@ -352,6 +382,12 @@
             <filename>../../UI/Ui7.png</filename>
             <filename>../pTurn0.png</filename>
             <filename>../eTurn0.png</filename>
+            <filename>../HpBar0.png</filename>
+            <filename>../MpBar0.png</filename>
+            <filename>../SpBar0.png</filename>
+            <filename>../SpIcon0.png</filename>
+            <filename>../HpIcon0.png</filename>
+            <filename>../MpIcon0.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

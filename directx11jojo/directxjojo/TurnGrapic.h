@@ -10,7 +10,6 @@ private:
 	bool mTGVisible;
 	bool mEndTIme;
 	float mfTEalpsdtime;
-	XMFLOAT2 mTGPos;
 public:
 	virtual void Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible);
 	virtual E_SCENE Update(float dt);

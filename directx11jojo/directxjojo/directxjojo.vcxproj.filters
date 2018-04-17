@@ -168,6 +168,9 @@
     <ClInclude Include="MActor.h">
       <Filter>MFrameWork</Filter>
     </ClInclude>
+    <ClInclude Include="ProgresiveBar.h">
+      <Filter>02.Object\01.UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -262,6 +265,9 @@
     </ClCompile>
     <ClCompile Include="MActor.cpp">
       <Filter>MFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgresiveBar.cpp">
+      <Filter>02.Object\01.UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

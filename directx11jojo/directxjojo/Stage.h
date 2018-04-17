@@ -1,7 +1,13 @@
 #pragma once
 #include "Scene.h"
 #include "World.h"
-#include "Player.h"
+#include "Jojo.h"
+#include "FotMan.h"
+#include "MoveBox.h"
+#include "UI.h"
+#include "AttackBox.h"
+#include "TurnGrapic.h"
+#include "ProgresiveBar.h"
 
 class Stage:
 	public Scene
@@ -12,8 +18,15 @@ public:
 
 private:
 	E_SCENE mStageScene;
-	Player* mpPlayer;
+	Player * mpPlayer;
+	Jojo * mpJojo;
+
 	World * mpWorld;
+	MoveBox * mpMoveBox;
+	UI * mpUi;
+	AttackBox * mpAttackBox;
+	TurnGrapic *mpTurnGrapic;
+	ProgresiveBar * mpProgresiveBar;
 protected:
 	UINT		mScreenWidth;
 	UINT		mScreenHeight;

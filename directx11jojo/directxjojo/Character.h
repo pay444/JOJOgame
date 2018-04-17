@@ -143,6 +143,8 @@ public:
 
 	void SetMotion(bool motion) { mMotion = motion; }
 	bool GetMotion() { return mMotion; }
+
+	Color GetColor() { return mColor; }
 	void JoAstar_Start(const Vector2 &vDestPos, const Vector2 &vSorcePos);
 	bool JoAStar_Move(float dt);
 };

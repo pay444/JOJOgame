@@ -77,9 +77,13 @@ public:
 	int GetEnemyControllCount() { return mEnemyControll; }
 
 	int GetPlayerCount() { return mPlayerCount; }
+
+	void SetEndTurnPlayerCount(int num) { mEndTurnPlayerCount = num; }
 	int GetEndTurnPlayerCount() { return mEndTurnPlayerCount; }
 
 	int GetEnemtCount() { return mEnemyCount; }
+
+	void SetEndTurnEnemyCount(int num) { mEndTurnEnemyCount = num; }
 	int GetEndTurnEnemyCount() { return mEndTurnEnemyCount; }
 	//void InsertMap(string str, unique_ptr<MActor> actor);
 public:

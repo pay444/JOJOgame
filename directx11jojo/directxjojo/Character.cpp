@@ -122,27 +122,24 @@ E_SCENE Character::Update(float dt)
 			mColorAllow = false;
 			mColor = Colors::Gray;
 			//tint = mColor;
-			if (mMotion)
-			{
-				//MActorManager::Instance().GetClassTurnGrapic()->SetVisible(true);
-			}		
 			mfActionElapsedTime = 0.0f;
+
 		}
 		else if (mActionTurn < 2)
 		{
 			mColor = Colors::White;
 			//mfActionElapsedTime = 0.0f;
-			//모션 이 끝나고 난후에 턴넘기는 그래픽 출력
-			if (mMotion)
-			{
-				//MActorManager::Instance().GetClassTurnGrapic()->SetVisible(true);
-				//MActorManager::Instance().GetClassAttackBox()->GetCharacter()->SetMotion(false);
 
-			}
 		}
 
 	}
-
+	//모션 이 끝나고 난후에 턴넘기는 그래픽 출력
+	if (mMotion)
+	{
+		MActorManager::Instance().GetClassTurnGrapic()->SetVisible(true);
+		//MActorManager::Instance().GetClassAttackBox()->GetCharacter()->SetMotion(false);
+		this->mMotion = false;
+	}
 	E_SCENE eResult = MActor::Update(dt);
 
 	mspShake->Update(dt);
