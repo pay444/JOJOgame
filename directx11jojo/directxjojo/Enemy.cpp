@@ -151,7 +151,9 @@ void Enemy::Draw()
 			swprintf_s(wch,L"No_Enemy_StateID %d", mCode);
 			break;
 		}
+		
 		//swprintf_s(wch, L"%d", mspFSM->GetStateID());
 		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(0.0f, 25.0f)), DirectX::Colors::Black, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+		//ID2D1HwndRenderTarget 
 	}
 }

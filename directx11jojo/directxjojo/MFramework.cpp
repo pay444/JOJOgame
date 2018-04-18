@@ -1,5 +1,20 @@
 #include "stdafx.h"
 #include <sstream>
+//폰트를 위한 헤더 안됨
+//#include <d2d1helper.h>
+//#include <d2d1.h>
+//#pragma comment(lib, "d2d1.lib")
+//#include <dwrite.h>
+//#pragma comment (lib, "dwrite.lib")
+
+template <class T> void SafeRelease(T **ppT)
+{
+	if (*ppT)
+	{
+		(*ppT)->Release();
+		*ppT = NULL;
+	}
+}
 
 MFramework* gpDispatch = 0;
  DirectX::Mouse::ButtonStateTracker MFramework::mMouseTracker;
@@ -11,6 +26,7 @@ LRESULT CALLBACK GlobalWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 	return gpDispatch->WindowProc(hWnd, message, wParam, lParam);
 }
 
+
 MFramework::MFramework() : 
 	mScreenWidth(DEFAULT_SCREEN_WIDTH),
 	mScreenHeight(DEFAULT_SCREEN_HEIGHT),
@@ -20,6 +36,7 @@ MFramework::MFramework() :
 	mResizing(false)
 {
 	gpDispatch = this;
+	_wsetlocale(LC_ALL, L"korean");
 }
 
 MFramework::~MFramework()
@@ -65,6 +82,9 @@ void MFramework::InitD3D(HWND hWnd)
 	mspspriteFont = make_unique<SpriteFont>(mspDevice.Get(), L"myfile.spritefont");
 
 	mspStates = std::make_unique<CommonStates>(mspDevice.Get());
+
+	
+	//ComPtr<IDWriteFactory2> writeFactory;
 
 	//D3D11_RASTERIZER_DESC rasterDesc;
 	//rasterDesc.AntialiasedLineEnable = false;
@@ -190,7 +210,7 @@ void MFramework::InitWindow(HINSTANCE hInstance, LPCTSTR title, UINT width, UINT
 	ZeroMemory(&wc, sizeof(WNDCLASSEX));
 
 	wc.style = CS_HREDRAW | CS_VREDRAW;
-	wc.lpszClassName = L"SGAWindowClass";
+	wc.lpszClassName = L"JoJo";
 	wc.hInstance = hInstance;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
@@ -204,7 +224,7 @@ void MFramework::InitWindow(HINSTANCE hInstance, LPCTSTR title, UINT width, UINT
 
 	mTitleCaption = title;
 	mHwnd = CreateWindowEx(NULL,
-		L"SGAWindowClass",
+		L"JoJo",
 		mTitleCaption.c_str(),
 		WS_OVERLAPPEDWINDOW,
 		300,

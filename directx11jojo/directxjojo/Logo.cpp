@@ -15,8 +15,8 @@ Logo::~Logo()
 
 HRESULT Logo::Initialize(SpriteBatch* spriteBatch, SpriteFont* spriteFont)
 {
-	mpWorld = MActorManager::Instance().Create<World>(spriteBatch,spriteFont, mScreenWidth, mScreenHeight);
-	mpWorld->Init("Images\\Map\\stage3.tmx", E_SORTID_FOURTH);
+	//mpWorld = MActorManager::Instance().Create<World>(spriteBatch,spriteFont, mScreenWidth, mScreenHeight);
+	//mpWorld->Init("Images\\Map\\stage3.tmx", E_SORTID_FOURTH);
 
 	auto pTexture = ResourceManager::Instance().GetShaderResource(L"Images\\jojo\\jojoSprites.png");//(L"Images\\sprites.png");
 	auto pSheet = ResourceManager::Instance().GetSpriteSheet(L"Images\\jojo\\jojoSprites.xml", pTexture); //(L"Images\\sprites.xml",pTexture);

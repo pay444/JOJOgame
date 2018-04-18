@@ -3,6 +3,7 @@
 #include "Timer.h"
 #include "CommonStates.h"
 //#include "World.h"
+#include <locale>
 
 #pragma comment (lib, "d3d11.lib")
 

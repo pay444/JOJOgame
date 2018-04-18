@@ -53,7 +53,7 @@ E_SCENE ProgresiveBar::Update(float dt)
 		mfTEalpsdtime = 0.0f;
 	}
 	auto key = Keyboard::Get().GetState();
-
+	
 	if (key.F)
 	{
 		mPBVisible = !mPBVisible;
