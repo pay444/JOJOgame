@@ -44,6 +44,7 @@ public:
 	void RePosAndVisiMB();
 	void RePosAndVisiUI();
 	void RePosAndVisiAt();
+	void RePosProgresiveBar();
 
 	void Draw();
 	void Release();

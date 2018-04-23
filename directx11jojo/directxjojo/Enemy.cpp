@@ -135,7 +135,7 @@ void Enemy::Draw()
 	{
 		//AI 상태 출력
 		wchar_t wch[128];
-		
+		TCHAR whc[128];
 		switch (mspFSM->GetStateID())
 		{
 		case 0:
@@ -154,6 +154,6 @@ void Enemy::Draw()
 		
 		//swprintf_s(wch, L"%d", mspFSM->GetStateID());
 		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(0.0f, 25.0f)), DirectX::Colors::Black, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
-		//ID2D1HwndRenderTarget 
+		//ID2D1HwndRenderTarget
 	}
 }

@@ -60,7 +60,7 @@ E_SCENE MActorManager::Update(float dt)
 	}
 
 
-	if (!mUiCheck&&MActorManager::Instance().GetClassUi()!=NULL&&!MActorManager::Instance().GetClassUi()->GetVisible())
+	if (!mUiCheck && MActorManager::Instance().GetClassUi() != NULL && !MActorManager::Instance().GetClassUi()->GetVisible())
 	{
 		//클릭한 해당놈의 위치와 보여주는 여부를 넘겨줌
 		RePosAndVisiMB();
@@ -71,6 +71,8 @@ E_SCENE MActorManager::Update(float dt)
 		{
 			RePosAndVisiUI();
 		}
+
+		RePosProgresiveBar();
 	}
 
 	CheckAction();
@@ -107,6 +109,7 @@ E_SCENE MActorManager::Update(float dt)
 				(*pVecTile)[pActor->GetTileIndex(pActor->GetPosition())]->byOption = 0;
 			}
 			iter->reset();
+			*iter = nullptr;
 			iter = mActors.erase(iter);	//지우고 이터레이터도 다음것으로 넘어감
 
 		}
@@ -959,6 +962,72 @@ class TurnGrapic* MActorManager::GetClassTurnGrapic()
 		{
 			return ((TurnGrapic*)actor.get());
 			break;
+		}
+	}
+}
+
+void MActorManager::RePosProgresiveBar()
+{
+	//해당놈의 위치와 보여주는 여부를 공격 박스 에게 넘겨줌
+	//if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+	{
+		int posIndex = 0;
+		int mouseIndex = 0;
+		XMFLOAT2 pos;
+		XMFLOAT2 pos2;
+		bool visible = false;
+		float fScrollx = ScrollMgr::Instance().GetScroll().x;
+		float fScrolly = ScrollMgr::Instance().GetScroll().y;
+
+		for (const auto &actor : mActors)
+		{
+			auto mouse = Mouse::Get().GetState();
+
+			Vector2 mousePos = Vector2(mouse.x + fScrollx, mouse.y + fScrolly);
+			mouseIndex = actor->GetTileIndex(mousePos);
+
+			MActor* pCollider;
+			pCollider = actor.get();
+
+			//캐릭터를 상속받는 녀석이라면 + 해당 놈의 체력이 0이상일때프로그래시브 통제를 시작함
+			if (dynamic_cast<Character*>(pCollider) && ((Character*)pCollider)->GetHealth()>0)
+			{
+				pos = pCollider->GetPosition();
+				posIndex = pCollider->GetTileIndex(pos);
+
+				//먼저 캐릭터와 마우스위치 판정
+				if (mouseIndex == posIndex)
+				{
+
+					//그뒤에 프로그래시브 클래스를 찾은후 대입
+					for (const auto &actor : mActors)
+					{
+
+						if (typeid(*actor) == typeid(ProgresiveBar))
+						{
+							actor->SetPosition((pos + XMFLOAT2(150.0f, 0.0f)));
+							((ProgresiveBar *)actor.get())->SetCharacter((Character*)pCollider);
+
+							((ProgresiveBar *)actor.get())->SetVisible(true);
+							break;
+						}
+					}
+					break;
+				}
+				//아닐경우 안보여줌
+				else 
+				{
+					for (const auto &actor : mActors)
+					{
+						if (typeid(*actor) == typeid(ProgresiveBar))
+						{
+
+							((ProgresiveBar *)actor.get())->SetVisible(false);
+							break;
+						}
+					}
+				}
+			}
 		}
 	}
 }

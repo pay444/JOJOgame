@@ -1,4 +1,6 @@
 #pragma once
+
+//class Character;
 class ProgresiveBar :public MActor
 {
 public:
@@ -10,7 +12,10 @@ private:
 	bool mPBVisible;
 	bool mEndTIme;
 	float mfTEalpsdtime;
-	XMFLOAT2 mTGPos;
+	Character* mCharacter;
+	SpriteFrame mSFHp;
+	SpriteFrame mSFMp;
+	SpriteFrame mSFSp;
 public:
 	virtual void Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible);
 	virtual E_SCENE Update(float dt);
@@ -20,5 +25,9 @@ public:
 	bool GetVisible() { return mPBVisible; }
 
 	bool GetEndTime() { return mEndTIme; }
+
+	void SetCharacter(Character* ch) { mCharacter = ch; }
+	Character * GetCharacter() { return mCharacter; }
+
 };
 

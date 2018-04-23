@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.6.2</string>
+        <string>4.5.0</string>
         <key>fileName</key>
         <string>C:/Users/hi/Source/Repos/JOJOgame/directx11jojo/directxjojo/Images/jojo/ss/texturpacker.tps</string>
         <key>autoSDSettings</key>
@@ -334,6 +334,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../uiFan0.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>48,36,96,72</rect>
+                <key>scale9Paddings</key>
+                <rect>48,36,96,72</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
         </map>
         <key>fileList</key>
         <array>
@@ -388,6 +401,7 @@
             <filename>../SpIcon0.png</filename>
             <filename>../HpIcon0.png</filename>
             <filename>../MpIcon0.png</filename>
+            <filename>../uiFan0.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -103,9 +103,14 @@ protected:
 	unique_ptr<EffectShake> mspShake;
 	unique_ptr<EffectTint> mspTint;
 protected:
-	int mHealth;
-	int mAttack;
-	int mStartIndex;
+	UINT mMaxHp;		//최대체력
+	UINT mHealth;		//체력
+	UINT mAttack;		//공격력
+	UINT mMaxMana;		//최대 마나
+	UINT mMana;			//마나
+	UINT mMaxSp;		//최대 필살기 게이지
+	UINT mSp;			//필살기 게이지
+	UINT mStartIndex;
 	bool mVisbleScope; //이동 범위를 보여줄지 안보여줄지 결정
 	char * mAnimName;	//애니메이션 공격 상태를 저장할 변수
 	char * mAnimName2;	//애니메이션 상태를 저장할 변수
@@ -119,32 +124,60 @@ protected:
 	bool mMotion;		//행동이 끝나야 턴을 바꿔주는 변수
 						//MoveBox *mpMoveBox;
 public:
-	void SetStaus(int health, int attack, int moveDis, int AttackDis)
+	void SetStaus(int health, int attack,int mana,int sp, int moveDis, int AttackDis)
 	{
+		this->mMaxHp = health;
 		this->mHealth = health;
 		this->mAttack = attack;
+		this->mMaxMana = mana;
+		this->mMana = mana;
+		this->mMaxSp = sp;
+		this->mSp = sp;
 		this->mMoveDistance = moveDis;
 		this->mAttackDistance = AttackDis;
 		//mpMoveBox->SetMoveDis(mMoveDistance);
 	}
-	void SetActionTurn(int actionTurn) { mActionTurn = actionTurn; }
-	void SetColor(Color color) { mColor = color; }
-	void SetColorAllow(bool colorBool) { mColorAllow = colorBool; }
+	
 	void SetAniName(char* name) { mAnimName2 = name; }
-
 	char* GetAniName() { return mAnimName2; }
+
+	void SetColorAllow(bool colorBool) { mColorAllow = colorBool; }
 	bool GetColorAllow() { return mColorAllow; }
+
+	void SetHelth(int hp) { mHealth = hp; }
 	int GetHealth() { return mHealth; }
+	
+	void SetMaxHp(int hp) { mMaxHp = hp; }
+	int GetMaxHp() { return mMaxHp; }
+
+	void SetAttack(int at) { mAttack = at; }
 	int GetAttack() { return mAttack; }
+
+	void SetMana(int mp) { mMana = mp; }
+	int GetMana() { return mMana; }
+
+	void SetMaxMana(int mp) { mMaxMana = mp; }
+	int GetMaxMana() { return mMaxMana; }
+
+	void SetSp(int sp) { mSp = sp; }
+	int GetSp() { return mSp; }
+
+	void SetMaxSp(int sp) { mMaxSp = sp; }
+	int GetMaxSp() { return mMaxSp; }
+
 	int GetMoveDistance() { return mMoveDistance; }
 	int GetAttackDistance() { return mAttackDistance; }
 	bool GetVisible() { return mVisbleScope; }
+
+	void SetActionTurn(int actionTurn) { mActionTurn = actionTurn; }
 	int GetActionTurn() { return mActionTurn; }
 
 	void SetMotion(bool motion) { mMotion = motion; }
 	bool GetMotion() { return mMotion; }
 
+	void SetColor(Color color) { mColor = color; }
 	Color GetColor() { return mColor; }
+
 	void JoAstar_Start(const Vector2 &vDestPos, const Vector2 &vSorcePos);
 	bool JoAStar_Move(float dt);
 };
