@@ -194,8 +194,9 @@ void MActorManager::CheckAction()
 				mUiCheck = true;
 				SetAtVisible(true);
 				((UI*)pCollider)->SetVisible(false);
+				GetClassProgresiveBar()->SetVisible(false);
 				break;
-			}
+			} 
 			//대기 UI를 눌렷을때
 			else if (((UI*)pCollider)->CheckWaitArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
 			{
@@ -204,12 +205,25 @@ void MActorManager::CheckAction()
 				((Character*)pUi->GetPlayer())->SetActionTurn(2);
 				MActorManager::Instance().GetClassUi()->SetVisible(false);
 				MActorManager::Instance().GetClassAttackBox()->SetVisible(false);
+				GetClassProgresiveBar()->SetVisible(false);
 				//mUiCheck = true;
 				//SetAtVisible(true);
 				//((UI*)pCollider)->SetVisible(false);
 				break;
 			}
-
+			//책략 버튼을 눌럿을때
+			else if (((UI*)pCollider)->CheckSkillArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
+			{
+				//Color color = Colors::Gray;
+				//((Character*)pUi->GetPlayer())->SetColor(color);
+				//((Character*)pUi->GetPlayer())->SetActionTurn(2);
+				//MActorManager::Instance().GetClassUi()->SetVisible(false);
+				//MActorManager::Instance().GetClassAttackBox()->SetVisible(false);
+				//mUiCheck = true;
+				//SetAtVisible(true);
+				//((UI*)pCollider)->SetVisible(false);
+				break;
+			}
 		}
 
 	}
@@ -868,7 +882,7 @@ UI * MActorManager::GetClassUi()
 		if (typeid(*actor) == typeid(UI))
 		{
 			return ((UI*)(actor.get()));
-			//break;
+			break;
 		}
 	}
 	return nullptr;
@@ -964,6 +978,20 @@ class TurnGrapic* MActorManager::GetClassTurnGrapic()
 			break;
 		}
 	}
+	return nullptr;
+}
+
+ProgresiveBar * MActorManager::GetClassProgresiveBar()
+{
+	for (auto &actor : mActors)
+	{
+		if (typeid(*actor) == typeid(ProgresiveBar))
+		{
+			return ((ProgresiveBar*)actor.get());
+			break;
+		}
+	}
+	return nullptr;
 }
 
 void MActorManager::RePosProgresiveBar()

@@ -38,15 +38,41 @@ void UI::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
 	MActor::Init(anim, 8,eSortID);
 	SetPosition(pos + XMFLOAT2(100.0f,0.0f));
 	SetAnimation("Ui0");
+
+
 }
 
 E_SCENE UI::Update(float dt)
 {
+	MActor::Update(dt);
 
-	E_SCENE eResult = MActor::Update(dt);
+	if (mUIVisible)
+	{
+		//7개의 UI그림 위치 지정
+		if (mVecUiPos.size() == 0)
+		{
+			for (int i = 0; i < 8; ++i)
+			{
+				float uiPos = 21 * i;
+				mVecUiPos.push_back(mPosition + XMFLOAT2(0.0f, uiPos));
+			}
+		}
+	}
+	else
+	{
+		mVecUiPos.clear();
+	}
 
-	if (eResult > E_SCENE_NONPASS)
-		return eResult;
+	//E_SCENE eResult = MActor::Update(dt);
+
+	//if (eResult > E_SCENE_NONPASS)
+	//	return eResult;
+
+	//auto state = Keyboard::Get().GetState();
+	//if (state.W)
+	//{
+	//	return E_SCENE_STAGE;
+	//}
 
 	return E_SCENE_NONPASS;
 }
@@ -67,15 +93,11 @@ void UI::Draw()
 		//if (MFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 		//{
 
-		if (mVecUiPos.size()== 0)
-		{
-			for (int i = 0; i < 8; ++i)
-			{
-				float uiPos = 21 * i;
-				mVecUiPos.push_back(mPosition + XMFLOAT2(0.0f, uiPos));
-			}
-		}
+
 		//}
+		if (mVecUiPos.size() <= 0)
+			return;
+
 		for (int i = 0; i < 8; ++i)
 		{
 			string name;
@@ -175,6 +197,52 @@ bool UI::CheckWaitArea()
 			return	::IntersectRect(&intersect, &src, &trg);
 
 
+		}
+	}
+	return false;
+}
+
+bool UI::CheckSkillArea()
+{
+	if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+	{
+		if (mUIVisible)
+		{
+
+			float fScrollx = ScrollMgr::Instance().GetScroll().x;
+			float fScrolly = ScrollMgr::Instance().GetScroll().y;
+			auto mouse = Mouse::Get().GetState();
+
+			XMFLOAT2 mousePos = XMFLOAT2(mouse.x + fScrollx, mouse.y + fScrolly);
+
+			////UI 그림의 사각형 위치
+			//RECT rct = GetBound();
+
+			//XMFLOAT2 uiWaitPosx = XMFLOAT2(rct.left, rct.right);
+			//XMFLOAT2 uiWaitPosy = XMFLOAT2(rct.top, rct.bottom);
+			//float oneBoxPos = ((uiWaitPosy.y - uiWaitPosy.x) / 8);
+			//float oneBoxpos2 = oneBoxPos * 7 + uiWaitPosy.x;
+
+			////그림의 위치를 통해서 마우스의 위치 확인하여 반응 구현
+			//if (mousePos.x >= uiWaitPosx.x && 
+			//	mousePos.x <= uiWaitPosx.y &&
+			//	mousePos.y >= uiWaitPosy.x &&
+			//	mousePos.y >= oneBoxpos2-oneBoxPos &&
+			//	mousePos.y <= oneBoxpos2)
+			//{
+			//	return true;
+			//}
+			RECT src = GetBound();
+			int UiBlock = src.bottom - src.top;
+			src.top += UiBlock * 1;
+			src.bottom += UiBlock * 1;
+			RECT trg;
+			trg.left = mousePos.x;
+			trg.right = mousePos.x + 5;
+			trg.top = mousePos.y;
+			trg.bottom = mousePos.y + 5;
+			RECT intersect;
+			return	::IntersectRect(&intersect, &src, &trg);
 		}
 	}
 	return false;

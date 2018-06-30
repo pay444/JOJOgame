@@ -103,14 +103,14 @@ protected:
 	unique_ptr<EffectShake> mspShake;
 	unique_ptr<EffectTint> mspTint;
 protected:
-	UINT mMaxHp;		//최대체력
-	UINT mHealth;		//체력
-	UINT mAttack;		//공격력
-	UINT mMaxMana;		//최대 마나
-	UINT mMana;			//마나
-	UINT mMaxSp;		//최대 필살기 게이지
-	UINT mSp;			//필살기 게이지
-	UINT mStartIndex;
+	int mMaxHp;		//최대체력
+	int mHealth;		//체력
+	int mAttack;		//공격력
+	int mMaxMana;		//최대 마나
+	int mMana;			//마나
+	int mMaxSp;		//최대 필살기 게이지
+	int mSp;			//필살기 게이지
+	int mStartIndex;
 	bool mVisbleScope; //이동 범위를 보여줄지 안보여줄지 결정
 	char * mAnimName;	//애니메이션 공격 상태를 저장할 변수
 	char * mAnimName2;	//애니메이션 상태를 저장할 변수
@@ -123,6 +123,7 @@ protected:
 	bool mColorAllow;	//색깔 바꿔주는 여부
 	bool mMotion;		//행동이 끝나야 턴을 바꿔주는 변수
 						//MoveBox *mpMoveBox;
+
 public:
 	void SetStaus(int health, int attack,int mana,int sp, int moveDis, int AttackDis)
 	{

@@ -18,7 +18,7 @@ ProgresiveBar::ProgresiveBar()
 
 
 ProgresiveBar::ProgresiveBar(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont)
-	:MActor(pBatch,pSheet,pFont),mPBVisible(false)
+	:MActor(pBatch,pSheet,pFont),mPBVisible(false), mCharacter(nullptr)
 {
 	mfTEalpsdtime = 0.0f;
 	mEndTIme = false;
@@ -49,6 +49,7 @@ void ProgresiveBar::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
 
 E_SCENE ProgresiveBar::Update(float dt)
 {
+	MActor::Update(dt);
 	mEndTIme = false;
 	//보여주는것이 활성화 되었을경우
 	if (mPBVisible)
@@ -70,10 +71,10 @@ E_SCENE ProgresiveBar::Update(float dt)
 		mPBVisible = !mPBVisible;
 	}
 
-	E_SCENE eResult = MActor::Update(dt);
+	//E_SCENE eResult = MActor::Update(dt);
 
-	if (eResult > E_SCENE_NONPASS)
-		return eResult;
+	//if (eResult > E_SCENE_NONPASS)
+	//	return eResult;
 
 	return E_SCENE_NONPASS;
 }
@@ -89,20 +90,26 @@ void ProgresiveBar::Draw()
 
 	auto mouse = Mouse::Get().GetState();
 
-	//이동범위를 보여줄때
+	//프로그레시브바가 활성화 된다면, UI가 안켜졌을때
 	if (mPBVisible)
 	{
-		//UiFan 출력
-		SetAnimation("uiFan");
-		mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + mPosition - offset, tint);
 
+		//값이 없다면 빠져나옴
+		if (!mCharacter)
+		{
+			return;
+		}
 		//에너지가 0이면 출력안하도록
-		if (mCharacter->GetHealth() <= 0)
+		if (mCharacter->GetHealth() <= 0 || MActorManager::Instance().GetClassUi()->GetVisible())
 		{
 			mPBVisible = false;
 			return;
 		}
-			
+
+		//UiFan 출력
+		SetAnimation("uiFan");
+		mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + mPosition - offset, tint);
+
 		//클래스 이름 출력
 		wchar_t wch[128];
 		auto className = typeid(*mCharacter).name();

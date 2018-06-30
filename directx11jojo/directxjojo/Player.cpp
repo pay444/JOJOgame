@@ -158,6 +158,8 @@ void Player::UpdateMove(float dt)
 		mmousePos = XMFLOAT2(mouse.x + fScrollx, mouse.y + fScrolly);
 		//mPosition = XMFLOAT2(mPosition.x + fScrollx, mPosition.y + fScrolly);
 		int mouseIndex = GetTileIndex(mmousePos);
+		if (mouseIndex < 0)
+			return;
 		Vector2 vecMousePos = (*pVecTile)[mouseIndex]->vPos + XMFLOAT2(JOJOTILESX / 2, JOJOTILESY / 2);
 		Vector2 vecPos = mPosition;
 

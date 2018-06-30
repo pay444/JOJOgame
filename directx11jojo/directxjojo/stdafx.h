@@ -61,3 +61,4 @@ using namespace DirectX::SimpleMath;
 #include "GameMain.h"
 #include "Player.h"
 #include "MoveBox.h"
+//#include "ProgresiveBar.h"

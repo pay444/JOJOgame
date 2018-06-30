@@ -75,10 +75,12 @@ void MoveBox::Init(SpriteBatch* pBatch, SpriteSheet *pSheet, SpriteFont *pFont, 
 
 E_SCENE MoveBox::Update(float dt)
 {
-	E_SCENE eResult = MActor::Update(dt);
+	MActor::Update(dt);
+	//E_SCENE eResult = MActor::Update(dt);
 
-	if (eResult > E_SCENE_NONPASS)
-		return eResult;
+	//if (eResult > E_SCENE_NONPASS)
+	//	return eResult;
+	//auto state = 
 
 	return E_SCENE_NONPASS;
 }
@@ -464,6 +466,10 @@ bool MoveBox::ScopeSeek()
 	//	if ((vecScopePos[i].x == vecMousePos.x) && (vecScopePos[i].y == vecMousePos.y))
 	//		return true;
 	//}
+
+	//끝에 다다랏을때 인덱스 특저오류 예외처리
+	if (mouseIndex < 0)
+		return false;
 	Vector2 vecMousePos = (*pVecTile)[mouseIndex]->vPos + XMFLOAT2(JOJOTILESX / 2, JOJOTILESY / 2);
 
 	for (int i = 0; i < mspVecScopeIndex.size(); ++i)

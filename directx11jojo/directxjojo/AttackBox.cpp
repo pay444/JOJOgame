@@ -34,10 +34,11 @@ void AttackBox::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
 
 E_SCENE AttackBox::Update(float dt)
 {
-	E_SCENE eResult = MActor::Update(dt);
+	MActor::Update(dt);
+	//E_SCENE eResult = MActor::Update(dt);
 
-	if (eResult > E_SCENE_NONPASS)
-		return eResult;
+	//if (eResult > E_SCENE_NONPASS)
+	//	return eResult;
 
 	return E_SCENE_NONPASS;
 }

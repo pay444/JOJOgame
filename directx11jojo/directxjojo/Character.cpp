@@ -125,7 +125,7 @@ E_SCENE Character::Update(float dt)
 			mfActionElapsedTime = 0.0f;
 
 		}
-		else if (mActionTurn < 2)
+		else if ( mActionTurn < 2)//mActionTurn > 0 &&
 		{
 			mColor = Colors::White;
 			//mfActionElapsedTime = 0.0f;
@@ -233,6 +233,7 @@ void Character::OnHit(MActor * pCollider, MActor * pCollidee)
 		const vector<unique_ptr<TILE>>* pVecTile = MActorManager::Instance().GetTileInfo();
 		int attackerIndex = GetTileIndex(pCollidee->GetPosition());
 		int defenderIndex = GetTileIndex(mPosition);
+
 		//아래 애니매이션 변경
 		if (mPosition.y >
 			(*pVecTile)[attackerIndex]->vPos.y + JOJOTILESY) //+ JOJOTILESY / 2 + JOJOTILESY / 2)
@@ -274,8 +275,9 @@ void Character::OnHit(MActor * pCollider, MActor * pCollidee)
 void Character::DoDamage(MActor * pAttacker)
 {
 	//AttackBox* pCharacter = (AttackBox*)pAttacker;
+	//어텍박스가 데미지를 줌
 	this->mHealth -= ((AttackBox*)pAttacker)->GetAttack();
-
+	
 	mspShake->Start(0.1f, 5);
 	mspTint->Start(0.1f, (Color)Colors::Wheat, (Color)Colors::Red);
 
@@ -446,6 +448,8 @@ bool Character::JoAStar_Move(float dt)
 
 			MActorManager::Instance().SetMBVisible(false);
 
+			//mColor = Colors::Gray;
+			//mActionTurn = 2;
 			MActorManager::Instance().GetClassMoveBox()->Release();
 			MActorManager::Instance().GetClassAttackBox()->Release();
 		}

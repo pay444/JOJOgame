@@ -16,11 +16,13 @@ public:
 
 	bool CheckAttackArea();
 	bool CheckWaitArea();
-
+	bool CheckSkillArea();
+public:
 	void SetPlayer(Player * player) { mpPlayer = player; }
 	void SetVisible(bool visible) { mUIVisible = visible; }
 
 	bool GetVisible() { return mUIVisible; }
 	Player * GetPlayer() { return mpPlayer; }
 };
+
 

@@ -56,7 +56,7 @@ void IdleState::Execute(float dt)
 
 	//범위 내에 플레이어 발견
 	if (dist < pEnemy->GetDetectRange() && !MActorManager::Instance().GetTurn()
-		&& pEnemy->GetActionTurn() < 1&& pEnemy->GetActionTime()>0.7f)
+		&& pEnemy->GetActionTurn() < 1)//&& pEnemy->GetActionTime()>0.7f)
 	{
 		//상태 전이
 		mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Chase);
@@ -103,11 +103,14 @@ void IdleState::Execute(float dt)
 		{
 			Vector2 vec2 = Vector2(iter1->x,iter1->y);
 			
+			//화면 끝에 다다랐을때 예외처리
+			auto a = pEnemy->GetTileIndex(vec2);
+			
 			if (iter1->x < 0 || iter1->y < 0)
 			{
 				iter1 = vecPos.erase(iter1);
 			}
-			else if ((*pVecTile)[pEnemy->GetTileIndex(vec2)]->byOption == 1)
+			else if (pEnemy->GetTileIndex(vec2) > 0 &&(*pVecTile)[pEnemy->GetTileIndex(vec2)]->byOption == 1)
 			{
 				iter1 = vecPos.erase(iter1);
 			}
@@ -220,6 +223,8 @@ void ChaseState::Execute(float dt)
 		{
 			//충돌이 안되었다면 행동턴 종료후 상태변경 ->Idle
 			pEnemy->SetActionTurn(2);
+			Color col = Colors::Gray;
+			pEnemy->SetColor(col);
 			MActorManager::Instance().GetClassAttackBox()->SetVisible(false);
 			MActorManager::Instance().GetClassMoveBox()->SetVisible(false);
 			mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Idle);
