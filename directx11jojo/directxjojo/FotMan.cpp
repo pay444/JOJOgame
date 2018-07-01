@@ -62,6 +62,8 @@ void FotMan::Init(float moveSpeed, XMFLOAT2 startpos, E_SORTID eSortID, float li
 		},
 	};
 	SetCamp(GunGeon::CampType::MONSTER);
+	
+	SetClassType(GunGeon::ClassType::NOMAL);
 
 	MActor::Init(anim, 11, eSortID);
 

@@ -53,6 +53,12 @@ namespace GunGeon
 		NPC
 	};
 
+	enum ClassType
+	{
+		NOMAL = 0,
+		MONARCH
+	};
+
 	enum EnemyState
 	{
 		Enemy_Idle,

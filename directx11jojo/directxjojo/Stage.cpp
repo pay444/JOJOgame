@@ -49,7 +49,7 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 		500.0f, XMFLOAT2((mScreenWidth * 0.5f) + 100, mScreenHeight * 0.5f),
 		E_SORTID_SECOND, 200.0f);
 
-	mpJojo->SetStaus(101, 10,100,0, 4, 1);
+	mpJojo->SetStaus(101, 10,100,0, 5, 1);
 
 	GunGeon::Blackboard::Instance().SetPlayer(mpJojo);
 

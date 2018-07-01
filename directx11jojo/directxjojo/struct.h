@@ -2,8 +2,10 @@
 
 typedef struct tagNode
 {
-	float fCost;
 	int iIndex;
+	float fCost;
+	float gCost;
+	float hCost;
 	tagNode* pParent;
 }NODE;
 

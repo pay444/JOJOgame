@@ -11,6 +11,10 @@ UI::UI(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont)
 	mpPlayer(nullptr),
 	mUIVisible(false)
 {
+	auto pTexture = ResourceManager::Instance().GetShaderResource(L"Images\\Skill\\SkillUis.png");
+	auto spSheet = ResourceManager::Instance().GetSpriteSheet(L"Images\\Skill\\SkillUis.xml", pTexture);
+
+	mspUiSkill =make_unique<UiSkills>(pBatch, spSheet, pFont);
 }
 
 
@@ -39,6 +43,7 @@ void UI::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
 	SetPosition(pos + XMFLOAT2(100.0f,0.0f));
 	SetAnimation("Ui0");
 
+	mspUiSkill->Init(eSortID, pos, visible);
 
 }
 
@@ -48,6 +53,8 @@ E_SCENE UI::Update(float dt)
 
 	if (mUIVisible)
 	{
+		mspUiSkill->SetPosition(mPosition + XMFLOAT2(100.0f, 0.0f));
+		mspUiSkill->SetPlayer(mpPlayer);
 		//7개의 UI그림 위치 지정
 		if (mVecUiPos.size() == 0)
 		{
@@ -63,6 +70,7 @@ E_SCENE UI::Update(float dt)
 		mVecUiPos.clear();
 	}
 
+	mspUiSkill->Update(dt);
 	//E_SCENE eResult = MActor::Update(dt);
 
 	//if (eResult > E_SCENE_NONPASS)
@@ -95,6 +103,7 @@ void UI::Draw()
 
 
 		//}
+
 		if (mVecUiPos.size() <= 0)
 			return;
 
@@ -114,6 +123,7 @@ void UI::Draw()
 		mVecUiPos.clear();
 	}
 	
+	mspUiSkill->Draw();
 }
 
 bool UI::CheckAttackArea()
@@ -236,6 +246,35 @@ bool UI::CheckSkillArea()
 			int UiBlock = src.bottom - src.top;
 			src.top += UiBlock * 1;
 			src.bottom += UiBlock * 1;
+			RECT trg;
+			trg.left = mousePos.x;
+			trg.right = mousePos.x + 5;
+			trg.top = mousePos.y;
+			trg.bottom = mousePos.y + 5;
+			RECT intersect;
+			return	::IntersectRect(&intersect, &src, &trg);
+		}
+	}
+	return false;
+}
+
+bool UI::CheckCancelArea()
+{
+	if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+	{
+		if (mUIVisible)
+		{
+
+			float fScrollx = ScrollMgr::Instance().GetScroll().x;
+			float fScrolly = ScrollMgr::Instance().GetScroll().y;
+			auto mouse = Mouse::Get().GetState();
+
+			XMFLOAT2 mousePos = XMFLOAT2(mouse.x + fScrollx, mouse.y + fScrolly);
+
+			RECT src = GetBound();
+			int UiBlock = src.bottom - src.top;
+			src.top += UiBlock * 7;
+			src.bottom += UiBlock * 7;
 			RECT trg;
 			trg.left = mousePos.x;
 			trg.right = mousePos.x + 5;

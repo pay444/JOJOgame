@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:082f92ead863c47cd5cfa5b1a30d37c4:0cd64d0066438ce733c0739fa5559272:2c63d788cd404188aae5831b9af93379$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="SkillUis.png" width="256" height="572">
+    <sprite n="cancelBtn.png" x="0" y="0" w="76" h="21" pX="0.5" pY="0.5"/>
+    <sprite n="fireBack.png" x="0" y="21" w="234" h="18" pX="0.5" pY="0.5"/>
+    <sprite n="randBack.png" x="0" y="39" w="234" h="18" pX="0.5" pY="0.5"/>
+    <sprite n="skillUi.PNG" x="0" y="57" w="246" h="159" pX="0.5" pY="0.5"/>
+    <sprite n="waterBack.png" x="0" y="216" w="234" h="18" pX="0.5" pY="0.5"/>
+    <sprite n="wind_001.png" x="0" y="234" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="wind_002.png" x="64" y="234" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="wind_003.png" x="128" y="234" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="wind_004.png" x="192" y="234" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="wind_005.png" x="0" y="298" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="wind_006.png" x="64" y="298" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="wind_007.png" x="128" y="298" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="wind_008.png" x="192" y="298" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="wind_009.png" x="0" y="362" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="wind_010.png" x="64" y="362" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="wind_011.png" x="128" y="362" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="wind_012.png" x="192" y="362" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="wind_013.png" x="0" y="426" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="wind_014.png" x="64" y="426" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="wind_015.png" x="128" y="426" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="wind_016.png" x="192" y="426" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="wind_017.png" x="0" y="490" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="wind_018.png" x="64" y="490" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="wind_019.png" x="128" y="490" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="wind_020.png" x="192" y="490" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="windBack.png" x="0" y="554" w="234" h="18" pX="0.5" pY="0.5"/>
+</TextureAtlas>

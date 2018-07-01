@@ -123,6 +123,7 @@ protected:
 	bool mColorAllow;	//색깔 바꿔주는 여부
 	bool mMotion;		//행동이 끝나야 턴을 바꿔주는 변수
 						//MoveBox *mpMoveBox;
+	int mClassType;		//현재 캐릭터의 직업
 
 public:
 	void SetStaus(int health, int attack,int mana,int sp, int moveDis, int AttackDis)
@@ -178,6 +179,9 @@ public:
 
 	void SetColor(Color color) { mColor = color; }
 	Color GetColor() { return mColor; }
+
+	void SetClassType(int type) { mClassType = type; }
+	int GetClassType() { return mClassType; }
 
 	void JoAstar_Start(const Vector2 &vDestPos, const Vector2 &vSorcePos);
 	bool JoAStar_Move(float dt);

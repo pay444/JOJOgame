@@ -146,6 +146,7 @@
     <ClInclude Include="AStar.h" />
     <ClInclude Include="AttackBox.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="DamegeSkill.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="directxjojo.h" />
     <ClInclude Include="dxerr.h" />
@@ -177,6 +178,7 @@
     <ClInclude Include="tinyxml2.h" />
     <ClInclude Include="TurnGrapic.h" />
     <ClInclude Include="UI.h" />
+    <ClInclude Include="UiSkills.h" />
     <ClInclude Include="World.h" />
     <ClInclude Include="ySortMgr.h" />
   </ItemGroup>
@@ -184,6 +186,7 @@
     <ClCompile Include="AStar.cpp" />
     <ClCompile Include="AttackBox.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="DamegeSkill.cpp" />
     <ClCompile Include="directxjojo.cpp" />
     <ClCompile Include="dxerr.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -224,6 +227,7 @@
     </ClCompile>
     <ClCompile Include="TurnGrapic.cpp" />
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="UiSkills.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="ySortMgr.cpp" />
   </ItemGroup>

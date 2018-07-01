@@ -58,6 +58,9 @@
     <Filter Include="MFrameWork">
       <UniqueIdentifier>{f18a6854-8648-4e57-9ee4-cd445ef1acdf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Object\03.Skills">
+      <UniqueIdentifier>{a7499b89-b736-4353-ac89-963bf09505ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -171,6 +174,12 @@
     <ClInclude Include="ProgresiveBar.h">
       <Filter>02.Object\01.UI</Filter>
     </ClInclude>
+    <ClInclude Include="UiSkills.h">
+      <Filter>02.Object\01.UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DamegeSkill.h">
+      <Filter>02.Object\03.Skills</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -268,6 +277,12 @@
     </ClCompile>
     <ClCompile Include="ProgresiveBar.cpp">
       <Filter>02.Object\01.UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UiSkills.cpp">
+      <Filter>02.Object\01.UI</Filter>
+    </ClCompile>
+    <ClCompile Include="DamegeSkill.cpp">
+      <Filter>02.Object\03.Skills</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

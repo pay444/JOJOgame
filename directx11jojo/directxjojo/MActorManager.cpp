@@ -197,6 +197,13 @@ void MActorManager::CheckAction()
 				GetClassProgresiveBar()->SetVisible(false);
 				break;
 			} 
+			//취소 버튼을 눌럿을때
+			else if (((UI*)pCollider)->CheckCancelArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
+			{
+				((UI*)pCollider)->SetVisible(false);
+				mClickCount = 0;
+				break;
+			}
 			//대기 UI를 눌렷을때
 			else if (((UI*)pCollider)->CheckWaitArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
 			{
@@ -214,6 +221,7 @@ void MActorManager::CheckAction()
 			//책략 버튼을 눌럿을때
 			else if (((UI*)pCollider)->CheckSkillArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
 			{
+				((UI*)pCollider)->GetUiSkills()->SetVisible(true);
 				//Color color = Colors::Gray;
 				//((Character*)pUi->GetPlayer())->SetColor(color);
 				//((Character*)pUi->GetPlayer())->SetActionTurn(2);
@@ -224,6 +232,7 @@ void MActorManager::CheckAction()
 				//((UI*)pCollider)->SetVisible(false);
 				break;
 			}
+
 		}
 
 	}
