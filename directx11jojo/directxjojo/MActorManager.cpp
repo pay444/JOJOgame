@@ -340,10 +340,11 @@ void MActorManager::CheckAction()
 			&& !((Character*)mCountChracter)->GetisCountAction())
 		{
 			MActor* pPlayer = atbox->GetCharacter();
-
+			XMFLOAT2 f2Scrool = XMFLOAT2(ScrollMgr::Instance().GetScroll().x
+				, ScrollMgr::Instance().GetScroll().y);
 			//GetClassAttackBox()->SetCharacter((Character*)mCountChracter);
 			atbox->Release();
-			atbox->SetPosition(((Character*)mCountChracter)->GetPosition());
+			atbox->SetPosition(((Character*)mCountChracter)->GetPosition() + f2Scrool);
 			atbox->SetAttackDis(((Character*)mCountChracter)->GetAttackDistance());
 			atbox->AttackScope();
 			if (atbox->AttackScopeSeekPick(pPlayer->GetPosition()))

@@ -244,14 +244,6 @@ E_SCENE UiSkills::Update(float dt)
 								attackBox->SetCharacter(mpPlayer);
 								mpCurSkill->SetPosition(pCollidee->GetPosition());
 
-							
-								//for (size_t i = 0; i < mspVecSkills.size(); i++)
-								//{
-								//	mspVecSkills[i].reset();
-								//}
-								//mspVecSkills.clear();
-
-								//mpCurSkill = nullptr;
 								mFlag = true;
 								mAreaVisible = false;
 								
