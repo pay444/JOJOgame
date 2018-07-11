@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:bc6169929a73f16f5c876a25cab0f05f:68ed64b46ac7ac4f8d934f6f96f2a55a:69fb833f1227baab7e06fb37517b0a66$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="ConsumItems.png" width="249" height="175">
+    <sprite n="hpBean.png" x="0" y="0" w="16" h="16" pX="0.5" pY="0.5"/>
+    <sprite n="mpWater.png" x="16" y="0" w="16" h="16" pX="0.5" pY="0.5"/>
+    <sprite n="toolBack.png" x="0" y="16" w="236" h="16" pX="0.5" pY="0.5"/>
+    <sprite n="uiItem.PNG" x="0" y="32" w="249" h="143" pX="0.5" pY="0.5"/>
+</TextureAtlas>

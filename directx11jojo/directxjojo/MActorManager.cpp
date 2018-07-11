@@ -282,9 +282,12 @@ void MActorManager::CheckAction()
 								dynamic_cast<Character*>(pCollidee))
 							{
 								pCollidee->OnHit(pCollider, ((AttackBox*)pCollider)->GetCharacter());
+								
 								//((AttackBox*)pCollider)->GetCharacter()->OnHit(pCollider, pCollidee);
 								MActorManager::Instance().SetAtVisible(false);
 								mCountChracter = pCollidee;
+								//반격을 했는지에대한 변수 초기화 때리는 녀석마다 반격을 활성화 하기위한 처리
+								((Character*)mCountChracter)->SetisCountAction(false);
 								mClickCount = 0;
 								mUiCheck = false;
 								//반격을 위한 변수조정

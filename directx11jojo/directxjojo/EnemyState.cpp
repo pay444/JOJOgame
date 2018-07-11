@@ -310,6 +310,9 @@ void AttackState::Execute(float dt)
 		//반격 하는 플래그 온
 		(pEnemy)->SetCountAtFlag(true);
 
+		//협공이 아닌이상 반격을 계속 할수있도록 변수 초기화
+		pPlayer->SetisCountAction(false);
+
 		//Color cr = Colors::Gray;
 		//// 때린 캐릭터의 색깔이 변했다면 반격한다
 		//if (attackBox->GetCharacter()->GetColor() == cr

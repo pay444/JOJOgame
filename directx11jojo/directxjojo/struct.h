@@ -1,5 +1,16 @@
 #pragma once
 
+struct ANIMINFO
+{
+	string animName;
+	XMFLOAT2 pos;
+	ANIMINFO(string name, XMFLOAT2 pos_)
+	{
+		animName = name;
+		pos = pos_;
+	}
+};
+
 typedef struct tagNode
 {
 	int iIndex;

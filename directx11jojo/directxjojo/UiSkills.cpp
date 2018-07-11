@@ -232,7 +232,7 @@ E_SCENE UiSkills::Update(float dt)
 							if (((AttackBox*)pCollider)->UIntersecRectScope(pCollidee) &&
 								dynamic_cast<Enemy*>(pCollidee))
 							{
-								((AttackBox*)pCollider)->SetAttackDamge(mpCurSkill->GetDamege());
+								((AttackBox*)pCollider)->SetAttackDamge(((DamegeSkill*)mpCurSkill)->GetDamege());
 								pCollidee->OnHit(pCollider, mpPlayer);
 								//마나 감소
 								mpPlayer->SetMana(mpPlayer->GetMana() - mpCurSkill->GetMpCost());

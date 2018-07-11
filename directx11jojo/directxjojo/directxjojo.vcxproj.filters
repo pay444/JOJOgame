@@ -64,6 +64,9 @@
     <Filter Include="02.Object\01.UI\01.Skills\01.DamegeSkill">
       <UniqueIdentifier>{9c475045-2d0e-4b7d-9dbd-a11135bde708}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Object\01.UI\02.ConsumItem">
+      <UniqueIdentifier>{305d60e3-b7c7-470b-b624-a773c8446e1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -192,6 +195,18 @@
     <ClInclude Include="MFSM.h">
       <Filter>04.AI</Filter>
     </ClInclude>
+    <ClInclude Include="ConsumItems.h">
+      <Filter>02.Object\01.UI\02.ConsumItem</Filter>
+    </ClInclude>
+    <ClInclude Include="UiConsumItem.h">
+      <Filter>02.Object\01.UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MpWater.h">
+      <Filter>02.Object\01.UI\02.ConsumItem</Filter>
+    </ClInclude>
+    <ClInclude Include="HpBean.h">
+      <Filter>02.Object\01.UI\02.ConsumItem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -301,6 +316,18 @@
     </ClCompile>
     <ClCompile Include="MFSM.cpp">
       <Filter>04.AI</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsumItems.cpp">
+      <Filter>02.Object\01.UI\02.ConsumItem</Filter>
+    </ClCompile>
+    <ClCompile Include="UiConsumItem.cpp">
+      <Filter>02.Object\01.UI</Filter>
+    </ClCompile>
+    <ClCompile Include="MpWater.cpp">
+      <Filter>02.Object\01.UI\02.ConsumItem</Filter>
+    </ClCompile>
+    <ClCompile Include="HpBean.cpp">
+      <Filter>02.Object\01.UI\02.ConsumItem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

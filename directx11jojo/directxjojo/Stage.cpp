@@ -57,7 +57,7 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 	Jojo *m2pPlayer;
 	m2pPlayer = MActorManager::Instance().Create<Jojo>(spriteBatch, pSheet, spriteFont);
 	m2pPlayer->Init(500.0f, XMFLOAT2((72.0f), 72.0f), E_SORTID_FIRST, 200.0f);
-	m2pPlayer->SetStaus(101, 100, 100, 0, 10, 2);
+	m2pPlayer->SetStaus(101, 12, 100, 0, 10, 2);
 
 	auto pTexture2 = ResourceManager::Instance().GetShaderResource(L"Images\\\Enemy\\FotManSprites.png");
 	auto pSheet2 = ResourceManager::Instance().GetSpriteSheet(L"Images\\\Enemy\\FotManSprites.xml", pTexture2);
