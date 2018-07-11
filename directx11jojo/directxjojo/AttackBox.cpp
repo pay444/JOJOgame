@@ -110,6 +110,14 @@ void AttackBox::OnHit(MActor * pCollidee)
 
 void AttackBox::Release()
 {
+	vector<unique_ptr<TILE>> *pVecTile = MActorManager::Instance().GetTileInfo();
+
+	//타일의 위치 측정 초기화
+	(*pVecTile)[GetTileIndex(mPosition)]->AttackNum = 0;
+	for (int x = 0; x < mspVecAtScopeIndex.size(); ++x)
+	{
+		(*pVecTile)[*mspVecAtScopeIndex[x].get()]->AttackNum = 0;
+	}
 	mVecAtScopeIndex.clear();
 	auto iter = mspVecAtScopeIndex.begin();
 	while (iter != mspVecAtScopeIndex.end())
@@ -207,7 +215,7 @@ void AttackBox::AttackScope()
 				}
 			}
 		}
-
+		int x = 0;
 	
 }
 
@@ -228,6 +236,28 @@ bool AttackBox::AttackScopeSeek()
 	{
 		Vector2 vec2ScopePos = (*pVecTile)[*mspVecAtScopeIndex[i]]->vPos + XMFLOAT2(JOJOTILESX / 2, JOJOTILESY / 2);
 		if (vec2ScopePos.x == vecMousePos.x && vec2ScopePos.y == vecMousePos.y)
+			return true;
+	}
+
+	return false;
+}
+
+bool AttackBox::AttackScopeSeekPick(XMFLOAT2 pos)
+{
+	float fScrollx = ScrollMgr::Instance().GetScroll().x;
+	float fScrolly = ScrollMgr::Instance().GetScroll().y;
+	vector<unique_ptr<TILE>> *pVecTile = MActorManager::Instance().GetTileInfo();
+
+	XMFLOAT2 Pos = XMFLOAT2(pos.x + fScrollx, pos.y + fScrolly);
+
+	int posIndex = GetTileIndex(Pos);
+
+	Vector2 vecPos = (*pVecTile)[posIndex]->vPos + XMFLOAT2(JOJOTILESX / 2, JOJOTILESY / 2);
+
+	for (int i = 0; i < mspVecAtScopeIndex.size(); ++i)
+	{
+		Vector2 vec2ScopePos = (*pVecTile)[*mspVecAtScopeIndex[i]]->vPos + XMFLOAT2(JOJOTILESX / 2, JOJOTILESY / 2);
+		if (vec2ScopePos.x == vecPos.x && vec2ScopePos.y == vecPos.y)
 			return true;
 	}
 

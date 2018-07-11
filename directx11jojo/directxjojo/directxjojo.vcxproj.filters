@@ -58,8 +58,11 @@
     <Filter Include="MFrameWork">
       <UniqueIdentifier>{f18a6854-8648-4e57-9ee4-cd445ef1acdf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Object\03.Skills">
+    <Filter Include="02.Object\01.UI\01.Skills">
       <UniqueIdentifier>{a7499b89-b736-4353-ac89-963bf09505ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Object\01.UI\01.Skills\01.DamegeSkill">
+      <UniqueIdentifier>{9c475045-2d0e-4b7d-9dbd-a11135bde708}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -135,9 +138,6 @@
     <ClInclude Include="FotMan.h">
       <Filter>02.Object\02.Character</Filter>
     </ClInclude>
-    <ClInclude Include="SGAFSM.h">
-      <Filter>04.AI</Filter>
-    </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>02.Object\01.UI</Filter>
     </ClInclude>
@@ -177,8 +177,20 @@
     <ClInclude Include="UiSkills.h">
       <Filter>02.Object\01.UI</Filter>
     </ClInclude>
+    <ClInclude Include="commonMacroFunction.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Skill.h">
+      <Filter>02.Object\01.UI\01.Skills</Filter>
+    </ClInclude>
     <ClInclude Include="DamegeSkill.h">
-      <Filter>02.Object\03.Skills</Filter>
+      <Filter>02.Object\01.UI\01.Skills\01.DamegeSkill</Filter>
+    </ClInclude>
+    <ClInclude Include="SeonPung.h">
+      <Filter>02.Object\01.UI\01.Skills\01.DamegeSkill</Filter>
+    </ClInclude>
+    <ClInclude Include="MFSM.h">
+      <Filter>04.AI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -239,9 +251,6 @@
     <ClCompile Include="FotMan.cpp">
       <Filter>02.Object\02.Character</Filter>
     </ClCompile>
-    <ClCompile Include="SGAFSM.cpp">
-      <Filter>04.AI</Filter>
-    </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>02.Object\01.UI</Filter>
     </ClCompile>
@@ -281,8 +290,17 @@
     <ClCompile Include="UiSkills.cpp">
       <Filter>02.Object\01.UI</Filter>
     </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>02.Object\01.UI\01.Skills</Filter>
+    </ClCompile>
     <ClCompile Include="DamegeSkill.cpp">
-      <Filter>02.Object\03.Skills</Filter>
+      <Filter>02.Object\01.UI\01.Skills\01.DamegeSkill</Filter>
+    </ClCompile>
+    <ClCompile Include="SeonPung.cpp">
+      <Filter>02.Object\01.UI\01.Skills\01.DamegeSkill</Filter>
+    </ClCompile>
+    <ClCompile Include="MFSM.cpp">
+      <Filter>04.AI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

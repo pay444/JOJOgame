@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "SGAFSM.h"
+#include "MFSM.h"
 
-void SGAFSM::ChangeState(int stateID)
+void MFSM::ChangeState(int stateID)
 {
 	if (this->mpCurrent != NULL)
 		this->mpCurrent->Exit();
@@ -22,7 +22,7 @@ void SGAFSM::ChangeState(int stateID)
 	mStateID = stateID;
 }
 
-void SGAFSM::Update(float dt)
+void MFSM::Update(float dt)
 {
 	if (this->mpCurrent != NULL)
 		this->mpCurrent->Execute(dt);

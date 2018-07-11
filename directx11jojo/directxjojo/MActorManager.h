@@ -1,5 +1,6 @@
 #pragma once
-class MActorManager final
+
+class MActorManager final// : public iActorDelegate
 {
 public:
 	// 포인터표현
@@ -24,16 +25,21 @@ private:
 	E_SCENE meScene;
 private:
 	int mClickCount;
-	int posIndex2;	//어택 박스 의 삭제에 영향을주는 위치변수
-	int posIndex3;	//무브 박스 의 삭제에 영향을주는 위치변수
-	int mPlayerCount;	//플레이어가 몇명있는지
-	int mEnemyCount;	//에너미가 몇명있는지
+	int posIndex2;				//어택 박스 의 삭제에 영향을주는 위치변수
+	int posIndex3;				//무브 박스 의 삭제에 영향을주는 위치변수
+	int mPlayerCount;			//플레이어가 몇명있는지
+	int mEnemyCount;			//에너미가 몇명있는지
 	int mEndTurnPlayerCount;	//턴종료된 플레이어가 몇명인지
 	int mEndTurnEnemyCount;		//턴종료되 적이 몇명인지
 	int mEnemyControll;			//적을 누구를 움직일지 결정해줌
-	bool mUiCheck;	//ui공격버튼이 눌렷는지에 대한여부
-	bool mTurn;		//전체 턴제어
-	bool mTurnBool;		//TurnGrapic 제어 불변수
+	bool mUiCheck;				//ui공격버튼이 눌렷는지에 대한여부
+	bool mTurn;					//전체 턴제어
+	bool mTurnBool;				//TurnGrapic 제어 불변수
+
+	bool mbCountAtkFlag;		//내가 떄리면 적도 때리는것을 확인하는 불변수
+	float mfActionTime;			//행동 시간 저장변수
+	MActor* mCountChracter;		//반격할 녀석의 포인터
+	
 	XMFLOAT2 tmpPos;
 	vector<unique_ptr<int>> mVecEenemyIndex;	//적을 누구를 움직일지 영향을줌
 public:
@@ -87,6 +93,8 @@ public:
 
 	void SetEndTurnEnemyCount(int num) { mEndTurnEnemyCount = num; }
 	int GetEndTurnEnemyCount() { return mEndTurnEnemyCount; }
+
+	list<unique_ptr<MActor>>* GetActors() { return &mActors; }
 	//void InsertMap(string str, unique_ptr<MActor> actor);
 public:
 	//템플릿의 통일화 몇개의 인자를 받아도 사용가능하도록

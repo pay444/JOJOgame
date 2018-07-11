@@ -1,6 +1,6 @@
 #pragma once
 
-class IdleState :public SGAState
+class IdleState :public MState
 {
 public:
 	virtual ~IdleState() {};
@@ -9,7 +9,7 @@ public:
 	virtual void Exit();
 };
 
-class ChaseState :public SGAState
+class ChaseState :public MState
 {
 	float mfElapsedTime;
 public:
@@ -19,7 +19,7 @@ public:
 	virtual void Exit();
 };
 
-class AttackState :public SGAState
+class AttackState :public MState
 {
 	float mfElapsedTime;
 public:

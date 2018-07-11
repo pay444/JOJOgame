@@ -43,6 +43,7 @@ using namespace DirectX::SimpleMath;
 #include <mmsystem.h>
 #include "dxerr.h"
 #include "Defines.h"
+#include "commonMacroFunction.h"
 
 #include "MFramework.h"
 #include "SpriteSheet.h"
@@ -50,7 +51,7 @@ using namespace DirectX::SimpleMath;
 #include "MActorManager.h"
 #include "ResourceManager.h"
 //#include "Projectile.h"
-#include "SGAFSM.h"
+#include "MFSM.h"
 #include "Timer.h"
 #include "SceneMgr.h"
 #include "ScrollMgr.h"

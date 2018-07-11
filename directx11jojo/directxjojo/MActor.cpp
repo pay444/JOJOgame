@@ -14,7 +14,8 @@ MActor::MActor() :
 	mbEnabledCollision(true),
 	mCamp(0),
 	meSortID(E_SORTID_FOURTH),
-	meScene(E_SCENE_NONPASS)
+	meScene(E_SCENE_NONPASS),
+	mbisEndAnim(false)
 {
 	mAnimations.clear();
 }
@@ -91,8 +92,20 @@ E_SCENE MActor::Update(float dt)
 	{
 		mCurFrame++;
 		mfElapsedTime = 0.0f;
+		
 		if (mCurFrame == mFrames->cend())
+		{
 			mCurFrame = mFrames->begin();
+			mbisEndAnim = false;
+		}
+		else if (mCurFrame == mFrames->cend() - 1)
+		{
+			mbisEndAnim = true;
+		}
+		else
+		{
+			mbisEndAnim = false;
+		}
 
 		mpSpriteFrame = mpSheet->Find(mCurFrame->FrameName.c_str());
 	}

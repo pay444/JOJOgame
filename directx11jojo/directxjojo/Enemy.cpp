@@ -11,7 +11,9 @@ Enemy::Enemy(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont)
 	mpTarget(nullptr),
 	mFontVisible(false),
 	mCode(0),
-	mActionBool(false)
+	mActionBool(false),
+	mfCountAtTime(0.0f),
+	mbCountAtkFlag(false)
 {
 }
 
@@ -40,7 +42,7 @@ void Enemy::Init(float moveSpeed, XMFLOAT2 startpos, E_SORTID eSortID)
 	mPosition = XMFLOAT2((*pVecTile)[istartIndex]->vPos.x + JOJOTILESX / 2,
 		(*pVecTile)[istartIndex]->vPos.y + JOJOTILESY / 2);
 
-	mspFSM = make_unique<SGAFSM>();
+	mspFSM = make_unique<MFSM>();
 	mspFSM->SetOwner(this);
 	mspFSM->AddState<IdleState>(GunGeon::EnemyState::Enemy_Idle);
 	mspFSM->AddState<ChaseState>(GunGeon::EnemyState::Enemy_Chase);
@@ -83,7 +85,9 @@ E_SCENE Enemy::Update(float dt)
 
 	
 	//나의 턴이 끝났으니 Manager 에게 다른적 실행상태라고 알려줌
-	if (mActionTurn >= 2 && mActionBool)
+	if (mActionTurn >= 2 
+		&& mActionBool 
+		&& !mbCountAtkFlag)
 	{
 		//mColor = Colors::Gray;
 		mActionBool = false;
@@ -98,10 +102,47 @@ E_SCENE Enemy::Update(float dt)
 		//int intCode = *(*vecEnemyIndex)[MActorManager::Instance().GetEnemyControllCount()].get();
 		mspFSM->ChangeState(GunGeon::EnemyState::Enemy_Idle);
 		//MActorManager::Instance().SetEnemyControllCount(intCode);
-
 	}
+	
+	//반격 플래그가 선다면
+	if (mbCountAtkFlag)
+	{
+		auto atbox = MActorManager::Instance().GetClassAttackBox();
+		mfCountAtTime += dt;
 
+		//반격후 딜레이 시간 주기
+		if (mfCountAtTime >= 2.0f)
+		{
+			//턴넘긴는 것을 위해서 다시 나로 바꿔줌
+			atbox->SetCharacter(this);
+			mbCountAtkFlag = false;
+			mfCountAtTime = 0.0f;
+		}
+		
+		Color cr = Colors::Gray;
+		// 때린 캐릭터의 색깔이 변했다면 반격한다
+		// 반격할 녀석의 Hp와 반격을 그 전에 안했다면
+		if (this->GetColor() == cr
+			&& ((Character*)atbox->GetCharacter())->GetHealth() > 0
+			&& !((Character*)atbox->GetCharacter())->GetisCountAction())
+		{
+			MActor* pPlayer = atbox->GetCharacter();
 
+			//GetClassAttackBox()->SetCharacter((Character*)mCountChracter);
+			atbox->Release();
+			atbox->SetPosition(((Character*)pPlayer)->GetPosition());
+			atbox->SetAttackDis(((Character*)pPlayer)->GetAttackDistance());
+			atbox->AttackScope();
+			if (atbox->AttackScopeSeekPick(mPosition))
+			{
+				((Character*)this)->OnHit(atbox, pPlayer);
+				((Character*)pPlayer)->SetisCountAction(true);
+				((Character*)pPlayer)->SetActionTurn(0);
+				//mCountChracter = nullptr;
+			}
+
+		}
+	}
 	auto state = Keyboard::Get().GetState();
 
 	if (state.R)

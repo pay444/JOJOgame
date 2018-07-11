@@ -82,7 +82,7 @@ void GameMain::Update(float dt)
 	//	offset.y = speed * dt;
 	//}
 
-	//if (mspKeyboard->GetState().IsKeyDown(Keyboard::A))
+	//if (mspKeyboard->GetState().z(Keyboard::A))
 	//{
 	//	offset.x = -speed * dt;
 	//}

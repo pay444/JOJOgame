@@ -61,24 +61,24 @@ void IdleState::Execute(float dt)
 		//상태 전이
 		mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Chase);
 
+		auto moveBox = MActorManager::Instance().GetClassMoveBox();
 		//적의 무브박스와 어텍박스 위치를 바꿔줌
-		MActorManager::Instance().GetClassMoveBox()->SetPosition(pEnemy->GetPosition());
-		MActorManager::Instance().GetClassMoveBox()->SetMoveDis(pEnemy->GetMoveDistance());
-		MActorManager::Instance().GetClassMoveBox()->TileScope();
-		MActorManager::Instance().GetClassMoveBox()->SetVisible(true);
+		moveBox->SetPosition(pEnemy->GetPosition());
+		moveBox->SetMoveDis(pEnemy->GetMoveDistance());
+		moveBox->TileScope();
+		moveBox->SetVisible(true);
 
+		auto attackBox = MActorManager::Instance().GetClassAttackBox();
 		//적의 어텍박스 위치를 바꿔줌
-		MActorManager::Instance().GetClassAttackBox()->Release();
-		MActorManager::Instance().GetClassAttackBox()->SetPosition(pEnemy->GetPosition());
-		MActorManager::Instance().GetClassAttackBox()->SetAttackDis(pEnemy->GetAttackDistance());
-		MActorManager::Instance().GetClassAttackBox()->AttackScope();
-		MActorManager::Instance().GetClassAttackBox()->SetVisible(true);	
-		MActorManager::Instance().GetClassAttackBox()->SetCharacter(pEnemy);
-		MActorManager::Instance().GetClassAttackBox()->SetAttackDamge
-		(MActorManager::Instance().GetClassAttackBox()->GetCharacter()->GetAttack());
-
+		attackBox->Release();
+		attackBox->SetPosition(pEnemy->GetPosition());
+		attackBox->SetAttackDis(pEnemy->GetAttackDistance());
+		attackBox->AttackScope();
+		attackBox->SetVisible(true);	
+		attackBox->SetCharacter(pEnemy);
+		attackBox->SetAttackDamge(attackBox->GetCharacter()->GetAttack());
 		//정지도중에도 공격범위 안에 들어오면 
-		if (MActorManager::Instance().GetClassAttackBox()->AIIntersecRectScope(pPlayer))
+		if (attackBox->AIIntersecRectScope(pPlayer))
 		{
 			//충돌 되었다면 상태 변경 ->Attack
 			//MActorManager::Instance().GetClassMoveBox()->SetVisible(false);
@@ -205,15 +205,15 @@ void ChaseState::Execute(float dt)
 	{
 		mfElapsedTime = 0.0f;
 		//적의 어텍박스 위치를 바꿔줌
-		MActorManager::Instance().GetClassAttackBox()->Release();
-		MActorManager::Instance().GetClassAttackBox()->SetPosition(pEnemy->GetPosition());
-		MActorManager::Instance().GetClassAttackBox()->SetAttackDis(pEnemy->GetAttackDistance());
-		MActorManager::Instance().GetClassAttackBox()->AttackScope();
-		MActorManager::Instance().GetClassAttackBox()->SetVisible(false);
-		MActorManager::Instance().GetClassAttackBox()->SetCharacter(pEnemy);
-		MActorManager::Instance().GetClassAttackBox()->SetAttackDamge(MActorManager::Instance().GetClassAttackBox()->GetCharacter()->GetAttack());
+		auto attackBox = MActorManager::Instance().GetClassAttackBox();
+		attackBox->SetPosition(pEnemy->GetPosition());
+		attackBox->SetAttackDis(pEnemy->GetAttackDistance());
+		attackBox->AttackScope();
+		attackBox->SetVisible(false);
+		attackBox->SetCharacter(pEnemy);
+		attackBox->SetAttackDamge(attackBox->GetCharacter()->GetAttack());
 		//플레이어가 공격범위에 들어와있는지
-		if (MActorManager::Instance().GetClassAttackBox()->AIIntersecRectScope(pPlayer))
+		if (attackBox->AIIntersecRectScope(pPlayer))
 		{
 			//충돌 되었다면 상태 변경 ->Attack
 			mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Attack);
@@ -225,7 +225,7 @@ void ChaseState::Execute(float dt)
 			pEnemy->SetActionTurn(2);
 			Color col = Colors::Gray;
 			pEnemy->SetColor(col);
-			MActorManager::Instance().GetClassAttackBox()->SetVisible(false);
+			attackBox->SetVisible(false);
 			MActorManager::Instance().GetClassMoveBox()->SetVisible(false);
 			mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Idle);
 		}
@@ -297,11 +297,44 @@ void AttackState::Execute(float dt)
 
 	if (pEnemy->GetActionTurn() < 2 && mfElapsedTime > pEnemy->GetAttackDelay())
 	{	
-		pPlayer->OnHit(MActorManager::Instance().GetClassAttackBox(),
-			MActorManager::Instance().GetClassAttackBox()->GetCharacter());
+		auto attackBox = MActorManager::Instance().GetClassAttackBox();
+
+		pPlayer->OnHit(attackBox,
+			attackBox->GetCharacter());
 		MActorManager::Instance().SetAtVisible(false);
 		MActorManager::Instance().SetMBVisible(false);
 		mfElapsedTime = 0.0f;
+		
+		//에너미 쪽에서 공격한 녀석을 찾기 위해서 바꿔줌
+		attackBox->SetCharacter(pPlayer);
+		//반격 하는 플래그 온
+		(pEnemy)->SetCountAtFlag(true);
+
+		//Color cr = Colors::Gray;
+		//// 때린 캐릭터의 색깔이 변했다면 반격한다
+		//if (attackBox->GetCharacter()->GetColor() == cr
+		//	&& mCountChracter != nullptr
+		//	&& ((Character*)mCountChracter)->GetHealth() > 0
+		//	&& !((Character*)mCountChracter)->GetisCountAction())
+		//{
+		//	MActor* pPlayer = attackBox->GetCharacter();
+
+		//	//GetClassAttackBox()->SetCharacter((Character*)mCountChracter);
+		//	attackBox->Release();
+		//	attackBox->SetPosition(((Character*)mCountChracter)->GetPosition());
+		//	attackBox->SetAttackDis(((Character*)mCountChracter)->GetAttackDistance());
+		//	attackBox->AttackScope();
+		//	if (attackBox->AttackScopeSeekPick(pPlayer->GetPosition()))
+		//	{
+		//		pPlayer->OnHit(attackBox, mCountChracter);
+		//		((Character*)mCountChracter)->SetisCountAction(true);
+		//		((Character*)mCountChracter)->SetActionTurn(0);
+		//		//mCountChracter = nullptr;
+		//	}
+
+		//}
+
+
 	}
 
 
@@ -315,6 +348,7 @@ void AttackState::Execute(float dt)
 
 	//
 	//mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Chase);
+	//mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Idle);
 }
 
 void AttackState::Exit()

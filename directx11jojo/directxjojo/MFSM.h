@@ -1,27 +1,26 @@
 #pragma once
 
-class SGAFSM;
+class MFSM;
 
-class SGAState
+class MState
 {
 protected:
-	SGAFSM *mpFSM;
-
+	MFSM *mpFSM;
 public:
-	virtual ~SGAState() {};
+	virtual ~MState() {};
 	virtual void Enter() = 0;
 	virtual void Execute(float dt) = 0;
 	virtual void Exit() = 0;
 
 public:
-	void SetFSM(SGAFSM* pFSM) { this->mpFSM = pFSM; }
+	void SetFSM(MFSM* pFSM) { this->mpFSM = pFSM; }
 };
 
-class SGAFSM
+class MFSM
 {
 private:
-	SGAState* mpCurrent;
-	map<int, unique_ptr<SGAState>> mStateMap;
+	MState* mpCurrent;
+	map<int, unique_ptr<MState>> mStateMap;
 	MActor* mpOwner;
 	int mStateID;
 public:
@@ -37,15 +36,15 @@ public:
 };
 
 template<class T>
-inline void SGAFSM::AddState(int stateID)
+inline void MFSM::AddState(int stateID)
 {
-	auto result = mStateMap.insert( pair<int, unique_ptr<SGAState>>(stateID, nullptr));
+	auto result = mStateMap.insert( pair<int, unique_ptr<MState>>(stateID, nullptr));
 
 	//중복되는것이 없다라는뜻
 	if (result.second == true)
 	{
 		//소유권이 넘어감
-		result.first->second = move(unique_ptr<SGAState>(new T()));
+		result.first->second = move(unique_ptr<MState>(new T()));
 		result.first->second->SetFSM(this);
 	}
 	//이미 키값으로 들어가있다는뜻

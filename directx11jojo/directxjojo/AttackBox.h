@@ -26,6 +26,7 @@ public:
 	bool AIIntersecRectScope(MActor* pActor);
 	void AttackScope();
 	bool AttackScopeSeek();
+	bool AttackScopeSeekPick(XMFLOAT2 pos);
 	void SetAttackDis(int AttackDis) { mAttackDistance = AttackDis; }
 	void SetAttackDamge(int damge) { mAttackDamge = damge; }
 	void SetCamp(int camp) { mCamp = camp; }

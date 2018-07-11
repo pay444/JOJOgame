@@ -20,6 +20,7 @@ UI::UI(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont)
 
 UI::~UI()
 {
+	this->Release();
 }
 
 void UI::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
@@ -124,6 +125,12 @@ void UI::Draw()
 	}
 	
 	mspUiSkill->Draw();
+}
+
+void UI::Release()
+{
+	mspUiSkill.reset();
+	mspUiSkill = nullptr;
 }
 
 bool UI::CheckAttackArea()

@@ -12,7 +12,8 @@ Character::Character(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pF
 	: MActor(pBatch, pSheet, pFont),
 	mFontVisible(false),
 	mColor(Colors::White),
-	mColorAllow(false)
+	mColorAllow(false),
+	mbCountAction(false)
 {
 	InitEffect();
 	mStartIndex = 0;
@@ -433,25 +434,29 @@ bool Character::JoAStar_Move(float dt)
 		mActionTurn++;
 		if (GetCamp() == GunGeon::CampType::PLAYER)
 		{
-			MActorManager::Instance().GetClassUi()->SetPosition(mPosition + XMFLOAT2(100.0f, 0.0f));
-			MActorManager::Instance().GetClassUi()->SetVisible(true);
+			auto ui = MActorManager::Instance().GetClassUi();
+			ui->SetPosition(mPosition + XMFLOAT2(100.0f, 0.0f));
+			ui->SetVisible(true);
 
-			MActorManager::Instance().GetClassAttackBox()->SetPosition(mPosition);
-			MActorManager::Instance().GetClassAttackBox()->SetVisible(true);
+			auto attackBox = MActorManager::Instance().GetClassAttackBox();
+			attackBox->SetPosition(mPosition);
+			attackBox->SetVisible(true);
 
 			MActorManager::Instance().SetMBVisible(false);
 			//MActorManager::Instance().SetClickCount(0);
 		}
 		if (GetCamp() == GunGeon::CampType::MONSTER)
 		{
-			MActorManager::Instance().GetClassAttackBox()->SetVisible(false);
+			auto attackBox = MActorManager::Instance().GetClassAttackBox();
+
+			attackBox->SetVisible(false);
 
 			MActorManager::Instance().SetMBVisible(false);
 
 			//mColor = Colors::Gray;
 			//mActionTurn = 2;
 			MActorManager::Instance().GetClassMoveBox()->Release();
-			MActorManager::Instance().GetClassAttackBox()->Release();
+			attackBox->Release();
 		}
 	}
 	mVisbleScope = false;

@@ -1,6 +1,14 @@
 #pragma once
 #include "AStar.h"
 
+class MActor;
+
+class iActorDelegate
+{
+public:
+	virtual void OnAction(MActor* pSender) = 0;
+};
+
 class MActor
 {
 public:
@@ -25,7 +33,7 @@ protected:
 	SpriteBatch*	mpBatch;
 	SpriteFont* mpFont;
 	unique_ptr<AStar> mpJoAStar;
-
+	iActorDelegate* mpDelegate;
 protected:
 	string						mCurAnim;
 	vector<FrameInfo>*			mFrames;
@@ -43,18 +51,45 @@ protected:
 	bool			mbEnabledCollision;
 	int				mCamp;
 	float			mfMoveSpeed;	//초당 이동거리
+	bool			mbisEndAnim;	//마지막 에니메이션에 와있는지
 public:
 	void SetPosition(XMFLOAT2 pos) { mPosition = pos; }
 	void SetPosition(int x, int y) { mPosition.x += static_cast<float>(x); mPosition.y += static_cast<float>(y); }
 	XMFLOAT2 GetPosition() { return mPosition; }
+
 	void SetDestroyed() { mbDestroyed = true; }
 	bool GetDestroyed() { return mbDestroyed; }
+
 	void SetEnabledCollision(bool flag) { mbEnabledCollision = flag; };
 	bool GetEnabledCollision() { return mbEnabledCollision; };
+
 	E_SORTID GetSortID() { return meSortID; }
 	void SetSortID(E_SORTID eSortID) { meSortID = eSortID; }
+
 	E_SCENE GetScene() { return meScene; }
 	void SetScene(E_SCENE eScene) { meScene = eScene; }
+
+	virtual int GetCamp() { return mCamp; }
+	virtual void SetCamp(int camp) { mCamp = camp; }
+
+	void SetActionTime(float time) { mfActionElapsedTime = time; }
+	float GetActionTime() { return mfActionElapsedTime; }
+
+	int GetTileIndex(const Vector2 vPos);
+
+	void SetDelegate(iActorDelegate* delegate) { mpDelegate = delegate; }
+	iActorDelegate* GetDelegate() { return mpDelegate; }
+
+	void SetisEndAnim(bool end) { mbisEndAnim = end; }
+	bool GetisEndAnim() {	return mbisEndAnim;	}
+
+	vector<FrameInfo>*			GetFrames() { return mFrames; }
+	vector<FrameInfo>::iterator GetCurFrame() { return mCurFrame; }
+	map<string, vector<FrameInfo>> GetAnimaions() { return mAnimations; }
+	string	GetCurAnim() { return mCurAnim; }
+
+
+public:
 	RECT inline GetBound()
 	{
 		RECT rct;
@@ -69,12 +104,21 @@ public:
 		}
 		return rct;
 	}
-	virtual int GetCamp() { return mCamp; }
-	virtual void SetCamp(int camp) { mCamp = camp; }
-	void SetActionTime(float time) { mfActionElapsedTime = time; }
 
-	float GetActionTime() { return mfActionElapsedTime; }
-	int GetTileIndex(const Vector2 vPos);
+	RECT inline GetBound(const SpriteFrame* spriteFrame)
+	{
+		RECT rct;
+		ZeroMemory(&rct, sizeof(RECT));
+
+		if (spriteFrame != NULL)
+		{
+			rct = spriteFrame->sourceRect;
+			OffsetRect(&rct,
+				static_cast<int>(mPosition.x - spriteFrame->pivot.x) - rct.left,
+				static_cast<int>(mPosition.y - spriteFrame->pivot.y) - rct.top);
+		}
+		return rct;
+	}
 	bool CollisionMouseToTile(const Vector2 vPos, const TILE* pTileInfo);
 };
 

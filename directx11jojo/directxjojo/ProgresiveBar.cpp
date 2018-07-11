@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "ProgresiveBar.h"
+#include "Dwrite.h"
+#pragma comment (lib, "Dwrite.lib")
 
 std::string ReplaceAll(std::string &str, const std::string& from, const std::string& to) 
 {
@@ -84,7 +86,9 @@ void ProgresiveBar::Draw()
 	XMFLOAT2 offset = XMFLOAT2(0, 0);
 	Color tint = Colors::White;
 	Color blackTint = Colors::Black;
-
+	float fScrollx = ScrollMgr::Instance().GetScroll().x;
+	float fScrolly = ScrollMgr::Instance().GetScroll().y;
+	XMFLOAT2 f2Scroll = XMFLOAT2(fScrollx, fScrolly);;
 	//offset.x = (int)ScrollMgr::Instance().GetScroll().x;
 	//offset.y = (int)ScrollMgr::Instance().GetScroll().y;
 
@@ -108,7 +112,7 @@ void ProgresiveBar::Draw()
 
 		//UiFan 출력
 		SetAnimation("uiFan");
-		mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + mPosition - offset, tint);
+		mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + mPosition - f2Scroll - offset, tint);
 
 		//클래스 이름 출력
 		wchar_t wch[128];
@@ -117,7 +121,23 @@ void ProgresiveBar::Draw()
 		string str2 = ReplaceAll(str, string("class "), string(""));
 		className = str2.c_str();
 		mbstowcs(&wch[0], className, 128);
-		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-80.0f, -60.0f)), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-80.0f, -60.0f) - f2Scroll), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+
+		//IDWriteFactory *spw;
+		//HRESULT hr = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED,
+		//	__uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(&spw));
+
+		//IDWriteTextFormat *spfm;
+		//
+		//hr = spfm->CreateTextFormat(
+		//	L"굴림체",
+		//	NULL,
+		//	DWRITE_FONT_WEIGHT_REGULAR,
+		//	DWRITE_FONT_STYLE_NORMAL,
+		//	DWRITE_FONT_STRETCH_NORMAL,
+		//	62.0f,
+		//	L"ko-kr",
+		//	&spfm);
 
 		//어느편인지 출력
 		switch (mCharacter->GetCamp())
@@ -127,68 +147,80 @@ void ProgresiveBar::Draw()
 			break;
 		case 1:
 			swprintf_s(wch, L"Player");
-			mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-80.0f, 40.0f)), DirectX::Colors::Green, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+			mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-80.0f, 40.0f) - f2Scroll), DirectX::Colors::Green, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+			//mpFont->DrawString(mpBatch, tt, XMFLOAT2(mPosition + XMFLOAT2(-80.0f, 40.0f) - f2Scroll), DirectX::Colors::Green, 0.0f, origin, XMFLOAT2(0.5f, 0.5f));
 			break;
 		case 2:
 			swprintf_s(wch, L"Enemy");
-			mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-80.0f, 40.0f)), DirectX::Colors::Red, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+			mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-80.0f, 40.0f) - f2Scroll), DirectX::Colors::Red, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
 			break;
 		case 3:
 			swprintf_s(wch, L"NPC");
-			mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-80.0f, 40.0f)), DirectX::Colors::Orange, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+			mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-80.0f, 40.0f) - f2Scroll), DirectX::Colors::Orange, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
 		default:
 			//swprintf_s(wch, L"", mCode);
 			break;
 		}
+		//if (MFramework::mKeyboardTracker.released.N)
+		//{
+		//	mCharacter->SetMana(mCharacter->GetMana() - 1);
+		//}
+		//else if (MFramework::mKeyboardTracker.released.M)
+		//{
+		//	mCharacter->SetHelth(mCharacter->GetHealth() - 1);
+		//}
+		//else if (MFramework::mKeyboardTracker.released.B)
+		//{
+		//	mCharacter->SetSp(mCharacter->GetSp() + 1);
+		//}
 
 		//Hp바 출력
 		SetAnimation("PBHp");
 		int hp = mCharacter->GetHealth();
 		float maxHp = mCharacter->GetMaxHp();
 		mSFHp = *mpSpriteFrame;
-		float hpTemp = float(hp * mpSpriteFrame->sourceRect.right) / maxHp;
+		float hpTemp = float(hp * mSFHp.sourceRect.right) / maxHp;
 		mSFHp.sourceRect.right = (int)hpTemp;
-		mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + mPosition + XMFLOAT2(20.0f, -25.0f) - offset, blackTint);
-		mpSheet->Draw(mpBatch, mSFHp, mWorldPos + mPosition + XMFLOAT2(20.0f, -25.0f) - offset, tint);
+		mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + mPosition + XMFLOAT2(20.0f, -25.0f) - f2Scroll - offset, blackTint);
+		mpSheet->Draw(mpBatch, mSFHp, mWorldPos + mPosition + XMFLOAT2(20.0f, -25.0f) - f2Scroll - offset, tint);
 
 		//Hp 글자 출력
 		swprintf_s(wch, L"%d",hp);
-		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-20.0f, -40.0f)), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-20.0f, -40.0f) - f2Scroll), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
 		swprintf_s(wch, L" / %d",static_cast<int>(maxHp));
-		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(10.0f, -40.0f)), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(10.0f, -40.0f) - f2Scroll), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
 		
-
 		//Mp바 출력
 		SetAnimation("PBMp");
 		int mp = mCharacter->GetMana();
 		float maxMp = mCharacter->GetMaxMana();
 		mSFMp = *mpSpriteFrame;
-		float mpTemp = float(mp * mpSpriteFrame->sourceRect.right) / maxMp;
-		mSFMp.sourceRect.right = (int)mpTemp;	
-		mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + mPosition + XMFLOAT2(20.0f, 0.0f) - offset, blackTint);
-		mpSheet->Draw(mpBatch, mSFMp, mWorldPos + mPosition + XMFLOAT2(20.0f, 0.0f) - offset, tint);
+		float mpTemp = float(mp * (mSFMp.sourceRect.right - mSFMp.sourceRect.left)) / maxMp;
+		mSFMp.sourceRect.right = mSFMp.sourceRect.left + (int)mpTemp;
+		mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + mPosition + XMFLOAT2(20.0f, 0.0f) - f2Scroll - offset, blackTint);
+		mpSheet->Draw(mpBatch, mSFMp, mWorldPos + mPosition + XMFLOAT2(20.0f, 0.0f) - f2Scroll - offset, tint);
 		
 		//Mp 글자 출력
 		swprintf_s(wch, L"%d", mp);
-		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-20.0f, -15.0f)), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-20.0f, -15.0f) - f2Scroll), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
 		swprintf_s(wch, L" / %d", static_cast<int>(maxMp));
-		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(10.0f, -15.0f)), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(10.0f, -15.0f) - f2Scroll), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
 
 		//Sp바 출력
 		SetAnimation("PBSp");
 		int sp = mCharacter->GetSp();
 		float maxSp = mCharacter->GetMaxSp();
 		mSFSp = *mpSpriteFrame;
-		float spTemp = float(sp * mpSpriteFrame->sourceRect.right) / maxSp;
-		mSFSp.sourceRect.right = (int)spTemp;
-		mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + mPosition + XMFLOAT2(20.0f, 25.0f) - offset, blackTint);
-		mpSheet->Draw(mpBatch, mSFSp , mWorldPos + mPosition + XMFLOAT2(20.0f, 25.0f) - offset, tint);
+		float spTemp = float(sp * (mSFSp.sourceRect.right - mSFSp.sourceRect.left)) / maxSp;
+		mSFSp.sourceRect.right = mSFSp.sourceRect.left + (int)spTemp;
+		mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + mPosition + XMFLOAT2(20.0f, 25.0f) - f2Scroll - offset, blackTint);
+		mpSheet->Draw(mpBatch, mSFSp , mWorldPos + mPosition + XMFLOAT2(20.0f, 25.0f) - f2Scroll - offset, tint);
 		
 		//Sp 글자 출력
 		swprintf_s(wch, L"%d", sp);
-		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-20.0f, 10.0f)), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-20.0f, 10.0f) - f2Scroll), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
 		swprintf_s(wch, L" / %d", static_cast<int>(maxSp));
-		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(10.0f, 10.0f)), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(10.0f, 10.0f) - f2Scroll), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
 
 
 	}

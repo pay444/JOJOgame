@@ -112,6 +112,81 @@ void MFramework::InitD3D(HWND hWnd)
 	//{
 	//	MessageBox(hWnd, L"rasterizer faild", L"message Box", MB_OK);
 	//}
+
+	//Drawing Write 했으나 TK와 의 충돌로 안됨
+	/*
+	HRESULT hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pD2DFactory_0);
+
+	//if (SUCCEEDED(hr))
+	{
+		hr = DWriteCreateFactory(
+			DWRITE_FACTORY_TYPE_SHARED,
+			__uuidof(IDWriteFactory),
+			reinterpret_cast<IUnknown**>(&pDWriteFactory_)
+		);
+	}
+
+	wszText_ = L"Hello World using  DirectWrite!";
+	cTextLength_ = (UINT32)wcslen(wszText_);
+
+	//if (SUCCEEDED(hr))
+	{
+		hr = pDWriteFactory_->CreateTextFormat(
+			L"Gabriola",                // Font family name.
+			NULL,                       // Font collection (NULL sets it to use the system font collection).
+			DWRITE_FONT_WEIGHT_REGULAR,
+			DWRITE_FONT_STYLE_NORMAL,
+			DWRITE_FONT_STRETCH_NORMAL,
+			72.0f,
+			L"en-us",
+			&pTextFormat_
+		);
+	}
+
+	// Center align (horizontally) the text.
+	//if (SUCCEEDED(hr))
+	{
+		hr = pTextFormat_->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
+	}
+
+	//if (SUCCEEDED(hr))
+	{
+		hr = pTextFormat_->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+	}
+	RECT rc;
+	GetClientRect(hWnd, &rc);
+
+	D2D1_SIZE_U size = D2D1::SizeU(rc.right - rc.left, rc.bottom - rc.top);
+
+	//if (!pRT)
+	{
+		// Create a Direct2D render target.
+		hr = pD2DFactory_0->CreateHwndRenderTarget(
+			D2D1::RenderTargetProperties(),
+			D2D1::HwndRenderTargetProperties(
+				hWnd,
+				size
+			),
+			&pRT
+		);
+
+		// Create a black brush.
+		//if (SUCCEEDED(hr))
+		{
+			hr = pRT->CreateSolidColorBrush(
+				D2D1::ColorF(D2D1::ColorF::Black),
+				&pBlackBrush_
+			);
+		}
+	}
+	layoutRect = D2D1::RectF(
+		static_cast<FLOAT>(rc.left) / 0.5f,
+		static_cast<FLOAT>(rc.top) / 0.5f,
+		static_cast<FLOAT>(rc.right - rc.left) / 0.5f,
+		static_cast<FLOAT>(rc.bottom - rc.top) / 0.5f
+	);
+	*/
+
 	OnResize();
 }
 
@@ -121,6 +196,9 @@ void MFramework::ClearD3D()
 	ResourceManager::Instance().Release();
 
 	mspSwapchain->SetFullscreenState(FALSE, NULL);
+
+	//SafeRelease(&pRT);
+	//SafeRelease(&pBlackBrush_);
 }
 
 void MFramework::Update(float dt)
@@ -144,12 +222,36 @@ void MFramework::Render()
 	//mspSpriteBatch->Begin(SpriteSortMode_Deferred, mspStates->Opaque(), mspStates->LinearWrap());
 	mspSpriteBatch->Begin();
 
+	//pRT->BeginDraw();
+
 	SceneMgr::Instance().Render();
+
+	//
+	//pRT->SetTransform(D2D1::IdentityMatrix());
+	//pRT->Clear(D2D1::ColorF(D2D1::ColorF::White));
+
+	//layoutRect.left = 0;
+	//layoutRect.top = 0;
+	//layoutRect.right = 500;
+	//layoutRect.bottom = 500;
+	//pRT->DrawText(
+	//	wszText_,        // The string to render.
+	//	cTextLength_,    // The string's length.
+	//	pTextFormat_,    // The text format.
+	//	layoutRect,       // The region of the window where the text will be rendered.
+	//	pBlackBrush_     // The brush used to draw the text.
+	//);
+
+	//pRT->EndDraw();
+
 	//MActorManager::Instance().Draw();
-	RECT sre = { 0, 0 , 100 , 200 };
+	//RECT sre = { 0, 0 , 100 , 200 };
 	//mspspriteFont->DrawString(mspSpriteBatch.get(), sre, XMFLOAT2(100, 100));
 
 	mspSpriteBatch->End();
+
+
+
 }
 
 void MFramework::EndRender()
@@ -165,7 +267,7 @@ void MFramework::OnResize()
 	ID3D11RenderTargetView* nullViews[] = { nullptr };
 
 	mspDeviceCon->OMSetRenderTargets(_countof(nullViews),nullViews,nullptr);
-	mspTargetView.Reset();			//스마트 포인터라서
+	mspTargetView.Reset();			//스마트 포인터라서 
 	mspDepthStencilView.Reset();	//초기화 과정
 	mspDeviceCon->Flush();			//변기물 내리기 즉 쌓여있는것을 해결해라
 	///////////////////////////////////////// 이과정을 해줘야 빈것에다가 만들어줌 그래야 기존에 있던것이 안남고 이어져나옴

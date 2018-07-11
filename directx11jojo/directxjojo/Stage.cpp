@@ -38,6 +38,7 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 	
 	mpAttackBox = MActorManager::Instance().Create<AttackBox>(spriteBatch, pSheet, spriteFont);
 	mpAttackBox->Init(E_SORTID_THIRD, XMFLOAT2((mScreenWidth * 0.5f) + 100, mScreenHeight * 0.5f), false);
+	
 	//AttackBox::Instance().Init(spriteBatch, pSheet, spriteFont, E_SORTID_THIRD, 
 	//	XMFLOAT2((mScreenWidth * 0.5f) + 100, mScreenHeight * 0.5f), false);
 
@@ -49,14 +50,14 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 		500.0f, XMFLOAT2((mScreenWidth * 0.5f) + 100, mScreenHeight * 0.5f),
 		E_SORTID_SECOND, 200.0f);
 
-	mpJojo->SetStaus(101, 10,100,0, 5, 1);
+	mpJojo->SetStaus(101, 10,100,0, 5,2);
 
 	GunGeon::Blackboard::Instance().SetPlayer(mpJojo);
 
 	Jojo *m2pPlayer;
 	m2pPlayer = MActorManager::Instance().Create<Jojo>(spriteBatch, pSheet, spriteFont);
 	m2pPlayer->Init(500.0f, XMFLOAT2((72.0f), 72.0f), E_SORTID_FIRST, 200.0f);
-	m2pPlayer->SetStaus(101, 100, 100, 0, 5, 2);
+	m2pPlayer->SetStaus(101, 100, 100, 0, 10, 2);
 
 	auto pTexture2 = ResourceManager::Instance().GetShaderResource(L"Images\\\Enemy\\FotManSprites.png");
 	auto pSheet2 = ResourceManager::Instance().GetSpriteSheet(L"Images\\\Enemy\\FotManSprites.xml", pTexture2);

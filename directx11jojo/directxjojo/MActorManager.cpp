@@ -13,7 +13,10 @@ MActorManager::MActorManager() :
 	mEndTurnPlayerCount(0),
 	mEndTurnEnemyCount(0),
 	mEnemyControll(0),
-	mTurnBool(false)
+	mTurnBool(false),
+	mbCountAtkFlag(false),
+	mfActionTime(0.0f),
+	mCountChracter(nullptr)
 {
 }
 
@@ -59,22 +62,40 @@ E_SCENE MActorManager::Update(float dt)
 		CheckEnemyTarget();
 	}
 
-
-	if (!mUiCheck && MActorManager::Instance().GetClassUi() != NULL && !MActorManager::Instance().GetClassUi()->GetVisible())
+	auto ui = MActorManager::Instance().GetClassUi();
+	//UI스킬을 보여주는 창이 비활성화 일때만 어택박스 이동을 한다
+	if (!mUiCheck 
+		&& ui != NULL
+		&& !ui->GetVisible())
 	{
-		//클릭한 해당놈의 위치와 보여주는 여부를 넘겨줌
-		RePosAndVisiMB();
-		
-		RePosAndVisiAt();
+		//스킬 Ui가 안보일때
+		auto uiSkills = GetClassUi()->GetUiSkills();
+		if (!uiSkills->GetAreaVisible())
+		{
+			//스킬이 실해이 끝나야 다시 시작됨
+			if (!uiSkills->GetFlag())
+			{
+				//클릭한 해당놈의 위치와 보여주는 여부를 넘겨줌
+				RePosAndVisiMB();
+				RePosAndVisiAt();
+				RePosProgresiveBar();
+			}
+
+		}
 
 		if (mTurn)
 		{
 			RePosAndVisiUI();
 		}
 
-		RePosProgresiveBar();
 	}
 
+	//행동 시간 측정
+	if (mbCountAtkFlag)
+	{
+		mfActionTime += dt;
+	}
+	//행동 확인
 	CheckAction();
 
 	if (MFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
@@ -222,6 +243,7 @@ void MActorManager::CheckAction()
 			else if (((UI*)pCollider)->CheckSkillArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
 			{
 				((UI*)pCollider)->GetUiSkills()->SetVisible(true);
+				((UI*)pCollider)->SetVisible(false);
 				//Color color = Colors::Gray;
 				//((Character*)pUi->GetPlayer())->SetColor(color);
 				//((Character*)pUi->GetPlayer())->SetActionTurn(2);
@@ -260,9 +282,15 @@ void MActorManager::CheckAction()
 								dynamic_cast<Character*>(pCollidee))
 							{
 								pCollidee->OnHit(pCollider, ((AttackBox*)pCollider)->GetCharacter());
+								//((AttackBox*)pCollider)->GetCharacter()->OnHit(pCollider, pCollidee);
 								MActorManager::Instance().SetAtVisible(false);
+								mCountChracter = pCollidee;
 								mClickCount = 0;
 								mUiCheck = false;
+								//반격을 위한 변수조정
+								mbCountAtkFlag = true;
+								mfActionTime = 0.0f;
+								break;
 							}
 
 						}
@@ -270,6 +298,62 @@ void MActorManager::CheckAction()
 				}
 			}
 		}
+	}
+
+	//반격후 딜레이 좀 주기
+
+	if (mbCountAtkFlag 
+		&&mfActionTime >= 2.0f)//((Character*)mCountChracter)->GetisCountAction()
+	{
+		//auto enemyCurFrame = mCountChracter->GetCurFrame();
+		//auto enemyFrames = mCountChracter->GetFrames();
+		//auto c = mCountChracter->GetCurAnim();
+		//c.erase(0, 1);
+		//auto result = mCountChracter->GetAnimaions().find()
+		//if()
+		//auto c = enemyCurFrame->FrameName;
+		//enemyCurFrame++;
+		//if (c == "ATTACK" &&enemyCurFrame == enemyFrames->cend())
+
+		//if(c == "ATTACK" && enemyCurFrame == enemyFrames->cend()
+		//	&& mCountChracter->GetisEndAnim())
+		{
+			mbCountAtkFlag = false;
+			mfActionTime = 0.0f;
+			mCountChracter = nullptr;
+		}
+
+	}
+	//반격 행동 시작 반격 플래그가 세워졋고
+	if (mbCountAtkFlag)
+	{
+		auto atbox = GetClassAttackBox();
+		Color cr = Colors::Gray;
+		// 때린 캐릭터의 색깔이 변했다면 반격한다 
+		//반격할 녀석의 Hp와 반격을 했는지 안했는지 확인한다
+		if (atbox->GetCharacter()->GetColor() == cr
+			&& mCountChracter != nullptr 
+			&& ((Character*)mCountChracter)->GetHealth() > 0
+			&& !((Character*)mCountChracter)->GetisCountAction())
+		{
+			MActor* pPlayer = atbox->GetCharacter();
+
+			//GetClassAttackBox()->SetCharacter((Character*)mCountChracter);
+			atbox->Release();
+			atbox->SetPosition(((Character*)mCountChracter)->GetPosition());
+			atbox->SetAttackDis(((Character*)mCountChracter)->GetAttackDistance());
+			atbox->AttackScope();
+			if (atbox->AttackScopeSeekPick(pPlayer->GetPosition()))
+			{
+				pPlayer->OnHit(atbox, mCountChracter);
+				((Character*)mCountChracter)->SetisCountAction(true);
+				((Character*)mCountChracter)->SetActionTurn(0);
+				//mCountChracter = nullptr;
+			}
+			
+		}
+		
+		//mfActionTime += dt;
 	}
 }
 
@@ -303,7 +387,9 @@ void MActorManager::CheckAllActionTurn()
 						}
 						Color color = Colors::Gray;
 						//모든 캐릭터의 행동이 끝나면 애니메이션 출력준비를 한다.
-						if (!mTurnBool&& GetClassAttackBox()->GetCharacter()->GetColor() ==color)
+						if (!mTurnBool
+							&& (GetClassAttackBox()->GetCharacter()->GetColor() ==color)
+							&& !mbCountAtkFlag)
 						{
 							turnGrapic->SetAnimation("eTurn");
 							//turnGrapic->SetVisible(true);
@@ -314,7 +400,8 @@ void MActorManager::CheckAllActionTurn()
 						}
 		
 						//턴넘어가는 그래픽이 끝나야 바꿔줌
-						if (turnGrapic->GetEndTime() && turnGrapic->GetVisible() == false)
+						if (turnGrapic->GetEndTime() && turnGrapic->GetVisible() == false
+							)
 						{
 							//GetClassAttackBox()->GetCharacter()->SetMotion(false);
 							mTurnBool = false;
@@ -330,6 +417,8 @@ void MActorManager::CheckAllActionTurn()
 								if (dynamic_cast<Player*>(pActor))
 								{
 									((Character*)pActor)->SetActionTurn(0);
+									//반격했는지에대한 값 초기화
+									((Character*)pActor)->SetisCountAction(false);
 								}
 							}
 							
@@ -364,7 +453,8 @@ void MActorManager::CheckAllActionTurn()
 							}
 						}
 						Color color = Colors::Gray;
-						if (!mTurnBool&& GetClassAttackBox()->GetCharacter()->GetColor() == color)
+						if (!mTurnBool
+							&& GetClassAttackBox()->GetCharacter()->GetColor() == color)
 						{
 							turnGrapic->SetAnimation("pTurn");
 							//turnGrapic->SetVisible(true);
@@ -373,7 +463,8 @@ void MActorManager::CheckAllActionTurn()
 							GetClassAttackBox()->GetCharacter()->SetMotion(true);
 							mTurnBool = true;
 						}
-						if (turnGrapic->GetEndTime() && turnGrapic->GetVisible() == false)
+						if (turnGrapic->GetEndTime() 
+							&& turnGrapic->GetVisible() == false)
 						{
 							//GetClassAttackBox()->GetCharacter()->SetMotion(false);
 							mTurnBool = false;
@@ -390,6 +481,8 @@ void MActorManager::CheckAllActionTurn()
 								if (dynamic_cast<Enemy*>(pActor))
 								{
 									((Character*)pActor)->SetActionTurn(0);
+									//반격했는지에대한 값 초기화
+									((Character*)pActor)->SetisCountAction(false);
 								}
 							}
 							mUiCheck = false;
@@ -710,6 +803,9 @@ void MActorManager::Release()
 	//}
 
 	//신이 바뀌었거나 했을경우
+	mbCountAtkFlag = false;
+	mCountChracter = nullptr;
+	mfActionTime = 0.0f;
 	mClickCount = 0;
 	tmpPos = XMFLOAT2(0.0f, 0.0f);
 	posIndex2 = 0;
@@ -1005,7 +1101,7 @@ ProgresiveBar * MActorManager::GetClassProgresiveBar()
 
 void MActorManager::RePosProgresiveBar()
 {
-	//해당놈의 위치와 보여주는 여부를 공격 박스 에게 넘겨줌
+	//해당놈의 위치와 보여주는 여부를 프로그래시브 바에게 넘겨줌
 	//if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	{
 		int posIndex = 0;
@@ -1018,10 +1114,13 @@ void MActorManager::RePosProgresiveBar()
 
 		for (const auto &actor : mActors)
 		{
-			auto mouse = Mouse::Get().GetState();
+			auto mouse = Mouse::Get().GetState();   
 
 			Vector2 mousePos = Vector2(mouse.x + fScrollx, mouse.y + fScrolly);
-			mouseIndex = actor->GetTileIndex(mousePos);
+			POINT pmousePos;
+			pmousePos.x = mousePos.x;
+			pmousePos.y = mousePos.y;
+			//mouseIndex = actor->GetTileIndex(mousePos);
 
 			MActor* pCollider;
 			pCollider = actor.get();
@@ -1030,10 +1129,12 @@ void MActorManager::RePosProgresiveBar()
 			if (dynamic_cast<Character*>(pCollider) && ((Character*)pCollider)->GetHealth()>0)
 			{
 				pos = pCollider->GetPosition();
-				posIndex = pCollider->GetTileIndex(pos);
-
+				//posIndex = pCollider->GetTileIndex(pos);
+				RECT rc;
+				rc = RectMakeCenter(pos.x, pos.y, 48, 48);
 				//먼저 캐릭터와 마우스위치 판정
-				if (mouseIndex == posIndex)
+				//if (mouseIndex == posIndex)
+				if(PtInRect(&rc,pmousePos))
 				{
 
 					//그뒤에 프로그래시브 클래스를 찾은후 대입

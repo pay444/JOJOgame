@@ -146,6 +146,7 @@
     <ClInclude Include="AStar.h" />
     <ClInclude Include="AttackBox.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="DamegeSkill.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="directxjojo.h" />
@@ -166,9 +167,11 @@
     <ClInclude Include="MActor.h" />
     <ClInclude Include="MActorManager.h" />
     <ClInclude Include="MFramework.h" />
-    <ClInclude Include="SGAFSM.h" />
+    <ClInclude Include="SeonPung.h" />
+    <ClInclude Include="MFSM.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="Skill.h" />
     <ClInclude Include="SpriteSheet.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Stage.h" />
@@ -208,9 +211,11 @@
     <ClCompile Include="MActor.cpp" />
     <ClCompile Include="MActorManager.cpp" />
     <ClCompile Include="MFramework.cpp" />
-    <ClCompile Include="SGAFSM.cpp" />
+    <ClCompile Include="SeonPung.cpp" />
+    <ClCompile Include="MFSM.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="Skill.cpp" />
     <ClCompile Include="SpriteSheet.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Stage.cpp" />

@@ -7,6 +7,14 @@
 
 #pragma comment (lib, "d3d11.lib")
 
+//폰트 새로우 시도 
+//DrawWirte로 했으나 TK와의 충돌로 안됨
+//#include "Dwrite.h"
+//#include "D2D1.h"
+//#include "D2D1helper.h"
+//#pragma comment (lib, "Dwrite.lib")
+//#pragma comment (lib, "d2d1.lib")
+
 //#define DEFAULT_SCREEN_WIDTH	960
 //#define DEFAULT_SCREEN_HEIGHT	576
 
@@ -31,6 +39,16 @@ protected:
 	std::unique_ptr<SpriteFont>						mspspriteFont;
 
 	unique_ptr<CommonStates>	mspStates;
+
+	//DrawWirte로 했으나 TK와의 충돌로 안됨
+	//IDWriteFactory*			pDWriteFactory_;
+	//IDWriteTextFormat*		pTextFormat_;
+	//ID2D1Factory*		pD2DFactory_0;
+	//ID2D1HwndRenderTarget* pRT;
+	//ID2D1SolidColorBrush* pBlackBrush_;
+	//const wchar_t* wszText_;
+	//UINT32 cTextLength_;
+	//D2D1_RECT_F layoutRect;
 
 	UINT		mScreenWidth;
 	UINT		mScreenHeight;

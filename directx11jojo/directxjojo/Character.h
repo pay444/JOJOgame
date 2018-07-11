@@ -122,6 +122,7 @@ protected:
 	Color mColor;		//턴종료시 그레이로 바꿔줌
 	bool mColorAllow;	//색깔 바꿔주는 여부
 	bool mMotion;		//행동이 끝나야 턴을 바꿔주는 변수
+	bool mbCountAction;	//반격을 했는지 안했는지 확인하는 변수
 						//MoveBox *mpMoveBox;
 	int mClassType;		//현재 캐릭터의 직업
 
@@ -182,6 +183,9 @@ public:
 
 	void SetClassType(int type) { mClassType = type; }
 	int GetClassType() { return mClassType; }
+
+	void SetisCountAction(bool countAction) { mbCountAction = countAction; }
+	bool GetisCountAction() { return mbCountAction; }
 
 	void JoAstar_Start(const Vector2 &vDestPos, const Vector2 &vSorcePos);
 	bool JoAStar_Move(float dt);
