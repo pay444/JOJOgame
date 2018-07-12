@@ -62,11 +62,14 @@ E_SCENE UI::Update(float dt)
 
 	if (mUIVisible)
 	{
-		mspUiSkill->SetPosition(mPosition + XMFLOAT2(100.0f, 0.0f));
-		mspUiSkill->SetPlayer(mpPlayer);
+		//mspUiSkill->SetPosition(mPosition + XMFLOAT2(100.0f, 0.0f));
+		//mspUiSkill->SetPlayer(mpPlayer);
+		//mspUiConsumItem->SetPosition(mPosition + XMFLOAT2(100.0f, 0.0f));
+		//mspUiConsumItem->SetPlayer(mpPlayer);
 		//7개의 UI그림 위치 지정
 		if (mVecUiPos.size() == 0)
 		{
+
 			for (int i = 0; i < 8; ++i)
 			{
 				float uiPos = 21 * i;

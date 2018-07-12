@@ -10,8 +10,8 @@ public:
 
 private:
 	bool mUICVisible;
-	vector<ANIMINFO> mVecUiConsumInfo;
-	vector<unique_ptr<ConsumItems>>	mspVecConsumItems;
+	vector<ANIMINFO> mVecUiConsumInfo;		//Ui안의 상자들 위치조정변수
+	vector<unique_ptr<ConsumItems>>	mspVecConsumItems;		//아이템클래스가들어있는 벡터
 	vector<unique_ptr<int>> mspVecAreaIndex;//범위에 해당하는 타일 인덱스 안사라짐
 	Player* mpPlayer;
 	ConsumItems*	mpCurItem;				//실행할 스킬에 해당하는 클래스
@@ -40,8 +40,10 @@ public:
 	int GetCountItemType() { return mCountItemType;	}
 
 	bool GetFlag() { return mFlag; }
+	vector<ANIMINFO>* GetVecAnimInfo() { return &mVecUiConsumInfo; }
+	vector<unique_ptr<ConsumItems>>* GetVecClassItem() { return &mspVecConsumItems; }
 public:
-	void CalArea(int distance);
+	void CalArea();
 
 };
 

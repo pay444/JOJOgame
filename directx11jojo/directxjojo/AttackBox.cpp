@@ -118,12 +118,21 @@ void AttackBox::Release()
 	{
 		(*pVecTile)[*mspVecAtScopeIndex[x].get()]->AttackNum = 0;
 	}
-	mVecAtScopeIndex.clear();
+
+	mspVecAtScopeIndex.clear();
 	auto iter = mspVecAtScopeIndex.begin();
 	while (iter != mspVecAtScopeIndex.end())
 	{
 		iter->reset();
 		iter = mspVecAtScopeIndex.erase(iter);
+	}
+
+	mVecAtScopeIndex.clear();
+	auto iter2 = mspVecAtScopeIndex.begin();
+	while (iter2 != mspVecAtScopeIndex.end())
+	{
+		iter2->reset();
+		iter2 = mspVecAtScopeIndex.erase(iter);
 	}
 }
 
@@ -217,6 +226,72 @@ void AttackBox::AttackScope()
 		}
 		int x = 0;
 	
+}
+
+void AttackBox::AttackCubeScope(bool isChracterPospush)
+{
+	int JoTileCx = 20;
+	int JoTileCy = 20;
+	//캐릭터 주위의 네모난 칸만 벡터에 넣어줌
+	int tileOnPlayerIndex = GetTileIndex(mpCharacter->GetPosition());
+	//캐릭터 위치 포함여부
+	if (isChracterPospush)
+	{
+		//벡터안에 플레이어가 서있는 위치를 넣어줌
+		mspVecAtScopeIndex.push_back(make_unique<int>(tileOnPlayerIndex));
+	}
+	//8방향 확인후 범위 벡터에 넣어줌
+	//위
+	if ((tileOnPlayerIndex) >= JoTileCx)
+	{
+		mspVecAtScopeIndex.push_back(make_unique<int>(tileOnPlayerIndex - JoTileCx));
+	}
+	//오위
+	if ((tileOnPlayerIndex) >= JoTileCx && tileOnPlayerIndex
+		% JoTileCx != JoTileCx - 1)
+	{
+		mspVecAtScopeIndex.push_back(
+			make_unique<int>(tileOnPlayerIndex - (JoTileCx - 1)));
+	}
+	//오
+	if (tileOnPlayerIndex % JoTileCx != JoTileCx - 1)
+	{
+		mspVecAtScopeIndex.push_back(make_unique<int>(tileOnPlayerIndex + 1));
+	}
+	//오아
+	if ((tileOnPlayerIndex) < JoTileCx * JoTileCy - JoTileCx
+		&& tileOnPlayerIndex % JoTileCx != JoTileCx - 1)
+	{
+		mspVecAtScopeIndex.push_back(
+			make_unique<int>(tileOnPlayerIndex + (JoTileCx + 1)));
+	}
+	//아래
+	if ((tileOnPlayerIndex) < JoTileCx * JoTileCy - JoTileCx)
+	{
+		mspVecAtScopeIndex.push_back(make_unique<int>(tileOnPlayerIndex + JoTileCx));
+	}
+	//왼아
+	if ((tileOnPlayerIndex) < JoTileCx * JoTileCy - JoTileCx
+		&& tileOnPlayerIndex % JoTileCx != 0)
+	{
+		mspVecAtScopeIndex.push_back(
+			make_unique<int>(tileOnPlayerIndex + (JoTileCx - 1)));
+
+	}
+	//왼
+	if (tileOnPlayerIndex % JoTileCx != 0)
+	{
+		mspVecAtScopeIndex.push_back(
+			make_unique<int>(tileOnPlayerIndex - 1));
+	}
+	//왼위
+	if ((tileOnPlayerIndex) >= JoTileCx
+		&& tileOnPlayerIndex % JoTileCx != 0)
+	{
+		mspVecAtScopeIndex.push_back(
+			make_unique<int>(tileOnPlayerIndex - (JoTileCx + 1)));
+	}
+
 }
 
 bool AttackBox::AttackScopeSeek()

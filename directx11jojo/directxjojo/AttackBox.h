@@ -25,6 +25,7 @@ public:
 	bool UIntersecRectScope(MActor* pActor);
 	bool AIIntersecRectScope(MActor* pActor);
 	void AttackScope();
+	void AttackCubeScope(bool isChracterPospush);
 	bool AttackScopeSeek();
 	bool AttackScopeSeekPick(XMFLOAT2 pos);
 	void SetAttackDis(int AttackDis) { mAttackDistance = AttackDis; }
@@ -33,13 +34,14 @@ public:
 	void SetCharacter(Character * character) { mpCharacter = character; }
 	void SetVisible(bool visible) { mAtVisible = visible; }
 
+	vector<unique_ptr<int>>* GetVecAtScopeIndex() { return &mspVecAtScopeIndex; }
+
 	bool GetVisible() { return mAtVisible; }
 	Character* GetCharacter() { return mpCharacter; }
 	int GetAttack() { return mAttackDamge; }
 	bool GetAtScopeSeek() { return mAtSeekScope; }
 	RECT GetBoundScope();
 	RECT GetAtBoundScope(int i);
-	vector<unique_ptr<int>>* GetVecAtScopeIndex() { return &mspVecAtScopeIndex; }
 	vector<XMFLOAT2> GetVecAtScopePos() { return vecAtScopePos; }
 	
 };

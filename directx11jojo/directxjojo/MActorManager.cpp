@@ -246,8 +246,13 @@ void MActorManager::CheckAction()
 			//책략 버튼을 눌럿을때
 			else if (((UI*)pCollider)->CheckSkillArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
 			{
-				((UI*)pCollider)->GetUiSkills()->SetVisible(true);
+				auto uiSkill = ((UI*)pCollider)->GetUiSkills();
+				//Ui스킬 위치선정 및 플레이어 지정
+				uiSkill->SetVisible(true);
+				uiSkill->SetPosition(((UI*)pCollider)->GetPosition() + XMFLOAT2(100.0f, 0.0f));
+				uiSkill->SetPlayer(((UI*)pCollider)->GetPlayer());
 				((UI*)pCollider)->SetVisible(false);
+
 				//Color color = Colors::Gray;
 				//((Character*)pUi->GetPlayer())->SetColor(color);
 				//((Character*)pUi->GetPlayer())->SetActionTurn(2);
@@ -261,8 +266,28 @@ void MActorManager::CheckAction()
 			//도구 버튼을 눌럿을때
 			else if (((UI*)pCollider)->CheckConsumItemArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
 			{
-				((UI*)pCollider)->GetUiConsumItem()->SetVisible(true);
+				auto uiConsum = ((UI*)pCollider)->GetUiConsumItem();
+				//Ui도구 위치선정 및 플레이어 지정
+				uiConsum->SetVisible(true);
+				uiConsum->SetPosition(((UI*)pCollider)->GetPosition() + XMFLOAT2(100.0f, 0.0f));
+				uiConsum->SetPlayer(((UI*)pCollider)->GetPlayer());
 				((UI*)pCollider)->SetVisible(false);
+
+				//auto vecInfo = ((UI*)pCollider)->GetUiConsumItem()->GetVecAnimInfo();
+				//auto vecClassItem = ((UI*)pCollider)->GetUiConsumItem()->GetVecClassItem();
+				//vecInfo->clear();
+				//for (int i = 0; i < ((UI*)pCollider)->GetUiConsumItem()->GetCountItemType(); ++i)
+				//{
+				//	float ysize = 40.0f;
+				//	float uiPos = 18 * i;
+				//	//XMFLOAT2(-3.0f, -10.0f)
+				//	ANIMINFO aInfo = ANIMINFO("", ((UI*)pCollider)->GetUiConsumItem()->GetPosition() + XMFLOAT2(-1.0f, uiPos - ysize));
+				//	auto classname = (*vecClassItem)[i].get();
+				//	aInfo.animName = typeid(*classname).name();
+				//	aInfo.animName.erase(0, 6);
+				//	(*vecClassItem).push_back(aInfo);
+				//}
+
 				//Color color = Colors::Gray;
 				//((Character*)pUi->GetPlayer())->SetColor(color);
 				//((Character*)pUi->GetPlayer())->SetActionTurn(2);

@@ -7,13 +7,16 @@ public:
 	ConsumItems(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont);
 	virtual ~ConsumItems();
 protected:
-	int mCountItem;							//아이템의 재고
+	int mStock;				//아이템의 재고
+	int mPlus;				//체력이나 마나를 얼마나 증가시키는가에 대한 변수
 public:
 	virtual void Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible) = 0;
 	virtual E_SCENE Update(float dt) = 0;
 	virtual void Draw() = 0;
 public:
-	void SetCountItem(int count) { mCountItem = count; }
-	int GetCountItem() { return mCountItem; }
+	void SetStock(int stock) { mStock = stock; }
+	int GetStock() { return mStock; }
+
+	int GetPlus() { return mPlus; }
 };
 

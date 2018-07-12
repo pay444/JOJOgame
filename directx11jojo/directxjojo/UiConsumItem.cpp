@@ -56,14 +56,16 @@ E_SCENE UiConsumItem::Update(float dt)
 	//Ui를 보여주는 상태일때
 	if (mUICVisible)
 	{
+
 		//아이템의 종류 개수만큼 UI 상에서 위치 지정
 		if (mVecUiConsumInfo.size() == 0)
 		{
 			for (int i = 0; i < mCountItemType; ++i)
 			{
-				float ysize = 30.0f;
+				float ysize = 40.0f;
 				float uiPos = 18 * i;
-				ANIMINFO aInfo = ANIMINFO("", mPosition + XMFLOAT2(1.0f, uiPos - ysize));
+				//XMFLOAT2(-3.0f, -10.0f)
+				ANIMINFO aInfo = ANIMINFO("", mPosition + XMFLOAT2(-1.0f, uiPos - ysize));
 				mVecUiConsumInfo.push_back(aInfo);
 			}
 
@@ -89,6 +91,21 @@ E_SCENE UiConsumItem::Update(float dt)
 				typeid(*(classname)).name();
 			mVecUiConsumInfo[mspVecConsumItems.size() - 1]
 				.animName.erase(0, 6);
+		}
+		else
+		{
+			mVecUiConsumInfo.clear();
+			for (int i = 0; i < mCountItemType; ++i)
+			{
+				float ysize = 40.0f;
+				float uiPos = 18 * i;
+				//XMFLOAT2(-3.0f, -10.0f)
+				ANIMINFO aInfo = ANIMINFO("", mPosition + XMFLOAT2(-1.0f, uiPos - ysize));
+				auto classname = mspVecConsumItems[i].get();
+				aInfo.animName = typeid(*(classname)).name();
+				aInfo.animName.erase(0, 6);
+				mVecUiConsumInfo.push_back(aInfo);
+			}
 		}
 
 		//취소 버튼의 위치 갱신
@@ -127,12 +144,21 @@ E_SCENE UiConsumItem::Update(float dt)
 				if (PtInRect(&rc, mousePos))
 				{
 					mpCurItem = (mspVecConsumItems[i].get());
+					//재고 모두 소진하면 작동안함
+					if (mpCurItem->GetStock() <= 0)
+					{
+						break;
+					}
 					//CalArea(mpCurSkill->GetArea());
 					mAreaVisible = true;
-					//공격 범위를 보여주는 설정을 한다
+					//아이템을 사용할수있는 범위를 보여주는 설정을 한다
 					auto attackbox = MActorManager::Instance().GetClassAttackBox();
 					attackbox->SetVisible(true);
-					//attackbox->SetAttackDis(mpCurItem->GetArea());
+					attackbox->SetAttackDis(0);
+					attackbox->Release();
+					attackbox->AttackCubeScope(true);
+
+					//attackbox->SetAttackDis(5);
 					mUICVisible = false;
 					break;
 				}
@@ -164,19 +190,150 @@ E_SCENE UiConsumItem::Update(float dt)
 				mUICVisible = false;
 				//도구아이템들 클래스 초기화
 				MActorManager::Instance().GetClassUi()->SetVisible(true);
-				for (size_t i = 0; i < mspVecConsumItems.size(); i++)
-				{
-					mspVecConsumItems[i].reset();
-				}
-				mspVecConsumItems.clear();
+				//for (size_t i = 0; i < mspVecConsumItems.size(); i++)
+				//{
+				//	mspVecConsumItems[i].reset();
+				//}
+				//mspVecConsumItems.clear();
 			}
 		}
 
 	}
 	else
 	{
-		mVecUiConsumInfo.clear();
+		//mVecUiConsumInfo.clear();
 	}
+
+	//시간 측정후에 아이템효과가 사라지게 만듬	
+	if (mFlag)
+	{
+		mfActionElapsedTime += dt;
+	}
+	if (mfActionElapsedTime >= 0.8f)
+	{
+		//for (size_t i = 0; i < mspVecConsumItems.size(); i++)
+		//{
+		//	mspVecConsumItems[i].reset();
+		//}
+		//mspVecConsumItems.clear();
+
+		mpCurItem = nullptr;
+		mfActionElapsedTime = 0.0f;
+		mFlag = false;
+		//플레이어의 턴종료
+		mpPlayer->SetActionTurn(2);
+		//플레이어의 색깔을 바꿔준다.
+		mpPlayer->SetColorAllow(true);
+	}
+
+	//아이템이 눌렷고 해당범위를 보여주는 상태일때
+	if (mAreaVisible)
+	{
+		MActor* pCollider, *pCollidee;
+		pCollider = nullptr;
+		pCollidee = nullptr;
+		//범위가 보여주는 상태에서 자신이나 플레이어를 누르면 작동된다
+		if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+		{
+			//auto vecAtIndex = MActorManager::Instance().GetvecAtScopeIndex();
+
+			//auto a = vecAtIndex[0];
+			for (const auto &actor : (*MActorManager::Instance().GetActors()))
+			{
+				pCollider = actor.get();
+				if (typeid(*pCollider) == typeid(AttackBox))
+				{
+					if (((AttackBox*)pCollider)->AttackScopeSeek())
+					{
+						for (const auto &actor : (*MActorManager::Instance().GetActors()))
+						{
+							pCollidee = actor.get();
+							if (((AttackBox*)pCollider)->UIntersecRectScope(pCollidee) &&
+								dynamic_cast<Player*>(pCollidee))
+							{
+								
+								string classname= typeid(*mpCurItem).name();
+								classname.erase(0, 6);
+								if (classname == "HpBean")
+								{
+									//최대 Hp보다 커지면 그만큼만넣는다
+									if ((((Character*)pCollidee)->GetHealth()
+											+ mpCurItem->GetPlus())
+										>= ((Character*)pCollidee)->GetMaxHp())
+									{
+										((Character*)pCollidee)->SetHelth
+										(((Character*)pCollidee)->GetMaxHp());
+									}
+									//아닐경우 걍 더한만큼 넣어준다
+									else
+									{
+										((Character*)pCollidee)->SetHelth
+										(((Character*)pCollidee)->GetHealth() +
+											mpCurItem->GetPlus());
+									}
+									
+								}
+								else if (classname == "MpWater")
+								{
+									//최대 Hp보다 커지면 그만큼만넣는다
+									if ((((Character*)pCollidee)->GetMana()
+										+ mpCurItem->GetPlus())
+										>= ((Character*)pCollidee)->GetMaxMana())
+									{
+										((Character*)pCollidee)->SetMana
+										(((Character*)pCollidee)->GetMaxMana());
+									}
+									//아닐경우 걍 더한만큼 넣어준다
+									else
+									{
+										((Character*)pCollidee)->SetMana
+										(((Character*)pCollidee)->GetMana() +
+											mpCurItem->GetPlus());
+									}
+								}
+								//((Character*)pCollidee)->SetHelth();
+								MActorManager::Instance().GetClassUi()->SetVisible(false);
+
+								auto attackBox = MActorManager::Instance().GetClassAttackBox();
+								attackBox->SetVisible(false);
+								attackBox->Release();
+								mpPlayer->SetAnimation("POWER");
+								mpPlayer->SetActionTime(0.0f);
+								//mpPlayer = attackBox->GetCharacter();
+								mpCurItem->SetPosition(pCollidee->GetPosition());
+								mpCurItem->SetStock(mpCurItem->GetStock()-1);
+								mFlag = true;
+								mAreaVisible = false;
+
+								break;
+							}
+
+						}
+					}
+				}
+			}
+		}
+		//해당범위를 보여주는데 마우스 오른쪽 클릭을 하면 취소를 한다
+		if (MFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+		{
+			auto attackBox = MActorManager::Instance().GetClassAttackBox();
+			attackBox->SetVisible(false);
+			attackBox->Release();
+			MActorManager::Instance().GetClassUi()->SetVisible(true);
+			//for (size_t i = 0; i < mspVecConsumItems.size(); i++)
+			//{
+			//	mspVecConsumItems[i].reset();
+			//}
+			//mspVecConsumItems.clear();
+			mAreaVisible = false;
+		}
+	}
+	//선택된 스킬의 Update
+	if (mpCurItem!= nullptr && mFlag)
+	{
+		mpCurItem->Update(dt);
+	}
+
 	return E_SCENE_NONPASS;
 }
 
@@ -216,7 +373,7 @@ void UiConsumItem::Draw()
 			//툴배경을 띄운후 그림을 바꿔준다.
 			SetAnimation("ToolBack");
 			mpSheet->Draw(mpBatch, *mpSpriteFrame
-				, mWorldPos + mVecUiConsumInfo[i].pos + XMFLOAT2(-3.0f,-10.0f) - offset
+				, mWorldPos + mVecUiConsumInfo[i].pos - offset
 				, tint);
 
 			if (mVecUiConsumInfo[i].animName == "HpBean")
@@ -225,7 +382,7 @@ void UiConsumItem::Draw()
 				swprintf_s(wch, L"HpIncrease");
 				//해당 도구 효과 출력
 				mpFont->DrawString(mpBatch, wch
-					, mVecUiConsumInfo[i].pos + XMFLOAT2(0.0f, -20.0f) - offset
+					, mVecUiConsumInfo[i].pos + XMFLOAT2(1.0f, -10.0f) - offset
 					, DirectX::Colors::Black, 0.0f
 					, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
 
@@ -236,14 +393,14 @@ void UiConsumItem::Draw()
 				//해당 도구 효과 출력
 				swprintf_s(wch, L"MpIncrease");
 				mpFont->DrawString(mpBatch, wch
-					, mVecUiConsumInfo[i].pos + XMFLOAT2(0.0f, -20.0f) - offset
+					, mVecUiConsumInfo[i].pos + XMFLOAT2(1.0f, -10.0f) - offset
 					, DirectX::Colors::Black, 0.0f
 					, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
 
 			}
 			//해당 아이템 그림을 띄워줌
 			mpSheet->Draw(mpBatch, *mpSpriteFrame
-				, mWorldPos + mVecUiConsumInfo[i].pos + XMFLOAT2(-110.0f,-10.0f)
+				, mWorldPos + mVecUiConsumInfo[i].pos + XMFLOAT2(-110.0f,0.0f)
 				- offset, tint);
 
 			//해당 하는 도구의 이름들 보여줌
@@ -253,14 +410,14 @@ void UiConsumItem::Draw()
 			wstring wstr;
 			mbstowcs(&wstr[0], str.c_str(), strlen(typeid(*mspVecConsumItems[i]).name()));
 			mpFont->DrawString(mpBatch, wstr.c_str()
-				, mVecUiConsumInfo[i].pos + XMFLOAT2(-100.0f, -20.0f) - offset
+				, mVecUiConsumInfo[i].pos + XMFLOAT2(-100.0f, -10.0f) - offset
 				, DirectX::Colors::Black, 0.0f
 				, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
 
 			//도구의 재고
-			swprintf_s(wch, L"%d", mspVecConsumItems[i]->GetCountItem());
+			swprintf_s(wch, L"%d", mspVecConsumItems[i]->GetStock());
 			mpFont->DrawString(mpBatch, wch
-				, mVecUiConsumInfo[i].pos + XMFLOAT2(80.0f, -20.0f) - offset
+				, mVecUiConsumInfo[i].pos + XMFLOAT2(80.0f, -10.0f) - offset
 				, DirectX::Colors::Black, 0.0f
 				, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));			
 
@@ -270,10 +427,10 @@ void UiConsumItem::Draw()
 	{
 		//mVecUiConsumInfo.clear();
 	}
-	//도구의 범위를 보여준다
-	if (mAreaVisible)
+	//선택된 스킬의 Draw
+	if (mpCurItem != nullptr && mFlag)
 	{
-
+		mpCurItem->Draw();
 	}
 }
 
@@ -287,7 +444,7 @@ void UiConsumItem::Release()
 	}
 }
 
-void UiConsumItem::CalArea(int distance)
+void UiConsumItem::CalArea()
 {
 	int JoTileCx = 20;
 	int JoTileCy = 20;

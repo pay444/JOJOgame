@@ -20,7 +20,7 @@ MpWater::~MpWater()
 void MpWater::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
 {
 	Animation anim[] = {
-		{ "Bean", 1,{ { "Bean", 0.3f } } },
+		{ "Water", 1,{ { "Water", 0.3f } } },
 	};
 
 	//이동거리
@@ -29,9 +29,9 @@ void MpWater::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
 	//mUISVisible = true;
 	MActor::Init(anim, 1, eSortID);
 	SetPosition(pos + XMFLOAT2(100.0f, 0.0f));
-	SetAnimation("Bean");
-	mMpPlus = 5;
-	mCountItem = 3;
+	SetAnimation("Water");
+	mPlus = 5;
+	mStock = 3;
 }
 
 E_SCENE MpWater::Update(float dt)
@@ -41,4 +41,11 @@ E_SCENE MpWater::Update(float dt)
 
 void MpWater::Draw()
 {
+	XMFLOAT2 offset = XMFLOAT2(0, 0);
+	Color tint = Colors::White;
+	offset.x = (int)ScrollMgr::Instance().GetScroll().x;
+	offset.y = (int)ScrollMgr::Instance().GetScroll().y;
+
+	mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + mPosition- offset, tint);
+
 }

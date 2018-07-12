@@ -209,7 +209,6 @@ E_SCENE UiSkills::Update(float dt)
 	//스킬이 눌렷고 해당범위를 보여주는 상태일때
 	if (mAreaVisible)
 	{
-
 		MActor* pCollider, *pCollidee;
 		pCollider = nullptr;
 		pCollidee = nullptr;
@@ -384,32 +383,6 @@ void UiSkills::Draw()
 	else
 	{
 		mVecUiSkillInfo.clear();
-	}
-
-	//스킬의 범위를 보여준다
-	if (mAreaVisible)
-	{
-		auto pTexture = ResourceManager::Instance().GetShaderResource(L"Images\\jojo\\jojoSprites.png");//(L"Images\\sprites.png");
-		auto pSheet = ResourceManager::Instance().GetSpriteSheet(L"Images\\jojo\\jojoSprites.xml", pTexture); //(L"Images\\sprites.xml",pTexture);
-
-		auto result = mAnimations.find("AttackBox");
-		mpSpriteFrame2 = pSheet->Find(result->second.begin()->FrameName.c_str());
-
-		vector<unique_ptr<TILE>> *pVecTile = MActorManager::Instance().GetTileInfo();
-
-		for (size_t i = 0; i < mspVecAreaIndex.size(); i++)
-		{
-			Vector2 vTilePos = Vector2(
-				(*pVecTile)[*mspVecAreaIndex[i].get()]->vPos.x + JOJOTILESX / 2,
-				(*pVecTile)[*mspVecAreaIndex[i].get()]->vPos.y + JOJOTILESY / 2);
-			pSheet->Draw(mpBatch, *mpSpriteFrame2, mWorldPos + vTilePos - offset, tint);
-
-		}
-		
-	}
-	else
-	{
-		//Release();
 	}
 
 	//선택된 스킬의 Draw
