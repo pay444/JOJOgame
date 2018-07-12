@@ -15,8 +15,9 @@ private:
 	vector<unique_ptr<int>> mspVecAreaIndex;//범위에 해당하는 타일 인덱스 안사라짐
 	Player* mpPlayer;
 	ConsumItems*	mpCurItem;				//실행할 스킬에 해당하는 클래스
+	int mCountItemType;						//아이템의 종류 개수
 	XMFLOAT2 mCancelBtnPos;					//취소버튼의 위치
-	const SpriteFrame* mpSpriteFrame2;		//조조에있는 UI그림을 가져오는 변수
+	const SpriteFrame* mpSpriteFrame2;		//다른이미지 집합에 있는 UI그림을 가져오는 변수
 	bool mAreaVisible;						//아이템사용 범위를 보여줄지 말지를 결정함
 	bool mFlag;								//아이템 범위출력후 적을 클릭하면 플래그가 섬
 public:
@@ -34,6 +35,9 @@ public:
 
 	void SetAreaVisible(bool visible) { mAreaVisible = visible; }
 	bool GetAreaVisible() { return mAreaVisible; }
+
+	void SetCountItemType(int count) { mCountItemType = count; }
+	int GetCountItemType() { return mCountItemType;	}
 
 	bool GetFlag() { return mFlag; }
 public:

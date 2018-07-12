@@ -293,7 +293,8 @@ void UiSkills::Draw()
 	{
 		//스킬 기본 배경 UI 출력
 		SetAnimation("SkillUi");
-		mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + mPosition - offset, tint);
+		mpSheet->Draw(mpBatch, *mpSpriteFrame
+			, mWorldPos + mPosition - offset, tint);
 
 		//해당 캐릭터의 mp 게이지 출력
 		auto pTexture = ResourceManager::Instance().GetShaderResource(L"Images\\jojo\\jojoSprites.png");//(L"Images\\sprites.png");
@@ -326,7 +327,7 @@ void UiSkills::Draw()
 		swprintf_s(wch, L" / %d", static_cast<int>(maxMp));
 		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(0.0f, -75.0f) - offset), DirectX::Colors::Black, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
 
-		//해당 클래스 이름 출력
+		//해당 클래스 캐릭터 ㄴ이름 출력
 		string str = typeid(*mpPlayer).name();
 		str.erase(0, 6);
 		wstring wstr;
@@ -356,7 +357,7 @@ void UiSkills::Draw()
 					, mWorldPos + mVecUiSkillInfo[i].pos - offset
 					, tint);
 				//해당 스킬에 따른 설명 쓰기
-				for (size_t i = 0; i < mspVecSkills.size(); i++)
+				//for (size_t i = 0; i < mspVecSkills.size(); i++)
 				{
 					wchar_t wch[128];
 					//클래스 이름 출력

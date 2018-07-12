@@ -63,26 +63,30 @@ E_SCENE MActorManager::Update(float dt)
 	}
 
 	auto ui = MActorManager::Instance().GetClassUi();
-	//UI스킬을 보여주는 창이 비활성화 일때만 어택박스 이동을 한다
+	//UI를 보여주는 창이 비활성화 일때만 어택박스 이동을 한다
 	if (!mUiCheck 
 		&& ui != NULL
 		&& !ui->GetVisible())
 	{
-		//스킬 Ui가 안보일때
-		auto uiSkills = GetClassUi()->GetUiSkills();
-		if (!uiSkills->GetAreaVisible())
+		//Ui가 안보이고 그 부속 Ui도 안보일때만
+		auto uiSkills = ui->GetUiSkills();
+		auto uiConsumItems = ui->GetUiConsumItem();
+		if (!uiSkills->GetAreaVisible()
+			&& !uiSkills->GetVisible()
+			&& !uiConsumItems->GetAreaVisible()
+			&& !uiConsumItems->GetVisible())
 		{
-			//스킬이 실해이 끝나야 다시 시작됨
-			if (!uiSkills->GetFlag())
+			//ui부속들의 실행이 끝나야 다시 시작됨
+			if (!uiSkills->GetFlag() && !uiConsumItems->GetFlag())
 			{
 				//클릭한 해당놈의 위치와 보여주는 여부를 넘겨줌
 				RePosAndVisiMB();
 				RePosAndVisiAt();
-				RePosProgresiveBar();
 			}
-
 		}
-
+		//상태정보는 Ui창이 꺼졌을때만 활성
+		RePosProgresiveBar();
+		
 		if (mTurn)
 		{
 			RePosAndVisiUI();
@@ -243,6 +247,21 @@ void MActorManager::CheckAction()
 			else if (((UI*)pCollider)->CheckSkillArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
 			{
 				((UI*)pCollider)->GetUiSkills()->SetVisible(true);
+				((UI*)pCollider)->SetVisible(false);
+				//Color color = Colors::Gray;
+				//((Character*)pUi->GetPlayer())->SetColor(color);
+				//((Character*)pUi->GetPlayer())->SetActionTurn(2);
+				//MActorManager::Instance().GetClassUi()->SetVisible(false);
+				//MActorManager::Instance().GetClassAttackBox()->SetVisible(false);
+				//mUiCheck = true;
+				//SetAtVisible(true);
+				//((UI*)pCollider)->SetVisible(false);
+				break;
+			}
+			//도구 버튼을 눌럿을때
+			else if (((UI*)pCollider)->CheckConsumItemArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
+			{
+				((UI*)pCollider)->GetUiConsumItem()->SetVisible(true);
 				((UI*)pCollider)->SetVisible(false);
 				//Color color = Colors::Gray;
 				//((Character*)pUi->GetPlayer())->SetColor(color);

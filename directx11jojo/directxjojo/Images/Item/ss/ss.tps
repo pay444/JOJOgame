@@ -199,6 +199,20 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">../Bean.png</key>
+            <key type="filename">../Water.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>8,8,16,16</rect>
+                <key>scale9Paddings</key>
+                <rect>8,8,16,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../hpBean.png</key>
             <key type="filename">../mpWater.png</key>
             <struct type="IndividualSpriteSettings">
@@ -246,6 +260,8 @@
             <filename>../toolBack.png</filename>
             <filename>../uiItem.PNG</filename>
             <filename>../hpBean.png</filename>
+            <filename>../Bean.png</filename>
+            <filename>../Water.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

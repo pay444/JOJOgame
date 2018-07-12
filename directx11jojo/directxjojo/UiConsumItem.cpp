@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "ConsumItems.h"
 #include "UiConsumItem.h"
-
+#include "HpBean.h"
+#include "MpWater.h"
 
 UiConsumItem::UiConsumItem()
 {
@@ -15,7 +16,8 @@ UiConsumItem::UiConsumItem(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFon
 	mCancelBtnPos(0, 0),
 	mpCurItem(nullptr),
 	mAreaVisible(false),
-	mFlag(false)
+	mFlag(false),
+	mCountItemType(2)
 {
 
 }
@@ -30,7 +32,7 @@ void UiConsumItem::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
 	Animation anim[] = {
 	{ "UiItem", 1,{ { "uiItem", 0.1f } } },
 	{ "ToolBack", 1,{ { "toolBack", 0.1f } } },
-	{ "Bean", 1,{ { "hpBean", 0.1f } } },
+	{ "HpBean", 1,{ { "hpBean", 0.1f } } },
 	{ "MpWater", 1,{ { "mpWater", 0.1f } } },
 	{ "AttackBox", 1,{ { "AttackBox0", 0.3f } } },
 	{ "CancelBtn", 1,{ { "cancelBtn", 0.3f } } },
@@ -48,32 +50,231 @@ void UiConsumItem::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
 
 E_SCENE UiConsumItem::Update(float dt)
 {
-	float fScrollx = ScrollMgr::Instance().GetScroll().x;
-	float fScrolly = ScrollMgr::Instance().GetScroll().y;
+
 	MActor::Update(dt);
 
 	//Ui를 보여주는 상태일때
 	if (mUICVisible)
 	{
-		//취소 버튼의 위치 갱신
-		mCancelBtnPos = mPosition + XMFLOAT2(82, 64);
+		//아이템의 종류 개수만큼 UI 상에서 위치 지정
+		if (mVecUiConsumInfo.size() == 0)
+		{
+			for (int i = 0; i < mCountItemType; ++i)
+			{
+				float ysize = 30.0f;
+				float uiPos = 18 * i;
+				ANIMINFO aInfo = ANIMINFO("", mPosition + XMFLOAT2(1.0f, uiPos - ysize));
+				mVecUiConsumInfo.push_back(aInfo);
+			}
 
-		//해당 스킬을 클릭할 시에 스킬이 선택된다.
+			//소모 아이템을 벡터에 등록해준다
+			unique_ptr<HpBean> bean;
+			bean = make_unique<HpBean>(mpBatch, mpSheet, mpFont);
+			bean->Init(meSortID, mPosition, mUICVisible);
+			mspVecConsumItems.push_back(move(bean));
+			auto classname = 
+				mspVecConsumItems[mspVecConsumItems.size() - 1].get();
+			mVecUiConsumInfo[mspVecConsumItems.size() - 1].animName =
+				typeid(*(classname)).name();
+			mVecUiConsumInfo[mspVecConsumItems.size() - 1]
+				.animName.erase(0, 6);
+
+			unique_ptr<MpWater> water;
+			water = make_unique<MpWater>(mpBatch, mpSheet, mpFont);
+			water->Init(meSortID, mPosition, mUICVisible);
+			mspVecConsumItems.push_back(move(water));
+			classname =
+				mspVecConsumItems[mspVecConsumItems.size() - 1].get();
+			mVecUiConsumInfo[mspVecConsumItems.size() - 1].animName =
+				typeid(*(classname)).name();
+			mVecUiConsumInfo[mspVecConsumItems.size() - 1]
+				.animName.erase(0, 6);
+		}
+
+		//취소 버튼의 위치 갱신
+		mCancelBtnPos = mPosition + XMFLOAT2(82, 57);
+
+		//해당 아이템을 클릭할 시에 선택된다.
 		if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 		{
 			auto mouse = Mouse::Get().GetState();
-
+			float fScrollx = ScrollMgr::Instance().GetScroll().x;
+			float fScrolly = ScrollMgr::Instance().GetScroll().y;
 			POINT mousePos;
 			mousePos.x = mouse.x + fScrollx;
 			mousePos.y = mouse.y + fScrolly;
 
+			RECT rc;
+			//Ui가 보여주는 녀석들 중에서 한놈이 선택된다면
+			//현재 스킬 녀석에 스킬이 들어있는 벡터에서 값을 가져온다.
+			for (size_t i = 0; i < mVecUiConsumInfo.size(); i++)
+			{
+				map<string, vector<FrameInfo>>::iterator result;
+				//if (mVecUiConsumInfo[i]->GetElemental() == 3)
+				{
+					result = mAnimations.find("ToolBack");
+				}
+				
+				const SpriteFrame* pSpF;
+				pSpF = mpSheet->Find(result->second.begin()->FrameName.c_str());
+				float rcsubx = pSpF->sourceRect.right - pSpF->sourceRect.left;
+				float rcsuby = pSpF->sourceRect.bottom - pSpF->sourceRect.top;
+
+				rc.left = mVecUiConsumInfo[i].pos.x - rcsubx / 2;
+				rc.right = mVecUiConsumInfo[i].pos.x + rcsubx / 2;
+				rc.top = mVecUiConsumInfo[i].pos.y - rcsuby / 2;
+				rc.bottom = mVecUiConsumInfo[i].pos.y + rcsuby / 2;
+				if (PtInRect(&rc, mousePos))
+				{
+					mpCurItem = (mspVecConsumItems[i].get());
+					//CalArea(mpCurSkill->GetArea());
+					mAreaVisible = true;
+					//공격 범위를 보여주는 설정을 한다
+					auto attackbox = MActorManager::Instance().GetClassAttackBox();
+					attackbox->SetVisible(true);
+					//attackbox->SetAttackDis(mpCurItem->GetArea());
+					mUICVisible = false;
+					break;
+				}
+				else
+				{
+					mAreaVisible = false;
+				}
+			}
+
+			//취소 버튼이 클릭됬을때 도구창을 안보여준다
+			auto pTexture = ResourceManager::Instance().GetShaderResource
+			(L"Images\\Skill\\SkillUis.png");
+			auto pSheet = ResourceManager::Instance().GetSpriteSheet
+			(L"Images\\Skill\\SkillUis.xml", pTexture);
+			auto result = mAnimations.find("CancelBtn");
+			const SpriteFrame* pSpFrameCencel;
+
+			pSpFrameCencel = pSheet->Find(result->second.begin()->FrameName.c_str());
+			float rcsubx = pSpFrameCencel->sourceRect.right - pSpFrameCencel->sourceRect.left;
+			float rcsuby = pSpFrameCencel->sourceRect.bottom - pSpFrameCencel->sourceRect.top;
+
+			rc.left = mCancelBtnPos.x - rcsubx / 2;
+			rc.right = mCancelBtnPos.x + rcsubx / 2;
+			rc.top = mCancelBtnPos.y - rcsuby / 2;
+			rc.bottom = mCancelBtnPos.y + rcsuby / 2;
+			if (PtInRect(&rc, mousePos))
+			{
+				mpCurItem = nullptr;
+				mUICVisible = false;
+				//도구아이템들 클래스 초기화
+				MActorManager::Instance().GetClassUi()->SetVisible(true);
+				for (size_t i = 0; i < mspVecConsumItems.size(); i++)
+				{
+					mspVecConsumItems[i].reset();
+				}
+				mspVecConsumItems.clear();
+			}
 		}
+
+	}
+	else
+	{
+		mVecUiConsumInfo.clear();
 	}
 	return E_SCENE_NONPASS;
 }
 
 void UiConsumItem::Draw()
 {
+	XMFLOAT2 offset = XMFLOAT2(0, 0);
+	Color tint = Colors::White;
+	Color blackTint = Colors::Black;
+	offset.x = (int)ScrollMgr::Instance().GetScroll().x;
+	offset.y = (int)ScrollMgr::Instance().GetScroll().y;
+
+	auto mouse = Mouse::Get().GetState();
+
+	//이동범위를 보여줄때
+	if (mUICVisible)
+	{
+		//아이템 기본 배경 UI 출력
+		SetAnimation("UiItem");
+		mpSheet->Draw(mpBatch, *mpSpriteFrame
+			, mWorldPos + mPosition - offset, tint);
+
+		//취소버튼 출력
+		auto pTexture = ResourceManager::Instance().GetShaderResource
+		(L"Images\\Skill\\SkillUis.png");
+		auto pSheet = ResourceManager::Instance().GetSpriteSheet
+		(L"Images\\Skill\\SkillUis.xml", pTexture);
+
+		auto result = mAnimations.find("CancelBtn");
+		mpSpriteFrame2 = pSheet->Find(result->second.begin()->FrameName.c_str());
+
+		pSheet->Draw(mpBatch, *mpSpriteFrame2, mWorldPos + mCancelBtnPos - offset, tint);
+
+		
+		for (int i = 0; i < mspVecConsumItems.size(); ++i)
+		{
+			wchar_t wch[128];
+			//툴배경을 띄운후 그림을 바꿔준다.
+			SetAnimation("ToolBack");
+			mpSheet->Draw(mpBatch, *mpSpriteFrame
+				, mWorldPos + mVecUiConsumInfo[i].pos + XMFLOAT2(-3.0f,-10.0f) - offset
+				, tint);
+
+			if (mVecUiConsumInfo[i].animName == "HpBean")
+			{
+				SetAnimation("HpBean");
+				swprintf_s(wch, L"HpIncrease");
+				//해당 도구 효과 출력
+				mpFont->DrawString(mpBatch, wch
+					, mVecUiConsumInfo[i].pos + XMFLOAT2(0.0f, -20.0f) - offset
+					, DirectX::Colors::Black, 0.0f
+					, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+
+			}
+			else if (mVecUiConsumInfo[i].animName == "MpWater")
+			{
+				SetAnimation("MpWater");
+				//해당 도구 효과 출력
+				swprintf_s(wch, L"MpIncrease");
+				mpFont->DrawString(mpBatch, wch
+					, mVecUiConsumInfo[i].pos + XMFLOAT2(0.0f, -20.0f) - offset
+					, DirectX::Colors::Black, 0.0f
+					, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+
+			}
+			//해당 아이템 그림을 띄워줌
+			mpSheet->Draw(mpBatch, *mpSpriteFrame
+				, mWorldPos + mVecUiConsumInfo[i].pos + XMFLOAT2(-110.0f,-10.0f)
+				- offset, tint);
+
+			//해당 하는 도구의 이름들 보여줌
+			//클래스 이름 출력
+			string str = typeid(*mspVecConsumItems[i]).name();
+			str.erase(0, 6);
+			wstring wstr;
+			mbstowcs(&wstr[0], str.c_str(), strlen(typeid(*mspVecConsumItems[i]).name()));
+			mpFont->DrawString(mpBatch, wstr.c_str()
+				, mVecUiConsumInfo[i].pos + XMFLOAT2(-100.0f, -20.0f) - offset
+				, DirectX::Colors::Black, 0.0f
+				, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+
+			//도구의 재고
+			swprintf_s(wch, L"%d", mspVecConsumItems[i]->GetCountItem());
+			mpFont->DrawString(mpBatch, wch
+				, mVecUiConsumInfo[i].pos + XMFLOAT2(80.0f, -20.0f) - offset
+				, DirectX::Colors::Black, 0.0f
+				, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));			
+
+		}
+	}
+	else
+	{
+		//mVecUiConsumInfo.clear();
+	}
+	//도구의 범위를 보여준다
+	if (mAreaVisible)
+	{
+
+	}
 }
 
 void UiConsumItem::Release()

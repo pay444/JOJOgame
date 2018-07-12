@@ -11,10 +11,18 @@ UI::UI(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont)
 	mpPlayer(nullptr),
 	mUIVisible(false)
 {
+	
 	auto pTexture = ResourceManager::Instance().GetShaderResource(L"Images\\Skill\\SkillUis.png");
 	auto spSheet = ResourceManager::Instance().GetSpriteSheet(L"Images\\Skill\\SkillUis.xml", pTexture);
 
-	mspUiSkill =make_unique<UiSkills>(pBatch, spSheet, pFont);
+	mspUiSkill = make_unique<UiSkills>(pBatch, spSheet, pFont);
+
+	pTexture = ResourceManager::Instance().GetShaderResource
+	(L"Images\\Item\\ConsumItems.png");
+	spSheet = ResourceManager::Instance().GetSpriteSheet
+	(L"Images\\Item\\ConsumItems.xml", pTexture);
+
+	mspUiConsumItem = make_unique<UiConsumItem>(pBatch, spSheet, pFont);
 }
 
 
@@ -45,7 +53,7 @@ void UI::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
 	SetAnimation("Ui0");
 
 	mspUiSkill->Init(eSortID, pos, visible);
-
+	mspUiConsumItem->Init(eSortID, pos, visible);
 }
 
 E_SCENE UI::Update(float dt)
@@ -72,6 +80,8 @@ E_SCENE UI::Update(float dt)
 	}
 
 	mspUiSkill->Update(dt);
+
+	mspUiConsumItem->Update(dt);
 	//E_SCENE eResult = MActor::Update(dt);
 
 	//if (eResult > E_SCENE_NONPASS)
@@ -125,12 +135,16 @@ void UI::Draw()
 	}
 	
 	mspUiSkill->Draw();
+	mspUiConsumItem->Draw();
 }
 
 void UI::Release()
 {
 	mspUiSkill.reset();
 	mspUiSkill = nullptr;
+
+	mspUiConsumItem.reset();
+	mspUiConsumItem = nullptr;
 }
 
 bool UI::CheckAttackArea()
@@ -282,6 +296,35 @@ bool UI::CheckCancelArea()
 			int UiBlock = src.bottom - src.top;
 			src.top += UiBlock * 7;
 			src.bottom += UiBlock * 7;
+			RECT trg;
+			trg.left = mousePos.x;
+			trg.right = mousePos.x + 5;
+			trg.top = mousePos.y;
+			trg.bottom = mousePos.y + 5;
+			RECT intersect;
+			return	::IntersectRect(&intersect, &src, &trg);
+		}
+	}
+	return false;
+}
+
+bool UI::CheckConsumItemArea()
+{
+	if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+	{
+		if (mUIVisible)
+		{
+
+			float fScrollx = ScrollMgr::Instance().GetScroll().x;
+			float fScrolly = ScrollMgr::Instance().GetScroll().y;
+			auto mouse = Mouse::Get().GetState();
+
+			XMFLOAT2 mousePos = XMFLOAT2(mouse.x + fScrollx, mouse.y + fScrolly);
+
+			RECT src = GetBound();
+			int UiBlock = src.bottom - src.top;
+			src.top += UiBlock * 2;
+			src.bottom += UiBlock * 2;
 			RECT trg;
 			trg.left = mousePos.x;
 			trg.right = mousePos.x + 5;
