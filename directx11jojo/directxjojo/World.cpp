@@ -174,8 +174,8 @@ E_SCENE World::Update(float dt)
 		meScene = E_SCENE_STAGE;
 	else
 		meScene = E_SCENE_NONPASS;
-	
-	if (state.D0)
+	//->GetState().IsKeyDown(Keyboard::W)
+	if (MFramework::mKeyboardTracker.IsKeyPressed(Keyboard::D0))
 	{
 		visible = !visible;
 	}
@@ -271,6 +271,8 @@ void World::Draw()
 					int x = mTileInfo[index]->vPos.x;
 					int y = mTileInfo[index]->vPos.y;
 					swprintf_s(wch, L"x=%d \n y=%d",x , y);
+					//int x = mTileInfo[index]->AttackNum;
+					//swprintf_s(wch, L"at=%d", x);
 					mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-10.0f, 10.0f)), DirectX::Colors::Black, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.4f, 0.4f));
 				}
 			}

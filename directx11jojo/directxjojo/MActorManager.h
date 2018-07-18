@@ -1,4 +1,5 @@
 #pragma once
+class Character;
 
 class MActorManager final// : public iActorDelegate
 {
@@ -37,13 +38,25 @@ private:
 	bool mTurnBool;				//TurnGrapic 제어 불변수
 
 	bool mbCountAtkFlag;		//내가 떄리면 적도 때리는것을 확인하는 불변수
+	bool mbPincerAtkFlag;		//협공 플래그
+	int miPickPincerIndex;		//선택된 협공 당할 녀석의 인덱스 번호
+	int miCurPincerCharIndex;	//협공 중에 순서대로 공격하기 위한 현재 누가공격하고있는지
 	float mfActionTime;			//행동 시간 저장변수
 	MActor* mCountChracter;		//반격할 녀석의 포인터
+	bool mbUltimateFlag;		//필살기의 플래그
 	
 	XMFLOAT2 tmpPos;
 	vector<unique_ptr<int>> mVecEenemyIndex;	//적을 누구를 움직일지 영향을줌
+	vector<int> mVecPicerTileIndex;				//협공시 어떤타일 위에 캐릭터가 올라가있는지 체크
+	vector<Character*> mVecAttAreaCharacter;		//내 공격범위에 들어있는 캐릭터를 담고있는 벡터
+	vector<PINCERINFO> mVecPincerCharacter;			//협공할수있는 캐릭터를 담고있는 벡터
 public:
 	E_SCENE Update(float dt);
+	void Draw();
+	void Release();
+
+public:
+	bool CheckPicerAtk();
 	void CheckCollidion();
 	void CheckAction();
 	void CheckAllActionTurn();
@@ -52,8 +65,6 @@ public:
 	void RePosAndVisiAt();
 	void RePosProgresiveBar();
 
-	void Draw();
-	void Release();
 	void SortActors();
 	void CheckEnemyTarget();
 	

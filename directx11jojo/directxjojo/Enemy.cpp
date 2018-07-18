@@ -37,7 +37,7 @@ void Enemy::Init(float moveSpeed, XMFLOAT2 startpos, E_SORTID eSortID)
 	//초기 위치에 선택을 위한 값주기
 	vector<unique_ptr<TILE>> * pVecTile = MActorManager::Instance().GetTileInfo();
 	int istartIndex = GetTileIndex(mPosition);
-	(*pVecTile)[istartIndex]->underObject = 1;
+	(*pVecTile)[istartIndex]->underObject = 2;
 	(*pVecTile)[istartIndex]->byOption = 1;
 	mPosition = XMFLOAT2((*pVecTile)[istartIndex]->vPos.x + JOJOTILESX / 2,
 		(*pVecTile)[istartIndex]->vPos.y + JOJOTILESY / 2);
@@ -131,11 +131,13 @@ E_SCENE Enemy::Update(float dt)
 				, ScrollMgr::Instance().GetScroll().y);
 			//GetClassAttackBox()->SetCharacter((Character*)mCountChracter);
 			atbox->Release();
-			atbox->SetPosition(((Character*)pPlayer)->GetPosition() + f2Scrool);
+			atbox->SetPosition(((Character*)pPlayer)->GetPosition());
 			atbox->SetAttackDis(((Character*)pPlayer)->GetAttackDistance());
 			atbox->AttackScope();
 			if (atbox->AttackScopeSeekPick(mPosition))
 			{
+
+				atbox->SetVisible(false);
 				((Character*)this)->OnHit(atbox, pPlayer);
 				((Character*)pPlayer)->SetisCountAction(true);
 				((Character*)pPlayer)->SetActionTurn(0);

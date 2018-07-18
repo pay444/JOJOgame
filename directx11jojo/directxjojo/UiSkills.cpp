@@ -140,6 +140,12 @@ E_SCENE UiSkills::Update(float dt)
 				if (PtInRect(&rc, mousePos))
 				{
 					mpCurSkill = (mspVecSkills[i].get());
+					//만약에 Mp가 없으면 작동안함
+					if (mpPlayer->GetMana() < mpCurSkill->GetMpCost())
+					{
+						mpCurSkill = nullptr;
+						break;
+					}
 					//CalArea(mpCurSkill->GetArea());
 					mAreaVisible = true;
 					//공격 범위를 보여주는 설정을 한다
@@ -244,11 +250,8 @@ E_SCENE UiSkills::Update(float dt)
 								mpCurSkill->SetPosition(pCollidee->GetPosition());
 
 								mFlag = true;
-								mAreaVisible = false;
-								
-
+								mAreaVisible = false;						
 							}
-
 						}
 					}
 				}

@@ -300,7 +300,8 @@ E_SCENE UiConsumItem::Update(float dt)
 								mpPlayer->SetAnimation("POWER");
 								mpPlayer->SetActionTime(0.0f);
 								//mpPlayer = attackBox->GetCharacter();
-								mpCurItem->SetPosition(pCollidee->GetPosition());
+								mpCurItem->SetPosition(
+									pCollidee->GetPosition() + XMFLOAT2(0.0f,0.0f));
 								mpCurItem->SetStock(mpCurItem->GetStock()-1);
 								mFlag = true;
 								mAreaVisible = false;

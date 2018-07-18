@@ -135,7 +135,7 @@ public:
 		this->mMaxMana = mana;
 		this->mMana = mana;
 		this->mMaxSp = sp;
-		this->mSp = sp;
+		this->mSp = 0;
 		this->mMoveDistance = moveDis;
 		this->mAttackDistance = AttackDis;
 		//mpMoveBox->SetMoveDis(mMoveDistance);

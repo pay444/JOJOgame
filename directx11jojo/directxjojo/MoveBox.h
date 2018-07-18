@@ -27,7 +27,7 @@ private:
 	vector<XMFLOAT2> vecScopePos;				//범위에 해당하는 위치 저장
 	vector<int> mVecScopeIndex;					//범위에 해당하는 타일 인덱스 저장
 	vector<unique_ptr<int>> mspVecScopeIndex;	//범위에 해당하는 타일 인덱스 가져오기 스마트 포인터 버전
-	Player* mpPlayer;
+	Character* mpCharacter;
 public:
 	virtual void Init(E_SORTID eSortID, XMFLOAT2 pos, float limitDis, bool visible);
 	virtual void Init(SpriteBatch *pBatch, SpriteSheet *pSheet, SpriteFont *pFont, E_SORTID eSortID, XMFLOAT2 pos, float limitDis, bool visible);
@@ -41,9 +41,9 @@ public:
 	void SetVisible(bool visible) { mVisible = visible; }
 	bool GetVisible() { return mVisible; }
 	void SetMoveDis(int moveDis) { mMoveDistance = moveDis; }
-	void SetPlayer(Player* player) { mpPlayer = player; }
+	void SetCharacter(Character* character) { mpCharacter = character; }
 
-	Player* GetPlayer() { return mpPlayer; }
+	Character* GetCharacter() { return mpCharacter; }
 	vector<XMFLOAT2> GetVecScopePos() { return vecScopePos; }
 	vector<unique_ptr<int>>* GetVecMBScopeIndex() { return &mspVecScopeIndex; }
 	bool GetSeekScope() { return mSeekScope; }

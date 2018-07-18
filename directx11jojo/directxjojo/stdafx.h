@@ -16,6 +16,8 @@
 #include <sstream>
 #include <list>
 #include <algorithm>
+#include <stack>
+#include <queue>
 
 // C 런타임 헤더 파일입니다.
 #include <stdlib.h>

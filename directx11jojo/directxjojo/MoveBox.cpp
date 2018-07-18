@@ -12,7 +12,7 @@ mSeekScope(false)
 MoveBox::MoveBox(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont)
 	:MActor(pBatch, pSheet, pFont),
 	mSeekScope(false),
-	mpPlayer(nullptr)
+	mpCharacter(nullptr)
 {
 
 }
@@ -121,7 +121,7 @@ void MoveBox::Draw()
 		{
 			TileScope();
 		}
-		mSeekScope = ScopeSeek();
+		//mSeekScope = ScopeSeek();
 		for (int x = 0; x < mspVecScopeIndex.size(); ++x)
 		{
 			Vector2 vTilePos = Vector2(
@@ -129,16 +129,10 @@ void MoveBox::Draw()
 				(*pVecTile)[*mspVecScopeIndex[x]]->vPos.y + JOJOTILESY / 2);
 			mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + vTilePos - offset, tint);
 		}
-		//타일 위치 값 초기화
-		(*pVecTile)[GetTileIndex(mPosition)]->moveNum = 0;
-		for (int x = 0; x < mspVecScopeIndex.size(); ++x)
-		{
-			(*pVecTile)[*mspVecScopeIndex[x]]->moveNum = 0;
-		}
 	}
 	else
 	{
-		mSeekScope = false;
+		//mSeekScope = false;
 	}
 
 }
@@ -179,23 +173,21 @@ void MoveBox::TileScope()
 		//float Distance = 0;
 		//Vector2 vPos = mPosition;
 		//Vector2 vTilePos = XMFLOAT2(0.0f, 0.0f);
-		RECT rectScope;
-		rectScope.left = mPosition.x - mLimitDis;
-		rectScope.right = mPosition.x + mLimitDis;
-		rectScope.top = mPosition.y - mLimitDis;
-		rectScope.bottom = mPosition.y + mLimitDis;
-
-		//XMFLOAT2 fiindex = XMFLOAT2(mPosition.x + mLimitDis, mPosition + mLimitDis);
-		//int iindex = GetTileIndex(mPosition.x + mLimitDis);
-		XMFLOAT2 sLeftt = XMFLOAT2(rectScope.left, rectScope.top);
-		XMFLOAT2 sRightt = XMFLOAT2(rectScope.right, rectScope.top);
-		XMFLOAT2 sLeftb = XMFLOAT2(rectScope.left, rectScope.bottom);
-		XMFLOAT2 sRightb = XMFLOAT2(rectScope.right, rectScope.bottom);
-
-		int sLTIndex = GetTileIndex(sLeftt);
-		int sRTIndex = GetTileIndex(sRightt);
-		int sLBIndex = GetTileIndex(sLeftb);
-		int sRBIndex = GetTileIndex(sRightb);
+		//RECT rectScope;
+		//rectScope.left = mPosition.x - mLimitDis;
+		//rectScope.right = mPosition.x + mLimitDis;
+		//rectScope.top = mPosition.y - mLimitDis;
+		//rectScope.bottom = mPosition.y + mLimitDis;
+		////XMFLOAT2 fiindex = XMFLOAT2(mPosition.x + mLimitDis, mPosition + mLimitDis);
+		////int iindex = GetTileIndex(mPosition.x + mLimitDis);
+		//XMFLOAT2 sLeftt = XMFLOAT2(rectScope.left, rectScope.top);
+		//XMFLOAT2 sRightt = XMFLOAT2(rectScope.right, rectScope.top);
+		//XMFLOAT2 sLeftb = XMFLOAT2(rectScope.left, rectScope.bottom);
+		//XMFLOAT2 sRightb = XMFLOAT2(rectScope.right, rectScope.bottom);
+		//int sLTIndex = GetTileIndex(sLeftt);
+		//int sRTIndex = GetTileIndex(sRightt);
+		//int sLBIndex = GetTileIndex(sLeftb);
+		//int sRBIndex = GetTileIndex(sRightb);
 
 		//if (sLTIndex < 0)
 		//	sLTIndex = 0;
@@ -215,20 +207,122 @@ void MoveBox::TileScope()
 		//		//	continue;
 		//		Vector2 vTilePos = Vector2((*pVecTile)[i * (20) + j+(sLTIndex)]->vPos.x + JOJOTILESX / 2, (*pVecTile)[i * (20) + j+(sLTIndex)]->vPos.y + JOJOTILESY / 2);
 		//		Vector2 vPos = mPosition;
-
 		//		float Distance = Vector2::Distance(vPos, vTilePos);
-
 		//		if (Distance <= mLimitDis)
 		//		{
 		//			vecScopePos.push_back(vTilePos);
 		//		}
-
 		//	}
 		//}
-		//케릭터의 위치타일에 이동거리를 넣음
-		(*pVecTile)[GetTileIndex(mPosition)]->moveNum = mMoveDistance;
+		//캐릭터의 위치타일에 이동거리를 넣음
+		//(*pVecTile)[GetTileIndex(mPosition)]->moveNum = mMoveDistance;
 		//vecScopeIndex.push_back(GetTileIndex(mPosition));
-		for (int mDis = mMoveDistance; mDis > 0; --mDis)
+
+		int posIndex = GetTileIndex(mPosition);
+		int joTileCx = 20;
+		int joTileCy = 20;
+		//타일의 범위를 돌면서 갈수있는곳인지 체크
+		//해당 캐릭터의 진영을 확인해서 같은 진영이면 넘어갈수 있음 적은 넘어갈수 없음
+		(*pVecTile)[posIndex]->moveNum= mMoveDistance;
+		//범위측정할게 없다면 리턴
+		if (mMoveDistance <= 0)
+			return;
+		//mspVecAtScopeIndex.push_back(make_unique<int>(posIndex));
+		stack<int> stk;
+		stk.push(posIndex);
+		while (!stk.empty())
+		{
+			int top = stk.top();
+			stk.pop();
+			//위
+			if (top >= joTileCx)
+			{
+				//방향의 타일이 그전에 받은 영향이 없다면 값을 추가 해준다
+				//만약에 타일안에 범위값이 아니고 현재 타일과 범위가 확장될 타일의
+				//범위값이 더작다면 값 적용
+				if ((*pVecTile)[top]->moveNum != 1
+					&& (*pVecTile)[top - joTileCx]->moveNum
+					< (*pVecTile)[top]->moveNum - 1 
+					&& ((*pVecTile)[top - joTileCx]->byOption != 1
+						|| (*pVecTile)[top - joTileCx]->underObject
+						== mpCharacter->GetCamp()))
+				{
+					//만약 이미 값이 있는데 바꿔야 할경우 값을 추가하지는 않는다
+					if ((*pVecTile)[top - joTileCx]->moveNum == 0)
+					{
+						mspVecScopeIndex.push_back(make_unique<int>((top - joTileCx)));
+					}
+					(*pVecTile)[top - joTileCx]->moveNum =
+						(*pVecTile)[top]->moveNum - 1;
+					stk.push(top - joTileCx);
+				}
+			}
+			//아래
+			if (top < joTileCx*joTileCy - joTileCx)
+			{
+				//방향의 타일이 그전에 받은 영향이 없다면 값을 추가 해준다
+				if ((*pVecTile)[top]->moveNum != 1
+					&& (*pVecTile)[top + joTileCx]->moveNum
+					< (*pVecTile)[top]->moveNum - 1
+					&& ((*pVecTile)[top + joTileCx]->byOption != 1
+						|| (*pVecTile)[top + joTileCx]->underObject
+						== mpCharacter->GetCamp()))
+				{
+					if ((*pVecTile)[top + joTileCx]->moveNum == 0)
+					{
+						mspVecScopeIndex.push_back(make_unique<int>((top + joTileCx)));
+					}
+					(*pVecTile)[top + joTileCx]->moveNum =
+						(*pVecTile)[top]->moveNum - 1;
+					stk.push((top)+joTileCx);
+				}
+			}
+			//왼쪽
+			if (top % joTileCx != 0)
+			{
+				//방향의 타일이 그전에 받은 영향이 없다면 값을 추가 해준다
+				if ((*pVecTile)[top]->moveNum != 1
+					&& (*pVecTile)[top - 1]->moveNum
+					< (*pVecTile)[top]->moveNum - 1
+					&& ((*pVecTile)[top - 1]->byOption != 1
+						|| (*pVecTile)[top - 1]->underObject
+						== mpCharacter->GetCamp()))
+				{
+					if ((*pVecTile)[top - 1]->moveNum == 0)
+					{
+						mspVecScopeIndex.push_back(make_unique<int>(top - 1));
+					}
+					(*pVecTile)[top - 1]->moveNum =
+						(*pVecTile)[top]->moveNum - 1;
+					stk.push(top - 1);
+				}
+			}
+			//오른쪽
+			if (top % joTileCx != joTileCx - 1)
+			{
+				//방향의 타일이 그전에 받은 영향이 없다면 값을 추가 해준다
+				if ((*pVecTile)[top]->moveNum != 1
+					&& (*pVecTile)[top + 1]->moveNum
+					< (*pVecTile)[top]->moveNum - 1
+					&& ((*pVecTile)[top + 1]->byOption != 1
+						|| (*pVecTile)[top + 1]->underObject
+						== mpCharacter->GetCamp()))
+				{
+					if ((*pVecTile)[top + 1]->moveNum == 0)
+					{
+						mspVecScopeIndex.push_back(make_unique<int>(top + 1));
+					}
+					(*pVecTile)[top + 1]->moveNum =
+						(*pVecTile)[top]->moveNum - 1;
+					stk.push(top + 1);
+
+				}
+			}
+		}
+
+		//타일의 범위를 돌면서 갈수있는곳인지 체크
+		//해당 캐릭터의 진영을 확인해서 같은 진영이면 넘어갈수 있음 적은 넘어갈수 없음
+		/*for (int mDis = mMoveDistance; mDis > 0; --mDis)
 		{
 			for (int i = 0; i < 20; ++i)
 			{
@@ -238,24 +332,37 @@ void MoveBox::TileScope()
 					{
 						if ((*pVecTile)[i * (20) + j]->moveNum > 0)
 						{
-							if (i - 1 >= 0 && (*pVecTile)[(i - 1) * (20) + j]->moveNum < mDis && (*pVecTile)[(i - 1) * (20) + j]->byOption != 1)
+							if (i - 1 >= 0 && (*pVecTile)[(i - 1) * (20) + j]->moveNum < mDis 
+								&& ((*pVecTile)[(i - 1) * (20) + j]->byOption != 1
+								|| (*pVecTile)[(i - 1) * (20) + j]->underObject
+								== mpCharacter->GetCamp()))
 							{
 								(*pVecTile)[(i - 1) * (20) + j]->moveNum = mDis - 1;
 								mspVecScopeIndex.push_back(make_unique<int>((i - 1) * (20) + j));
 							}
-							if (i + 1 < 20 && (*pVecTile)[(i + 1) * (20) + j]->moveNum < mDis && (*pVecTile)[(i + 1) * 20 + j]->byOption != 1)
+							if (i + 1 < 20 && (*pVecTile)[(i + 1) * (20) + j]->moveNum < mDis 
+								&& ((*pVecTile)[(i + 1) * 20 + j]->byOption != 1
+								|| (*pVecTile)[(i + 1) * 20 + j]->underObject
+								== mpCharacter->GetCamp()))
 							{
 								(*pVecTile)[(i + 1) * (20) + j]->moveNum = mDis - 1;
 								mspVecScopeIndex.push_back(make_unique<int>((i + 1) * (20) + j));
 							}
 
-							if (j + 1 < 20 && (*pVecTile)[i * (20) + (j + 1)]->moveNum < mDis && (*pVecTile)[i * 20 + (j + 1)]->byOption != 1)
+							if (j + 1 < 20 && (*pVecTile)[i * (20) + (j + 1)]->moveNum < mDis 
+								&& ((*pVecTile)[i * 20 + (j + 1)]->byOption != 1
+								|| (*pVecTile)[i * 20 + (j + 1)]->underObject
+								== mpCharacter->GetCamp()))
 							{
 								(*pVecTile)[i * (20) + (j + 1)]->moveNum = mDis - 1;
 								mspVecScopeIndex.push_back(make_unique<int>(i * (20) + (j + 1)));
 							}
 
-							if (j - 1 >= 0 && (*pVecTile)[i * (20) + (j - 1)]->moveNum < mDis && (*pVecTile)[i * 20 + (j - 1)]->byOption != 1)
+							if (j - 1 >= 0 && (*pVecTile)[i * (20) + (j - 1)]->moveNum < mDis 
+								&& ((*pVecTile)[i * 20 + (j - 1)]->byOption != 1 
+								|| (*pVecTile)[i * 20 + (j - 1)]->underObject
+								== mpCharacter->GetCamp())
+								)
 							{
 								(*pVecTile)[i * (20) + (j - 1)]->moveNum = mDis - 1;
 								mspVecScopeIndex.push_back(make_unique<int>(i * (20) + (j - 1)));
@@ -266,6 +373,12 @@ void MoveBox::TileScope()
 					}
 				}
 			}
+		}*/
+		//타일 위치 값 초기화
+		(*pVecTile)[GetTileIndex(mPosition)]->moveNum = 0;
+		for (int x = 0; x < mspVecScopeIndex.size(); ++x)
+		{
+			(*pVecTile)[*mspVecScopeIndex[x]]->moveNum = 0;
 		}
 
 	//}
@@ -448,6 +561,7 @@ void MoveBox::TileScope()
 	}
 	}
 	*/
+
 }
 
 bool MoveBox::ScopeSeek()
@@ -467,7 +581,7 @@ bool MoveBox::ScopeSeek()
 	//		return true;
 	//}
 
-	//끝에 다다랏을때 인덱스 특저오류 예외처리
+	//끝에 다다랏을때 인덱스 특정오류 예외처리
 	if (mouseIndex < 0)
 		return false;
 	Vector2 vecMousePos = (*pVecTile)[mouseIndex]->vPos + XMFLOAT2(JOJOTILESX / 2, JOJOTILESY / 2);
@@ -475,6 +589,13 @@ bool MoveBox::ScopeSeek()
 	for (int i = 0; i < mspVecScopeIndex.size(); ++i)
 	{
 		Vector2 vec2ScopePos = (*pVecTile)[*mspVecScopeIndex[i]]->vPos + XMFLOAT2(JOJOTILESX / 2, JOJOTILESY / 2);
+
+		//만약 그 자리에 누가 서있으면 안됨
+		if ((*pVecTile)[mouseIndex]->underObject != 0)
+		{
+			return false;
+		}
+
 		if (vec2ScopePos.x == vecMousePos.x && vec2ScopePos.y == vecMousePos.y)
 			return true;
 	}

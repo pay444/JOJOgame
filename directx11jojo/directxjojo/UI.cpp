@@ -14,7 +14,7 @@ UI::UI(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont)
 	
 	auto pTexture = ResourceManager::Instance().GetShaderResource(L"Images\\Skill\\SkillUis.png");
 	auto spSheet = ResourceManager::Instance().GetSpriteSheet(L"Images\\Skill\\SkillUis.xml", pTexture);
-
+	
 	mspUiSkill = make_unique<UiSkills>(pBatch, spSheet, pFont);
 
 	pTexture = ResourceManager::Instance().GetShaderResource
@@ -128,6 +128,7 @@ void UI::Draw()
 			sprintf_s(ch, sizeof(ch),"Ui%d", i);
 			name = ch;
 			SetAnimation(name);
+
 			mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + mVecUiPos[i] - offset, tint);
 		}
 		
@@ -328,6 +329,64 @@ bool UI::CheckConsumItemArea()
 			int UiBlock = src.bottom - src.top;
 			src.top += UiBlock * 2;
 			src.bottom += UiBlock * 2;
+			RECT trg;
+			trg.left = mousePos.x;
+			trg.right = mousePos.x + 5;
+			trg.top = mousePos.y;
+			trg.bottom = mousePos.y + 5;
+			RECT intersect;
+			return	::IntersectRect(&intersect, &src, &trg);
+		}
+	}
+	return false;
+}
+
+bool UI::CheckUltimateArea()
+{
+	if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+	{
+		if (mUIVisible)
+		{
+
+			float fScrollx = ScrollMgr::Instance().GetScroll().x;
+			float fScrolly = ScrollMgr::Instance().GetScroll().y;
+			auto mouse = Mouse::Get().GetState();
+
+			XMFLOAT2 mousePos = XMFLOAT2(mouse.x + fScrollx, mouse.y + fScrolly);
+
+			RECT src = GetBound();
+			int UiBlock = src.bottom - src.top;
+			src.top += UiBlock * 5;
+			src.bottom += UiBlock * 5;
+			RECT trg;
+			trg.left = mousePos.x;
+			trg.right = mousePos.x + 5;
+			trg.top = mousePos.y;
+			trg.bottom = mousePos.y + 5;
+			RECT intersect;
+			return	::IntersectRect(&intersect, &src, &trg);
+		}
+	}
+	return false;
+}
+
+bool UI::CheckPincerAttArea()
+{
+	if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+	{
+		if (mUIVisible)
+		{
+
+			float fScrollx = ScrollMgr::Instance().GetScroll().x;
+			float fScrolly = ScrollMgr::Instance().GetScroll().y;
+			auto mouse = Mouse::Get().GetState();
+
+			XMFLOAT2 mousePos = XMFLOAT2(mouse.x + fScrollx, mouse.y + fScrolly);
+
+			RECT src = GetBound();
+			int UiBlock = src.bottom - src.top;
+			src.top += UiBlock * 4;
+			src.bottom += UiBlock * 4;
 			RECT trg;
 			trg.left = mousePos.x;
 			trg.right = mousePos.x + 5;

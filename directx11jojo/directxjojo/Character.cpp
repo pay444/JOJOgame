@@ -122,6 +122,7 @@ E_SCENE Character::Update(float dt)
 		{
 			mColorAllow = false;
 			mColor = Colors::Gray;
+			MActorManager::Instance().GetClassAttackBox()->SetVisible(false);
 			//tint = mColor;
 			mfActionElapsedTime = 0.0f;
 
@@ -192,7 +193,8 @@ void Character::Draw()
 	}
 
 
-	mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + mPosition - offset, tint);
+	mpSheet->Draw(mpBatch, *mpSpriteFrame
+		, mWorldPos + mPosition - offset, mColor);
 
 	//wchar_t wch[128];
 
@@ -229,7 +231,7 @@ void Character::OnHit(MActor * pCollider, MActor * pCollidee)
 		((Character*)pCollidee)->SetActionTurn(2);
 		//때린놈의 색깔을 바꿔준다.
 		((Character*)pCollidee)->SetColorAllow(true);
-		
+
 		//때린놈의 애니메이션 상태 변경
 		const vector<unique_ptr<TILE>>* pVecTile = MActorManager::Instance().GetTileInfo();
 		int attackerIndex = GetTileIndex(pCollidee->GetPosition());
@@ -279,6 +281,17 @@ void Character::DoDamage(MActor * pAttacker)
 	//어텍박스가 데미지를 줌
 	this->mHealth -= ((AttackBox*)pAttacker)->GetAttack();
 	
+	//맞은놈의 Sp증가 한대맞을떄마다 5씩
+	float spRatio = 100;//rand() % ((AttackBox*)pAttacker)->GetAttack();
+	if (mSp + spRatio >= mMaxSp)
+	{
+		mSp = mMaxSp;
+	}
+	else
+	{
+		mSp += spRatio;
+	}
+
 	mspShake->Start(0.1f, 5);
 	mspTint->Start(0.1f, (Color)Colors::Wheat, (Color)Colors::Red);
 
@@ -411,7 +424,17 @@ bool Character::JoAStar_Move(float dt)
 	//타일 위에 케릭터가 있는지 없는지
 	if (pBestList->size() == 1)
 	{
-		(*pVecTile)[pBestList->back()]->underObject = 1;
+		//만약 내가 플레이어 라면 이 타일 값 설정
+		if (this->GetCamp() == GunGeon::CampType::PLAYER)
+		{
+			(*pVecTile)[pBestList->back()]->underObject = 1;
+		}
+		//만약 내가 적이라면 이 타일 값 설정
+		else if (this->GetCamp() == GunGeon::CampType::MONSTER)
+		{
+			(*pVecTile)[pBestList->back()]->underObject = 2;
+
+		}
 		(*pVecTile)[pBestList->back()]->byOption = 1;
 		(*pVecTile)[mStartIndex]->underObject = 0;
 		(*pVecTile)[mStartIndex]->byOption = 0;

@@ -79,7 +79,6 @@ void Player::Init(float moveSpeed, XMFLOAT2 startpos, E_SORTID eSortID)
 
 E_SCENE Player::Update(float dt)
 {
-
 	Character::Update(dt);
 
 	//현재 플레이어의 턴일때 true 일때 이동가능
@@ -88,7 +87,6 @@ E_SCENE Player::Update(float dt)
 		UpdateMove(dt);
 	}
 	
-
 	MoveStateCheck();
 
 	//mpUi->SetVisible(mpMoveBox->GetSeekScope());
@@ -169,10 +167,16 @@ void Player::UpdateMove(float dt)
 		if ((mVisbleScope))//distance <= limitDistance&&
 		{
 			//해당범위에 해당해야 알고리즘 시작
-			if (MActorManager::Instance().GetMBSeekScope() && mActionTurn < 1)//MoveBox::Instance().GetSeekScope()
+			//무브박스에 해당하는 캐릭터가 나여야 이동가능
+			auto moveBox = MActorManager::Instance().GetClassMoveBox();
+			if (moveBox->ScopeSeek() && mActionTurn < 1
+				&& moveBox->GetCharacter() == this)//MoveBox::Instance().GetSeekScope()
 			{
 				//ASTAR 알고리즘 루트 짜기 시작
 				JoAstar_Start(mPosition, mmousePos);
+				//출발 시작 위치를 기억해둠
+				mStartIndex = GetTileIndex(mPosition);
+				mGoalIndex = GetTileIndex(mmousePos);
 			}
 
 		}
@@ -197,6 +201,21 @@ void Player::UpdateMove(float dt)
 	
 	if (MFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	{
+		//마우스 오른쪽클릭을 했더니 이동을 했다
+		//그러면 위치를 초기화
+		if (mActionTurn == 1)
+		{
+			mActionTurn = 0;
+			MActorManager::Instance().SetClickCount(0);
+			MActorManager::Instance().GetClassUi()->SetVisible(false);
+			vector<unique_ptr<TILE>> *pVecTile = MActorManager::Instance().GetTileInfo();
+			//위치 초기화
+			mPosition.x = (*pVecTile)[mStartIndex]->vPos.x + 24;
+			mPosition.y = (*pVecTile)[mStartIndex]->vPos.y + 24;
+			//타일이 가지고 있는 내위에 캐릭터가 있다는 표시를 초기화
+			(*pVecTile)[mGoalIndex]->byOption = 0;
+			(*pVecTile)[mGoalIndex]->underObject = 0;
+		}
 		//MActorManager::Instance().SetMBVisible(false);
 		////MoveBox::Instance()->SetVisible(false);
 		//MActorManager::Instance().SetUIVisible(false);

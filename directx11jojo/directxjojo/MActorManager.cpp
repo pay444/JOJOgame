@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "MActorManager.h"
-
+#include "Character.h"
 
 MActorManager::MActorManager() :
 	tmpPos(XMFLOAT2(0.0f, 0.0f)),
@@ -16,14 +16,18 @@ MActorManager::MActorManager() :
 	mTurnBool(false),
 	mbCountAtkFlag(false),
 	mfActionTime(0.0f),
-	mCountChracter(nullptr)
+	mCountChracter(nullptr),
+	mbUltimateFlag(false),
+	mbPincerAtkFlag(false),
+	miPickPincerIndex(-1),
+	miCurPincerCharIndex(-1)
 {
 }
 
 
 MActorManager::~MActorManager()
 {
-	
+
 }
 
 E_SCENE MActorManager::Update(float dt)
@@ -74,7 +78,9 @@ E_SCENE MActorManager::Update(float dt)
 		if (!uiSkills->GetAreaVisible()
 			&& !uiSkills->GetVisible()
 			&& !uiConsumItems->GetAreaVisible()
-			&& !uiConsumItems->GetVisible())
+			&& !uiConsumItems->GetVisible()
+			&& !mbUltimateFlag
+			&& !mbPincerAtkFlag)
 		{
 			//ui부속들의 실행이 끝나야 다시 시작됨
 			if (!uiSkills->GetFlag() && !uiConsumItems->GetFlag())
@@ -100,12 +106,19 @@ E_SCENE MActorManager::Update(float dt)
 		mfActionTime += dt;
 	}
 	//행동 확인
-	CheckAction();
-
-	if (MFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+	//if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	{
-		mUiCheck = false;
+		CheckAction();
 	}
+	
+
+	//if (MFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+	//{
+	//	GetClassUi()->SetVisible(false);
+	//	GetClassAttackBox()->SetVisible(false);
+	//	mUiCheck = false;
+	//}
+
 	//MoveBox::Instance().Update(dt);
 	//AttackBox::Instance().Update(dt);
 	//CheckCollidion();
@@ -207,105 +220,146 @@ void MActorManager::CheckAction()
 	pCollider = nullptr;
 	pCollidee = nullptr;
 	vector<int> *vecAtScopeIndx;
-	for (const auto &actor : mActors)
+	//눌릴때만 체크한다
+	if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 	{
-		pCollider = actor.get();
-		if (typeid(*pCollider) == typeid(UI))
+		for (const auto &actor : mActors)
 		{
-			UI * pUi = ((UI*)pCollider);
-			//공격 UI를 눌럿을때
-			if (((UI*)pCollider)->CheckAttackArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
+			pCollider = actor.get();
+			if (typeid(*pCollider) == typeid(UI))
 			{
-				mUiCheck = true;
-				SetAtVisible(true);
-				((UI*)pCollider)->SetVisible(false);
-				GetClassProgresiveBar()->SetVisible(false);
-				break;
-			} 
-			//취소 버튼을 눌럿을때
-			else if (((UI*)pCollider)->CheckCancelArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
-			{
-				((UI*)pCollider)->SetVisible(false);
-				mClickCount = 0;
-				break;
-			}
-			//대기 UI를 눌렷을때
-			else if (((UI*)pCollider)->CheckWaitArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
-			{
-				Color color = Colors::Gray;
-				((Character*)pUi->GetPlayer())->SetColor(color);
-				((Character*)pUi->GetPlayer())->SetActionTurn(2);
-				MActorManager::Instance().GetClassUi()->SetVisible(false);
-				MActorManager::Instance().GetClassAttackBox()->SetVisible(false);
-				GetClassProgresiveBar()->SetVisible(false);
-				//mUiCheck = true;
-				//SetAtVisible(true);
-				//((UI*)pCollider)->SetVisible(false);
-				break;
-			}
-			//책략 버튼을 눌럿을때
-			else if (((UI*)pCollider)->CheckSkillArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
-			{
-				auto uiSkill = ((UI*)pCollider)->GetUiSkills();
-				//Ui스킬 위치선정 및 플레이어 지정
-				uiSkill->SetVisible(true);
-				uiSkill->SetPosition(((UI*)pCollider)->GetPosition() + XMFLOAT2(100.0f, 0.0f));
-				uiSkill->SetPlayer(((UI*)pCollider)->GetPlayer());
-				((UI*)pCollider)->SetVisible(false);
+				UI * pUi = ((UI*)pCollider);
+				auto attackBox = GetClassAttackBox();
+				//공격 UI를 눌럿을때
+				if (((UI*)pCollider)->CheckAttackArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
+				{
+					mUiCheck = true;
+					SetAtVisible(true);
+					((UI*)pCollider)->SetVisible(false);
+					GetClassProgresiveBar()->SetVisible(false);
+					break;
+				}
+				//취소 버튼을 눌럿을때
+				else if (((UI*)pCollider)->CheckCancelArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
+				{
+					((UI*)pCollider)->SetVisible(false);
+					attackBox->SetVisible(false);
+					mClickCount = 0;
+					break;
+				}
+				//대기 UI를 눌렷을때
+				else if (((UI*)pCollider)->CheckWaitArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
+				{
+					Color color = Colors::Gray;
+					((Character*)pUi->GetPlayer())->SetColor(color);
+					((Character*)pUi->GetPlayer())->SetActionTurn(2);
+					MActorManager::Instance().GetClassUi()->SetVisible(false);
+					MActorManager::Instance().GetClassAttackBox()->SetVisible(false);
+					GetClassProgresiveBar()->SetVisible(false);
+					//mUiCheck = true;
+					//SetAtVisible(true);
+					//((UI*)pCollider)->SetVisible(false);
+					break;
+				}
+				//책략 버튼을 눌럿을때
+				else if (((UI*)pCollider)->CheckSkillArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
+				{
+					auto uiSkill = ((UI*)pCollider)->GetUiSkills();
+					//Ui스킬 위치선정 및 플레이어 지정
+					uiSkill->SetVisible(true);
+					uiSkill->SetPosition(((UI*)pCollider)->GetPosition() + XMFLOAT2(100.0f, 0.0f));
+					uiSkill->SetPlayer(((UI*)pCollider)->GetPlayer());
+					((UI*)pCollider)->SetVisible(false);
+					attackBox->SetVisible(false);
 
-				//Color color = Colors::Gray;
-				//((Character*)pUi->GetPlayer())->SetColor(color);
-				//((Character*)pUi->GetPlayer())->SetActionTurn(2);
-				//MActorManager::Instance().GetClassUi()->SetVisible(false);
-				//MActorManager::Instance().GetClassAttackBox()->SetVisible(false);
-				//mUiCheck = true;
-				//SetAtVisible(true);
-				//((UI*)pCollider)->SetVisible(false);
-				break;
-			}
-			//도구 버튼을 눌럿을때
-			else if (((UI*)pCollider)->CheckConsumItemArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
-			{
-				auto uiConsum = ((UI*)pCollider)->GetUiConsumItem();
-				//Ui도구 위치선정 및 플레이어 지정
-				uiConsum->SetVisible(true);
-				uiConsum->SetPosition(((UI*)pCollider)->GetPosition() + XMFLOAT2(100.0f, 0.0f));
-				uiConsum->SetPlayer(((UI*)pCollider)->GetPlayer());
-				((UI*)pCollider)->SetVisible(false);
+					//Color color = Colors::Gray;
+					//((Character*)pUi->GetPlayer())->SetColor(color);
+					//((Character*)pUi->GetPlayer())->SetActionTurn(2);
+					//MActorManager::Instance().GetClassUi()->SetVisible(false);
+					//MActorManager::Instance().GetClassAttackBox()->SetVisible(false);
+					//mUiCheck = true;
+					//SetAtVisible(true);
+					//((UI*)pCollider)->SetVisible(false);
+					break;
+				}
+				//도구 버튼을 눌럿을때
+				else if (((UI*)pCollider)->CheckConsumItemArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
+				{
+					auto uiConsum = ((UI*)pCollider)->GetUiConsumItem();
+					//Ui도구 위치선정 및 플레이어 지정
+					uiConsum->SetVisible(true);
+					uiConsum->SetPosition(((UI*)pCollider)->GetPosition() + XMFLOAT2(100.0f, 0.0f));
+					uiConsum->SetPlayer(((UI*)pCollider)->GetPlayer());
+					((UI*)pCollider)->SetVisible(false);
+					attackBox->SetVisible(false);
 
-				//auto vecInfo = ((UI*)pCollider)->GetUiConsumItem()->GetVecAnimInfo();
-				//auto vecClassItem = ((UI*)pCollider)->GetUiConsumItem()->GetVecClassItem();
-				//vecInfo->clear();
-				//for (int i = 0; i < ((UI*)pCollider)->GetUiConsumItem()->GetCountItemType(); ++i)
-				//{
-				//	float ysize = 40.0f;
-				//	float uiPos = 18 * i;
-				//	//XMFLOAT2(-3.0f, -10.0f)
-				//	ANIMINFO aInfo = ANIMINFO("", ((UI*)pCollider)->GetUiConsumItem()->GetPosition() + XMFLOAT2(-1.0f, uiPos - ysize));
-				//	auto classname = (*vecClassItem)[i].get();
-				//	aInfo.animName = typeid(*classname).name();
-				//	aInfo.animName.erase(0, 6);
-				//	(*vecClassItem).push_back(aInfo);
-				//}
+					//auto vecInfo = ((UI*)pCollider)->GetUiConsumItem()->GetVecAnimInfo();
+					//auto vecClassItem = ((UI*)pCollider)->GetUiConsumItem()->GetVecClassItem();
+					//vecInfo->clear();
+					//for (int i = 0; i < ((UI*)pCollider)->GetUiConsumItem()->GetCountItemType(); ++i)
+					//{
+					//	float ysize = 40.0f;
+					//	float uiPos = 18 * i;
+					//	//XMFLOAT2(-3.0f, -10.0f)
+					//	ANIMINFO aInfo = ANIMINFO("", ((UI*)pCollider)->GetUiConsumItem()->GetPosition() + XMFLOAT2(-1.0f, uiPos - ysize));
+					//	auto classname = (*vecClassItem)[i].get();
+					//	aInfo.animName = typeid(*classname).name();
+					//	aInfo.animName.erase(0, 6);
+					//	(*vecClassItem).push_back(aInfo);
+					//}
 
-				//Color color = Colors::Gray;
-				//((Character*)pUi->GetPlayer())->SetColor(color);
-				//((Character*)pUi->GetPlayer())->SetActionTurn(2);
-				//MActorManager::Instance().GetClassUi()->SetVisible(false);
-				//MActorManager::Instance().GetClassAttackBox()->SetVisible(false);
-				//mUiCheck = true;
-				//SetAtVisible(true);
-				//((UI*)pCollider)->SetVisible(false);
-				break;
+					//Color color = Colors::Gray;
+					//((Character*)pUi->GetPlayer())->SetColor(color);
+					//((Character*)pUi->GetPlayer())->SetActionTurn(2);
+					//MActorManager::Instance().GetClassUi()->SetVisible(false);
+					//MActorManager::Instance().GetClassAttackBox()->SetVisible(false);
+					//mUiCheck = true;
+					//SetAtVisible(true);
+					//((UI*)pCollider)->SetVisible(false);
+					break;
+				}
+				//필살 버튼을 눌럿을때
+				else if (((UI*)pCollider)->CheckUltimateArea()
+					&& ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
+				{
+					//sp 게이지가 100보다 작으면 작동 안함
+					if (((Character*)pUi->GetPlayer())->GetSp() <= 50)
+					{
+						break;
+					}
+					attackBox->SetVisible(true);
+					((UI*)pCollider)->SetVisible(false);
+					mbUltimateFlag = true;
+					break;
+				}
+				//협공 버튼 구현
+				else if (((UI*)pCollider)->CheckPincerAttArea()
+					&& ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
+				{
+					//협공이가능한지 확인한후 가능하다면 
+					//플래그가 올라가고 해당되는 놈들이 벡터에들어있게되고 공격을시작함
+					mbPincerAtkFlag = CheckPicerAtk();
+					break;
+				}
 			}
 
 		}
-
 	}
+
 	//ui 어택버튼이 눌렸을때 어택 범위 클릭하였고
 	//그자리에 캐릭터가 있고 공격 가능한지 확인한후에 공격.
 	if (mUiCheck)
 	{
+		//해당공격범위를 보여주는데 마우스 오른쪽 클릭을 하면 취소를 한다
+		if (MFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+		{
+			auto attackBox = MActorManager::Instance().GetClassAttackBox();
+			attackBox->SetVisible(false);
+			GetClassUi()->SetVisible(true);
+			mUiCheck = false;
+		}
+
+		//공격이 눌렷고 해당 캐릭터가 눌리면 공격함
 		if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
 		{
 			//auto vecAtIndex = MActorManager::Instance().GetvecAtScopeIndex();
@@ -316,7 +370,6 @@ void MActorManager::CheckAction()
 				pCollider = actor.get();
 				if (typeid(*pCollider) == typeid(AttackBox))
 				{
-
 					if (((AttackBox*)pCollider)->AttackScopeSeek())
 					{
 						for (const auto &actor : mActors)
@@ -388,7 +441,7 @@ void MActorManager::CheckAction()
 				, ScrollMgr::Instance().GetScroll().y);
 			//GetClassAttackBox()->SetCharacter((Character*)mCountChracter);
 			atbox->Release();
-			atbox->SetPosition(((Character*)mCountChracter)->GetPosition() + f2Scrool);
+			atbox->SetPosition(((Character*)mCountChracter)->GetPosition());
 			atbox->SetAttackDis(((Character*)mCountChracter)->GetAttackDistance());
 			atbox->AttackScope();
 			if (atbox->AttackScopeSeekPick(pPlayer->GetPosition()))
@@ -402,6 +455,170 @@ void MActorManager::CheckAction()
 		}
 		
 		//mfActionTime += dt;
+	}
+	//필살 플래그가 세워지면
+	//데미지 2배 무반격 공격 발동
+	if (mbUltimateFlag)
+	{
+		//오른쪽 마우스 클릭하면 다시 Ui창으로 바뀜
+		if (MFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+		{
+			auto attackBox = MActorManager::Instance().GetClassAttackBox();
+			attackBox->SetVisible(false);
+			GetClassUi()->SetVisible(true);
+			mbUltimateFlag = false;
+		}
+
+		if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+		{
+			for (const auto &actor : mActors)
+			{
+				pCollider = actor.get();
+				if (typeid(*pCollider) == typeid(AttackBox))
+				{
+					if (((AttackBox*)pCollider)->AttackScopeSeek())
+					{
+						for (const auto &actor : mActors)
+						{
+							pCollidee = actor.get();
+							if (((AttackBox*)pCollider)->UIntersecRectScope(pCollidee) &&
+								dynamic_cast<Enemy*>(pCollidee))
+							{
+								//데미지를 2배로 해서 어택박스에게 넘겨주고 데미지를 줌
+								auto pPlayer = ((AttackBox*)pCollider)->GetCharacter();
+								((AttackBox*)pCollider)->SetAttackDamge(((Character*)pPlayer)->GetAttack()*2);
+								Color cr(1, 1, 1, 0.001f);
+								pPlayer->SetColor(cr);
+								((Character*)pPlayer)->SetSp(((Character*)pPlayer)->GetSp() - 50);
+								pCollidee->OnHit(pCollider, pPlayer);
+								((AttackBox*)pCollider)->SetAttackDamge(((Character*)pPlayer)->GetAttack());
+								
+								MActorManager::Instance().SetAtVisible(false);
+								mbUltimateFlag = false;
+								
+								break;
+							}
+
+						}
+					}
+				}
+			}
+		}
+
+	}
+
+	//협공 플래그가 세워지면 협공을 시작한다
+	if (mbPincerAtkFlag)
+	{
+		//해당공격범위를 보여주는데 마우스 오른쪽 클릭을 하면 취소를 한다
+		if (MFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+		{
+			mbPincerAtkFlag = false;
+			auto attackBox = GetClassAttackBox();
+			auto pui = GetClassUi();
+			attackBox->SetVisible(false);
+			//pui->SetVisible(true);
+			//pui->SetPosition(attackBox->GetCharacter()->GetPosition());
+			//mUiCheck = false;
+		}
+		//해당 범위위에 있는 캐릭터를 클릭하면 공격함
+		if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+		{
+			auto atkBox = GetClassAttackBox();
+
+			if (atkBox->AttackScopeSeek())
+			{
+				//협공체크할때 공격범위에 들어왔던 캐릭터중에서 누가 선택되었는지 확인한다
+				for (size_t i = 0; i < mVecAttAreaCharacter.size(); i++)
+				{
+					auto a = mVecAttAreaCharacter[i];
+					if (atkBox->UIntersecRectScope(mVecAttAreaCharacter[i]))
+					{
+						
+						//때릴녀석 주위에 협공할 녀석이 없다면 공격안됨
+						if (mVecPincerCharacter[i].vecpPlayer.empty())
+						{
+							break;
+						}
+						
+						//선택된 적의 인덱스를 기억함
+						miPickPincerIndex = i;
+						mCountChracter = mVecAttAreaCharacter[miPickPincerIndex];
+
+						Color cr = Colors::Gray;
+						//턴이 끝난놈은 공격을 실행하지 않는다
+						//if (atkBox->GetCharacter()->GetColor() != cr)
+						{
+							//먼저 혐공을 실행한 녀석이 공격한다.
+							mVecAttAreaCharacter[miPickPincerIndex]->OnHit(atkBox, atkBox->GetCharacter());
+						}
+						//반격을 했는지에대한 변수 초기화 때리는 녀석마다 반격을 활성화 하기위한 처리
+						//((Character*)mCountChracter)->SetisCountAction(true);
+						break;
+					}
+				}
+			}
+		}
+
+		
+	}
+	if (mbPincerAtkFlag && mCountChracter != nullptr)
+	{
+		auto atkBox = GetClassAttackBox();
+
+		Color cr = Colors::Gray;
+
+		//협공이 가능했던 녀석들이 공격한다.
+		for (size_t j = 0; j < mVecPincerCharacter[miPickPincerIndex].vecpPlayer.size(); j++)
+		{
+			if (atkBox->GetCharacter()->GetColor() == cr)
+			{
+				//맨처음 협공을 시작한녀석 공격이후 다음번 공격할 캐릭터 특정
+				if (miCurPincerCharIndex < 0)
+				{
+					atkBox->Release();
+					atkBox->SetAttackDis(mVecPincerCharacter[miPickPincerIndex].vecpPlayer[j]->GetAttackDistance());
+					atkBox->SetAttackDamge(mVecPincerCharacter[miPickPincerIndex].vecpPlayer[j]->GetAttack());
+					mVecAttAreaCharacter[miPickPincerIndex]->OnHit(atkBox, mVecPincerCharacter[miPickPincerIndex].vecpPlayer[j]);
+					//현재 행동한 캐릭터의 인덱스저장
+					miCurPincerCharIndex = j;
+					break;
+				}
+			}
+		}
+
+		if (miCurPincerCharIndex >= 0)
+		{
+			//현재 협공 공격 캐릭터의 공격이 다 끝나면 다음놈을 찾음
+			if (mVecPincerCharacter[miPickPincerIndex].vecpPlayer[miCurPincerCharIndex]->GetColor() == cr)
+			{
+				auto curPincerPlayer = mVecPincerCharacter[miPickPincerIndex].vecpPlayer[miCurPincerCharIndex];
+				//마지막 녀석의 행동이 다 끝났고 마지막 녀석에 도달했다면 협공 설정초기화
+				if (curPincerPlayer->GetColor() == cr
+					&& miCurPincerCharIndex ==
+					mVecPincerCharacter[miPickPincerIndex].vecpPlayer.size() - 1)
+				{
+					mbCountAtkFlag = true;
+					mbPincerAtkFlag = false;
+					mClickCount = 0;
+					mfActionTime = 0.0f;
+					//mCountChracter = nullptr;
+
+				}
+
+				//현재 행동한 캐릭터의 인덱스저장
+				miCurPincerCharIndex++;
+				//단 사이즈를 벗어나면안됨
+				if (miCurPincerCharIndex < mVecPincerCharacter[miPickPincerIndex].vecpPlayer.size())
+				{
+					atkBox->Release();
+					atkBox->SetAttackDis(mVecPincerCharacter[miPickPincerIndex].vecpPlayer[miPickPincerIndex]->GetAttackDistance());
+					atkBox->SetAttackDamge(mVecPincerCharacter[miPickPincerIndex].vecpPlayer[miPickPincerIndex]->GetAttack());
+					mVecAttAreaCharacter[miPickPincerIndex]->OnHit(atkBox, mVecPincerCharacter[miPickPincerIndex].vecpPlayer[miCurPincerCharIndex]);
+					
+				}
+			}
+		}
 	}
 }
 
@@ -437,7 +654,8 @@ void MActorManager::CheckAllActionTurn()
 						//모든 캐릭터의 행동이 끝나면 애니메이션 출력준비를 한다.
 						if (!mTurnBool
 							&& (GetClassAttackBox()->GetCharacter()->GetColor() ==color)
-							&& !mbCountAtkFlag)
+							&& !mbCountAtkFlag
+							&& !mbPincerAtkFlag)
 						{
 							turnGrapic->SetAnimation("eTurn");
 							//turnGrapic->SetVisible(true);
@@ -579,12 +797,10 @@ void MActorManager::RePosAndVisiMB()
 
 				int movedis = ((Character*)actor.get())->GetMoveDistance();
 
-
 				//먼저 캐릭터와 마우스위치 판정
 				if (mouseIndex == posIndex)
 				{
 					visible = ((Character*)actor.get())->GetVisible();
-
 
 					if (dynamic_cast<Enemy*>(pCollider))
 					{
@@ -609,11 +825,12 @@ void MActorManager::RePosAndVisiMB()
 						{
 							if (mouseIndex == posIndex)
 							{
-								if ((pCollider) == ((MoveBox *)actor.get())->GetPlayer())
+								if ((pCollider) == ((MoveBox *)actor.get())->GetCharacter())
 								{
 									mClickCount++;
 								}
-								else if ((pCollider) != ((MoveBox *)actor.get())->GetPlayer() && ((MoveBox *)actor.get())->GetPlayer() != nullptr)
+								else if ((pCollider) != ((MoveBox *)actor.get())->GetCharacter() 
+									&& ((MoveBox *)actor.get())->GetCharacter() != nullptr)
 								{
 									mClickCount = 1;
 								}
@@ -629,7 +846,7 @@ void MActorManager::RePosAndVisiMB()
 								}
 
 								actor->SetPosition(pos);
-								((MoveBox *)actor.get())->SetPlayer((Player*)pCollider);
+								((MoveBox *)actor.get())->SetCharacter((Character*)pCollider);
 								((MoveBox *)actor.get())->SetMoveDis(movedis);
 								((MoveBox *)actor.get())->SetVisible(visible);
 
@@ -850,7 +1067,7 @@ void MActorManager::Release()
 
 	//}
 
-	//신이 바뀌었거나 했을경우
+	//신이 바뀌었거나 했을경우 모두 초기화 시켜줌
 	mbCountAtkFlag = false;
 	mCountChracter = nullptr;
 	mfActionTime = 0.0f;
@@ -867,6 +1084,13 @@ void MActorManager::Release()
 	mEnemyControll = 0;
 	mTurnBool = false;
 	mVecEenemyIndex.clear();
+	mbCountAtkFlag = false;
+	mfActionTime = 0.0f;
+	mCountChracter = nullptr;
+	mbUltimateFlag = false;
+	mbPincerAtkFlag = false;
+	miPickPincerIndex = -1;
+	miCurPincerCharIndex = -1;
 	auto iter1 = mVecEenemyIndex.begin();
 	while (iter1 != mVecEenemyIndex.end())
 	{
@@ -1216,6 +1440,521 @@ void MActorManager::RePosProgresiveBar()
 			}
 		}
 	}
+}
+
+bool MActorManager::CheckPicerAtk()
+{
+	int JoTileCx = 20;
+	int JoTileCy = 20;
+	auto attBox = GetClassAttackBox();
+	vector<unique_ptr<TILE>> *pVecTile = GetTileInfo();
+	XMFLOAT2 xf2Scrool = ScrollMgr::Instance().GetScroll();
+	mVecAttAreaCharacter.clear();
+	mVecPincerCharacter.clear();
+	//초기화
+	miCurPincerCharIndex = -1;
+
+	//공격을 맞을 수 있는 녀석 찾기
+	for (auto &actor : mActors)
+	{
+		MActor* pActor = actor.get();
+		//만일 적이라면
+		if (dynamic_cast<Enemy*>(pActor))
+		{
+			//적이 내 캐릭터의 공격범위에 들어와있는 녀석을 벡터에 넣는다
+			attBox->Release();
+			attBox->AttackScope();
+			if (attBox->AttackScopeSeekPick(pActor->GetPosition()))
+			{
+				attBox->Release();
+				mVecAttAreaCharacter.push_back(static_cast<Enemy*>(pActor));
+				PINCERINFO pincerInfo;
+				pincerInfo.pEnemy = static_cast<Enemy*>(pActor);
+
+				mVecPincerCharacter.push_back(pincerInfo);
+
+			}			
+		}
+	}
+
+	//공격이 가능한 캐릭터가 없으면 false
+	if (mVecAttAreaCharacter.empty())
+	{
+		attBox->SetVisible(false);
+		return false;
+	}
+
+	for (size_t i = 0; i < mVecAttAreaCharacter.size(); i++)
+	{
+		//맞을 녀석의 타일상 위치를 가져온다
+		int tileOnHitCharacterIndex = 
+			attBox->GetTileIndex(mVecAttAreaCharacter[i]->GetPosition());
+
+		//맞을녀석 8방향 확인후 공격가능한 캐릭터 벡터에 넣어줌
+		//위
+		if ((tileOnHitCharacterIndex) >= JoTileCx)
+		{
+			//타일위에 올라가 있는 캐릭터가 내편이라면
+			if ((*pVecTile)[tileOnHitCharacterIndex - JoTileCx]->underObject == 1)
+			{
+				for (auto &actor : mActors)
+				{
+					MActor* pActor = actor.get();
+					//해당캐릭터의 공격범위를 구하고 해당되면 공격가능한
+					//녀석을 캐릭터벡터에 넣는다
+					if (dynamic_cast<Player*>(pActor))
+					{
+						//턴이 끝난녀석은 제외
+						if (((Character*)pActor)->GetActionTurn() >= 1)
+						{
+							continue;
+						}
+						RECT rc;
+						rc.left = (*pVecTile)[tileOnHitCharacterIndex - JoTileCx]->vPos.x;
+						rc.top = (*pVecTile)[tileOnHitCharacterIndex - JoTileCx]->vPos.y;
+						rc.right  = (*pVecTile)[tileOnHitCharacterIndex - JoTileCx]->vPos.x + JOJOTILESX;
+						rc.bottom = (*pVecTile)[tileOnHitCharacterIndex - JoTileCx]->vPos.y + JOJOTILESY;
+						POINT pt;
+						pt.x = pActor->GetPosition().x;
+						pt.y = pActor->GetPosition().y;
+						//공격시작한 녀석은 제외
+						if (pActor == (attBox->GetCharacter()))
+						{
+							continue;
+						}
+						//위치가 다른 캐릭터들은 제외
+						else if (!PtInRect(&rc,pt))
+						{
+							continue;
+						}
+						
+						//위치 바꿔주고
+						attBox->SetPosition(pActor->GetPosition());
+						//해당 캐릭터의 범위만큼으로 바꿔주고
+						attBox->SetAttackDis(((Character*)pActor)->GetAttackDistance());
+						//범위를 구하고 
+						attBox->Release();
+						attBox->AttackScope();
+						//적이 범위안에 드는지 확인한다
+						if (attBox->AttackScopeSeekPick(mVecAttAreaCharacter[i]->GetPosition()))
+						{
+							mVecPincerCharacter[i].vecpPlayer.push_back(static_cast<Player*>(pActor));
+							//mVecPincerCharacter.push_back(static_cast<Character*>(pActor));
+							//다시 초기화
+							attBox->Release();
+							break;
+						}					
+					}
+				}
+			}
+
+		}
+		//오위
+		if ((tileOnHitCharacterIndex) >= JoTileCx && tileOnHitCharacterIndex
+			% JoTileCx != JoTileCx - 1)
+		{
+			//타일위에 올라가 있는 캐릭터가 내편이라면
+			if ((*pVecTile)[(tileOnHitCharacterIndex - (JoTileCx - 1))]->underObject == 1)
+			{
+				for (auto &actor : mActors)
+				{
+					MActor* pActor = actor.get();
+					//해당캐릭터의 공격범위를 구하고 해당되면 공격가능한 캐릭터벡터에 넣는다
+					if (dynamic_cast<Player*>(pActor))
+					{
+						//턴이 끝난녀석은 제외
+						if (((Character*)pActor)->GetActionTurn() >= 1)
+						{
+							continue;
+						}
+						RECT rc;
+						rc.left = (*pVecTile)[(tileOnHitCharacterIndex - (JoTileCx - 1))]->vPos.x;
+						rc.top = (*pVecTile)[(tileOnHitCharacterIndex - (JoTileCx - 1))]->vPos.y;
+						rc.right = (*pVecTile)[(tileOnHitCharacterIndex - (JoTileCx - 1))]->vPos.x + JOJOTILESX;
+						rc.bottom = (*pVecTile)[(tileOnHitCharacterIndex - (JoTileCx - 1))]->vPos.y + JOJOTILESY;
+						POINT pt;
+						pt.x = pActor->GetPosition().x;
+						pt.y = pActor->GetPosition().y;
+						//공격시작한 녀석은 제외
+						if (pActor == (attBox->GetCharacter()))
+						{
+							continue;
+						}
+						//위치가 다른 캐릭터들은 제외
+						else if (!PtInRect(&rc, pt))
+						{
+							continue;
+						}
+						//위치 바꿔주고
+						attBox->SetPosition(pActor->GetPosition());
+						//해당 캐릭터의 범위만큼으로 바꿔주고
+						attBox->SetAttackDis(((Character*)pActor)->GetAttackDistance());
+						//범위를 구하고 
+						attBox->Release();
+						attBox->AttackScope();
+						//적이 범위안에 드는지 확인한다
+						if (attBox->AttackScopeSeekPick(mVecAttAreaCharacter[i]->GetPosition()))
+						{
+							mVecPincerCharacter[i].vecpPlayer.push_back(static_cast<Player*>(pActor));
+							//mVecPincerCharacter.push_back(static_cast<Character*>(pActor));
+							//다시 초기화
+							attBox->Release();
+							break;
+						}
+					}
+				}
+			}
+		}
+		//오
+		if (tileOnHitCharacterIndex % JoTileCx != JoTileCx - 1)
+		{
+			if ((*pVecTile)[(tileOnHitCharacterIndex + 1)]->underObject == 1)
+			{
+				for (auto &actor : mActors)
+				{
+					MActor* pActor = actor.get();
+					//해당캐릭터의 공격범위를 구하고 해당되면 공격가능한 캐릭터벡터에 넣는다
+					if (dynamic_cast<Player*>(pActor))
+					{
+						//턴이 끝난녀석은 제외
+						if (((Character*)pActor)->GetActionTurn() >= 1)
+						{
+							continue;
+						}
+						RECT rc;
+						rc.left = (*pVecTile)[(tileOnHitCharacterIndex + 1)]->vPos.x;
+						rc.top = (*pVecTile)[(tileOnHitCharacterIndex + 1)]->vPos.y;
+						rc.right = (*pVecTile)[(tileOnHitCharacterIndex + 1)]->vPos.x + JOJOTILESX;
+						rc.bottom = (*pVecTile)[(tileOnHitCharacterIndex + 1)]->vPos.y + JOJOTILESY;
+						POINT pt;
+						pt.x = pActor->GetPosition().x;
+						pt.y = pActor->GetPosition().y;
+						//공격시작한 녀석은 제외
+						if (pActor == (attBox->GetCharacter()))
+						{
+							continue;
+						}
+						//위치가 다른 캐릭터들은 제외
+						else if (!PtInRect(&rc, pt))
+						{
+							continue;
+						}
+						//위치 바꿔주고
+						attBox->SetPosition(pActor->GetPosition());
+						//해당 캐릭터의 범위만큼으로 바꿔주고
+						attBox->SetAttackDis(((Character*)pActor)->GetAttackDistance());
+						//범위를 구하고 
+						attBox->Release();
+						attBox->AttackScope();
+						//적이 범위안에 드는지 확인한다
+						if (attBox->AttackScopeSeekPick(mVecAttAreaCharacter[i]->GetPosition()))
+						{
+							mVecPincerCharacter[i].vecpPlayer.push_back(static_cast<Player*>(pActor));
+							//mVecPincerCharacter.push_back(static_cast<Character*>(pActor));
+							//다시 초기화
+							attBox->Release();
+							break;
+						}
+					}
+				}
+			}
+		}
+		//오아
+		if ((tileOnHitCharacterIndex) < JoTileCx * JoTileCy - JoTileCx
+			&& tileOnHitCharacterIndex % JoTileCx != JoTileCx - 1)
+		{
+			if ((*pVecTile)[(tileOnHitCharacterIndex + (JoTileCx + 1))]->underObject == 1)
+			{
+				for (auto &actor : mActors)
+				{
+					MActor* pActor = actor.get();
+					//해당캐릭터의 공격범위를 구하고 해당되면 공격가능한 캐릭터벡터에 넣는다
+					if (dynamic_cast<Player*>(pActor))
+					{
+						//턴이 끝난녀석은 제외
+						if (((Character*)pActor)->GetActionTurn() >= 1)
+						{
+							continue;
+						}
+						RECT rc;
+						rc.left = (*pVecTile)[(tileOnHitCharacterIndex + (JoTileCx + 1))]->vPos.x;
+						rc.top = (*pVecTile)[(tileOnHitCharacterIndex + (JoTileCx + 1))]->vPos.y;
+						rc.right = (*pVecTile)[(tileOnHitCharacterIndex + (JoTileCx + 1))]->vPos.x + JOJOTILESX;
+						rc.bottom = (*pVecTile)[(tileOnHitCharacterIndex + (JoTileCx + 1))]->vPos.y + JOJOTILESY;
+						POINT pt;
+						pt.x = pActor->GetPosition().x;
+						pt.y = pActor->GetPosition().y;
+						//공격시작한 녀석은 제외
+						if (pActor == (attBox->GetCharacter()))
+						{
+							continue;
+						}
+						//위치가 다른 캐릭터들은 제외
+						else if (!PtInRect(&rc, pt))
+						{
+							continue;
+						}
+						//위치 바꿔주고
+						attBox->SetPosition(pActor->GetPosition());
+						//해당 캐릭터의 범위만큼으로 바꿔주고
+						attBox->SetAttackDis(((Character*)pActor)->GetAttackDistance());
+						//범위를 구하고 
+						attBox->Release();
+						attBox->AttackScope();
+						//적이 범위안에 드는지 확인한다
+						if (attBox->AttackScopeSeekPick(mVecAttAreaCharacter[i]->GetPosition()))
+						{
+							mVecPincerCharacter[i].vecpPlayer.push_back(static_cast<Player*>(pActor));
+
+							//mVecPincerCharacter.push_back(static_cast<Character*>(pActor));
+							//다시 초기화
+							attBox->Release();
+							break;
+						}
+					}
+				}
+			}
+		}
+		//아래
+		if ((tileOnHitCharacterIndex) < JoTileCx * JoTileCy - JoTileCx)
+		{
+			if ((*pVecTile)[(tileOnHitCharacterIndex + JoTileCx)]->underObject == 1)
+			{
+				for (auto &actor : mActors)
+				{
+					MActor* pActor = actor.get();
+					//해당캐릭터의 공격범위를 구하고 해당되면 공격가능한 캐릭터벡터에 넣는다
+					if (dynamic_cast<Player*>(pActor))
+					{
+						//턴이 끝난녀석은 제외
+						if (((Character*)pActor)->GetActionTurn() >= 1)
+						{
+							continue;
+						}
+						RECT rc;
+						rc.left = (*pVecTile)[(tileOnHitCharacterIndex + JoTileCx)]->vPos.x;
+						rc.top = (*pVecTile)[(tileOnHitCharacterIndex + JoTileCx)]->vPos.y;
+						rc.right = (*pVecTile)[(tileOnHitCharacterIndex + JoTileCx)]->vPos.x + JOJOTILESX;
+						rc.bottom = (*pVecTile)[(tileOnHitCharacterIndex + JoTileCx)]->vPos.y + JOJOTILESY;
+						POINT pt;
+						pt.x = pActor->GetPosition().x;
+						pt.y = pActor->GetPosition().y;
+						//공격시작한 녀석은 제외
+						if (pActor == (attBox->GetCharacter()))
+						{
+							continue;
+						}
+						//위치가 다른 캐릭터들은 제외
+						else if (!PtInRect(&rc, pt))
+						{
+							continue;
+						}
+						//위치 바꿔주고
+						attBox->SetPosition(pActor->GetPosition());
+						//해당 캐릭터의 범위만큼으로 바꿔주고
+						attBox->SetAttackDis(((Character*)pActor)->GetAttackDistance());
+						//범위를 구하고 
+						attBox->Release();
+						attBox->AttackScope();
+						//적이 범위안에 드는지 확인한다
+						if (attBox->AttackScopeSeekPick(mVecAttAreaCharacter[i]->GetPosition()))
+						{
+							mVecPincerCharacter[i].vecpPlayer.push_back(static_cast<Player*>(pActor));
+
+							//mVecPincerCharacter.push_back(static_cast<Character*>(pActor));
+							//다시 초기화
+							attBox->Release();
+							break;
+						}
+					}
+				}
+			}
+		}
+		//왼아
+		if ((tileOnHitCharacterIndex) < JoTileCx * JoTileCy - JoTileCx
+			&& tileOnHitCharacterIndex  % JoTileCx != 0)
+		{
+			if ((*pVecTile)[(tileOnHitCharacterIndex + (JoTileCx - 1))]->underObject == 1)
+			{
+				for (auto &actor : mActors)
+				{
+					MActor* pActor = actor.get();
+					//해당캐릭터의 공격범위를 구하고 해당되면 공격가능한 캐릭터벡터에 넣는다
+					if (dynamic_cast<Player*>(pActor))
+					{
+						//턴이 끝난녀석은 제외
+						if (((Character*)pActor)->GetActionTurn() >= 1)
+						{
+							continue;
+						}
+						RECT rc;
+						rc.left = (*pVecTile)[(tileOnHitCharacterIndex + (JoTileCx - 1))]->vPos.x;
+						rc.top = (*pVecTile)[(tileOnHitCharacterIndex + (JoTileCx - 1))]->vPos.y;
+						rc.right = (*pVecTile)[(tileOnHitCharacterIndex + (JoTileCx - 1))]->vPos.x + JOJOTILESX;
+						rc.bottom = (*pVecTile)[(tileOnHitCharacterIndex + (JoTileCx - 1))]->vPos.y + JOJOTILESY;
+						POINT pt;
+						pt.x = pActor->GetPosition().x;
+						pt.y = pActor->GetPosition().y;
+						//공격시작한 녀석은 제외
+						if (pActor == (attBox->GetCharacter()))
+						{
+							continue;
+						}
+						//위치가 다른 캐릭터들은 제외
+						else if (!PtInRect(&rc, pt))
+						{
+							continue;
+						}
+						//위치 바꿔주고
+						attBox->SetPosition(pActor->GetPosition());
+						//해당 캐릭터의 범위만큼으로 바꿔주고
+						attBox->SetAttackDis(((Character*)pActor)->GetAttackDistance());
+						//범위를 구하고 
+						attBox->Release();
+						attBox->AttackScope();
+						//적이 범위안에 드는지 확인한다
+						if (attBox->AttackScopeSeekPick(mVecAttAreaCharacter[i]->GetPosition()))
+						{
+							mVecPincerCharacter[i].vecpPlayer.push_back(static_cast<Player*>(pActor));
+
+							//mVecPincerCharacter.push_back(static_cast<Character*>(pActor));
+							//다시 초기화
+							attBox->Release();
+							break;
+						}
+					}
+				}
+			}
+
+		}
+		//왼
+		if (tileOnHitCharacterIndex % JoTileCx != 0)
+		{
+			if ((*pVecTile)[(tileOnHitCharacterIndex - 1)]->underObject == 1)
+			{
+				for (auto &actor : mActors)
+				{
+					MActor* pActor = actor.get();
+					//해당캐릭터의 공격범위를 구하고 해당되면 공격가능한 캐릭터벡터에 넣는다
+					if (dynamic_cast<Player*>(pActor))
+					{
+						//턴이 끝난녀석은 제외
+						if (((Character*)pActor)->GetActionTurn() >= 1)
+						{
+							continue;
+						}
+						RECT rc;
+						rc.left = (*pVecTile)[(tileOnHitCharacterIndex - 1)]->vPos.x;
+						rc.top = (*pVecTile)[(tileOnHitCharacterIndex - 1)]->vPos.y;
+						rc.right = (*pVecTile)[(tileOnHitCharacterIndex - 1)]->vPos.x + JOJOTILESX;
+						rc.bottom = (*pVecTile)[(tileOnHitCharacterIndex - 1)]->vPos.y + JOJOTILESY;
+						POINT pt;
+						pt.x = pActor->GetPosition().x;
+						pt.y = pActor->GetPosition().y;
+						//공격시작한 녀석은 제외
+						if (pActor == (attBox->GetCharacter()))
+						{
+							continue;
+						}
+						//위치가 다른 캐릭터들은 제외
+						else if (!PtInRect(&rc, pt))
+						{
+							continue;
+						}
+						//위치 바꿔주고
+						attBox->SetPosition(pActor->GetPosition());
+						//해당 캐릭터의 범위만큼으로 바꿔주고
+						attBox->SetAttackDis(((Character*)pActor)->GetAttackDistance());
+						//범위를 구하고 
+						attBox->Release();
+						attBox->AttackScope();
+						//적이 범위안에 드는지 확인한다
+						if (attBox->AttackScopeSeekPick(mVecAttAreaCharacter[i]->GetPosition()))
+						{
+							mVecPincerCharacter[i].vecpPlayer.push_back(static_cast<Player*>(pActor));
+
+							//mVecPincerCharacter.push_back(static_cast<Character*>(pActor));
+							//다시 초기화
+							attBox->Release();
+							break;
+						}
+					}
+				}
+			}
+		}
+		//왼위
+		if ((tileOnHitCharacterIndex) >= JoTileCx
+			&& tileOnHitCharacterIndex % JoTileCx != 0)
+		{
+			if ((*pVecTile)[(tileOnHitCharacterIndex - (JoTileCx + 1))]->underObject == 1)
+			{
+				for (auto &actor : mActors)
+				{
+					MActor* pActor = actor.get();
+					//해당캐릭터의 공격범위를 구하고 해당되면 공격가능한 캐릭터벡터에 넣는다
+					if (dynamic_cast<Player*>(pActor))
+					{
+						//턴이 끝난녀석은 제외
+						if (((Character*)pActor)->GetActionTurn() >= 1)
+						{
+							continue;
+						}
+						RECT rc;
+						rc.left = (*pVecTile)[(tileOnHitCharacterIndex - (JoTileCx + 1))]->vPos.x;
+						rc.top = (*pVecTile)[(tileOnHitCharacterIndex - (JoTileCx + 1))]->vPos.y;
+						rc.right = (*pVecTile)[(tileOnHitCharacterIndex - (JoTileCx + 1))]->vPos.x + JOJOTILESX;
+						rc.bottom = (*pVecTile)[(tileOnHitCharacterIndex - (JoTileCx + 1))]->vPos.y + JOJOTILESY;
+						POINT pt;
+						pt.x = pActor->GetPosition().x;
+						pt.y = pActor->GetPosition().y;
+						//공격시작한 녀석은 제외
+						if (pActor == (attBox->GetCharacter()))
+						{
+							continue;
+						}
+						//위치가 다른 캐릭터들은 제외
+						else if (!PtInRect(&rc, pt))
+						{
+							continue;
+						}
+						//위치 바꿔주고
+						attBox->SetPosition(pActor->GetPosition());
+						//해당 캐릭터의 범위만큼으로 바꿔주고
+						attBox->SetAttackDis(((Character*)pActor)->GetAttackDistance());
+						//범위를 구하고 
+						attBox->Release();
+						attBox->AttackScope();
+						//적이 범위안에 드는지 확인한다
+						if (attBox->AttackScopeSeekPick(mVecAttAreaCharacter[i]->GetPosition()))
+						{
+							mVecPincerCharacter[i].vecpPlayer.push_back(static_cast<Player*>(pActor));
+
+							//mVecPincerCharacter.push_back(static_cast<Character*>(pActor));
+							//다시 초기화
+							attBox->Release();
+							break;
+						}
+					}
+				}
+			}
+		}
+
+	}
+
+	//공격이 가능하지만 협공가능한 캐릭터가 없으면 false
+	if (mVecPincerCharacter.empty())
+	{
+		attBox->SetVisible(false);
+		return false;
+	}
+	//attBox->SetVisible(false);
+	//다시 원위치
+	attBox->SetPosition(attBox->GetCharacter()->GetPosition());
+	attBox->SetAttackDis(attBox->GetCharacter()->GetAttackDistance());
+	attBox->Release();
+	attBox->AttackScope();
+	GetClassUi()->SetVisible(false);
+	return true;
 }
 
 //void MActorManager::InsertMap(string str, unique_ptr<MActor> actor)

@@ -36,7 +36,13 @@ typedef struct TILE
 	unsigned int moveNum;
 	unsigned int AttackNum;
 };
-
+class Enemy;
+class Player;
+typedef struct PINCERINFO
+{
+	Enemy* pEnemy;
+	vector<Player*> vecpPlayer;
+};
 //typedef struct tagNode
 //{
 //	float fCost;

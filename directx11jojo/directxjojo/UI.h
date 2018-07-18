@@ -26,6 +26,8 @@ public:
 	bool CheckSkillArea();
 	bool CheckCancelArea();
 	bool CheckConsumItemArea();
+	bool CheckUltimateArea();
+	bool CheckPincerAttArea();
 public:
 	void SetPlayer(Player * player) { mpPlayer = player; }
 	Player * GetPlayer() { return mpPlayer; }

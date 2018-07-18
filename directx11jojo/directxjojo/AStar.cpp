@@ -551,6 +551,12 @@ void AStar::Release()
 	{
 		(*iter).reset();
 	}
+	for (vector<unique_ptr<NODE>>::iterator iter = mvecOpenList.begin();
+		iter != mvecOpenList.end(); ++iter)
+	{
+		(*iter).reset();
+	}
+	mvecOpenList.clear();
 	mCloseList.clear();
 	mOpenList.clear();
 	mBestList.clear();

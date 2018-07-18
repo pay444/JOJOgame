@@ -78,21 +78,16 @@ void AttackBox::Draw()
 				(*pVecTile)[*mspVecAtScopeIndex[x].get()]->vPos.y + JOJOTILESY / 2);
 			mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + vTilePos - offset, tint);
 		}
-		//타일의 위치 측정 초기화
-		(*pVecTile)[GetTileIndex(mPosition)]->AttackNum = 0;
-		for (int x = 0; x < mspVecAtScopeIndex.size(); ++x)
-		{
-			(*pVecTile)[*mspVecAtScopeIndex[x].get()]->AttackNum = 0;
-		}
+
 	}
 	else //if(!MActorManager::Instance().GetUICheckArea() && mAtVisible== false && posIndex!=mouseIndex)
 	{
 		//타일의 위치 측정 초기화
-		(*pVecTile)[GetTileIndex(mPosition)]->AttackNum = 0;
-		for (int x = 0; x < mspVecAtScopeIndex.size(); ++x)
-		{
-			(*pVecTile)[*mspVecAtScopeIndex[x].get()]->AttackNum = 0;
-		}
+		//(*pVecTile)[GetTileIndex(mPosition)]->AttackNum = 0;
+		//for (int x = 0; x < mspVecAtScopeIndex.size(); ++x)
+		//{
+		//	(*pVecTile)[*mspVecAtScopeIndex[x].get()]->AttackNum = 0;
+		//}
 		//vecAtScopeIndex.clear();
 		//Release();
 		//mAtSeekScope = false;
@@ -119,7 +114,7 @@ void AttackBox::Release()
 		(*pVecTile)[*mspVecAtScopeIndex[x].get()]->AttackNum = 0;
 	}
 
-	mspVecAtScopeIndex.clear();
+
 	auto iter = mspVecAtScopeIndex.begin();
 	while (iter != mspVecAtScopeIndex.end())
 	{
@@ -127,13 +122,9 @@ void AttackBox::Release()
 		iter = mspVecAtScopeIndex.erase(iter);
 	}
 
+	mspVecAtScopeIndex.clear();
+
 	mVecAtScopeIndex.clear();
-	auto iter2 = mspVecAtScopeIndex.begin();
-	while (iter2 != mspVecAtScopeIndex.end())
-	{
-		iter2->reset();
-		iter2 = mspVecAtScopeIndex.erase(iter);
-	}
 }
 
 bool AttackBox::UIntersecRectScope(MActor * pActor)
@@ -171,65 +162,232 @@ void AttackBox::AttackScope()
 
 		float fScrollx = ScrollMgr::Instance().GetScroll().x;
 		float fScrolly = ScrollMgr::Instance().GetScroll().y;
+		XMFLOAT2 f2Scroll = XMFLOAT2(ScrollMgr::Instance().GetScroll().x, ScrollMgr::Instance().GetScroll().y);
 		auto mouse = Mouse::Get().GetState();
 		XMFLOAT2 mMousePos = XMFLOAT2(mouse.x + fScrollx, mouse.y + fScrolly);
 
 		vector<unique_ptr<TILE>> *pVecTile = MActorManager::Instance().GetTileInfo();
 
-		//케릭터의 위치타일에 공격거리를 넣음
-		(*pVecTile)[GetTileIndex(mPosition)]->AttackNum = mAttackDistance;
-		//vecAtScopeIndex.push_back(GetTileIndex(mPosition));
-		//vecAtScopeIndex2.push_back(make_unique<int>(GetTileIndex(mPosition)));
-		for (int mDis = mAttackDistance; mDis > 0; --mDis)
+		//캐릭터의 위치타일에 공격거리를 넣음
+		int posIndex = GetTileIndex(mPosition);
+		int joTileCx = 20;
+		int joTileCy = 20;
+		(*pVecTile)[posIndex]->AttackNum = mAttackDistance;
+		//범위측정할게 없다면 리턴
+		if (mAttackDistance <= 0)
+			return;
+		//mspVecAtScopeIndex.push_back(make_unique<int>(posIndex));
+		stack<int> stk;
+		stk.push(posIndex);
+		//큐방식 하지만 중복문제는 발생함
+
+		//queue<int> que;
+		//que.push(posIndex);
+		//while (!que.empty())
+		//{
+		//	int top = que.front();
+		//	que.pop();
+		//	//위
+		//	if (top >= joTileCx)
+		//	{
+		//		//방향의 타일이 그전에 받은 영향이 없다면 값을 추가 해준다
+		//		//만약에 타일안에 범위값이 아니고 현재 타일과 범위가 확장될 타일의
+		//		//범위값이 더작다면 값 적용
+		//		if ((*pVecTile)[top]->AttackNum != 0
+		//			&& (*pVecTile)[top - joTileCx]->AttackNum == 0)
+		//		{
+		//			//만약 이미 값이 있는데 바꿔야 할경우 값을 추가하지는 않는다
+		//			//if ((*pVecTile)[top - joTileCx]->AttackNum == 0)
+		//			{
+		//				mspVecAtScopeIndex.push_back(make_unique<int>((top - joTileCx)));
+		//			}
+		//			(*pVecTile)[top - joTileCx]->AttackNum =
+		//				(*pVecTile)[top]->AttackNum - 1;
+		//			que.push(top - joTileCx);
+		//		}
+		//	}
+		//	//아래
+		//	if (top < joTileCx*joTileCy - joTileCx)
+		//	{
+		//		//방향의 타일이 그전에 받은 영향이 없다면 값을 추가 해준다
+		//		if ((*pVecTile)[top]->AttackNum != 0
+		//			&& (*pVecTile)[top + joTileCx]->AttackNum == 0)
+		//		{
+		//			//if ((*pVecTile)[top + joTileCx]->AttackNum == 0)
+		//			{
+		//				mspVecAtScopeIndex.push_back(make_unique<int>((top + joTileCx)));
+		//			}
+		//			(*pVecTile)[top + joTileCx]->AttackNum =
+		//				(*pVecTile)[top]->AttackNum - 1;
+		//			que.push((top)+joTileCx);
+		//		}
+		//	}
+		//	//왼쪽
+		//	if (top % joTileCx != 0)
+		//	{
+		//		//방향의 타일이 그전에 받은 영향이 없다면 값을 추가 해준다
+		//		if ((*pVecTile)[top]->AttackNum != 0
+		//			&& (*pVecTile)[top - 1]->AttackNum == 0)
+		//		{
+		//			//if ((*pVecTile)[top - 1]->AttackNum == 0)
+		//			{
+		//				mspVecAtScopeIndex.push_back(make_unique<int>(top - 1));
+		//			}
+		//			(*pVecTile)[top - 1]->AttackNum =
+		//				(*pVecTile)[top]->AttackNum - 1;
+		//			que.push(top - 1);
+		//		}
+		//	}
+		//	//오른쪽
+		//	if (top % joTileCx != joTileCx - 1)
+		//	{
+		//		//방향의 타일이 그전에 받은 영향이 없다면 값을 추가 해준다
+		//		if ((*pVecTile)[top]->AttackNum != 0
+		//			&& (*pVecTile)[top + 1]->AttackNum == 0)
+		//		{
+		//		//	if ((*pVecTile)[top + 1]->AttackNum == 0)
+		//			{
+		//				mspVecAtScopeIndex.push_back(make_unique<int>(top + 1));
+		//			}
+		//			(*pVecTile)[top + 1]->AttackNum =
+		//				(*pVecTile)[top]->AttackNum - 1;
+		//			que.push(top + 1);
+		//		}
+		//	}
+		//}
+
+		//스택방식
+		while (!stk.empty())
 		{
-			for (int i = 0; i < 20; ++i)
+			int top = stk.top();
+			stk.pop();
+			//위
+			if (top >= joTileCx)
 			{
-				for (int j = 0; j < 20; ++j)
+				//방향의 타일이 그전에 받은 영향이 없다면 값을 추가 해준다
+				//만약에 타일안에 범위값이 아니고 현재 타일과 범위가 확장될 타일의
+				//범위값이 더작다면 값 적용
+				if ((*pVecTile)[top]->AttackNum != 1
+					&& (*pVecTile)[top - joTileCx]->AttackNum
+					< (*pVecTile)[top]->AttackNum - 1)
 				{
-					if ((*pVecTile)[i * (20) + j]->AttackNum == mDis)
+					//만약 이미 값이 있는데 바꿔야 할경우 값을 추가하지는 않는다
+					if ((*pVecTile)[top - joTileCx]->AttackNum == 0)
 					{
-						if ((*pVecTile)[i * (20) + j]->AttackNum > 0)
-						{
-							if (i - 1 >= 0 && (*pVecTile)[(i - 1) * (20) + j]->AttackNum < mDis)
-							{
-								(*pVecTile)[(i - 1) * (20) + j]->AttackNum = mDis - 1;
-								//vecAtScopeIndex.push_back((i - 1) * (20) + j);
-								mspVecAtScopeIndex.push_back(make_unique<int>((i - 1) * (20) + j));
-							}
-							if (i + 1 < 20 && (*pVecTile)[(i + 1) * (20) + j]->AttackNum < mDis)
-							{
-								(*pVecTile)[(i + 1) * (20) + j]->AttackNum = mDis - 1;
-								//vecAtScopeIndex.push_back((i + 1) * (20) + j);
-								mspVecAtScopeIndex.push_back(make_unique<int>((i + 1) * (20) + j));
-								
-							}
-
-							if (j + 1 < 20 && (*pVecTile)[i * (20) + (j + 1)]->AttackNum < mDis)
-							{
-								(*pVecTile)[i * (20) + (j + 1)]->AttackNum = mDis - 1;
-								//vecAtScopeIndex.push_back(i * (20) + (j + 1));
-								mspVecAtScopeIndex.push_back(make_unique<int>(i * (20) + (j + 1)));
-							}
-
-							if (j - 1 >= 0 && (*pVecTile)[i * (20) + (j - 1)]->AttackNum < mDis)
-							{
-								(*pVecTile)[i * (20) + (j - 1)]->AttackNum = mDis - 1;
-								//vecAtScopeIndex.push_back(i * (20) + (j - 1));
-								mspVecAtScopeIndex.push_back(make_unique<int>(i * (20) + (j - 1)));
-							}
-
-
-						}
+						mspVecAtScopeIndex.push_back(make_unique<int>((top - joTileCx)));
 					}
+					(*pVecTile)[top - joTileCx]->AttackNum =
+						(*pVecTile)[top]->AttackNum - 1;
+					stk.push(top - joTileCx);
+				}
+			}
+			//아래
+			if (top < joTileCx*joTileCy - joTileCx)
+			{
+				//방향의 타일이 그전에 받은 영향이 없다면 값을 추가 해준다
+				if ((*pVecTile)[top]->AttackNum != 1
+					&& (*pVecTile)[top + joTileCx]->AttackNum 
+					< (*pVecTile)[top]->AttackNum-1)
+				{
+					if ((*pVecTile)[top + joTileCx]->AttackNum == 0)
+					{
+						mspVecAtScopeIndex.push_back(make_unique<int>((top + joTileCx)));
+					}
+					(*pVecTile)[top + joTileCx]->AttackNum =
+						(*pVecTile)[top]->AttackNum - 1;
+					stk.push((top)+joTileCx);
+				}
+			}
+			//왼쪽
+			if (top % joTileCx != 0)
+			{
+				//방향의 타일이 그전에 받은 영향이 없다면 값을 추가 해준다
+				if ((*pVecTile)[top]->AttackNum != 1
+					&& (*pVecTile)[top - 1]->AttackNum 
+					< (*pVecTile)[top]->AttackNum - 1)
+				{
+					if ((*pVecTile)[top - 1]->AttackNum == 0)
+					{
+						mspVecAtScopeIndex.push_back(make_unique<int>(top - 1));
+					}
+					(*pVecTile)[top - 1]->AttackNum =
+						(*pVecTile)[top]->AttackNum - 1;
+					stk.push(top - 1);
+				}
+			}
+			//오른쪽
+			if (top % joTileCx != joTileCx - 1)
+			{
+				//방향의 타일이 그전에 받은 영향이 없다면 값을 추가 해준다
+				if ((*pVecTile)[top]->AttackNum != 1
+					&& (*pVecTile)[top + 1]->AttackNum 
+					< (*pVecTile)[top]->AttackNum - 1)
+				{
+					if ((*pVecTile)[top + 1]->AttackNum == 0)
+					{
+						mspVecAtScopeIndex.push_back(make_unique<int>(top + 1));
+					}
+					(*pVecTile)[top + 1]->AttackNum =
+						(*pVecTile)[top]->AttackNum - 1;
+					stk.push(top + 1);
 				}
 			}
 		}
-		int x = 0;
-	
+
+		//vecAtScopeIndex.push_back(GetTileIndex(mPosition));
+		//vecAtScopeIndex2.push_back(make_unique<int>(GetTileIndex(mPosition)));
+		//for (int mDis = mAttackDistance; mDis > 0; --mDis)
+		//{
+		//	for (int i = 0; i < 20; ++i)
+		//	{
+		//		for (int j = 0; j < 20; ++j)
+		//		{
+		//			if ((*pVecTile)[i * (20) + j]->AttackNum == mDis)
+		//			{
+		//				if ((*pVecTile)[i * (20) + j]->AttackNum > 0)
+		//				{
+		//					if (i - 1 >= 0 && (*pVecTile)[(i - 1) * (20) + j]->AttackNum < mDis)
+		//					{
+		//						(*pVecTile)[(i - 1) * (20) + j]->AttackNum = mDis - 1;
+		//						//vecAtScopeIndex.push_back((i - 1) * (20) + j);
+		//						mspVecAtScopeIndex.push_back(make_unique<int>((i - 1) * (20) + j));
+		//					}
+		//					if (i + 1 < 20 && (*pVecTile)[(i + 1) * (20) + j]->AttackNum < mDis)
+		//					{
+		//						(*pVecTile)[(i + 1) * (20) + j]->AttackNum = mDis - 1;
+		//						//vecAtScopeIndex.push_back((i + 1) * (20) + j);
+		//						mspVecAtScopeIndex.push_back(make_unique<int>((i + 1) * (20) + j));
+		//						
+		//					}
+		//					if (j + 1 < 20 && (*pVecTile)[i * (20) + (j + 1)]->AttackNum < mDis)
+		//					{
+		//						(*pVecTile)[i * (20) + (j + 1)]->AttackNum = mDis - 1;
+		//						//vecAtScopeIndex.push_back(i * (20) + (j + 1));
+		//						mspVecAtScopeIndex.push_back(make_unique<int>(i * (20) + (j + 1)));
+		//					}
+		//					if (j - 1 >= 0 && (*pVecTile)[i * (20) + (j - 1)]->AttackNum < mDis)
+		//					{
+		//						(*pVecTile)[i * (20) + (j - 1)]->AttackNum = mDis - 1;
+		//						//vecAtScopeIndex.push_back(i * (20) + (j - 1));
+		//						mspVecAtScopeIndex.push_back(make_unique<int>(i * (20) + (j - 1)));
+		//					}
+		//				}
+		//			}
+		//		}
+		//	}
+		//}
+
+		//타일의 위치 측정 초기화
+		(*pVecTile)[GetTileIndex(mPosition)]->AttackNum = 0;
+		for (int x = 0; x < mspVecAtScopeIndex.size(); ++x)
+		{
+			(*pVecTile)[*mspVecAtScopeIndex[x].get()]->AttackNum = 0;
+		}
 }
 
 void AttackBox::AttackCubeScope(bool isChracterPospush)
 {
+	vector<unique_ptr<TILE>> *pVecTile = MActorManager::Instance().GetTileInfo();
 	int JoTileCx = 20;
 	int JoTileCy = 20;
 	//캐릭터 주위의 네모난 칸만 벡터에 넣어줌
@@ -292,6 +450,12 @@ void AttackBox::AttackCubeScope(bool isChracterPospush)
 			make_unique<int>(tileOnPlayerIndex - (JoTileCx + 1)));
 	}
 
+	//타일의 위치 측정 초기화
+	(*pVecTile)[GetTileIndex(mPosition)]->AttackNum = 0;
+	for (int x = 0; x < mspVecAtScopeIndex.size(); ++x)
+	{
+		(*pVecTile)[*mspVecAtScopeIndex[x].get()]->AttackNum = 0;
+	}
 }
 
 bool AttackBox::AttackScopeSeek()
@@ -319,11 +483,11 @@ bool AttackBox::AttackScopeSeek()
 
 bool AttackBox::AttackScopeSeekPick(XMFLOAT2 pos)
 {
-	float fScrollx = ScrollMgr::Instance().GetScroll().x;
-	float fScrolly = ScrollMgr::Instance().GetScroll().y;
+	//float fScrollx = ScrollMgr::Instance().GetScroll().x;
+	//float fScrolly = ScrollMgr::Instance().GetScroll().y;
 	vector<unique_ptr<TILE>> *pVecTile = MActorManager::Instance().GetTileInfo();
 
-	XMFLOAT2 Pos = XMFLOAT2(pos.x + fScrollx, pos.y + fScrolly);
+	XMFLOAT2 Pos = XMFLOAT2(pos.x, pos.y);
 
 	int posIndex = GetTileIndex(Pos);
 

@@ -298,10 +298,10 @@ void AttackState::Execute(float dt)
 	if (pEnemy->GetActionTurn() < 2 && mfElapsedTime > pEnemy->GetAttackDelay())
 	{	
 		auto attackBox = MActorManager::Instance().GetClassAttackBox();
-
+		attackBox->SetVisible(true);
 		pPlayer->OnHit(attackBox,
 			attackBox->GetCharacter());
-		MActorManager::Instance().SetAtVisible(false);
+		//MActorManager::Instance().SetAtVisible(false);
 		MActorManager::Instance().SetMBVisible(false);
 		mfElapsedTime = 0.0f;
 		
