@@ -62,7 +62,7 @@ void Jojo::Init(float moveSpeed, XMFLOAT2 startpos, E_SORTID eSortID, float limi
 		},
 	};
 	limitDistance = limitdis;
-
+	mName = L"Á¶Á¶";
 	SetCamp(GunGeon::CampType::PLAYER);
 	SetClassType(GunGeon::ClassType::MONARCH);
 	MActor::Init(anim, 11, eSortID);

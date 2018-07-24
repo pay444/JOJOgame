@@ -380,25 +380,31 @@ void UiConsumItem::Draw()
 			if (mVecUiConsumInfo[i].animName == "HpBean")
 			{
 				SetAnimation("HpBean");
-				swprintf_s(wch, L"HpIncrease");
+				//swprintf_s(wch, L"HpIncrease");
 				//해당 도구 효과 출력
-				mpFont->DrawString(mpBatch, wch
-					, mVecUiConsumInfo[i].pos + XMFLOAT2(1.0f, -10.0f) - offset
-					, DirectX::Colors::Black, 0.0f
-					, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+				//mpFont->DrawString(mpBatch, mspVecConsumItems[i]->GetEfficacyName().c_str()
+				//	, mVecUiConsumInfo[i].pos + XMFLOAT2(1.0f, -10.0f) - offset
+				//	, DirectX::Colors::Black, 0.0f
+				//	, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.8f, 0.8f));
 
 			}
 			else if (mVecUiConsumInfo[i].animName == "MpWater")
 			{
 				SetAnimation("MpWater");
 				//해당 도구 효과 출력
-				swprintf_s(wch, L"MpIncrease");
-				mpFont->DrawString(mpBatch, wch
-					, mVecUiConsumInfo[i].pos + XMFLOAT2(1.0f, -10.0f) - offset
-					, DirectX::Colors::Black, 0.0f
-					, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+				//swprintf_s(wch, L"MpIncrease");
+				//mpFont->DrawString(mpBatch, mspVecConsumItems[i]->GetEfficacyName().c_str()
+				//	, mVecUiConsumInfo[i].pos + XMFLOAT2(1.0f, -10.0f) - offset
+				//	, DirectX::Colors::Black, 0.0f
+				//	, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.8f, 0.8f));
 
 			}
+			//해당 도구 효과 출력
+			mpFont->DrawString(mpBatch, mspVecConsumItems[i]->GetEfficacyName().c_str()
+				, mVecUiConsumInfo[i].pos + XMFLOAT2(1.0f, -10.0f) - offset
+				, DirectX::Colors::Black, 0.0f
+				, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.8f, 0.8f));
+
 			//해당 아이템 그림을 띄워줌
 			mpSheet->Draw(mpBatch, *mpSpriteFrame
 				, mWorldPos + mVecUiConsumInfo[i].pos + XMFLOAT2(-110.0f,0.0f)
@@ -406,21 +412,21 @@ void UiConsumItem::Draw()
 
 			//해당 하는 도구의 이름들 보여줌
 			//클래스 이름 출력
-			string str = typeid(*mspVecConsumItems[i]).name();
-			str.erase(0, 6);
-			wstring wstr;
-			mbstowcs(&wstr[0], str.c_str(), strlen(typeid(*mspVecConsumItems[i]).name()));
-			mpFont->DrawString(mpBatch, wstr.c_str()
+			//string str = typeid(*mspVecConsumItems[i]).name();
+			//str.erase(0, 6);
+			//wstring wstr;
+			//mbstowcs(&wstr[0], str.c_str(), strlen(typeid(*mspVecConsumItems[i]).name()));
+			mpFont->DrawString(mpBatch, mspVecConsumItems[i]->GetName().c_str()
 				, mVecUiConsumInfo[i].pos + XMFLOAT2(-100.0f, -10.0f) - offset
 				, DirectX::Colors::Black, 0.0f
-				, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+				, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.8f, 0.8f));
 
 			//도구의 재고
 			swprintf_s(wch, L"%d", mspVecConsumItems[i]->GetStock());
 			mpFont->DrawString(mpBatch, wch
 				, mVecUiConsumInfo[i].pos + XMFLOAT2(80.0f, -10.0f) - offset
 				, DirectX::Colors::Black, 0.0f
-				, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));			
+				, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.8f, 0.8f));			
 
 		}
 	}

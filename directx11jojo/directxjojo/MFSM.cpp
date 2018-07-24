@@ -1,6 +1,11 @@
 #include "stdafx.h"
 #include "MFSM.h"
 
+MFSM::~MFSM()
+{
+	Release();
+}
+
 void MFSM::ChangeState(int stateID)
 {
 	if (this->mpCurrent != NULL)
@@ -26,4 +31,15 @@ void MFSM::Update(float dt)
 {
 	if (this->mpCurrent != NULL)
 		this->mpCurrent->Execute(dt);
+}
+
+void MFSM::Release()
+{
+	auto statemapiter = mStateMap.begin();
+	while (statemapiter != mStateMap.end())
+	{
+		statemapiter->second.reset();
+		statemapiter = mStateMap.erase(statemapiter);
+	}
+	mStateMap.clear();
 }

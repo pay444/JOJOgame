@@ -34,6 +34,7 @@
 #include <Mouse.h>
 #include <WICTextureLoader.h>
 #include <SpriteFont.h>
+#include "vld.h"
 
 #pragma comment (lib, "d3d11.lib")
 
@@ -64,4 +65,6 @@ using namespace DirectX::SimpleMath;
 #include "GameMain.h"
 #include "Player.h"
 #include "MoveBox.h"
+
+
 //#include "ProgresiveBar.h"

@@ -15,23 +15,27 @@ SceneMgr::~SceneMgr()
 
 HRESULT SceneMgr::InitScene(SpriteBatch *spritBatch,SpriteFont* spriteFont,E_SCENE eScene)
 {
+	ResourceManager::Instance().Release();
+	MActorManager::Instance().Release();
+	Release();
 	mSpriteBatch = spritBatch;
 	mSpriteFont = spriteFont;
 	switch (eScene)
 	{
 	case E_SCENE_LOGO:
-		MActorManager::Instance().Release();
 		mspScene = make_unique<Logo>();
 		//mspScene->SetScene(meScene);
 		//mpLogo = dynamic_cast<Logo*>(mspScene.get());
 		//mpLogo->SetScene(eScene_);
 		break;
 	case E_SCENE_STAGE:
-		MActorManager::Instance().Release();
 		mspScene = make_unique<Stage>();
 		//mspScene->SetScene(meScene);
 		//mpStage = dynamic_cast<Stage*>(mspScene.get());
 		//mpStage ->SetScene(eScene_);
+		break;
+	case E_SCENE_EVENT0:
+		mspScene = make_unique<EventScene>();
 		break;
 	}
 
@@ -40,6 +44,7 @@ HRESULT SceneMgr::InitScene(SpriteBatch *spritBatch,SpriteFont* spriteFont,E_SCE
 		MessageBox(NULL, L"CScene::Initialze() Failed !", NULL, NULL);
 		return E_FAIL;
 	}
+
 	MActorManager::Instance().SortActors();
 	return S_OK;
 }
@@ -47,7 +52,6 @@ HRESULT SceneMgr::InitScene(SpriteBatch *spritBatch,SpriteFont* spriteFont,E_SCE
 void SceneMgr::Update(float dt)
 {
 	
-
 	E_SCENE eResult = mspScene->Update(dt);
 
 	if (eResult > E_SCENE_NONPASS)
@@ -60,9 +64,15 @@ void SceneMgr::Update(float dt)
 
 void SceneMgr::Render()
 {
-	MActorManager::Instance().Draw();
+	mspScene->Render();
+	//MActorManager::Instance().Draw();
 }
 
 void SceneMgr::Release()
 {
+	//현재씬 초기화
+	if (mspScene)
+	{
+		mspScene.reset();
+	}
 }

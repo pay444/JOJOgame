@@ -69,6 +69,7 @@ void FotMan::Init(float moveSpeed, XMFLOAT2 startpos, E_SORTID eSortID, float li
 
 	Enemy::Init(moveSpeed, startpos, eSortID);
 
+	mName = L"È²°ÇÀû";
 	//SetSortID(eSortID);
 }
 

@@ -79,8 +79,9 @@ void MFramework::InitD3D(HWND hWnd)
 
 	mspSpriteBatch = make_unique<SpriteBatch>(mspDeviceCon.Get());
 	//(new SpriteFont(device, L"myfile.spritefont"));
-	mspspriteFont = make_unique<SpriteFont>(mspDevice.Get(), L"myfile.spritefont");
-
+	//mspspriteFont = make_unique<SpriteFont>(mspDevice.Get(), L"myfile.spritefont");
+	mspspriteFont = make_unique<SpriteFont>(mspDevice.Get(), L"gungseo.spritefont");
+	
 	mspStates = std::make_unique<CommonStates>(mspDevice.Get());
 
 	
@@ -114,78 +115,70 @@ void MFramework::InitD3D(HWND hWnd)
 	//}
 
 	//Drawing Write 했으나 TK와 의 충돌로 안됨
-	/*
-	HRESULT hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pD2DFactory_0);
-
-	//if (SUCCEEDED(hr))
-	{
-		hr = DWriteCreateFactory(
-			DWRITE_FACTORY_TYPE_SHARED,
-			__uuidof(IDWriteFactory),
-			reinterpret_cast<IUnknown**>(&pDWriteFactory_)
-		);
-	}
-
-	wszText_ = L"Hello World using  DirectWrite!";
-	cTextLength_ = (UINT32)wcslen(wszText_);
-
-	//if (SUCCEEDED(hr))
-	{
-		hr = pDWriteFactory_->CreateTextFormat(
-			L"Gabriola",                // Font family name.
-			NULL,                       // Font collection (NULL sets it to use the system font collection).
-			DWRITE_FONT_WEIGHT_REGULAR,
-			DWRITE_FONT_STYLE_NORMAL,
-			DWRITE_FONT_STRETCH_NORMAL,
-			72.0f,
-			L"en-us",
-			&pTextFormat_
-		);
-	}
-
-	// Center align (horizontally) the text.
-	//if (SUCCEEDED(hr))
-	{
-		hr = pTextFormat_->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
-	}
-
-	//if (SUCCEEDED(hr))
-	{
-		hr = pTextFormat_->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
-	}
-	RECT rc;
-	GetClientRect(hWnd, &rc);
-
-	D2D1_SIZE_U size = D2D1::SizeU(rc.right - rc.left, rc.bottom - rc.top);
-
-	//if (!pRT)
-	{
-		// Create a Direct2D render target.
-		hr = pD2DFactory_0->CreateHwndRenderTarget(
-			D2D1::RenderTargetProperties(),
-			D2D1::HwndRenderTargetProperties(
-				hWnd,
-				size
-			),
-			&pRT
-		);
-
-		// Create a black brush.
-		//if (SUCCEEDED(hr))
-		{
-			hr = pRT->CreateSolidColorBrush(
-				D2D1::ColorF(D2D1::ColorF::Black),
-				&pBlackBrush_
-			);
-		}
-	}
-	layoutRect = D2D1::RectF(
-		static_cast<FLOAT>(rc.left) / 0.5f,
-		static_cast<FLOAT>(rc.top) / 0.5f,
-		static_cast<FLOAT>(rc.right - rc.left) / 0.5f,
-		static_cast<FLOAT>(rc.bottom - rc.top) / 0.5f
-	);
-	*/
+	
+ 	//HRESULT hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pD2DFactory_0);
+ 	////if (SUCCEEDED(hr))
+ 	//{
+ 	//	hr = DWriteCreateFactory(
+ 	//		DWRITE_FACTORY_TYPE_SHARED,
+ 	//		__uuidof(IDWriteFactory),
+ 	//		reinterpret_cast<IUnknown**>(&pDWriteFactory_)
+ 	//	);
+ 	//}
+ 	//wszText_ = L"Hello World using  DirectWrite!";
+ 	//cTextLength_ = (UINT32)wcslen(wszText_);
+ 	////if (SUCCEEDED(hr))
+ 	//{
+ 	//	hr = pDWriteFactory_->CreateTextFormat(
+ 	//		L"Gabriola",                // Font family name.
+ 	//		NULL,                       // Font collection (NULL sets it to use the system font collection).
+ 	//		DWRITE_FONT_WEIGHT_REGULAR,
+ 	//		DWRITE_FONT_STYLE_NORMAL,
+ 	//		DWRITE_FONT_STRETCH_NORMAL,
+ 	//		72.0f,
+ 	//		L"en-us",
+ 	//		&pTextFormat_
+ 	//	);
+ 	//}
+ 	//// Center align (horizontally) the text.
+ 	////if (SUCCEEDED(hr))
+ 	//{
+ 	//	hr = pTextFormat_->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
+ 	//}
+ 	////if (SUCCEEDED(hr))
+ 	//{
+ 	//	hr = pTextFormat_->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+ 	//}
+ 	//RECT rc;
+ 	//GetClientRect(hWnd, &rc);
+ 	//D2D1_SIZE_U size = D2D1::SizeU(rc.right - rc.left, rc.bottom - rc.top);
+ 	////if (!pRT)
+ 	//{
+ 	//	// Create a Direct2D render target.
+ 	//	hr = pD2DFactory_0->CreateHwndRenderTarget(
+ 	//		D2D1::RenderTargetProperties(),
+ 	//		D2D1::HwndRenderTargetProperties(
+ 	//			hWnd,
+ 	//			size
+ 	//		),
+ 	//		&pRT
+ 	//	);
+ 	//	// Create a black brush.
+ 	//	//if (SUCCEEDED(hr))
+ 	//	{
+ 	//		hr = pRT->CreateSolidColorBrush(
+ 	//			D2D1::ColorF(D2D1::ColorF::Black),
+ 	//			&pBlackBrush_
+ 	//		);
+ 	//	}
+ 	//}
+ 	//layoutRect = D2D1::RectF(
+ 	//	static_cast<FLOAT>(rc.left) / 0.5f,
+ 	//	static_cast<FLOAT>(rc.top) / 0.5f,
+ 	//	static_cast<FLOAT>(rc.right - rc.left) / 0.5f,
+ 	//	static_cast<FLOAT>(rc.bottom - rc.top) / 0.5f
+ 	//);
+	
 
 	OnResize();
 }
@@ -194,7 +187,7 @@ void MFramework::ClearD3D()
 {
 	MActorManager::Instance().Release();
 	ResourceManager::Instance().Release();
-
+	SceneMgr::Instance().Release();
 	mspSwapchain->SetFullscreenState(FALSE, NULL);
 
 	//SafeRelease(&pRT);
@@ -219,14 +212,14 @@ void MFramework::BeginRender()
 
 void MFramework::Render()
 {
+
 	//mspSpriteBatch->Begin(SpriteSortMode_Deferred, mspStates->Opaque(), mspStates->LinearWrap());
 	mspSpriteBatch->Begin();
 
-	//pRT->BeginDraw();
-
 	SceneMgr::Instance().Render();
 
-	//
+	
+	//pRT->BeginDraw();
 	//pRT->SetTransform(D2D1::IdentityMatrix());
 	//pRT->Clear(D2D1::ColorF(D2D1::ColorF::White));
 
@@ -244,11 +237,13 @@ void MFramework::Render()
 
 	//pRT->EndDraw();
 
+	mspSpriteBatch->End();
+
+
 	//MActorManager::Instance().Draw();
 	//RECT sre = { 0, 0 , 100 , 200 };
 	//mspspriteFont->DrawString(mspSpriteBatch.get(), sre, XMFLOAT2(100, 100));
 
-	mspSpriteBatch->End();
 
 
 
@@ -397,7 +392,9 @@ LRESULT MFramework::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lP
 
 					}
 					else
+					{
 						OnResize();
+					}
 				}
 			}
 
@@ -424,8 +421,8 @@ LRESULT MFramework::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lP
 			break;
 
 		case WM_GETMINMAXINFO:
-			((MINMAXINFO*)lParam)->ptMinTrackSize.x = 640;
-			((MINMAXINFO*)lParam)->ptMinTrackSize.y = 480;
+			((MINMAXINFO*)lParam)->ptMinTrackSize.x = STARTSCENE_SCERRN_WIDTH;
+			((MINMAXINFO*)lParam)->ptMinTrackSize.y = STARTSCENE_SCERRN_HEIGHT;
 			return 0;
 			break;
 
@@ -499,6 +496,7 @@ int MFramework::GameLoop()
 				BeginRender();
 				//MFramework::Render();
 				Render();
+
 				EndRender();
 			}
 			else

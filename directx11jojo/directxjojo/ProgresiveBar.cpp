@@ -57,7 +57,6 @@ E_SCENE ProgresiveBar::Update(float dt)
 	if (mPBVisible)
 	{
 		mfTEalpsdtime += dt;
-
 	}
 
 	if (mfTEalpsdtime > 1.0f)
@@ -66,6 +65,7 @@ E_SCENE ProgresiveBar::Update(float dt)
 		//mEndTIme = true;
 		//mfTEalpsdtime = 0.0f;
 	}
+
 	auto key = Keyboard::Get().GetState();
 	
 	if (key.F)
@@ -116,28 +116,13 @@ void ProgresiveBar::Draw()
 
 		//클래스 이름 출력
 		wchar_t wch[128];
-		auto className = typeid(*mCharacter).name();
-		string str = className;
-		string str2 = ReplaceAll(str, string("class "), string(""));
-		className = str2.c_str();
-		mbstowcs(&wch[0], className, 128);
-		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-80.0f, -60.0f) - f2Scroll), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
-
-		//IDWriteFactory *spw;
-		//HRESULT hr = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED,
-		//	__uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(&spw));
-
-		//IDWriteTextFormat *spfm;
-		//
-		//hr = spfm->CreateTextFormat(
-		//	L"굴림체",
-		//	NULL,
-		//	DWRITE_FONT_WEIGHT_REGULAR,
-		//	DWRITE_FONT_STYLE_NORMAL,
-		//	DWRITE_FONT_STRETCH_NORMAL,
-		//	62.0f,
-		//	L"ko-kr",
-		//	&spfm);
+		//auto className = typeid(*mCharacter).name();
+		//string str = className;
+		//string str2 = ReplaceAll(str, string("class "), string(""));
+		//className = str2.c_str();
+		//mbstowcs(&wch[0], className, 128);
+		
+		mpFont->DrawString(mpBatch, mCharacter->GetName().c_str() , XMFLOAT2(mPosition + XMFLOAT2(-80.0f, -60.0f) - f2Scroll), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.8f, 0.8f));
 
 		//어느편인지 출력
 		switch (mCharacter->GetCamp())
@@ -146,13 +131,13 @@ void ProgresiveBar::Draw()
 			//swprintf_s(wch, L"Enemy_Idle %d", mCode);
 			break;
 		case 1:
-			swprintf_s(wch, L"Player");
-			mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-80.0f, 40.0f) - f2Scroll), DirectX::Colors::Green, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+			swprintf_s(wch, L"아군");
+			mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-80.0f, 40.0f) - f2Scroll), DirectX::Colors::Green, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.8f, 0.8f));
 			//mpFont->DrawString(mpBatch, tt, XMFLOAT2(mPosition + XMFLOAT2(-80.0f, 40.0f) - f2Scroll), DirectX::Colors::Green, 0.0f, origin, XMFLOAT2(0.5f, 0.5f));
 			break;
 		case 2:
-			swprintf_s(wch, L"Enemy");
-			mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-80.0f, 40.0f) - f2Scroll), DirectX::Colors::Red, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+			swprintf_s(wch, L"적군");
+			mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-80.0f, 40.0f) - f2Scroll), DirectX::Colors::Red, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.8f, 0.8f));
 			break;
 		case 3:
 			swprintf_s(wch, L"NPC");
@@ -186,9 +171,9 @@ void ProgresiveBar::Draw()
 
 		//Hp 글자 출력
 		swprintf_s(wch, L"%d",hp);
-		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-20.0f, -40.0f) - f2Scroll), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-20.0f, -40.0f) - f2Scroll), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.8f, 0.8f));
 		swprintf_s(wch, L" / %d",static_cast<int>(maxHp));
-		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(10.0f, -40.0f) - f2Scroll), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(10.0f, -40.0f) - f2Scroll), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.8f, 0.8f));
 		
 		//Mp바 출력
 		SetAnimation("PBMp");
@@ -202,9 +187,9 @@ void ProgresiveBar::Draw()
 		
 		//Mp 글자 출력
 		swprintf_s(wch, L"%d", mp);
-		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-20.0f, -15.0f) - f2Scroll), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-20.0f, -15.0f) - f2Scroll), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.8f, 0.8f));
 		swprintf_s(wch, L" / %d", static_cast<int>(maxMp));
-		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(10.0f, -15.0f) - f2Scroll), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(10.0f, -15.0f) - f2Scroll), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.8f, 0.8f));
 
 		//Sp바 출력
 		SetAnimation("PBSp");
@@ -218,9 +203,9 @@ void ProgresiveBar::Draw()
 		
 		//Sp 글자 출력
 		swprintf_s(wch, L"%d", sp);
-		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-20.0f, 10.0f) - f2Scroll), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-20.0f, 10.0f) - f2Scroll), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.8f, 0.8f));
 		swprintf_s(wch, L" / %d", static_cast<int>(maxSp));
-		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(10.0f, 10.0f) - f2Scroll), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(10.0f, 10.0f) - f2Scroll), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.8f, 0.8f));
 
 
 	}

@@ -154,6 +154,8 @@
     <ClInclude Include="dxerr.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyState.h" />
+    <ClInclude Include="EventBaseMap.h" />
+    <ClInclude Include="EventScene.h" />
     <ClInclude Include="FotMan.h" />
     <ClInclude Include="GameMain.h" />
     <ClInclude Include="HpBean.h" />
@@ -162,6 +164,7 @@
     <ClInclude Include="MoveBox.h" />
     <ClInclude Include="MpWater.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="ProductionState.h" />
     <ClInclude Include="ProgresiveBar.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene.h" />
@@ -174,6 +177,7 @@
     <ClInclude Include="MFSM.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="MainGameMap.h" />
     <ClInclude Include="Skill.h" />
     <ClInclude Include="SpriteSheet.h" />
     <ClInclude Include="Timer.h" />
@@ -203,6 +207,8 @@
     </ClCompile>
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyState.cpp" />
+    <ClCompile Include="EventBaseMap.cpp" />
+    <ClCompile Include="EventScene.cpp" />
     <ClCompile Include="FotMan.cpp" />
     <ClCompile Include="GameMain.cpp" />
     <ClCompile Include="HpBean.cpp" />
@@ -211,6 +217,7 @@
     <ClCompile Include="MoveBox.cpp" />
     <ClCompile Include="MpWater.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="ProductionState.cpp" />
     <ClCompile Include="ProgresiveBar.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneMgr.cpp" />
@@ -222,6 +229,7 @@
     <ClCompile Include="MFSM.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="MainGameMap.cpp" />
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="SpriteSheet.cpp" />
     <ClCompile Include="Timer.cpp" />

@@ -51,7 +51,8 @@ void SeonPung::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
 	mElemental = 3;
 	mArea = 4;
 	mDamage = 10;
-
+	mName = L"¼±Ç³";
+	mEfficacy = L"°ø°Ý(Ç³)";
 }
 
 E_SCENE SeonPung::Update(float dt)

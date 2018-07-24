@@ -67,6 +67,21 @@
     <Filter Include="02.Object\01.UI\02.ConsumItem">
       <UniqueIdentifier>{305d60e3-b7c7-470b-b624-a773c8446e1f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Scene\03.EventScene">
+      <UniqueIdentifier>{2fc6aea5-88ba-4c8d-ae81-d47742c5f1bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Mgrs\ActorManager">
+      <UniqueIdentifier>{0273213f-603b-4721-be6f-ed97f6bc1426}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Mgrs\EventActorMgr">
+      <UniqueIdentifier>{fe283c7e-35bd-4e85-b225-c443aeb319b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Object\03.map">
+      <UniqueIdentifier>{f7369e6f-9a01-4cd1-96f4-f1d1c0bb096b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Object\04.Event">
+      <UniqueIdentifier>{e1ee56eb-e967-4999-9cf7-4a3b97fd1bf3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -95,15 +110,6 @@
     </ClInclude>
     <ClInclude Include="GameMain.h">
       <Filter>00.MainGame</Filter>
-    </ClInclude>
-    <ClInclude Include="World.h">
-      <Filter>02.Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>02.Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>02.Object</Filter>
     </ClInclude>
     <ClInclude Include="ySortMgr.h">
       <Filter>99.Mgrs\ySortMgr</Filter>
@@ -135,9 +141,6 @@
     <ClInclude Include="Jojo.h">
       <Filter>02.Object\02.Character</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>02.Object</Filter>
-    </ClInclude>
     <ClInclude Include="FotMan.h">
       <Filter>02.Object\02.Character</Filter>
     </ClInclude>
@@ -166,9 +169,6 @@
       <Filter>MFrameWork</Filter>
     </ClInclude>
     <ClInclude Include="MFramework.h">
-      <Filter>MFrameWork</Filter>
-    </ClInclude>
-    <ClInclude Include="MActorManager.h">
       <Filter>MFrameWork</Filter>
     </ClInclude>
     <ClInclude Include="MActor.h">
@@ -207,6 +207,33 @@
     <ClInclude Include="HpBean.h">
       <Filter>02.Object\01.UI\02.ConsumItem</Filter>
     </ClInclude>
+    <ClInclude Include="ProductionState.h">
+      <Filter>04.AI</Filter>
+    </ClInclude>
+    <ClInclude Include="EventScene.h">
+      <Filter>01.Scene\03.EventScene</Filter>
+    </ClInclude>
+    <ClInclude Include="MActorManager.h">
+      <Filter>99.Mgrs\ActorManager</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>02.Object\03.map</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>02.Object\02.Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>02.Object\02.Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>02.Object\02.Character</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGameMap.h">
+      <Filter>02.Object\03.map</Filter>
+    </ClInclude>
+    <ClInclude Include="EventBaseMap.h">
+      <Filter>02.Object\04.Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -223,15 +250,6 @@
     </ClCompile>
     <ClCompile Include="GameMain.cpp">
       <Filter>00.MainGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>02.Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>02.Object</Filter>
-    </ClCompile>
-    <ClCompile Include="World.cpp">
-      <Filter>02.Object</Filter>
     </ClCompile>
     <ClCompile Include="ySortMgr.cpp">
       <Filter>99.Mgrs\ySortMgr</Filter>
@@ -259,9 +277,6 @@
     </ClCompile>
     <ClCompile Include="Jojo.cpp">
       <Filter>02.Object\02.Character</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>02.Object</Filter>
     </ClCompile>
     <ClCompile Include="FotMan.cpp">
       <Filter>02.Object\02.Character</Filter>
@@ -291,9 +306,6 @@
       <Filter>MFrameWork</Filter>
     </ClCompile>
     <ClCompile Include="MFramework.cpp">
-      <Filter>MFrameWork</Filter>
-    </ClCompile>
-    <ClCompile Include="MActorManager.cpp">
       <Filter>MFrameWork</Filter>
     </ClCompile>
     <ClCompile Include="MActor.cpp">
@@ -328,6 +340,33 @@
     </ClCompile>
     <ClCompile Include="HpBean.cpp">
       <Filter>02.Object\01.UI\02.ConsumItem</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductionState.cpp">
+      <Filter>04.AI</Filter>
+    </ClCompile>
+    <ClCompile Include="EventScene.cpp">
+      <Filter>01.Scene\03.EventScene</Filter>
+    </ClCompile>
+    <ClCompile Include="MActorManager.cpp">
+      <Filter>99.Mgrs\ActorManager</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>02.Object\03.map</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>02.Object\02.Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>02.Object\02.Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>02.Object\02.Character</Filter>
+    </ClCompile>
+    <ClCompile Include="MainGameMap.cpp">
+      <Filter>02.Object\03.map</Filter>
+    </ClCompile>
+    <ClCompile Include="EventBaseMap.cpp">
+      <Filter>02.Object\04.Event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

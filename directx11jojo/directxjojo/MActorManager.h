@@ -52,6 +52,8 @@ private:
 	vector<PINCERINFO> mVecPincerCharacter;			//협공할수있는 캐릭터를 담고있는 벡터
 public:
 	E_SCENE Update(float dt);
+	E_SCENE GameMainUpdate(float dt);
+	E_SCENE EventUpdate(float dt);
 	void Draw();
 	void Release();
 

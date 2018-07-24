@@ -32,6 +32,8 @@ void MpWater::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
 	SetAnimation("Water");
 	mPlus = 5;
 	mStock = 3;
+	mName = L"신비물";
+	mEfficacy = L"MP회복";
 }
 
 E_SCENE MpWater::Update(float dt)

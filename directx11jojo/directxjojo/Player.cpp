@@ -98,15 +98,7 @@ E_SCENE Player::Update(float dt)
 	{
 		mActionTurn = 0;
 	}
-	if (state.D2)
-		meScene = E_SCENE_LOGO;
-	else if (state.D3)
-		meScene = E_SCENE_STAGE;
-	else
-		meScene = E_SCENE_NONPASS;
-
-	return meScene;
-
+	return E_SCENE_NONPASS;
 }
 
 

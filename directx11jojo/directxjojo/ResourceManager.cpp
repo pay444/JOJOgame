@@ -19,10 +19,12 @@ void ResourceManager::Release()
 	{
 		resource.second.Reset();	//초기화
 	}
+	mShaderResources.clear();
 	for (auto& sheet : mSpriteSheets)
 	{
 		sheet.second.reset();//uniqe_ptr이라서 소문자
 	}
+	mSpriteSheets.clear();
 }
 
 ID3D11ShaderResourceView * ResourceManager::GetShaderResource(wstring filename)

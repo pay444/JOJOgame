@@ -6,14 +6,17 @@ const int JOJOTILESY = 48;
 
 class Player;
 
-#define DEFAULT_SCREEN_WIDTH	960
-#define DEFAULT_SCREEN_HEIGHT	576
+#define DEFAULT_SCREEN_WIDTH			960
+#define DEFAULT_SCREEN_HEIGHT			576
+#define STARTSCENE_SCERRN_WIDTH			640
+#define STARTSCENE_SCERRN_HEIGHT		400
 
 enum E_SCENE
 {
 	E_SCENE_NONPASS = -1,
 	E_SCENE_LOGO,
 	E_SCENE_STAGE,
+	E_SCENE_EVENT0
 };
 
 enum E_SORTID
@@ -64,6 +67,12 @@ namespace GunGeon
 		Enemy_Idle,
 		Enemy_Chase,
 		Enemy_Attack
+	};
+
+	enum ProductionState
+	{
+		Production_Idle,
+		Production_Move
 	};
 
 	static Animation BulletAnim[3] = {

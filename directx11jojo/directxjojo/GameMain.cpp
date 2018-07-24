@@ -44,7 +44,7 @@ void GameMain::InitD3D(HWND hWnd)
 	//mpPlayer->SetStaus(100, 10);
 	//SceneMgr::Instance().SetEScene(E_SCENE_STAGE);
 	SceneMgr::Instance().InitScene(mspSpriteBatch.get(),mspspriteFont.get(), E_SCENE_STAGE);
-
+	SceneMgr::Instance().SetHWND(hWnd);
 	
 	//////
 	//Player *pPlayer = MActorManager::Instance().CreatePlayer();

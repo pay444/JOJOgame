@@ -216,7 +216,7 @@ void Character::Draw()
 
 void Character::OnHit(MActor * pCollidee)
 {
-	if (this->GetCamp() != pCollidee->GetCamp())
+	if (((Character*)this)->GetCamp() != ((Character*)pCollidee)->GetCamp())
 	{
 		DoDamage(pCollidee);
 	}
@@ -224,7 +224,7 @@ void Character::OnHit(MActor * pCollidee)
 
 void Character::OnHit(MActor * pCollider, MActor * pCollidee)
 {
-	if (this->GetCamp() != pCollidee->GetCamp())
+	if (((Character*)this)->GetCamp() != ((Character*)pCollidee)->GetCamp())
 	{
 
 		//때린놈의 액션턴을 바꿔준다.

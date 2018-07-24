@@ -12,11 +12,11 @@ MActor::MActor() :
 	mWorldPos(0.0f,0.0f),
 	mbDestroyed(false),
 	mbEnabledCollision(true),
-	mCamp(0),
 	meSortID(E_SORTID_FOURTH),
 	meScene(E_SCENE_NONPASS),
 	mbisEndAnim(false)
 {
+	mName = L"0";
 	mAnimations.clear();
 }
 
@@ -88,7 +88,8 @@ E_SCENE MActor::Update(float dt)
 	if (mFrames == NULL)
 		return E_SCENE_NONPASS;
 
-	if (mCurFrame->DelayPerFrame != 0.0f && mfElapsedTime > mCurFrame->DelayPerFrame)
+	if (mCurFrame->DelayPerFrame != 0.0f 
+		&& mfElapsedTime > mCurFrame->DelayPerFrame)
 	{
 		mCurFrame++;
 		mfElapsedTime = 0.0f;

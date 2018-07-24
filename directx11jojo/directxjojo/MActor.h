@@ -42,17 +42,19 @@ protected:
 	float						mfElapsedTime;
 	float						mfActionElapsedTime;
 	E_SCENE			meScene;
-
+	wstring			mName;			//클래스의 이름
 protected:
 	XMFLOAT2		mPosition;
 	XMFLOAT2		mWorldPos;
 	E_SORTID		meSortID;
 	bool			mbDestroyed;
 	bool			mbEnabledCollision;
-	int				mCamp;
 	float			mfMoveSpeed;	//초당 이동거리
 	bool			mbisEndAnim;	//마지막 에니메이션에 와있는지
 public:
+	void SetName(wstring wstr) { mName = wstr; }
+	wstring GetName() { return mName; }
+
 	void SetPosition(XMFLOAT2 pos) { mPosition = pos; }
 	void SetPosition(int x, int y) { mPosition.x += static_cast<float>(x); mPosition.y += static_cast<float>(y); }
 	XMFLOAT2 GetPosition() { return mPosition; }
@@ -68,9 +70,6 @@ public:
 
 	E_SCENE GetScene() { return meScene; }
 	void SetScene(E_SCENE eScene) { meScene = eScene; }
-
-	virtual int GetCamp() { return mCamp; }
-	virtual void SetCamp(int camp) { mCamp = camp; }
 
 	void SetActionTime(float time) { mfActionElapsedTime = time; }
 	float GetActionTime() { return mfActionElapsedTime; }

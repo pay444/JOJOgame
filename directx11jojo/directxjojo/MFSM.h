@@ -18,6 +18,9 @@ public:
 
 class MFSM
 {
+public:
+	//MFSM();
+	virtual ~MFSM();
 private:
 	MState* mpCurrent;
 	map<int, unique_ptr<MState>> mStateMap;
@@ -33,6 +36,7 @@ public:
 	void AddState(int stateID);
 	void ChangeState(int stateID);
 	void Update(float dt);
+	void Release();
 };
 
 template<class T>

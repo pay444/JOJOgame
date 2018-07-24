@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "Logo.h"
 #include "Stage.h"
+#include "EventScene.h"
 
 class SceneMgr final
 {
@@ -22,8 +23,10 @@ private:
 	unique_ptr<Scene> mspScene;
 	//unique_ptr<Logo> mspLogo;
 	//unique_ptr<Stage> mspStage;
+	HWND mHWnd;		//윈도우의 핸들가져오기
 	Logo *mpLogo;
 	Stage * mpStage;
+	EventScene * mpEventScene;
 	SpriteBatch* mSpriteBatch;
 	SpriteFont* mSpriteFont;
 	E_SCENE meScene;
@@ -34,5 +37,8 @@ public:
 	void Release();
 public:
 	void SetEScene(E_SCENE eScene) { meScene = eScene; }
+
+	void SetHWND(HWND hWnd) { mHWnd = hWnd; }
+	HWND GetHWND() { return mHWnd; }
 };
 

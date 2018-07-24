@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:f959e71760096fd3237ebc6ee339af29:e48808b254ab9a0e20391f95b0cd68b2:adac6c012314e72ce88b37e69fc185f8$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="events.png" width="1923" height="893">
+    <sprite n="eventMap0.png" x="0" y="492" w="640" h="400" pX="0.5" pY="0.5"/>
+    <sprite n="gameMain.PNG" x="1280" y="492" w="643" h="401" pX="0.5" pY="0.5"/>
+    <sprite n="gameOver.png" x="640" y="492" w="640" h="400" pX="0.5" pY="0.5"/>
+    <sprite n="huchuFace.png" x="48" y="128" w="120" h="120" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActionB_001.png" x="672" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActionB_002.png" x="720" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActionB_003.png" x="624" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActionB_004.png" x="768" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActionB_005.png" x="864" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActionB_006.png" x="960" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActionB_007.png" x="1008" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActionB_008.png" x="912" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActionB_009.png" x="816" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActionB_010.png" x="576" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActionB_011.png" x="528" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActionB_012.png" x="192" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActionB_013.png" x="240" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActionB_014.png" x="144" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActionB_015.png" x="288" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActionB_016.png" x="336" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActionB_017.png" x="432" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActionB_018.png" x="1056" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActionB_019.png" x="384" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActionB_020.png" x="96" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActoinF_001.png" x="1152" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActoinF_002.png" x="1632" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActoinF_003.png" x="1728" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActoinF_004.png" x="1584" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActoinF_005.png" x="1536" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActoinF_006.png" x="0" y="128" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActoinF_007.png" x="1872" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActoinF_008.png" x="1776" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActoinF_009.png" x="1824" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActoinF_010.png" x="1680" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActoinF_011.png" x="1200" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActoinF_012.png" x="1104" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActoinF_013.png" x="1488" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActoinF_014.png" x="1248" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActoinF_015.png" x="1296" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActoinF_016.png" x="1392" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActoinF_017.png" x="1440" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActoinF_018.png" x="1344" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActoinF_019.png" x="480" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoActoinF_020.png" x="48" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="jojoFace.png" x="168" y="128" w="120" h="120" pX="0.5" pY="0.5"/>
+    <sprite n="soldier1.png" x="288" y="128" w="120" h="120" pX="0.5" pY="0.5"/>
+    <sprite n="soldierB_001.png" x="672" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierB_002.png" x="576" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierB_003.png" x="720" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierB_004.png" x="768" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierB_005.png" x="864" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierB_006.png" x="912" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierB_007.png" x="816" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierB_008.png" x="480" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierB_009.png" x="288" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierB_010.png" x="144" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierB_011.png" x="96" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierB_012.png" x="48" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierB_013.png" x="192" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierB_014.png" x="240" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierB_015.png" x="384" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierB_016.png" x="432" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierB_017.png" x="336" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierB_018.png" x="960" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierB_019.png" x="1008" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierB_020.png" x="1584" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierF_001.png" x="1632" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierF_002.png" x="1536" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierF_003.png" x="1680" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierF_004.png" x="1776" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierF_005.png" x="1872" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierF_006.png" x="0" y="64" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierF_007.png" x="1824" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierF_008.png" x="1728" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierF_009.png" x="1488" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierF_010.png" x="1440" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierF_011.png" x="1104" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierF_012.png" x="1152" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierF_013.png" x="1056" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierF_014.png" x="1200" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierF_015.png" x="1248" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierF_016.png" x="1344" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierF_017.png" x="1392" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierF_018.png" x="1296" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierF_019.png" x="528" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="soldierF_020.png" x="624" y="0" w="48" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="stageStart.png" x="1242" y="128" w="604" h="364" pX="0.5" pY="0.5"/>
+    <sprite n="startBtn.png" x="408" y="128" w="146" h="34" pX="0.5" pY="0.5"/>
+    <sprite n="sWordBalloonL.png" x="24" y="0" w="24" h="24" pX="0.5" pY="0.5"/>
+    <sprite n="sWordBalloonR.png" x="0" y="0" w="24" h="24" pX="0.5" pY="0.5"/>
+    <sprite n="wordBallonL.png" x="554" y="128" w="344" h="84" pX="0.5" pY="0.5"/>
+    <sprite n="wordBallonR.png" x="898" y="128" w="344" h="84" pX="0.5" pY="0.5"/>
+</TextureAtlas>

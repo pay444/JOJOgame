@@ -329,13 +329,12 @@ void UiSkills::Draw()
 		swprintf_s(wch, L" / %d", static_cast<int>(maxMp));
 		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(0.0f, -75.0f) - offset), DirectX::Colors::Black, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
 
-		//해당 클래스 캐릭터 ㄴ이름 출력
-		string str = typeid(*mpPlayer).name();
-		str.erase(0, 6);
-		wstring wstr;
-		mbstowcs(&wstr[0], str.c_str(), strlen(typeid(*mpPlayer).name()));
-	
-		mpFont->DrawString(mpBatch, wstr.c_str(), XMFLOAT2(mPosition + XMFLOAT2(-120.0f, -77.0f) - offset), DirectX::Colors::Black, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+		//해당 클래스 캐릭터 이름 출력
+		//string str = typeid(*mpPlayer).name();
+		//str.erase(0, 6);
+		//wstring wstr;
+		//mbstowcs(&wstr[0], str.c_str(), strlen(typeid(*mpPlayer).name()));
+		mpFont->DrawString(mpBatch, mpPlayer->GetName().c_str(), XMFLOAT2(mPosition + XMFLOAT2(-120.0f, -77.0f) - offset), DirectX::Colors::Black, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.8f, 0.8f));
 
 		//취소 버튼 출력
 		SetAnimation("CancelBtn");
@@ -363,21 +362,27 @@ void UiSkills::Draw()
 				{
 					wchar_t wch[128];
 					//클래스 이름 출력
-					string str = typeid(*mspVecSkills[i]).name();
-					str.erase(0, 6);
-					wstring wstr;
-					mbstowcs(&wstr[0], str.c_str(), strlen(typeid(*mspVecSkills[i]).name()));
-					mpFont->DrawString(mpBatch, wstr.c_str()
+					//string str = typeid(*mspVecSkills[i]).name();
+					//str.erase(0, 6);
+					//wstring wstr;
+					//mbstowcs(&wstr[0], str.c_str(), strlen(typeid(*mspVecSkills[i]).name()));
+					
+					mpFont->DrawString(mpBatch, (mspVecSkills[i])->GetName().c_str()
 						, mVecUiSkillInfo[i].pos+XMFLOAT2(-100.0f,-10.0f) - offset
 						, DirectX::Colors::Black, 0.0f
-						, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
-					
+						, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.8f, 0.8f));
+					//해당클래스의 효과 출력
+					mpFont->DrawString(mpBatch, (mspVecSkills[i])->GetEfficacyName().c_str()
+						, mVecUiSkillInfo[i].pos + XMFLOAT2(-20.0f, -10.0f) - offset
+						, DirectX::Colors::Black, 0.0f
+						, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.8f, 0.8f));
+
 					//스킬의 MP비용 출력
 					swprintf_s(wch, L"%d", mspVecSkills[i]->GetMpCost());
 					mpFont->DrawString(mpBatch, wch
 						, mVecUiSkillInfo[i].pos + XMFLOAT2(80.0f, -10.0f) - offset
 						, DirectX::Colors::Black, 0.0f
-						, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+						, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.8f, 0.8f));
 					//mspVecSkills[i]->
 				}
 			}

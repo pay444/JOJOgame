@@ -264,12 +264,12 @@ void ChaseState::Execute(float dt)
 
 void ChaseState::Exit()
 {
-	OutputDebugString(L"------------Exit Chase\n");
+	//OutputDebugString(L"------------Exit Chase\n");
 }
 
 void AttackState::Enter()
 {
-	OutputDebugString(L"Enter Attack\n");
+	//OutputDebugString(L"Enter Attack\n");
 	//mfElapsedTime = 0.0f;
 }
 
@@ -356,5 +356,5 @@ void AttackState::Execute(float dt)
 
 void AttackState::Exit()
 {
-	OutputDebugString(L"------------Exit Attack\n");
+	//OutputDebugString(L"------------Exit Attack\n");
 }

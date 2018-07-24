@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "Logo.h"
-
+#include "MainGameMap.h"
 
 Logo::Logo():
-	mScreenWidth(DEFAULT_SCREEN_WIDTH),
-	mScreenHeight(DEFAULT_SCREEN_HEIGHT)
+	mScreenWidth(STARTSCENE_SCERRN_WIDTH),
+	mScreenHeight(STARTSCENE_SCERRN_HEIGHT)
 {
 }
 
@@ -18,9 +18,12 @@ HRESULT Logo::Initialize(SpriteBatch* spriteBatch, SpriteFont* spriteFont)
 	//mpWorld = MActorManager::Instance().Create<World>(spriteBatch,spriteFont, mScreenWidth, mScreenHeight);
 	//mpWorld->Init("Images\\Map\\stage3.tmx", E_SORTID_FOURTH);
 
-	auto pTexture = ResourceManager::Instance().GetShaderResource(L"Images\\jojo\\jojoSprites.png");//(L"Images\\sprites.png");
-	auto pSheet = ResourceManager::Instance().GetSpriteSheet(L"Images\\jojo\\jojoSprites.xml", pTexture); //(L"Images\\sprites.xml",pTexture);
+	auto pTexture = ResourceManager::Instance().GetShaderResource(L"Images\\Production\\events.png");//(L"Images\\sprites.png");
+	auto pSheet = ResourceManager::Instance().GetSpriteSheet(L"Images\\Production\\events.xml", pTexture); //(L"Images\\sprites.xml",pTexture);
 
+	mpMainGameMap = MActorManager::Instance().Create<MainGameMap>(spriteBatch, pSheet,spriteFont);
+
+	mpMainGameMap->Init(E_SORTID_SECOND, XMFLOAT2((mScreenWidth * 0.5f), mScreenHeight * 0.5f), false);
 	//mpUi = MActorManager::Instance().Create<UI>(spriteBatch, pSheet, spriteFont);
 	//mpUi->Init(E_SORTID_FIRST, XMFLOAT2((mScreenWidth * 0.5f) + 100, mScreenHeight * 0.5f), false);
 
@@ -85,7 +88,27 @@ E_SCENE Logo::Update(float dt)
 	//{
 	//	mLogoScene = E_SCENE_NONPASS;
 	//}
-	E_SCENE eResult = MActorManager::Instance().Update(dt);
+	if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
+	{
+
+
+	}
+	if (MFramework::mKeyboardTracker.IsKeyPressed(Keyboard::D0))
+	{
+		//RECT rc;
+		//GetWindowRect(SceneMgr::Instance().GetHWND(), &rc);
+		//MoveWindow(SceneMgr::Instance().GetHWND(), rc.left, rc.top, 480, 600, true);
+	}
+	auto state = Keyboard::Get().GetState();
+
+	if (state.D1)
+		return E_SCENE_LOGO;
+	else if (state.D2)
+		return E_SCENE_STAGE;
+	else if (state.D3)
+		return E_SCENE_EVENT0;
+
+	E_SCENE eResult = MActorManager::Instance().GameMainUpdate(dt);
 	if (eResult > E_SCENE_NONPASS)
 		return eResult;
 
@@ -94,7 +117,7 @@ E_SCENE Logo::Update(float dt)
 
 void Logo::Render()
 {
-	SceneMgr::Instance().Render();
+	MActorManager::Instance().Draw();
 }
 
 void Logo::Release()

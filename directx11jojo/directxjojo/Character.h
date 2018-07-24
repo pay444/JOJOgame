@@ -125,6 +125,7 @@ protected:
 	bool mbCountAction;	//반격을 했는지 안했는지 확인하는 변수
 						//MoveBox *mpMoveBox;
 	int mClassType;		//현재 캐릭터의 직업
+	int				mCamp;		//캐릭터의 진영
 
 public:
 	void SetStaus(int health, int attack,int mana,int sp, int moveDis, int AttackDis)
@@ -141,6 +142,7 @@ public:
 		//mpMoveBox->SetMoveDis(mMoveDistance);
 	}
 	
+
 	void SetAniName(char* name) { mAnimName2 = name; }
 	char* GetAniName() { return mAnimName2; }
 
@@ -189,5 +191,9 @@ public:
 
 	void JoAstar_Start(const Vector2 &vDestPos, const Vector2 &vSorcePos);
 	bool JoAStar_Move(float dt);
+
+	void SetCamp(int camp) { mCamp = camp; }
+	int GetCamp() { return mCamp; }
+
 };
 

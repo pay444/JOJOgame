@@ -32,6 +32,8 @@ void HpBean::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
 	SetAnimation("Bean");
 	mPlus = 5;
 	mStock = 3;
+	mName = L"Äá";
+	mEfficacy = L"HPÈ¸º¹";
 }
 
 E_SCENE HpBean::Update(float dt)

@@ -20,6 +20,11 @@ Enemy::Enemy(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont)
 
 Enemy::~Enemy()
 {
+	if (mspFSM)
+	{
+		mspFSM.reset();
+		mspFSM = nullptr;
+	}
 }
 
 void Enemy::Init(float moveSpeed, XMFLOAT2 startpos, E_SORTID eSortID)

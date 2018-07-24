@@ -168,18 +168,21 @@ E_SCENE World::Update(float dt)
 	//a.vPos = (*vec)[0].get()->vPos;
 
 
-	if (state.D2)
-		meScene = E_SCENE_LOGO;
-	else if (state.D3)
-		meScene = E_SCENE_STAGE;
-	else
-		meScene = E_SCENE_NONPASS;
+
 	//->GetState().IsKeyDown(Keyboard::W)
 	if (MFramework::mKeyboardTracker.IsKeyPressed(Keyboard::D0))
 	{
 		visible = !visible;
+		
+		//SetDisplayResize()
+		//SendMessage(SceneMgr::Instance().GetHWND(), WM_SIZE, (WPARAM)SIZE_MAXSHOW, MAKELPARAM(480, 600));
+		//SetWindowPos(SceneMgr::Instance().GetHWND(), HWND hWndInsertAfter, int X, int Y, int cx, int cy, UINT uFlags);
+		//RECT rc;
+		//GetWindowRect(SceneMgr::Instance().GetHWND(), &rc);
+		//MoveWindow(SceneMgr::Instance().GetHWND(), rc.left, rc.top, 480, 600, true);
+		//InvalidateRect();
 	}
-	return meScene;
+	return E_SCENE_NONPASS;
 }
 
 void World::Render()
@@ -261,6 +264,7 @@ void World::Draw()
 				mPosition.x = mTileInfo[index]->vPos.x - fScrollx;
 				mPosition.y = mTileInfo[index]->vPos.y - fScrolly;
 				mpBatch->Draw(mpTileTexture, mWorldPos + mPosition , &src);
+				
 				if(visible)
 				{
 					wchar_t wch[64];
@@ -271,9 +275,11 @@ void World::Draw()
 					int x = mTileInfo[index]->vPos.x;
 					int y = mTileInfo[index]->vPos.y;
 					swprintf_s(wch, L"x=%d \n y=%d",x , y);
+					//swprintf_s(wch, L"ÇÏ³ª");
+
 					//int x = mTileInfo[index]->AttackNum;
 					//swprintf_s(wch, L"at=%d", x);
-					mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-10.0f, 10.0f)), DirectX::Colors::Black, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.4f, 0.4f));
+					mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-10.0f, 10.0f)), DirectX::Colors::Black, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.7f, 0.7f));
 				}
 			}
 		}

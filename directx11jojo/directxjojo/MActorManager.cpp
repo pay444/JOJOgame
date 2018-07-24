@@ -339,6 +339,10 @@ void MActorManager::CheckAction()
 					//협공이가능한지 확인한후 가능하다면 
 					//플래그가 올라가고 해당되는 놈들이 벡터에들어있게되고 공격을시작함
 					mbPincerAtkFlag = CheckPicerAtk();
+					if (mbPincerAtkFlag)
+					{
+						attackBox->SetVisible(true);
+					}
 					break;
 				}
 			}
@@ -534,10 +538,11 @@ void MActorManager::CheckAction()
 					auto a = mVecAttAreaCharacter[i];
 					if (atkBox->UIntersecRectScope(mVecAttAreaCharacter[i]))
 					{
-						
 						//때릴녀석 주위에 협공할 녀석이 없다면 공격안됨
 						if (mVecPincerCharacter[i].vecpPlayer.empty())
 						{
+							mbPincerAtkFlag = false;
+							mbCountAtkFlag = false;
 							break;
 						}
 						
@@ -571,11 +576,21 @@ void MActorManager::CheckAction()
 		//협공이 가능했던 녀석들이 공격한다.
 		for (size_t j = 0; j < mVecPincerCharacter[miPickPincerIndex].vecpPlayer.size(); j++)
 		{
+			//이미 한번협공을 특정지은 후라면 특정안함
+			if (miCurPincerCharIndex > 0)
+				break;
 			if (atkBox->GetCharacter()->GetColor() == cr)
 			{
 				//맨처음 협공을 시작한녀석 공격이후 다음번 공격할 캐릭터 특정
 				if (miCurPincerCharIndex < 0)
 				{
+					//만일 그적의 Hp가 다달았다면 break;
+					if (mVecAttAreaCharacter[miPickPincerIndex]->GetHealth() <= 0)
+					{
+						mbPincerAtkFlag = false;
+						mbCountAtkFlag = false;
+						break;
+					}
 					atkBox->Release();
 					atkBox->SetAttackDis(mVecPincerCharacter[miPickPincerIndex].vecpPlayer[j]->GetAttackDistance());
 					atkBox->SetAttackDamge(mVecPincerCharacter[miPickPincerIndex].vecpPlayer[j]->GetAttack());
@@ -602,8 +617,6 @@ void MActorManager::CheckAction()
 					mbPincerAtkFlag = false;
 					mClickCount = 0;
 					mfActionTime = 0.0f;
-					//mCountChracter = nullptr;
-
 				}
 
 				//현재 행동한 캐릭터의 인덱스저장
@@ -611,10 +624,20 @@ void MActorManager::CheckAction()
 				//단 사이즈를 벗어나면안됨
 				if (miCurPincerCharIndex < mVecPincerCharacter[miPickPincerIndex].vecpPlayer.size())
 				{
-					atkBox->Release();
-					atkBox->SetAttackDis(mVecPincerCharacter[miPickPincerIndex].vecpPlayer[miPickPincerIndex]->GetAttackDistance());
-					atkBox->SetAttackDamge(mVecPincerCharacter[miPickPincerIndex].vecpPlayer[miPickPincerIndex]->GetAttack());
-					mVecAttAreaCharacter[miPickPincerIndex]->OnHit(atkBox, mVecPincerCharacter[miPickPincerIndex].vecpPlayer[miCurPincerCharIndex]);
+					//그적의 Hp가 0보다 작으면 빠져나옴
+					if (mVecAttAreaCharacter[miPickPincerIndex]->GetHealth() <= 0)
+					{
+						mbPincerAtkFlag = false;
+						mbCountAtkFlag = false;
+						
+					}
+					else
+					{
+						atkBox->Release();
+						atkBox->SetAttackDis(mVecPincerCharacter[miPickPincerIndex].vecpPlayer[miPickPincerIndex]->GetAttackDistance());
+						atkBox->SetAttackDamge(mVecPincerCharacter[miPickPincerIndex].vecpPlayer[miPickPincerIndex]->GetAttack());
+						mVecAttAreaCharacter[miPickPincerIndex]->OnHit(atkBox, mVecPincerCharacter[miPickPincerIndex].vecpPlayer[miCurPincerCharIndex]);
+					}
 					
 				}
 			}
@@ -633,7 +656,7 @@ void MActorManager::CheckAllActionTurn()
 
 		if (dynamic_cast<Character*>(pActor))
 		{
-			if (pActor->GetCamp() == GunGeon::CampType::PLAYER)
+			if (((Character*)pActor)->GetCamp() == GunGeon::CampType::PLAYER)
 			{
 				if (((Character*)pActor)->GetActionTurn() == 2)
 				{
@@ -695,7 +718,7 @@ void MActorManager::CheckAllActionTurn()
 
 				}
 			}
-			else if (pActor->GetCamp() == GunGeon::CampType::MONSTER)
+			else if (((Character*)pActor)->GetCamp() == GunGeon::CampType::MONSTER)
 			{
 				if (((Character*)pActor)->GetActionTurn() == 2)
 				{
@@ -1484,13 +1507,13 @@ bool MActorManager::CheckPicerAtk()
 		return false;
 	}
 
+	//맞을녀석 8방향 확인후 공격가능한 캐릭터 벡터에 넣어줌
 	for (size_t i = 0; i < mVecAttAreaCharacter.size(); i++)
 	{
 		//맞을 녀석의 타일상 위치를 가져온다
 		int tileOnHitCharacterIndex = 
 			attBox->GetTileIndex(mVecAttAreaCharacter[i]->GetPosition());
 
-		//맞을녀석 8방향 확인후 공격가능한 캐릭터 벡터에 넣어줌
 		//위
 		if ((tileOnHitCharacterIndex) >= JoTileCx)
 		{
@@ -1942,19 +1965,51 @@ bool MActorManager::CheckPicerAtk()
 	}
 
 	//공격이 가능하지만 협공가능한 캐릭터가 없으면 false
-	if (mVecPincerCharacter.empty())
+	for (size_t k = 0; k < mVecPincerCharacter.size(); k++)
 	{
-		attBox->SetVisible(false);
-		return false;
+		if (!mVecPincerCharacter[k].vecpPlayer.empty())
+		{
+			//다시 원위치
+			attBox->SetPosition(attBox->GetCharacter()->GetPosition());
+			attBox->SetAttackDis(attBox->GetCharacter()->GetAttackDistance());
+			attBox->Release();
+			attBox->AttackScope();
+			GetClassUi()->SetVisible(false);
+			return true;
+		}
 	}
-	//attBox->SetVisible(false);
-	//다시 원위치
-	attBox->SetPosition(attBox->GetCharacter()->GetPosition());
-	attBox->SetAttackDis(attBox->GetCharacter()->GetAttackDistance());
-	attBox->Release();
-	attBox->AttackScope();
-	GetClassUi()->SetVisible(false);
-	return true;
+
+	attBox->SetVisible(false);
+	GetClassUi()->SetVisible(true);
+	return false;
+}
+
+E_SCENE MActorManager::GameMainUpdate(float dt)
+{
+	for (auto &actor : mActors)
+	{
+		E_SCENE eResult = actor->Update(dt);
+		if (eResult > E_SCENE_NONPASS)
+		{
+			return eResult;
+		}
+	}
+
+	return E_SCENE_NONPASS;
+}
+
+E_SCENE MActorManager::EventUpdate(float dt)
+{
+	for (auto &actor : mActors)
+	{
+		E_SCENE eResult = actor->Update(dt);
+		if (eResult > E_SCENE_NONPASS)
+		{
+			return eResult;
+		}
+	}
+
+	return E_SCENE_NONPASS;
 }
 
 //void MActorManager::InsertMap(string str, unique_ptr<MActor> actor)
