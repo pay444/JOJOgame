@@ -8,12 +8,16 @@ public:
 
 protected:
 	unique_ptr<MFSM> mspFSM;
-
+	XMFLOAT2	mDestPos;		//µµÂøÁö
 public:
 	virtual void Init(
 		float moveSpeed,
 		XMFLOAT2 startpos, E_SORTID eSortID);
 	virtual E_SCENE Update(float dt);
 	virtual void Draw();
+
+public:
+	XMFLOAT2 GetDestPos() { return mDestPos; }
+	void SetDestPos(XMFLOAT2 pos) { mDestPos = pos; }
 };
 

@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.5.0</string>
+        <string>4.6.2</string>
         <key>fileName</key>
         <string>C:/Users/hi/Source/Repos/JOJOgame/directx11jojo/directxjojo/Images/Production/ss/ss.tps</string>
         <key>autoSDSettings</key>
@@ -226,21 +226,25 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../huchuFace.png</key>
-            <key type="filename">../jojoFace.png</key>
-            <key type="filename">../soldier1.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>30,30,60,60</rect>
-                <key>scale9Paddings</key>
-                <rect>30,30,60,60</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
+            <key type="filename">../huchaB_001.png</key>
+            <key type="filename">../huchaB_002.png</key>
+            <key type="filename">../huchaB_003.png</key>
+            <key type="filename">../huchaB_004.png</key>
+            <key type="filename">../huchaB_006.png</key>
+            <key type="filename">../huchaB_008.png</key>
+            <key type="filename">../huchaB_009.png</key>
+            <key type="filename">../huchaB_011.png</key>
+            <key type="filename">../huchaB_012.png</key>
+            <key type="filename">../huchaB_015.png</key>
+            <key type="filename">../huchaB_020.png</key>
+            <key type="filename">../huchaF_001.png</key>
+            <key type="filename">../huchaF_002.png</key>
+            <key type="filename">../huchaF_003.png</key>
+            <key type="filename">../huchaF_004.png</key>
+            <key type="filename">../huchaF_006.png</key>
+            <key type="filename">../huchaF_008.png</key>
+            <key type="filename">../huchaF_009.png</key>
+            <key type="filename">../huchaF_011.png</key>
             <key type="filename">../jojoActionB_001.png</key>
             <key type="filename">../jojoActionB_002.png</key>
             <key type="filename">../jojoActionB_003.png</key>
@@ -330,6 +334,21 @@
                 <rect>12,16,24,32</rect>
                 <key>scale9Paddings</key>
                 <rect>12,16,24,32</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../huchuFace.png</key>
+            <key type="filename">../jojoFace.png</key>
+            <key type="filename">../soldier1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>30,30,60,60</rect>
+                <key>scale9Paddings</key>
+                <rect>30,30,60,60</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -482,6 +501,25 @@
             <filename>../soldier1.png</filename>
             <filename>../jojoFace.png</filename>
             <filename>../stageStart.png</filename>
+            <filename>../huchaB_006.png</filename>
+            <filename>../huchaB_008.png</filename>
+            <filename>../huchaB_009.png</filename>
+            <filename>../huchaB_011.png</filename>
+            <filename>../huchaB_012.png</filename>
+            <filename>../huchaB_015.png</filename>
+            <filename>../huchaB_020.png</filename>
+            <filename>../huchaF_001.png</filename>
+            <filename>../huchaF_002.png</filename>
+            <filename>../huchaF_003.png</filename>
+            <filename>../huchaF_004.png</filename>
+            <filename>../huchaF_006.png</filename>
+            <filename>../huchaF_008.png</filename>
+            <filename>../huchaF_009.png</filename>
+            <filename>../huchaF_011.png</filename>
+            <filename>../huchaB_001.png</filename>
+            <filename>../huchaB_002.png</filename>
+            <filename>../huchaB_003.png</filename>
+            <filename>../huchaB_004.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

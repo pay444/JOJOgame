@@ -73,9 +73,6 @@
     <Filter Include="99.Mgrs\ActorManager">
       <UniqueIdentifier>{0273213f-603b-4721-be6f-ed97f6bc1426}</UniqueIdentifier>
     </Filter>
-    <Filter Include="99.Mgrs\EventActorMgr">
-      <UniqueIdentifier>{fe283c7e-35bd-4e85-b225-c443aeb319b6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.Object\03.map">
       <UniqueIdentifier>{f7369e6f-9a01-4cd1-96f4-f1d1c0bb096b}</UniqueIdentifier>
     </Filter>

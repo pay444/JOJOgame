@@ -56,6 +56,6 @@ void EventBaseMap::Draw()
 	//	, float scale, SpriteEffects effects, float layer) const
 
 	mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + mPosition, tint
-		, 0, 1.0f, DirectX::SpriteEffects_FlipHorizontally, 0.0f);
+		, 0, 1.0f, DirectX::SpriteEffects_None, 0.0f);
 
 }

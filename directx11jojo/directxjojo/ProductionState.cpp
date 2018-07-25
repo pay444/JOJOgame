@@ -4,6 +4,8 @@
 void P_IdleState::Enter()
 {
 	//MFramework::OnResize();
+
+	mpFSM->GetOwner()->SetAnimation("StandF");
 }
 
 void P_IdleState::Execute(float dt)
@@ -16,10 +18,12 @@ void P_IdleState::Exit()
 
 void P_MoveState::Enter()
 {
+	mpFSM->GetOwner()->SetAnimation("WalkF");
 }
 
 void P_MoveState::Execute(float dt)
 {
+
 }
 
 void P_MoveState::Exit()

@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 class EventBaseMap;
+class EventCharacter;
 class EventScene : public Scene
 {
 private:
@@ -14,6 +15,7 @@ protected:
 	UINT		mScreenHeight;
 private:
 	EventBaseMap * mpEventMap;
+	EventCharacter* mpEventChr;
 public:
 	virtual HRESULT Initialize(SpriteBatch* spriteBatch, SpriteFont* spriteFont);
 	virtual E_SCENE Update(float dt);

@@ -8,6 +8,7 @@ EventCharacter::EventCharacter()
 
 
 EventCharacter::EventCharacter(SpriteBatch *pBatch, SpriteSheet *pSheet, SpriteFont * pFont)
+	:MActor(pBatch,pSheet,pFont)
 {
 
 }
@@ -18,8 +19,12 @@ EventCharacter::~EventCharacter()
 
 void EventCharacter::Init(float moveSpeed, XMFLOAT2 startpos, E_SORTID eSortID)
 {
-	SetPosition(pos);
-	SetAnimation("EventMap0");
+
+	SetPosition(startpos);
+	//SetAnimation("EventMap0");
+	
+	meSortID = eSortID;
+	mfMoveSpeed = moveSpeed;
 	RECT rc;
 	GetWindowRect(SceneMgr::Instance().GetHWND(), &rc);
 	MoveWindow(SceneMgr::Instance().GetHWND()
@@ -37,6 +42,7 @@ E_SCENE EventCharacter::Update(float dt)
 {
 	MActor::Update(dt);
 
+	mspFSM->Update(dt);
 	return E_SCENE_NONPASS;
 }
 
@@ -46,6 +52,6 @@ void EventCharacter::Draw()
 	Color tint = Colors::White;
 
 	mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + mPosition, tint
-		, 0, 1.0f, DirectX::SpriteEffects_FlipHorizontally, 0.0f);
+		, 0, 1.0f, DirectX::SpriteEffects_None, 0.0f);
 
 }
