@@ -51,9 +51,9 @@ private:
 	vector<Character*> mVecAttAreaCharacter;		//내 공격범위에 들어있는 캐릭터를 담고있는 벡터
 	vector<PINCERINFO> mVecPincerCharacter;			//협공할수있는 캐릭터를 담고있는 벡터
 public:
-	E_SCENE Update(float dt);
-	E_SCENE GameMainUpdate(float dt);
-	E_SCENE EventUpdate(float dt);
+	E_SCENE Update(float dt);					//게임 전투씬에서의 Update();
+	E_SCENE GameMainUpdate(float dt);			//게임 시작하기 전의 Update();
+	E_SCENE EventUpdate(float dt);				//게임 이벤트 씬의 Update();
 	void Draw();
 	void Release();
 

@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "EventScene.h"
+#include "EventBaseMap.h"
 
-
-EventScene::EventScene()
+EventScene::EventScene():
+	mScreenWidth(STARTSCENE_SCERRN_WIDTH),
+	mScreenHeight(STARTSCENE_SCERRN_HEIGHT)
 {
 }
 
@@ -15,6 +17,18 @@ HRESULT EventScene::Initialize(SpriteBatch * spriteBatch, SpriteFont * spriteFon
 {
 	auto pTexture = ResourceManager::Instance().GetShaderResource(L"Images\\Production\\events.png");//(L"Images\\sprites.png");
 	auto pSheet = ResourceManager::Instance().GetSpriteSheet(L"Images\\Production\\events.xml", pTexture); //(L"Images\\sprites.xml",pTexture);
+
+	mpEventMap = MActorManager::Instance().Create<EventBaseMap>(spriteBatch, pSheet, spriteFont);
+
+	Animation anim[] = {
+		{ "EventMap0", 1,{
+			{ "eventMap0", 0.3f },
+	} },
+	};
+	((MActor*)mpEventMap)->Init(anim, 1);
+	((MActor*)mpEventMap)->SetAnimation("EventMap0");
+
+	mpEventMap->Init(E_SORTID_SECOND, XMFLOAT2((mScreenWidth * 0.5f), mScreenHeight * 0.5f), false);
 
 	return S_OK;
 }

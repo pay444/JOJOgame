@@ -234,6 +234,12 @@
     <ClInclude Include="EventBaseMap.h">
       <Filter>02.Object\04.Event</Filter>
     </ClInclude>
+    <ClInclude Include="EventStageMap.h">
+      <Filter>02.Object\04.Event</Filter>
+    </ClInclude>
+    <ClInclude Include="EventCharacter.h">
+      <Filter>02.Object\04.Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -366,6 +372,12 @@
       <Filter>02.Object\03.map</Filter>
     </ClCompile>
     <ClCompile Include="EventBaseMap.cpp">
+      <Filter>02.Object\04.Event</Filter>
+    </ClCompile>
+    <ClCompile Include="EventStageMap.cpp">
+      <Filter>02.Object\04.Event</Filter>
+    </ClCompile>
+    <ClCompile Include="EventCharacter.cpp">
       <Filter>02.Object\04.Event</Filter>
     </ClCompile>
   </ItemGroup>

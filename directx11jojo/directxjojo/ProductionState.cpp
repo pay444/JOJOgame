@@ -25,3 +25,15 @@ void P_MoveState::Execute(float dt)
 void P_MoveState::Exit()
 {
 }
+
+void P_TalkState::Enter()
+{
+}
+
+void P_TalkState::Execute(float dt)
+{
+}
+
+void P_TalkState::Exit()
+{
+}

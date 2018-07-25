@@ -72,7 +72,8 @@ namespace GunGeon
 	enum ProductionState
 	{
 		Production_Idle,
-		Production_Move
+		Production_Move,
+		Production_Talk
 	};
 
 	static Animation BulletAnim[3] = {

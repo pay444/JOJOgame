@@ -155,7 +155,9 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyState.h" />
     <ClInclude Include="EventBaseMap.h" />
+    <ClInclude Include="EventCharacter.h" />
     <ClInclude Include="EventScene.h" />
+    <ClInclude Include="EventStageMap.h" />
     <ClInclude Include="FotMan.h" />
     <ClInclude Include="GameMain.h" />
     <ClInclude Include="HpBean.h" />
@@ -208,7 +210,9 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyState.cpp" />
     <ClCompile Include="EventBaseMap.cpp" />
+    <ClCompile Include="EventCharacter.cpp" />
     <ClCompile Include="EventScene.cpp" />
+    <ClCompile Include="EventStageMap.cpp" />
     <ClCompile Include="FotMan.cpp" />
     <ClCompile Include="GameMain.cpp" />
     <ClCompile Include="HpBean.cpp" />

@@ -1,6 +1,6 @@
 #pragma once
 #include "Scene.h"
-
+class EventBaseMap;
 class EventScene : public Scene
 {
 private:
@@ -9,7 +9,11 @@ private:
 public:
 	EventScene();
 	virtual ~EventScene();
-
+protected:
+	UINT		mScreenWidth;
+	UINT		mScreenHeight;
+private:
+	EventBaseMap * mpEventMap;
 public:
 	virtual HRESULT Initialize(SpriteBatch* spriteBatch, SpriteFont* spriteFont);
 	virtual E_SCENE Update(float dt);

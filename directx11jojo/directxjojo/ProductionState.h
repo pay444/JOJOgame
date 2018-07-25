@@ -16,3 +16,12 @@ public:
 	virtual void Execute(float dt);
 	virtual void Exit();
 };
+
+class P_TalkState :public MState
+{
+public:
+	virtual ~P_TalkState() {};
+	virtual void Enter();
+	virtual void Execute(float dt);
+	virtual void Exit();
+};
