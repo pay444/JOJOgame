@@ -19,7 +19,7 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 	GetWindowRect(SceneMgr::Instance().GetHWND(), &rc);
 
 	MoveWindow(SceneMgr::Instance().GetHWND()
-		, rc.left, rc.top, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, true);
+		, rc.left, rc.top, DEFAULT_SCREEN_WIDTH+15, DEFAULT_SCREEN_HEIGHT, true);
 
 	mpWorld = MActorManager::Instance().Create<World>(spriteBatch, spriteFont, mScreenWidth, mScreenHeight);
 	mpWorld->Init("Images\\Map\\stage3.tmx", E_SORTID_FOURTH);

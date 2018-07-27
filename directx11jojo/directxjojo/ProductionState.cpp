@@ -6,7 +6,7 @@ void P_IdleState::Enter()
 {
 	//MFramework::OnResize();
 	misFirst = true;
-	mpFSM->GetOwner()->SetAnimation("StandF");
+	//mpFSM->GetOwner()->SetAnimation("StandF");
 	//EventEditorMgr::Instance().EventCheck();
 }
 
@@ -27,7 +27,7 @@ void P_IdleState::Exit()
 
 void P_MoveState::Enter()
 {
-	mpFSM->GetOwner()->SetAnimation("WalkF");
+	//mpFSM->GetOwner()->SetAnimation("WalkF");
 	//EventEditorMgr::Instance().EventCheck();
 
 }
@@ -53,6 +53,18 @@ void P_MoveState::Execute(float dt)
 	colrc = RectMakeCenter(pChr->GetDestPos().x, pChr->GetDestPos().y, 10, 10);
 	if (PtInRect(&colrc, pt))
 	{
+		//애니메이션이 앞을보고있냐 뒤를보고 가고 있었는지에 따라 달라짐
+		if (pChr->GetAnimName() == "WalkF")
+		{
+			pChr->SetAnimation("StandF");
+			pChr->SetAnimName("StandF");
+		}
+		else if (pChr->GetAnimName() == "WalkB")
+		{
+			pChr->SetAnimation("StandB");
+			pChr->SetAnimName("StandB");
+
+		}
 		pChr->SetPosition(XMFLOAT2(pt.x, pt.y));
 		mpFSM->ChangeState(JoJoGun::ProductionState::Production_Idle);
 	}

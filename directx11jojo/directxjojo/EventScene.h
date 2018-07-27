@@ -2,6 +2,8 @@
 #include "Scene.h"
 class EventBaseMap;
 class EventCharacter;
+class EventTalk;
+class EventStageMap;
 class EventScene : public Scene
 {
 private:
@@ -16,6 +18,8 @@ protected:
 private:
 	EventBaseMap * mpEventMap;
 	EventCharacter* mpEventChr;
+	EventTalk *		mpEventTalk;
+	EventStageMap* mpEventStageMap;
 public:
 	virtual HRESULT Initialize(SpriteBatch* spriteBatch, SpriteFont* spriteFont);
 	virtual E_SCENE Update(float dt);

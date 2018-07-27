@@ -244,7 +244,7 @@
       <Filter>02.Object\04.Event</Filter>
     </ClInclude>
     <ClInclude Include="World.h">
-      <Filter>02.Object\04.Event</Filter>
+      <Filter>02.Object\03.map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

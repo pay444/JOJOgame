@@ -2,6 +2,8 @@
 #include "EventScene.h"
 #include "EventBaseMap.h"
 #include "EventCharacter.h"
+#include "EventTalk.h"
+#include "EventStageMap.h"
 
 EventScene::EventScene():
 	mScreenWidth(STARTSCENE_SCERRN_WIDTH),
@@ -40,21 +42,24 @@ HRESULT EventScene::Initialize(SpriteBatch * spriteBatch, SpriteFont * spriteFon
 	{ "jojoActoinF_003", 0.3f },
 	} },
 	{ "HandUpF", 1,{
-		{ "jojoActionF_006", 0.3f },
+		{ "jojoActoinF_006", 0.3f },
 	} },
 	{ "PointF", 1,{
-		{ "jojoActionF_020", 0.3f },
+		{ "jojoActoinF_020", 0.3f },
 	} },
 	};
 	((MActor*)mpEventChr)->Init(anim2, 4);
 	((MActor*)mpEventChr)->SetAnimation("StandF");
 	((MActor*)mpEventChr)->SetName(L"조조");
-	mpEventChr->Init(100.0f, XMFLOAT2((mScreenWidth ), -50), E_SORTID_SECOND);
+	mpEventChr->Init(100.0f, XMFLOAT2((mScreenWidth + 32), -82), E_SORTID_SECOND);
 
 	mpEventChr = MActorManager::Instance().Create<EventCharacter>(spriteBatch, pSheet, spriteFont);
-	Animation anim3[] = {
+	Animation anim3[] = { 
 		{ "StandF", 1,{
 			{ "soldierF_001", 0.3f },
+	} },
+	{ "StandB", 1,{
+		{ "soldierB_001", 0.3f },
 	} },
 	{ "WalkF", 2,{
 		{ "soldierF_002", 0.3f },
@@ -67,7 +72,7 @@ HRESULT EventScene::Initialize(SpriteBatch * spriteBatch, SpriteFont * spriteFon
 		{ "soldierF_020", 0.3f },
 	} },
 	};
-	((MActor*)mpEventChr)->Init(anim3, 4);
+	((MActor*)mpEventChr)->Init(anim3, 5);
 	((MActor*)mpEventChr)->SetAnimation("StandF");
 	((MActor*)mpEventChr)->SetName(L"병사1");
 	mpEventChr->Init(100.0f, XMFLOAT2(((mScreenWidth ) ), -50), E_SORTID_SECOND);
@@ -76,10 +81,47 @@ HRESULT EventScene::Initialize(SpriteBatch * spriteBatch, SpriteFont * spriteFon
 	((MActor*)mpEventChr)->Init(anim3, 4);
 	((MActor*)mpEventChr)->SetAnimation("StandF");
 	((MActor*)mpEventChr)->SetName(L"병사2");
-	mpEventChr->Init(100.0f, XMFLOAT2(((mScreenWidth)), -50), E_SORTID_SECOND);
+	mpEventChr->Init(100.0f, XMFLOAT2(((mScreenWidth + 64)), -112), E_SORTID_SECOND);
 
+	mpEventTalk	= MActorManager::Instance().Create<EventTalk>(spriteBatch, pSheet, spriteFont);
+	mpEventTalk->Init(XMFLOAT2(mScreenWidth*0.5f, mScreenHeight *0.5f),E_SORTID_FIRST);
+	
+	mpEventChr = MActorManager::Instance().Create<EventCharacter>(spriteBatch, pSheet, spriteFont);
+	Animation anim4[] = {
+		{ "StandF", 1,{
+			{ "huchaF_001", 0.3f },
+	} },
+	{ "StandB", 1,{
+		{ "huchaB_001", 0.3f },
+	} },
+	{ "WalkF", 2,{
+		{ "huchaF_002", 0.3f },
+	{ "huchaF_003", 0.3f },
+	} },
+	{ "WalkB", 2,{
+		{ "huchaB_002", 0.3f },
+	{ "huchaB_003", 0.3f },
+	} },
+	{ "HandUpF", 1,{
+		{ "soldierF_006", 0.3f },
+	} },
+	{ "PointF", 1,{
+		{ "soldierF_020", 0.3f },
+	} },
+	{ "GreetingB", 1,{
+		{ "huchaB_009", 0.3f },
+	} },
+
+	};
+	((MActor*)mpEventChr)->Init(anim4, 7);
+	((MActor*)mpEventChr)->SetAnimation("StandB");
+	((MActor*)mpEventChr)->SetName(L"허차장");
+	mpEventChr->Init(100.0f, XMFLOAT2(-32, mScreenHeight +32), E_SORTID_SECOND);
+
+	
+	mpEventStageMap = MActorManager::Instance().Create<EventStageMap>(spriteBatch, pSheet, spriteFont);
+	mpEventStageMap->Init(E_SORTID_FIRST, XMFLOAT2(mScreenWidth *0.5f, mScreenHeight*0.5f), false);
 	EventEditorMgr::Instance().Init();
-
 	return S_OK;
 }
 

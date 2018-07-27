@@ -28,8 +28,8 @@ LRESULT CALLBACK GlobalWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 
 
 MFramework::MFramework() : 
-	mScreenWidth(DEFAULT_SCREEN_WIDTH),
-	mScreenHeight(DEFAULT_SCREEN_HEIGHT),
+	mScreenWidth(STARTSCENE_SCERRN_WIDTH),
+	mScreenHeight(STARTSCENE_SCERRN_HEIGHT),
 	mPaused(false),
 	mMinimized(false),
 	mMaximized(false),

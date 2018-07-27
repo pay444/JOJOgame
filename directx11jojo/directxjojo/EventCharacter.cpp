@@ -26,10 +26,6 @@ void EventCharacter::Init(float moveSpeed, XMFLOAT2 startpos, E_SORTID eSortID)
 	mHorizonVerticall = 0;
 	meSortID = eSortID;
 	mfMoveSpeed = moveSpeed;
-	RECT rc;
-	GetWindowRect(SceneMgr::Instance().GetHWND(), &rc);
-	MoveWindow(SceneMgr::Instance().GetHWND()
-		, rc.left, rc.top, 658, 438, true);
 
 	mspFSM = make_unique<MFSM>();
 	mspFSM->SetOwner(this);
@@ -81,7 +77,7 @@ void EventCharacter::Draw()
 
 		//swprintf_s(wch, L"%d", index);
 		swprintf_s(wch, L"x = %d y = %d", mouse.x, mouse.y);//mTileInfo[index]->underObject
-		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mouse.x, mouse.y), DirectX::Colors::Black, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mouse.x, mouse.y), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
 	}
 
 
