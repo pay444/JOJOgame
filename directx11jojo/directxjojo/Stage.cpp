@@ -55,7 +55,7 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 		500.0f, XMFLOAT2((mScreenWidth * 0.5f) + 100, mScreenHeight * 0.5f),
 		E_SORTID_SECOND, 200.0f);
 	mpJojo->SetStaus(101, 10, 100, 255, 12, 3);
-	GunGeon::Blackboard::Instance().SetPlayer(mpJojo);
+	JoJoGun::Blackboard::Instance().SetPlayer(mpJojo);
 
 	Jojo *m2pPlayer;
 	m2pPlayer = MActorManager::Instance().Create<Jojo>(spriteBatch, pSheet, spriteFont);

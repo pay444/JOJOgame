@@ -17,6 +17,7 @@ HRESULT SceneMgr::InitScene(SpriteBatch *spritBatch,SpriteFont* spriteFont,E_SCE
 {
 	ResourceManager::Instance().Release();
 	MActorManager::Instance().Release();
+	EventEditorMgr::Instance().Release();
 	Release();
 	mSpriteBatch = spritBatch;
 	mSpriteFont = spriteFont;

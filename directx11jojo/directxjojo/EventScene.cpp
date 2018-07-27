@@ -47,9 +47,38 @@ HRESULT EventScene::Initialize(SpriteBatch * spriteBatch, SpriteFont * spriteFon
 	} },
 	};
 	((MActor*)mpEventChr)->Init(anim2, 4);
-	((MActor*)mpEventChr)->SetAnimation("jojoStandF");
+	((MActor*)mpEventChr)->SetAnimation("StandF");
 	((MActor*)mpEventChr)->SetName(L"조조");
-	mpEventChr->Init(100.0f, XMFLOAT2((mScreenWidth * 0.5f), mScreenHeight * 0.5f), E_SORTID_SECOND);
+	mpEventChr->Init(100.0f, XMFLOAT2((mScreenWidth ), -50), E_SORTID_SECOND);
+
+	mpEventChr = MActorManager::Instance().Create<EventCharacter>(spriteBatch, pSheet, spriteFont);
+	Animation anim3[] = {
+		{ "StandF", 1,{
+			{ "soldierF_001", 0.3f },
+	} },
+	{ "WalkF", 2,{
+		{ "soldierF_002", 0.3f },
+	{ "soldierF_003", 0.3f },
+	} },
+	{ "HandUpF", 1,{
+		{ "soldierF_006", 0.3f },
+	} },
+	{ "PointF", 1,{
+		{ "soldierF_020", 0.3f },
+	} },
+	};
+	((MActor*)mpEventChr)->Init(anim3, 4);
+	((MActor*)mpEventChr)->SetAnimation("StandF");
+	((MActor*)mpEventChr)->SetName(L"병사1");
+	mpEventChr->Init(100.0f, XMFLOAT2(((mScreenWidth ) ), -50), E_SORTID_SECOND);
+	
+	mpEventChr = MActorManager::Instance().Create<EventCharacter>(spriteBatch, pSheet, spriteFont);
+	((MActor*)mpEventChr)->Init(anim3, 4);
+	((MActor*)mpEventChr)->SetAnimation("StandF");
+	((MActor*)mpEventChr)->SetName(L"병사2");
+	mpEventChr->Init(100.0f, XMFLOAT2(((mScreenWidth)), -50), E_SORTID_SECOND);
+
+	EventEditorMgr::Instance().Init();
 
 	return S_OK;
 }
@@ -64,7 +93,7 @@ E_SCENE EventScene::Update(float dt)
 		return E_SCENE_STAGE;
 	else if (state.D3)
 		return E_SCENE_EVENT0;
-
+	EventEditorMgr::Instance().Update(dt);
 	E_SCENE eResult = MActorManager::Instance().EventUpdate(dt);
 	if (eResult > E_SCENE_NONPASS)
 		return eResult;
@@ -76,8 +105,10 @@ void EventScene::Render()
 {
 	//SceneMgr::Instance().Render();
 	MActorManager::Instance().Draw();
+	EventEditorMgr::Instance().Draw();
 }
 
 void EventScene::Release()
 {
+	
 }

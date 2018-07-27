@@ -34,7 +34,7 @@ void GameMain::InitD3D(HWND hWnd)
 	//auto pSheet = SGAResourceManager::Instance().GetSpriteSheet(L"Images\\jojoWalk\\jojoWalk.xml", pTexture); //(L"Images\\sprites.xml",pTexture);
 
 	//mpPlayer = MActorManager::Instance().Create<Player>(mspSpriteBatch.get(), pSheet);
-	//GunGeon::Blackboard::Instance().SetPlayer(mpPlayer);
+	//JoJoGun::Blackboard::Instance().SetPlayer(mpPlayer);
 
 
 	//mpPlayer->Init(
@@ -43,7 +43,7 @@ void GameMain::InitD3D(HWND hWnd)
 
 	//mpPlayer->SetStaus(100, 10);
 	//SceneMgr::Instance().SetEScene(E_SCENE_STAGE);
-	SceneMgr::Instance().InitScene(mspSpriteBatch.get(),mspspriteFont.get(), E_SCENE_STAGE);
+	SceneMgr::Instance().InitScene(mspSpriteBatch.get(),mspspriteFont.get(), E_SCENE_EVENT0);
 	SceneMgr::Instance().SetHWND(hWnd);
 	
 	//////

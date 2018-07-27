@@ -46,7 +46,7 @@ namespace DirectX
 	};
 }
 
-namespace GunGeon
+namespace JoJoGun
 {
 	enum CampType
 	{

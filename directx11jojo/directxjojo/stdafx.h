@@ -52,6 +52,7 @@ using namespace DirectX::SimpleMath;
 #include "SpriteSheet.h"
 #include "MActor.h"
 #include "MActorManager.h"
+#include "EventEditorMgr.h"
 #include "ResourceManager.h"
 //#include "Projectile.h"
 #include "MFSM.h"

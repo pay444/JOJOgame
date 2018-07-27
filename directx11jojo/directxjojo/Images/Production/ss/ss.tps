@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.6.2</string>
+        <string>4.5.0</string>
         <key>fileName</key>
         <string>C:/Users/hi/Source/Repos/JOJOgame/directx11jojo/directxjojo/Images/Production/ss/ss.tps</string>
         <key>autoSDSettings</key>
@@ -108,7 +108,7 @@
             <key>freeSizeMode</key>
             <enum type="AlgorithmSettings::AlgorithmFreeSizeMode">Best</enum>
             <key>sizeConstraints</key>
-            <enum type="AlgorithmSettings::SizeConstraints">AnySize</enum>
+            <enum type="AlgorithmSettings::SizeConstraints">POT</enum>
             <key>forceSquared</key>
             <false/>
             <key>maxRects</key>
@@ -339,7 +339,8 @@
             </struct>
             <key type="filename">../huchuFace.png</key>
             <key type="filename">../jojoFace.png</key>
-            <key type="filename">../soldier1.png</key>
+            <key type="filename">../soldier1Face.png</key>
+            <key type="filename">../soldier2Face.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -352,8 +353,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../sWordBalloonL.png</key>
-            <key type="filename">../sWordBalloonR.png</key>
+            <key type="filename">../sWordBalloon.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -392,8 +392,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../wordBallonL.png</key>
-            <key type="filename">../wordBallonR.png</key>
+            <key type="filename">../wordBallon.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -420,10 +419,6 @@
             <filename>../soldierF_019.png</filename>
             <filename>../soldierF_020.png</filename>
             <filename>../startBtn.png</filename>
-            <filename>../sWordBalloonL.png</filename>
-            <filename>../sWordBalloonR.png</filename>
-            <filename>../wordBallonL.png</filename>
-            <filename>../wordBallonR.png</filename>
             <filename>../eventMap0.png</filename>
             <filename>../gameMain.PNG</filename>
             <filename>../gameOver.png</filename>
@@ -498,7 +493,6 @@
             <filename>../soldierF_009.png</filename>
             <filename>../soldierF_010.png</filename>
             <filename>../huchuFace.png</filename>
-            <filename>../soldier1.png</filename>
             <filename>../jojoFace.png</filename>
             <filename>../stageStart.png</filename>
             <filename>../huchaB_006.png</filename>
@@ -520,6 +514,10 @@
             <filename>../huchaB_002.png</filename>
             <filename>../huchaB_003.png</filename>
             <filename>../huchaB_004.png</filename>
+            <filename>../soldier1Face.png</filename>
+            <filename>../soldier2Face.png</filename>
+            <filename>../sWordBalloon.png</filename>
+            <filename>../wordBallon.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

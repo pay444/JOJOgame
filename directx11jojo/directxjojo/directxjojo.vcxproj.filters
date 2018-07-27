@@ -79,6 +79,9 @@
     <Filter Include="02.Object\04.Event">
       <UniqueIdentifier>{e1ee56eb-e967-4999-9cf7-4a3b97fd1bf3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="99.Mgrs\EventEditorMgr">
+      <UniqueIdentifier>{ddedbd76-4d56-47fc-8952-f9185529e61a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -213,9 +216,6 @@
     <ClInclude Include="MActorManager.h">
       <Filter>99.Mgrs\ActorManager</Filter>
     </ClInclude>
-    <ClInclude Include="World.h">
-      <Filter>02.Object\03.map</Filter>
-    </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>02.Object\02.Character</Filter>
     </ClInclude>
@@ -235,6 +235,15 @@
       <Filter>02.Object\04.Event</Filter>
     </ClInclude>
     <ClInclude Include="EventCharacter.h">
+      <Filter>02.Object\04.Event</Filter>
+    </ClInclude>
+    <ClInclude Include="EventEditorMgr.h">
+      <Filter>99.Mgrs\EventEditorMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="EventTalk.h">
+      <Filter>02.Object\04.Event</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
       <Filter>02.Object\04.Event</Filter>
     </ClInclude>
   </ItemGroup>
@@ -375,6 +384,12 @@
       <Filter>02.Object\04.Event</Filter>
     </ClCompile>
     <ClCompile Include="EventCharacter.cpp">
+      <Filter>02.Object\04.Event</Filter>
+    </ClCompile>
+    <ClCompile Include="EventEditorMgr.cpp">
+      <Filter>99.Mgrs\EventEditorMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="EventTalk.cpp">
       <Filter>02.Object\04.Event</Filter>
     </ClCompile>
   </ItemGroup>

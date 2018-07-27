@@ -425,12 +425,12 @@ bool Character::JoAStar_Move(float dt)
 	if (pBestList->size() == 1)
 	{
 		//만약 내가 플레이어 라면 이 타일 값 설정
-		if (this->GetCamp() == GunGeon::CampType::PLAYER)
+		if (this->GetCamp() == JoJoGun::CampType::PLAYER)
 		{
 			(*pVecTile)[pBestList->back()]->underObject = 1;
 		}
 		//만약 내가 적이라면 이 타일 값 설정
-		else if (this->GetCamp() == GunGeon::CampType::MONSTER)
+		else if (this->GetCamp() == JoJoGun::CampType::MONSTER)
 		{
 			(*pVecTile)[pBestList->back()]->underObject = 2;
 
@@ -455,7 +455,7 @@ bool Character::JoAStar_Move(float dt)
 	if (pBestList->size() == 0)
 	{
 		mActionTurn++;
-		if (GetCamp() == GunGeon::CampType::PLAYER)
+		if (GetCamp() == JoJoGun::CampType::PLAYER)
 		{
 			auto ui = MActorManager::Instance().GetClassUi();
 			ui->SetPosition(mPosition + XMFLOAT2(100.0f, 0.0f));
@@ -468,7 +468,7 @@ bool Character::JoAStar_Move(float dt)
 			MActorManager::Instance().SetMBVisible(false);
 			//MActorManager::Instance().SetClickCount(0);
 		}
-		if (GetCamp() == GunGeon::CampType::MONSTER)
+		if (GetCamp() == JoJoGun::CampType::MONSTER)
 		{
 			auto attackBox = MActorManager::Instance().GetClassAttackBox();
 

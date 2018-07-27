@@ -24,7 +24,7 @@ void IdleState::Execute(float dt)
 {
 
 	//플레이어, 소유자
-	//Player *pPlayer = GunGeon::Blackboard::Instance().GetPlayer();
+	//Player *pPlayer = JoJoGun::Blackboard::Instance().GetPlayer();
 	//Enemy *pEnemy = (Enemy*)(this->mpFSM->GetOwner());
 
 	//플레이어, 소유자
@@ -59,7 +59,7 @@ void IdleState::Execute(float dt)
 		&& pEnemy->GetActionTurn() < 1)//&& pEnemy->GetActionTime()>0.7f)
 	{
 		//상태 전이
-		mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Chase);
+		mpFSM->ChangeState(JoJoGun::EnemyState::Enemy_Chase);
 
 		auto moveBox = MActorManager::Instance().GetClassMoveBox();
 		//적의 무브박스와 어텍박스 위치를 바꿔줌
@@ -82,7 +82,7 @@ void IdleState::Execute(float dt)
 		{
 			//충돌 되었다면 상태 변경 ->Attack
 			//MActorManager::Instance().GetClassMoveBox()->SetVisible(false);
-			mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Attack);
+			mpFSM->ChangeState(JoJoGun::EnemyState::Enemy_Attack);
 			return;
 		}
 
@@ -170,7 +170,7 @@ void ChaseState::Execute(float dt)
 {
 	mfElapsedTime += dt;
 	//플레이어, 소유자
-	//Player *pPlayer = GunGeon::Blackboard::Instance().GetPlayer();
+	//Player *pPlayer = JoJoGun::Blackboard::Instance().GetPlayer();
 	//Enemy *pEnemy = (Enemy*)(this->mpFSM->GetOwner());
 
 	//플레이어, 소유자
@@ -189,13 +189,13 @@ void ChaseState::Execute(float dt)
 	//턴이 플레이어 일때 정지 상태로 변경
 	if (MActorManager::Instance().GetTurn())
 	{
-		mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Idle);
+		mpFSM->ChangeState(JoJoGun::EnemyState::Enemy_Idle);
 	}
 
 	// 사정거리 안에 돌아오면 -> Atack
 	//if (dist < pEnemy->GetAttackRange())
 	//{
-	//	mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Attack);
+	//	mpFSM->ChangeState(JoJoGun::EnemyState::Enemy_Attack);
 	//	return;
 	//}
 
@@ -216,7 +216,7 @@ void ChaseState::Execute(float dt)
 		if (attackBox->AIIntersecRectScope(pPlayer))
 		{
 			//충돌 되었다면 상태 변경 ->Attack
-			mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Attack);
+			mpFSM->ChangeState(JoJoGun::EnemyState::Enemy_Attack);
 			return;
 		}
 		else
@@ -227,7 +227,7 @@ void ChaseState::Execute(float dt)
 			pEnemy->SetColor(col);
 			attackBox->SetVisible(false);
 			MActorManager::Instance().GetClassMoveBox()->SetVisible(false);
-			mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Idle);
+			mpFSM->ChangeState(JoJoGun::EnemyState::Enemy_Idle);
 		}
 		
 	}
@@ -236,13 +236,13 @@ void ChaseState::Execute(float dt)
 	// 타겟 놓침 -> Idle
 	//if (dist > pEnemy->GetDetectRange())
 	//{
-	//	mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Idle);
+	//	mpFSM->ChangeState(JoJoGun::EnemyState::Enemy_Idle);
 	//}
 	// 타겟 놓침 -> Idle
 	//if (!MActorManager::Instance().GetClassAttackBox()->IntersecRectScope(pPlayer))
 	//{
 	//	//충돌 안되었다면 상태 변경 ->idle
-	//	mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Idle);
+	//	mpFSM->ChangeState(JoJoGun::EnemyState::Enemy_Idle);
 	//	return;
 	//}
 
@@ -284,7 +284,7 @@ void AttackState::Execute(float dt)
 	//턴이 플레이어 일때 정지 상태로 변경
 	if (MActorManager::Instance().GetTurn())
 	{
-		mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Idle);
+		mpFSM->ChangeState(JoJoGun::EnemyState::Enemy_Idle);
 		mfElapsedTime = 0;
 	}
 	
@@ -292,7 +292,7 @@ void AttackState::Execute(float dt)
 	{
 		//플레이어팀이 죽었을때 타겟 변경
 		MActorManager::Instance().CheckEnemyTarget();
-		mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Idle);
+		mpFSM->ChangeState(JoJoGun::EnemyState::Enemy_Idle);
 	}
 
 	if (pEnemy->GetActionTurn() < 2 && mfElapsedTime > pEnemy->GetAttackDelay())
@@ -350,8 +350,8 @@ void AttackState::Execute(float dt)
 	//}
 
 	//
-	//mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Chase);
-	//mpFSM->ChangeState(GunGeon::EnemyState::Enemy_Idle);
+	//mpFSM->ChangeState(JoJoGun::EnemyState::Enemy_Chase);
+	//mpFSM->ChangeState(JoJoGun::EnemyState::Enemy_Idle);
 }
 
 void AttackState::Exit()

@@ -86,7 +86,7 @@ public:
 	vector<FrameInfo>::iterator GetCurFrame() { return mCurFrame; }
 	map<string, vector<FrameInfo>> GetAnimaions() { return mAnimations; }
 	string	GetCurAnim() { return mCurAnim; }
-
+	float GetMoveSpeed() { return mfMoveSpeed; }
 
 public:
 	RECT inline GetBound()

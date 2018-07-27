@@ -41,7 +41,7 @@ HRESULT Logo::Initialize(SpriteBatch* spriteBatch, SpriteFont* spriteFont)
 	////	XMFLOAT2((mScreenWidth * 0.5f) + 100, mScreenHeight * 0.5f), false);
 
 	//mpJojo = MActorManager::Instance().Create<Jojo>(spriteBatch, pSheet, spriteFont);
-	////GunGeon::Blackboard::Instance().SetPlayer(mpJojo);
+	////JoJoGun::Blackboard::Instance().SetPlayer(mpJojo);
 
 
 	//mpJojo->Init(
@@ -50,7 +50,7 @@ HRESULT Logo::Initialize(SpriteBatch* spriteBatch, SpriteFont* spriteFont)
 
 	//mpJojo->SetStaus(100, 10,4,1);
 
-	//GunGeon::Blackboard::Instance().SetPlayer(mpJojo);
+	//JoJoGun::Blackboard::Instance().SetPlayer(mpJojo);
 
 	//Jojo *m2pPlayer;
 	//m2pPlayer = MActorManager::Instance().Create<Jojo>(spriteBatch, pSheet, spriteFont);

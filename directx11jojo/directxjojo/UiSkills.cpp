@@ -79,7 +79,7 @@ E_SCENE UiSkills::Update(float dt)
 		float fScrolly = ScrollMgr::Instance().GetScroll().y;
 
 		//클래스에 따른 스킬 개수 설정
-		if (mpPlayer->GetClassType() == GunGeon::ClassType::MONARCH)
+		if (mpPlayer->GetClassType() == JoJoGun::ClassType::MONARCH)
 		{
 			mCountSkill = 1;
 
@@ -341,7 +341,7 @@ void UiSkills::Draw()
 		mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + mCancelBtnPos - offset, tint);
 		
 		//해당 캐릭터의 클래스가 군주 라면
-		if (mpPlayer->GetClassType() == GunGeon::ClassType::MONARCH)
+		if (mpPlayer->GetClassType() == JoJoGun::ClassType::MONARCH)
 		{
 			for (int i = 0; i < mCountSkill; ++i)
 			{

@@ -656,7 +656,7 @@ void MActorManager::CheckAllActionTurn()
 
 		if (dynamic_cast<Character*>(pActor))
 		{
-			if (((Character*)pActor)->GetCamp() == GunGeon::CampType::PLAYER)
+			if (((Character*)pActor)->GetCamp() == JoJoGun::CampType::PLAYER)
 			{
 				if (((Character*)pActor)->GetActionTurn() == 2)
 				{
@@ -718,7 +718,7 @@ void MActorManager::CheckAllActionTurn()
 
 				}
 			}
-			else if (((Character*)pActor)->GetCamp() == GunGeon::CampType::MONSTER)
+			else if (((Character*)pActor)->GetCamp() == JoJoGun::CampType::MONSTER)
 			{
 				if (((Character*)pActor)->GetActionTurn() == 2)
 				{
