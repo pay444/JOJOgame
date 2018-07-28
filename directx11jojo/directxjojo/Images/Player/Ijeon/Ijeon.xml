@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:32ed1122db7b646d84874074cf8eedcf:38d9a1c30c63936faec5d1a02f39af9d:3f14996d5d51573caaa4820fd1aabb4f$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="Ijeon.png" width="1024" height="112">
+    <sprite n="ijeonAtk_001.png" x="0" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonAtk_002.png" x="64" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonAtk_003.png" x="128" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonAtk_004.png" x="192" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonAtk_005.png" x="256" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonAtk_006.png" x="320" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonAtk_007.png" x="384" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonAtk_008.png" x="448" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonAtk_009.png" x="512" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonAtk_010.png" x="576" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonAtk_011.png" x="640" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonAtk_012.png" x="704" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonAtk_013.png" x="768" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonAtk_014.png" x="832" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonAtk_015.png" x="896" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonAtk_016.png" x="960" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonMove_001.png" x="0" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonMove_002.png" x="48" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonMove_003.png" x="96" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonMove_004.png" x="144" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonMove_005.png" x="192" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonMove_006.png" x="240" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonMove_007.png" x="288" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonMove_008.png" x="336" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonMove_009.png" x="384" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonMove_010.png" x="432" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonMove_011.png" x="480" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonMove_012.png" x="528" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonMove_013.png" x="576" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonSpc_001.png" x="624" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonSpc_002.png" x="672" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonSpc_003.png" x="720" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonSpc_004.png" x="768" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="ijeonSpc_005.png" x="816" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+</TextureAtlas>

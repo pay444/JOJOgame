@@ -430,7 +430,7 @@ bool Character::JoAStar_Move(float dt)
 			(*pVecTile)[pBestList->back()]->underObject = 1;
 		}
 		//만약 내가 적이라면 이 타일 값 설정
-		else if (this->GetCamp() == JoJoGun::CampType::MONSTER)
+		else if (this->GetCamp() == JoJoGun::CampType::ENEMY)
 		{
 			(*pVecTile)[pBestList->back()]->underObject = 2;
 
@@ -468,7 +468,7 @@ bool Character::JoAStar_Move(float dt)
 			MActorManager::Instance().SetMBVisible(false);
 			//MActorManager::Instance().SetClickCount(0);
 		}
-		if (GetCamp() == JoJoGun::CampType::MONSTER)
+		if (GetCamp() == JoJoGun::CampType::ENEMY)
 		{
 			auto attackBox = MActorManager::Instance().GetClassAttackBox();
 

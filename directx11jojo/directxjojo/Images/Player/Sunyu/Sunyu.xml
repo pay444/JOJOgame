@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:7375a3e95015793cf7e0f73352037086:218effb1fa99a5e9a12eb41259ad01ef:79305043e2d994708924c8ecde547be8$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="Sunyu.png" width="1024" height="112">
+    <sprite n="sunyuAtk_001.png" x="0" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuAtk_002.png" x="64" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuAtk_003.png" x="128" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuAtk_004.png" x="192" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuAtk_005.png" x="256" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuAtk_006.png" x="320" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuAtk_007.png" x="384" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuAtk_008.png" x="448" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuAtk_009.png" x="512" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuAtk_010.png" x="576" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuAtk_011.png" x="640" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuAtk_012.png" x="704" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuAtk_013.png" x="768" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuAtk_014.png" x="832" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuAtk_015.png" x="896" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuAtk_016.png" x="960" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuMove_001.png" x="0" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuMove_002.png" x="48" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuMove_003.png" x="96" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuMove_004.png" x="144" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuMove_005.png" x="192" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuMove_006.png" x="240" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuMove_007.png" x="288" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuMove_008.png" x="336" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuMove_009.png" x="384" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuMove_010.png" x="432" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuMove_011.png" x="480" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuMove_012.png" x="528" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuMove_013.png" x="576" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuSpc_001.png" x="624" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuSpc_002.png" x="672" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuSpc_003.png" x="720" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuSpc_004.png" x="768" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="sunyuSpc_005.png" x="816" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+</TextureAtlas>

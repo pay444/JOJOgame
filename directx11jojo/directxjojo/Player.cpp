@@ -63,6 +63,7 @@ void Player::Init(float moveSpeed, XMFLOAT2 startpos, E_SORTID eSortID)
 	SetPosition(startpos);
 	mfMoveSpeed = moveSpeed;
 	//mpJoAStar = make_unique<AStar>();
+	SetCamp(JoJoGun::CampType::PLAYER);
 
 	//초기 위치에 선택을 위한 값주기
 	vector<unique_ptr<TILE>> * pVecTile = MActorManager::Instance().GetTileInfo();

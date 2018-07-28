@@ -18,6 +18,7 @@ public:
 
 private:
 	E_SCENE mStageScene;
+	Enemy * mpEnemy;
 	Player * mpPlayer;
 	Jojo * mpJojo;
 

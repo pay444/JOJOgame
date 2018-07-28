@@ -718,7 +718,7 @@ void MActorManager::CheckAllActionTurn()
 
 				}
 			}
-			else if (((Character*)pActor)->GetCamp() == JoJoGun::CampType::MONSTER)
+			else if (((Character*)pActor)->GetCamp() == JoJoGun::CampType::ENEMY)
 			{
 				if (((Character*)pActor)->GetActionTurn() == 2)
 				{

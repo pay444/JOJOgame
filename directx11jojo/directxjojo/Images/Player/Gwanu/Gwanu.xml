@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:db3ec276431afeba3f0681ae254ed270:b37e49947c9c1101c2a68354f7f11893:aaba362af4f3f7469289eac0c5307451$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="Gwanu.png" width="1024" height="112">
+    <sprite n="gwanuAtk_001.png" x="0" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuAtk_002.png" x="64" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuAtk_003.png" x="128" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuAtk_004.png" x="192" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuAtk_005.png" x="256" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuAtk_006.png" x="320" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuAtk_007.png" x="384" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuAtk_008.png" x="448" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuAtk_009.png" x="512" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuAtk_010.png" x="576" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuAtk_011.png" x="640" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuAtk_012.png" x="704" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuAtk_013.png" x="768" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuAtk_014.png" x="832" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuAtk_015.png" x="896" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuAtk_016.png" x="960" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuMove_001.png" x="0" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuMove_002.png" x="48" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuMove_003.png" x="96" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuMove_004.png" x="144" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuMove_005.png" x="192" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuMove_006.png" x="240" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuMove_007.png" x="288" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuMove_008.png" x="336" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuMove_009.png" x="384" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuMove_010.png" x="432" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuMove_011.png" x="480" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuMove_012.png" x="528" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuMove_013.png" x="576" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuSpc_001.png" x="624" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuSpc_002.png" x="672" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuSpc_003.png" x="720" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuSpc_004.png" x="768" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="gwanuSpc_005.png" x="816" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+</TextureAtlas>

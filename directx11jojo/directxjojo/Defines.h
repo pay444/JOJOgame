@@ -52,14 +52,18 @@ namespace JoJoGun
 	{
 		None = 0,
 		PLAYER,
-		MONSTER,
+		ENEMY,
 		NPC
 	};
 
 	enum ClassType
 	{
 		NOMAL = 0,
-		MONARCH
+		MONARCH,		//군주
+		TACTICIAN,		//책사
+		WINDTACTICIAN,	//풍수사
+		ARCHER,			//궁수
+		CAVALRY			//기병
 	};
 
 	enum EnemyState

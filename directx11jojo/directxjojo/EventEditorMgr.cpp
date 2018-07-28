@@ -68,8 +68,6 @@ void EventEditorMgr::Init()
 	mVecEvents.push_back(L"Move 병사2 (-45,254) 0 WalkF");
 	mVecEvents.push_back(L"Move 허차장 (680,-32) 0 WalkB");
 	mVecEvents.push_back(L"Stand 2.0");
-	mVecEvents.push_back(L"Stage");
-	mVecEvents.push_back(L"Stand 2.0");
 	mVecEvents.push_back(L"End 영천전투 1");
 }
 

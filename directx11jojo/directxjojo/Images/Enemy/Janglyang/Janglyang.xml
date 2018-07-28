@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:36d7c765fdda8d5b20bf1da582e116c7:75d35f2f9bdcbe83632b8851ceff2e57:cea59e7fca0b3798ba4141fbbd20a80a$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="Janglyang.png" width="1024" height="112">
+    <sprite n="janglyangAtk_001.png" x="0" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangAtk_002.png" x="64" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangAtk_003.png" x="128" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangAtk_004.png" x="192" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangAtk_005.png" x="256" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangAtk_006.png" x="320" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangAtk_007.png" x="384" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangAtk_008.png" x="448" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangAtk_009.png" x="512" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangAtk_010.png" x="576" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangAtk_011.png" x="640" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangAtk_012.png" x="704" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangAtk_013.png" x="768" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangAtk_014.png" x="832" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangAtk_015.png" x="896" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangAtk_016.png" x="960" y="0" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangMove_001.png" x="0" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangMove_002.png" x="48" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangMove_003.png" x="96" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangMove_004.png" x="144" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangMove_005.png" x="192" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangMove_006.png" x="240" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangMove_007.png" x="288" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangMove_008.png" x="336" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangMove_009.png" x="384" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangMove_010.png" x="432" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangMove_011.png" x="480" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangMove_012.png" x="528" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangMove_013.png" x="576" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangSpc_001.png" x="624" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangSpc_002.png" x="672" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangSpc_003.png" x="720" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangSpc_004.png" x="768" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="janglyangSpc_005.png" x="816" y="64" w="48" h="48" pX="0.5" pY="0.5"/>
+</TextureAtlas>
