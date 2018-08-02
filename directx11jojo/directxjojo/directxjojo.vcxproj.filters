@@ -82,6 +82,12 @@
     <Filter Include="99.Mgrs\EventEditorMgr">
       <UniqueIdentifier>{ddedbd76-4d56-47fc-8952-f9185529e61a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Object\01.UI\03.Mouse">
+      <UniqueIdentifier>{f1dc481e-e839-45ff-a0d6-0f692459838f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Object\01.UI\01.Skills\02.HealSkill">
+      <UniqueIdentifier>{455be150-7943-4364-856a-161d04a73a53}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -246,6 +252,12 @@
     <ClInclude Include="World.h">
       <Filter>02.Object\03.map</Filter>
     </ClInclude>
+    <ClInclude Include="MouseBox.h">
+      <Filter>02.Object\01.UI\03.Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="HealSkill.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -391,6 +403,12 @@
     </ClCompile>
     <ClCompile Include="EventTalk.cpp">
       <Filter>02.Object\04.Event</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseBox.cpp">
+      <Filter>02.Object\01.UI\03.Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="HealSkill.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

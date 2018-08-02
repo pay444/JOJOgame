@@ -26,7 +26,7 @@ public:
 	virtual bool IntersecRect(MActor* pActor);
 	//virtual bool IntersecRectScope(MActor* pActor);
 	virtual void OnHit(MActor* pCollider) {};
-	virtual void OnHit(MActor* pCollider, MActor* pCollidee) {};
+	virtual void OnHit(MActor* pCollider, MActor* pCollidee,float delayTime = 0.8f) {};
 protected:
 	map<string, vector<FrameInfo>>	mAnimations;
 	SpriteSheet*	mpSheet;

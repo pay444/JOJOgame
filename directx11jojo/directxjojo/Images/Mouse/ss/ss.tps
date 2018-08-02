@@ -36,7 +36,7 @@
         <key>dataFormat</key>
         <string>xml</string>
         <key>textureFileName</key>
-        <filename>../mouses.png</filename>
+        <filename>../Mouses.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -150,7 +150,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../mouses.xml</filename>
+                <filename>../Mouses.xml</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -227,6 +227,7 @@
                 <false/>
             </struct>
             <key type="filename">../mouseBox.png</key>
+            <key type="filename">../skillArea.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -246,6 +247,7 @@
             <filename>../click2.png</filename>
             <filename>../mouse.png</filename>
             <filename>../mouseBox.png</filename>
+            <filename>../skillArea.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -59,9 +59,9 @@ namespace JoJoGun
 	enum ClassType
 	{
 		NOMAL = 0,
-		MONARCH,		//군주
+		LORD,			//군주
 		TACTICIAN,		//책사
-		WINDTACTICIAN,	//풍수사
+		SUPPORTER,		//풍수사
 		ARCHER,			//궁수
 		CAVALRY			//기병
 	};

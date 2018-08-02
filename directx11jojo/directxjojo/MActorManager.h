@@ -81,6 +81,7 @@ public:
 	class MoveBox* GetClassMoveBox();
 	class TurnGrapic* GetClassTurnGrapic();
 	class ProgresiveBar* GetClassProgresiveBar();
+	class MouseBox* GetClassMouseBox();
 	//Player * GetPlayer() { return nullptr; }
 
 	//void SetUiPos(XMFLOAT2 pos);

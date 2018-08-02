@@ -65,7 +65,7 @@ E_SCENE UiConsumItem::Update(float dt)
 				float ysize = 40.0f;
 				float uiPos = 18 * i;
 				//XMFLOAT2(-3.0f, -10.0f)
-				ANIMINFO aInfo = ANIMINFO("", mPosition + XMFLOAT2(-1.0f, uiPos - ysize));
+				ANIMINFO aInfo = ANIMINFO(L"", mPosition + XMFLOAT2(-1.0f, uiPos - ysize));
 				mVecUiConsumInfo.push_back(aInfo);
 			}
 
@@ -77,9 +77,7 @@ E_SCENE UiConsumItem::Update(float dt)
 			auto classname = 
 				mspVecConsumItems[mspVecConsumItems.size() - 1].get();
 			mVecUiConsumInfo[mspVecConsumItems.size() - 1].animName =
-				typeid(*(classname)).name();
-			mVecUiConsumInfo[mspVecConsumItems.size() - 1]
-				.animName.erase(0, 6);
+				classname->GetName();
 
 			unique_ptr<MpWater> water;
 			water = make_unique<MpWater>(mpBatch, mpSheet, mpFont);
@@ -88,9 +86,7 @@ E_SCENE UiConsumItem::Update(float dt)
 			classname =
 				mspVecConsumItems[mspVecConsumItems.size() - 1].get();
 			mVecUiConsumInfo[mspVecConsumItems.size() - 1].animName =
-				typeid(*(classname)).name();
-			mVecUiConsumInfo[mspVecConsumItems.size() - 1]
-				.animName.erase(0, 6);
+				classname->GetName();
 		}
 		else
 		{
@@ -100,10 +96,9 @@ E_SCENE UiConsumItem::Update(float dt)
 				float ysize = 40.0f;
 				float uiPos = 18 * i;
 				//XMFLOAT2(-3.0f, -10.0f)
-				ANIMINFO aInfo = ANIMINFO("", mPosition + XMFLOAT2(-1.0f, uiPos - ysize));
+				ANIMINFO aInfo = ANIMINFO(L"", mPosition + XMFLOAT2(-1.0f, uiPos - ysize));
 				auto classname = mspVecConsumItems[i].get();
-				aInfo.animName = typeid(*(classname)).name();
-				aInfo.animName.erase(0, 6);
+				aInfo.animName = classname->GetName();
 				mVecUiConsumInfo.push_back(aInfo);
 			}
 		}
@@ -156,7 +151,7 @@ E_SCENE UiConsumItem::Update(float dt)
 					attackbox->SetVisible(true);
 					attackbox->SetAttackDis(0);
 					attackbox->Release();
-					attackbox->AttackCubeScope(true);
+					attackbox->AttackCubeScope(true, *(attackbox->GetVecAtScopeIndex()));
 
 					//attackbox->SetAttackDis(5);
 					mUICVisible = false;
@@ -224,6 +219,9 @@ E_SCENE UiConsumItem::Update(float dt)
 		mpPlayer->SetActionTurn(2);
 		//플레이어의 색깔을 바꿔준다.
 		mpPlayer->SetColorAllow(true);
+		Color cr = Colors::Gray;
+		mpPlayer->SetColor(cr);
+		//mpPlayer->
 	}
 
 	//아이템이 눌렷고 해당범위를 보여주는 상태일때
@@ -299,6 +297,7 @@ E_SCENE UiConsumItem::Update(float dt)
 								attackBox->Release();
 								mpPlayer->SetAnimation("POWER");
 								mpPlayer->SetActionTime(0.0f);
+								mpPlayer->SetMotionFlag(true);
 								//mpPlayer = attackBox->GetCharacter();
 								mpCurItem->SetPosition(
 									pCollidee->GetPosition() + XMFLOAT2(0.0f,0.0f));
@@ -329,7 +328,7 @@ E_SCENE UiConsumItem::Update(float dt)
 			mAreaVisible = false;
 		}
 	}
-	//선택된 스킬의 Update
+	//선택된 아이템의 Update
 	if (mpCurItem!= nullptr && mFlag)
 	{
 		mpCurItem->Update(dt);
@@ -377,7 +376,7 @@ void UiConsumItem::Draw()
 				, mWorldPos + mVecUiConsumInfo[i].pos - offset
 				, tint);
 
-			if (mVecUiConsumInfo[i].animName == "HpBean")
+			if (mVecUiConsumInfo[i].animName == L"콩")
 			{
 				SetAnimation("HpBean");
 				//swprintf_s(wch, L"HpIncrease");
@@ -388,7 +387,7 @@ void UiConsumItem::Draw()
 				//	, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.8f, 0.8f));
 
 			}
-			else if (mVecUiConsumInfo[i].animName == "MpWater")
+			else if (mVecUiConsumInfo[i].animName == L"신비물")
 			{
 				SetAnimation("MpWater");
 				//해당 도구 효과 출력

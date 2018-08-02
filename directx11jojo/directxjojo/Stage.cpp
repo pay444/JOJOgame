@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Stage.h"
-
+#include "MouseBox.h"
 
 Stage::Stage():
 	mScreenWidth(DEFAULT_SCREEN_WIDTH),
@@ -31,6 +31,15 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 	mpUi = MActorManager::Instance().Create<UI>(spriteBatch, pSheet, spriteFont);
 	mpUi->Init(E_SORTID_FIRST, XMFLOAT2((mScreenWidth * 0.5f) + 100, mScreenHeight * 0.5f), false);
 
+	auto pMTexture = ResourceManager::Instance().GetShaderResource(L"Images\\Mouse\\Mouses.png");//(L"Images\\sprites.png");
+	auto pMSheet = ResourceManager::Instance().GetSpriteSheet(L"Images\\Mouse\\Mouses.xml", pMTexture); //(L"Images\\sprites.xml",pTexture);
+
+	mpMouseBox = MActorManager::Instance().Create<MouseBox>(spriteBatch, pMSheet, spriteFont);
+	mpMouseBox->Init(E_SORTID_FIRST, XMFLOAT2(0, 0), false);
+
+	mpAttackBox = MActorManager::Instance().Create<AttackBox>(spriteBatch, pSheet, spriteFont);
+	mpAttackBox->Init(E_SORTID_THIRD, XMFLOAT2((mScreenWidth * 0.5f) + 100, mScreenHeight * 0.5f), false);
+
 	mpMoveBox = MActorManager::Instance().Create<MoveBox>(spriteBatch, pSheet, spriteFont);
 	mpMoveBox->Init(E_SORTID_THIRD, XMFLOAT2((mScreenWidth * 0.5f) + 100, mScreenHeight * 0.5f),
 		200.0f, false);
@@ -43,9 +52,7 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 	mpProgresiveBar->Init(E_SORTID_FIRST, XMFLOAT2(mScreenWidth * 0.5f,
 		mScreenHeight * 0.5f), false);
 	
-	mpAttackBox = MActorManager::Instance().Create<AttackBox>(spriteBatch, pSheet, spriteFont);
-	mpAttackBox->Init(E_SORTID_THIRD, XMFLOAT2((mScreenWidth * 0.5f) + 100, mScreenHeight * 0.5f), false);
-	
+
 	//AttackBox::Instance().Init(spriteBatch, pSheet, spriteFont, E_SORTID_THIRD, 
 	//	XMFLOAT2((mScreenWidth * 0.5f) + 100, mScreenHeight * 0.5f), false);
 
@@ -56,23 +63,24 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 	mpJojo->SetStaus(101, 10, 100, 255, 12, 3);
 	JoJoGun::Blackboard::Instance().SetPlayer(mpJojo);
 
-	Jojo *m2pPlayer;
-	m2pPlayer = MActorManager::Instance().Create<Jojo>(spriteBatch, pSheet, spriteFont);
-	m2pPlayer->Init(500.0f, XMFLOAT2((145.0f), 145.0f), E_SORTID_FIRST, 200.0f);
-	m2pPlayer->SetStaus(101, 10, 100, 255, 12, 2);
+	//Jojo *m2pPlayer;
+	//m2pPlayer = MActorManager::Instance().Create<Jojo>(spriteBatch, pSheet, spriteFont);
+	//m2pPlayer->Init(500.0f, XMFLOAT2((145.0f), 145.0f), E_SORTID_FIRST, 200.0f);
+	//m2pPlayer->SetStaus(101, 10, 100, 255, 12, 2);
 
-	m2pPlayer = MActorManager::Instance().Create<Jojo>(spriteBatch, pSheet, spriteFont);
-	m2pPlayer->Init(500.0f, XMFLOAT2((193.0f), 145.0f), E_SORTID_FIRST, 200.0f);
-	m2pPlayer->SetStaus(101, 10, 100, 255, 12, 2);
+	//m2pPlayer = MActorManager::Instance().Create<Jojo>(spriteBatch, pSheet, spriteFont);
+	//m2pPlayer->Init(500.0f, XMFLOAT2((193.0f), 145.0f), E_SORTID_FIRST, 200.0f);
+	//m2pPlayer->SetStaus(101, 10, 100, 255, 12, 2);
 
-	m2pPlayer = MActorManager::Instance().Create<Jojo>(spriteBatch, pSheet, spriteFont);
-	m2pPlayer->Init(500.0f, XMFLOAT2((241.0f), 145.0f), E_SORTID_FIRST, 200.0f);
-	m2pPlayer->SetStaus(101, 10, 100, 255, 12, 3);
+	//m2pPlayer = MActorManager::Instance().Create<Jojo>(spriteBatch, pSheet, spriteFont);
+	//m2pPlayer->Init(500.0f, XMFLOAT2((241.0f), 145.0f), E_SORTID_FIRST, 200.0f);
+	//m2pPlayer->SetStaus(101, 10, 100, 255, 12, 3);
+
+	auto pAllPexture = ResourceManager::Instance().GetShaderResource(L"Images\\\Player\\Players.png");
+	auto pAllPSheet = ResourceManager::Instance().GetSpriteSheet(L"Images\\\Player\\Players.xml", pAllPexture);
 
 	//관우추가
-	auto pGTexture = ResourceManager::Instance().GetShaderResource(L"Images\\\Player\\Gwanu\\Gwanu.png");
-	auto pGSheet = ResourceManager::Instance().GetSpriteSheet(L"Images\\\Player\\Gwanu\\Gwanu.xml", pGTexture);
-	mpPlayer = MActorManager::Instance().Create<Player>(spriteBatch, pGSheet, spriteFont);
+	mpPlayer = MActorManager::Instance().Create<Player>(spriteBatch, pAllPSheet, spriteFont);
 	Animation Ganim[] = {
 		{ "DOWN", 2,{ 
 	{ "gwanuMove_001", 0.3f },
@@ -133,9 +141,7 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 	mpPlayer->SetStaus(100, 10, 100, 255, 4, 2);
 
 	//이전추가
-	auto pITexture = ResourceManager::Instance().GetShaderResource(L"Images\\\Player\\Ijeon\\Ijeon.png");
-	auto pISheet = ResourceManager::Instance().GetSpriteSheet(L"Images\\\Player\\Ijeon\\Ijeon.xml", pITexture);
-	mpPlayer = MActorManager::Instance().Create<Player>(spriteBatch, pISheet, spriteFont);
+	mpPlayer = MActorManager::Instance().Create<Player>(spriteBatch, pAllPSheet, spriteFont);
 	Animation Ianim[] = {
 		{ "DOWN", 2,{
 	{ "ijeonMove_001", 0.3f },
@@ -196,9 +202,7 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 	mpPlayer->SetStaus(100, 10, 100, 255, 4, 2);
 
 	//장비추가
-	auto pJTexture = ResourceManager::Instance().GetShaderResource(L"Images\\\Player\\Jangbi\\Jangbi.png");
-	auto pJSheet = ResourceManager::Instance().GetSpriteSheet(L"Images\\\Player\\Jangbi\\Jangbi.xml", pJTexture);
-	mpPlayer = MActorManager::Instance().Create<Player>(spriteBatch, pJSheet, spriteFont);
+	mpPlayer = MActorManager::Instance().Create<Player>(spriteBatch, pAllPSheet, spriteFont);
 	Animation Janim[] = {
 		{ "DOWN", 2,{
 	{ "jangbiMove_001", 0.3f },
@@ -259,9 +263,7 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 	mpPlayer->SetStaus(100, 10, 100, 255, 10, 2);
 	
 	//순욱추가
-	auto pSGTexture = ResourceManager::Instance().GetShaderResource(L"Images\\\Player\\Sunug\\Sunug.png");
-	auto pSGheet = ResourceManager::Instance().GetSpriteSheet(L"Images\\\Player\\Sunug\\Sunug.xml", pSGTexture);
-	mpPlayer = MActorManager::Instance().Create<Player>(spriteBatch, pSGheet, spriteFont);
+	mpPlayer = MActorManager::Instance().Create<Player>(spriteBatch, pAllPSheet, spriteFont);
 	Animation SGanim[] = {
 		{ "DOWN", 2,{
 	{ "sunugMove_001", 0.3f },
@@ -322,9 +324,7 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 	mpPlayer->SetStaus(100, 10, 100, 255, 10, 2);
 
 	//순유추가
-	auto pSUTexture = ResourceManager::Instance().GetShaderResource(L"Images\\\Player\\Sunyu\\Sunyu.png");
-	auto pSUheet = ResourceManager::Instance().GetSpriteSheet(L"Images\\\Player\\Sunyu\\Sunyu.xml", pSUTexture);
-	mpPlayer = MActorManager::Instance().Create<Player>(spriteBatch, pSUheet, spriteFont);
+	mpPlayer = MActorManager::Instance().Create<Player>(spriteBatch, pAllPSheet, spriteFont);
 	Animation SUanim[] = {
 		{ "DOWN", 2,{
 	{ "sunyuMove_001", 0.3f },
@@ -378,16 +378,14 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 	},
 	};
 	mpPlayer->SetCamp(JoJoGun::CampType::PLAYER);
-	mpPlayer->SetClassType(JoJoGun::ClassType::WINDTACTICIAN);
+	mpPlayer->SetClassType(JoJoGun::ClassType::SUPPORTER);
 	mpPlayer->SetName(L"순유");
 	((MActor*)mpPlayer)->Init(SUanim, 11, E_SORTID_SECOND);
 	mpPlayer->Init(500.0f, XMFLOAT2(491.0f, 145.0f), E_SORTID_SECOND);
 	mpPlayer->SetStaus(100, 10, 100, 255, 10, 2);
 
 	//유비추가
-	auto pYTexture = ResourceManager::Instance().GetShaderResource(L"Images\\\Player\\Yubi\\Yubi.png");
-	auto pYheet = ResourceManager::Instance().GetSpriteSheet(L"Images\\\Player\\Yubi\\Yubi.xml", pYTexture);
-	mpPlayer = MActorManager::Instance().Create<Player>(spriteBatch, pYheet, spriteFont);
+	mpPlayer = MActorManager::Instance().Create<Player>(spriteBatch, pAllPSheet, spriteFont);
 	Animation Yanim[] = {
 		{ "DOWN", 2,{
 	{ "yubiMove_001", 0.3f },
@@ -441,29 +439,93 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 	},
 	};
 	mpPlayer->SetCamp(JoJoGun::CampType::PLAYER);
-	mpPlayer->SetClassType(JoJoGun::ClassType::MONARCH);
+	mpPlayer->SetClassType(JoJoGun::ClassType::LORD);
 	mpPlayer->SetName(L"유비");
 	((MActor*)mpPlayer)->Init(Yanim, 11, E_SORTID_SECOND);
 	mpPlayer->Init(500.0f, XMFLOAT2(541.0f, 145.0f), E_SORTID_SECOND);
-	mpPlayer->SetStaus(100, 10, 100, 255, 10, 2);
+	mpPlayer->SetStaus(100, 100, 100, 255, 10, 2);
 
 	auto pTexture2 = ResourceManager::Instance().GetShaderResource(L"Images\\\Enemy\\Hwang\\Hwang.png");//L"Images\\\Enemy\\FotManSprites.png"
 	auto pSheet2 = ResourceManager::Instance().GetSpriteSheet(L"Images\\\Enemy\\Hwang\\Hwang.xml", pTexture2);//L"Images\\\Enemy\\FotManSprites.xml"
 
-	FotMan* pEnemy = MActorManager::Instance().Create<FotMan>(spriteBatch, pSheet2, spriteFont);
-	pEnemy->Init(500.0f, XMFLOAT2(200.0f, 200.0f), E_SORTID_SECOND, 200.0f);
-	pEnemy->SetStaus(100, 10, 100, 255, 4, 2);
-	pEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.3f, 0.8f);
+	mpEnemy = MActorManager::Instance().Create<Enemy>(spriteBatch, pSheet2, spriteFont);
+	Animation Hanim[] = {
+		{ "DOWN", 2,{ { "hwangMove_001", 0.3f },
+	{ "hwangMove_002", 0.3f }, }
+		},
+	{ "LEFT", 2,{ { "hwangMove_005", 0.3f },
+	{ "hwangMove_006", 0.3f }, }
+	},
+	{ "RIGHT", 2,{ { "hwangMove_012", 0.3f },
+	{ "hwangMove_013", 0.3f }, }
+	},
+	{ "UP", 2,{ { "hwangMove_003", 0.3f },
+	{ "hwangMove_004", 0.3f }, }
+	},
+	{ "DATTACK", 4,{ { "hwangAtk_001", 0.3f },
+	{ "hwangAtk_002", 0.1f },
+	{ "hwangAtk_003", 0.1f } ,
+	{ "hwangAtk_004", 0.3f } }
+	},
+	{ "UATTACK", 4,{ { "hwangAtk_005", 0.3f },
+	{ "hwangAtk_006", 0.1f },
+	{ "hwangAtk_007", 0.1f } ,
+	{ "hwangAtk_008", 0.3f } }
+	},
+	{ "RATTACK", 4,{ { "hwangAtk_013", 0.3f },
+	{ "hwangAtk_014", 0.1f },
+	{ "hwangAtk_015", 0.1f } ,
+	{ "hwangAtk_016", 0.3f } }
+	},
+	{ "LATTACK", 4,{ { "hwangAtk_009", 0.3f },
+	{ "hwangAtk_010", 0.1f },
+	{ "hwangAtk_011", 0.1f } ,
+	{ "hwangAtk_012", 0.3f } }
+	},
+	{ "DEAD", 2,{ { "hwangMove_010", 0.3f },
+	{ "hwangMove_011", 0.3f }, }
+	},
+	{ "HIT", 1,{ { "hwangSpc_004", 0.5f },
+	}
+	},
+	{ "POWER", 1,{ { "hwangSpc_005", 0.5f },
+	}
+	},
+	};
+	mpEnemy->SetCamp(JoJoGun::CampType::ENEMY);
+	mpEnemy->SetClassType(JoJoGun::ClassType::NOMAL);
+	mpEnemy->SetName(L"황건적");
+	((MActor*)mpEnemy)->Init(Hanim, 11, E_SORTID_SECOND);
+	mpEnemy->Init(500.0f, XMFLOAT2(600.0f, 200.0f), E_SORTID_SECOND);
+	mpEnemy->SetStaus(100, 10, 100, 255, 4, 2);
+	mpEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.3f, 0.8f);
 
-	pEnemy = MActorManager::Instance().Create<FotMan>(spriteBatch, pSheet2, spriteFont);
-	pEnemy->Init(500.0f, XMFLOAT2(400.0f, 200.0f), E_SORTID_SECOND, 200.0f);
-	pEnemy->SetStaus(100, 10, 100, 255, 4, 2);
-	pEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.3f, 0.8f);
-
-	pEnemy = MActorManager::Instance().Create<FotMan>(spriteBatch, pSheet2, spriteFont);
-	pEnemy->Init(500.0f, XMFLOAT2(500.0f, 200.0f), E_SORTID_SECOND, 200.0f);
-	pEnemy->SetStaus(100, 10, 100, 255, 4, 2);
-	pEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.3f, 0.8f);
+	mpEnemy = MActorManager::Instance().Create<Enemy>(spriteBatch, pSheet2, spriteFont);
+	mpEnemy->SetCamp(JoJoGun::CampType::ENEMY);
+	mpEnemy->SetClassType(JoJoGun::ClassType::NOMAL);
+	mpEnemy->SetName(L"황건적");
+	((MActor*)mpEnemy)->Init(Hanim, 11, E_SORTID_SECOND);
+	mpEnemy->Init(500.0f, XMFLOAT2(400.0f, 200.0f), E_SORTID_SECOND);
+	mpEnemy->SetStaus(100, 10, 100, 255, 4, 2);
+	mpEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.3f, 0.8f);
+	
+	mpEnemy = MActorManager::Instance().Create<Enemy>(spriteBatch, pSheet2, spriteFont);
+	mpEnemy->SetCamp(JoJoGun::CampType::ENEMY);
+	mpEnemy->SetClassType(JoJoGun::ClassType::NOMAL);
+	mpEnemy->SetName(L"황건적");
+	((MActor*)mpEnemy)->Init(Hanim, 11, E_SORTID_SECOND);
+	mpEnemy->Init(500.0f, XMFLOAT2(500.0f, 200.0f), E_SORTID_SECOND);
+	mpEnemy->SetStaus(100, 10, 100, 255, 4, 2);
+	mpEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.3f, 0.8f);
+	
+	mpEnemy = MActorManager::Instance().Create<Enemy>(spriteBatch, pSheet2, spriteFont);
+	mpEnemy->SetCamp(JoJoGun::CampType::ENEMY);
+	mpEnemy->SetClassType(JoJoGun::ClassType::NOMAL);
+	mpEnemy->SetName(L"황건적");
+	((MActor*)mpEnemy)->Init(Hanim, 11, E_SORTID_SECOND);
+	mpEnemy->Init(500.0f, XMFLOAT2(550.0f, 200.0f), E_SORTID_SECOND);
+	mpEnemy->SetStaus(100, 10, 100, 255, 4, 2);
+	mpEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.3f, 0.8f);
 
 	auto pJbTexture2 = ResourceManager::Instance().GetShaderResource(L"Images\\\Enemy\\Jangbo\\Jangbo.png");
 	auto pJbSheet2 = ResourceManager::Instance().GetSpriteSheet(L"Images\\\Enemy\\Jangbo\\Jangbo.xml", pJbTexture2);
@@ -517,7 +579,7 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 	mpEnemy->SetClassType(JoJoGun::ClassType::NOMAL);
 	mpEnemy->SetName(L"장보");
 	((MActor*)mpEnemy)->Init(Jbanim, 11, E_SORTID_SECOND);
-	mpEnemy->Init(500.0f, XMFLOAT2(600.0f, 200.0f), E_SORTID_SECOND);
+	mpEnemy->Init(500.0f, XMFLOAT2(650.0f, 200.0f), E_SORTID_SECOND);
 	mpEnemy->SetStaus(100, 10, 100, 255, 4, 2);
 	mpEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.3f, 0.8f);
 
@@ -580,7 +642,7 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 	mpEnemy->Init(500.0f, XMFLOAT2(700.0f, 200.0f), E_SORTID_SECOND);
 	mpEnemy->SetStaus(100, 10, 100, 255, 4, 2);
 	mpEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.3f, 0.8f);
-	//mpPlayer;
+
 	return S_OK;
 }
 

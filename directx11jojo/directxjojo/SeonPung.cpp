@@ -45,14 +45,31 @@ void SeonPung::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
 	},
 	};
 	MActor::Init(anim, 1, eSortID);
-	SetPosition(pos + XMFLOAT2(100.0f, 0.0f));
-	SetAnimation("Wind");
+	SetPosition(pos);
+	SetAnimation(anim->Name);
 	mMpCost = 6;
-	mElemental = 3;
-	mArea = 4;
+	mElemental = 2;
+	mScope = 4;
 	mDamage = 10;
 	mName = L"¼±Ç³";
 	mEfficacy = L"°ø°Ý(Ç³)";
+	miSkillSingleMulti = 0;
+	mfTotalDelayTime = 0.8f;
+}
+
+void SeonPung::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible, Animation* anim, int animCount)
+{
+	MActor::Init(anim, 1, eSortID);
+	SetPosition(pos);
+	SetAnimation(anim->Name);
+	mMpCost = 6;
+	mElemental = 3;
+	mScope = 4;
+	mDamage = 10;
+	mName = L"¼±Ç³";
+	mEfficacy = L"°ø°Ý(Ç³)";
+	miSkillSingleMulti = 0;
+	miActiveArea = 0;
 }
 
 E_SCENE SeonPung::Update(float dt)

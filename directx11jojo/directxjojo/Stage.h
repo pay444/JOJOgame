@@ -9,6 +9,8 @@
 #include "TurnGrapic.h"
 #include "ProgresiveBar.h"
 
+class MouseBox;
+
 class Stage:
 	public Scene
 {
@@ -28,6 +30,7 @@ private:
 	AttackBox * mpAttackBox;
 	TurnGrapic *mpTurnGrapic;
 	ProgresiveBar * mpProgresiveBar;
+	MouseBox * mpMouseBox;			//마우스 위치에 상자 출력
 protected:
 	UINT		mScreenWidth;
 	UINT		mScreenHeight;

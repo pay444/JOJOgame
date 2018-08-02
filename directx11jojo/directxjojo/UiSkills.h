@@ -18,7 +18,7 @@ private:
 	XMFLOAT2 mCancelBtnPos;					//취소버튼의 위치
 	const SpriteFrame* mpSpriteFrame2;		//조조에있는 UI그림을 가져오는 변수
 	bool mAreaVisible;						//스킬의 범위를 보여줄지 말지를 결정함
-	bool mFlag;								//스킬 활성화후 적을 클릭하면 플래그가 섬
+	bool mSkilTimeFlag;						//스킬 활성화후 적을 클릭하면 플래그가 섬
 public:
 	virtual void Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible);
 	virtual E_SCENE Update(float dt);
@@ -35,8 +35,9 @@ public:
 	void SetAreaVisible(bool visible) { mAreaVisible = visible; }
 	bool GetAreaVisible() { return mAreaVisible; }
 
-	bool GetFlag() { return mFlag; }
+	bool GetFlag() { return mSkilTimeFlag; }
 public:
 	void CalArea(int distance);
+	void SkillRegister();
 };
 

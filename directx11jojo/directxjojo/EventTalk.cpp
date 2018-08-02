@@ -49,7 +49,7 @@ E_SCENE EventTalk::Update(float dt)
 {
 	if (MFramework::mKeyboardTracker.IsKeyPressed(Keyboard::D0))
 	{
-		mbVisible = !mbVisible;
+		//mbVisible = !mbVisible;
 	}
 	else if	(MFramework::mKeyboardTracker.IsKeyPressed(Keyboard::D9))
 	{

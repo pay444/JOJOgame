@@ -31,9 +31,12 @@ void MoveBox::Init(E_SORTID eSortID, XMFLOAT2 pos, float limitDis, bool visible)
 	//mpFont = pFont;
 
 	Animation anim[] = {
-		{ "CursorBox", 2,{ { "CursorBox0", 0.3f },
-		{ "CursorBox1", 0.3f }, }
+		{ "PMoveArea", 2,{ { "pMoveArea0", 0.3f },
+		{ "pMoveArea1", 0.3f }, }
 		},
+	{ "EMoveArea", 2,{ { "eMoveArea0", 0.3f },
+	{ "eMoveArea1", 0.3f }, }
+	},
 	};
 	//한계거리
 	mLimitDis = limitDis;
@@ -41,9 +44,9 @@ void MoveBox::Init(E_SORTID eSortID, XMFLOAT2 pos, float limitDis, bool visible)
 	//mMoveDistance = moveDis;
 	//보이고 안보이고
 	mVisible = visible;
-	MActor::Init(anim, 1, eSortID);
+	MActor::Init(anim, 2, eSortID);
 	SetPosition(pos);
-	SetAnimation("CursorBox");
+	SetAnimation("PMoveArea");
 
 }
 
@@ -127,6 +130,15 @@ void MoveBox::Draw()
 			Vector2 vTilePos = Vector2(
 				(*pVecTile)[*mspVecScopeIndex[x]]->vPos.x + JOJOTILESX / 2,
 				(*pVecTile)[*mspVecScopeIndex[x]]->vPos.y + JOJOTILESY / 2);
+			if (mpCharacter->GetCamp() == JoJoGun::CampType::PLAYER)
+			{
+				SetAnimation("PMoveArea");
+			}
+			else if(mpCharacter->GetCamp() == JoJoGun::CampType::ENEMY)
+			{
+				SetAnimation("EMoveArea");
+
+			}
 			mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + vTilePos - offset, tint);
 		}
 	}

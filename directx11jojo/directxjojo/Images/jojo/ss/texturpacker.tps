@@ -36,7 +36,7 @@
         <key>dataFormat</key>
         <string>xml</string>
         <key>textureFileName</key>
-        <filename></filename>
+        <filename>../jojoSprites.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -234,6 +234,8 @@
             <key type="filename">../AttackBox0.png</key>
             <key type="filename">../CursorBox0.png</key>
             <key type="filename">../CursorBox1.png</key>
+            <key type="filename">../eMoveArea0.png</key>
+            <key type="filename">../eMoveArea1.png</key>
             <key type="filename">../jojoBWalk0.png</key>
             <key type="filename">../jojoBWalk1.png</key>
             <key type="filename">../jojoDead0.png</key>
@@ -250,6 +252,9 @@
             <key type="filename">../jojoRWalk1.png</key>
             <key type="filename">../jojoTWalk0.png</key>
             <key type="filename">../jojoTWalk1.png</key>
+            <key type="filename">../pMoveArea0.png</key>
+            <key type="filename">../pMoveArea1.png</key>
+            <key type="filename">../skillArea.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -402,6 +407,11 @@
             <filename>../HpIcon0.png</filename>
             <filename>../MpIcon0.png</filename>
             <filename>../uiFan0.png</filename>
+            <filename>../pMoveArea1.png</filename>
+            <filename>../eMoveArea0.png</filename>
+            <filename>../eMoveArea1.png</filename>
+            <filename>../pMoveArea0.png</filename>
+            <filename>../skillArea.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

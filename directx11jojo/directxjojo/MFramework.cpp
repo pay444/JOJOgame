@@ -214,7 +214,7 @@ void MFramework::Render()
 {
 
 	//mspSpriteBatch->Begin(SpriteSortMode_Deferred, mspStates->Opaque(), mspStates->LinearWrap());
-	mspSpriteBatch->Begin();
+	mspSpriteBatch->Begin(SpriteSortMode_Deferred, mspStates->NonPremultiplied());
 
 	SceneMgr::Instance().Render();
 

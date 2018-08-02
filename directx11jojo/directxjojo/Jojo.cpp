@@ -63,7 +63,7 @@ void Jojo::Init(float moveSpeed, XMFLOAT2 startpos, E_SORTID eSortID, float limi
 	};
 	limitDistance = limitdis;
 	mName = L"Á¶Á¶";
-	SetClassType(JoJoGun::ClassType::MONARCH);
+	SetClassType(JoJoGun::ClassType::LORD);
 	MActor::Init(anim, 11, eSortID);
 	Player::Init(moveSpeed, startpos, eSortID);
 

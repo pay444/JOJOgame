@@ -278,11 +278,24 @@ void World::Draw()
 					//swprintf_s(wch, L"ÇÏ³ª");
 
 					//int x = mTileInfo[index]->AttackNum;
-					//swprintf_s(wch, L"at=%d", x);
+					//swprintf_s(wch, L"uno=   %d", mTileInfo[index]->underObject);
 					mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-10.0f, 10.0f)), DirectX::Colors::Black, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.7f, 0.7f));
 				}
 			}
 		}
+	}
+	if (visible)
+	{
+		wchar_t wch[64];
+		auto mouse = Mouse::Get().GetState();
+
+		int x, y;
+		x = (mouse.x + fScrollx) / 48;
+		y = (mouse.y + fScrolly) / 48;
+		//swprintf_s(wch, L"%d", index);
+		swprintf_s(wch, L"x = %d y = %d", x, y);//mTileInfo[index]->underObject
+		mpFont->DrawString(mpBatch, wch, XMFLOAT2(mouse.x, mouse.y), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.5f, 0.5f));
+
 	}
 	//char buf[512];
 	//sprintf(buf, "mCameraPosition.x = %f \n", mCameraPosition.x);

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MActorManager.h"
 #include "Character.h"
+#include "MouseBox.h"
 
 MActorManager::MActorManager() :
 	tmpPos(XMFLOAT2(0.0f, 0.0f)),
@@ -271,15 +272,6 @@ void MActorManager::CheckAction()
 					uiSkill->SetPlayer(((UI*)pCollider)->GetPlayer());
 					((UI*)pCollider)->SetVisible(false);
 					attackBox->SetVisible(false);
-
-					//Color color = Colors::Gray;
-					//((Character*)pUi->GetPlayer())->SetColor(color);
-					//((Character*)pUi->GetPlayer())->SetActionTurn(2);
-					//MActorManager::Instance().GetClassUi()->SetVisible(false);
-					//MActorManager::Instance().GetClassAttackBox()->SetVisible(false);
-					//mUiCheck = true;
-					//SetAtVisible(true);
-					//((UI*)pCollider)->SetVisible(false);
 					break;
 				}
 				//도구 버튼을 눌럿을때
@@ -706,6 +698,9 @@ void MActorManager::CheckAllActionTurn()
 								if (dynamic_cast<Player*>(pActor))
 								{
 									((Character*)pActor)->SetActionTurn(0);
+									//색깔 초기화
+									Color cr = Colors::White;
+									((Character*)pActor)->SetColor(cr);
 									//반격했는지에대한 값 초기화
 									((Character*)pActor)->SetisCountAction(false);
 								}
@@ -770,6 +765,9 @@ void MActorManager::CheckAllActionTurn()
 								if (dynamic_cast<Enemy*>(pActor))
 								{
 									((Character*)pActor)->SetActionTurn(0);
+									//색깔 초기화
+									Color cr = Colors::White;
+									((Character*)pActor)->SetColor(cr);
 									//반격했는지에대한 값 초기화
 									((Character*)pActor)->SetisCountAction(false);
 								}
@@ -2010,6 +2008,19 @@ E_SCENE MActorManager::EventUpdate(float dt)
 	}
 
 	return E_SCENE_NONPASS;
+}
+
+class MouseBox* MActorManager::GetClassMouseBox()
+{
+	for (auto &actor : mActors)
+	{
+		if (typeid(*actor) == typeid(MouseBox))
+		{
+			return ((MouseBox*)actor.get());
+			break;
+		}
+	}
+	return nullptr;
 }
 
 //void MActorManager::InsertMap(string str, unique_ptr<MActor> actor)

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:9875520ec9febf262702e502b02f2cbe:7e7e112e9d80882fd21fa444b9986ecb:d0dabbc10c5b14f075c43985ff8ffb93$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="Skills0.png" width="1960" height="1800">
+    <sprite n="baegho_001.png" x="0" y="0" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_002.png" x="300" y="0" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_003.png" x="600" y="0" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_004.png" x="900" y="0" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_005.png" x="1200" y="0" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_006.png" x="1500" y="0" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_007.png" x="0" y="300" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_008.png" x="300" y="300" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_009.png" x="600" y="300" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_010.png" x="900" y="300" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_011.png" x="1200" y="300" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_012.png" x="1500" y="300" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_013.png" x="0" y="600" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_014.png" x="300" y="600" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_015.png" x="600" y="600" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_016.png" x="900" y="600" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_017.png" x="1200" y="600" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_018.png" x="1500" y="600" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_019.png" x="0" y="900" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_020.png" x="300" y="900" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_021.png" x="600" y="900" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_022.png" x="900" y="900" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_023.png" x="1200" y="900" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_024.png" x="1500" y="900" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_025.png" x="0" y="1200" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_026.png" x="300" y="1200" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_027.png" x="600" y="1200" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_028.png" x="900" y="1200" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_029.png" x="1200" y="1200" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_030.png" x="1500" y="1200" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_031.png" x="0" y="1500" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="baegho_032.png" x="300" y="1500" w="300" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="heal.png" x="600" y="1500" w="16" h="16" pX="0.5" pY="0.5"/>
+    <sprite n="healEffect_001.png" x="616" y="1500" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="healEffect_002.png" x="680" y="1500" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="healEffect_003.png" x="744" y="1500" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="healEffect_004.png" x="808" y="1500" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="healEffect_005.png" x="872" y="1500" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="healEffect_006.png" x="936" y="1500" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="healEffect_007.png" x="1000" y="1500" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="healEffect_008.png" x="1064" y="1500" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="healEffect_009.png" x="1128" y="1500" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="healEffect_010.png" x="1192" y="1500" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="healEffect_011.png" x="1256" y="1500" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="healEffect_012.png" x="1320" y="1500" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="healEffect_013.png" x="1384" y="1500" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="healEffect_014.png" x="1448" y="1500" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="healEffect_015.png" x="1512" y="1500" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="healEffect_016.png" x="1576" y="1500" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="healEffect_017.png" x="1640" y="1500" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="healEffect_018.png" x="1704" y="1500" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="healEffect_019.png" x="1768" y="1500" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="healEffect_020.png" x="1832" y="1500" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="healEffect_021.png" x="1896" y="1500" w="64" h="64" pX="0.5" pY="0.5"/>
+</TextureAtlas>

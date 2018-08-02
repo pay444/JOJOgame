@@ -162,9 +162,11 @@
     <ClInclude Include="EventTalk.h" />
     <ClInclude Include="FotMan.h" />
     <ClInclude Include="GameMain.h" />
+    <ClInclude Include="HealSkill.h" />
     <ClInclude Include="HpBean.h" />
     <ClInclude Include="Jojo.h" />
     <ClInclude Include="Logo.h" />
+    <ClInclude Include="MouseBox.h" />
     <ClInclude Include="MoveBox.h" />
     <ClInclude Include="MpWater.h" />
     <ClInclude Include="Player.h" />
@@ -219,9 +221,11 @@
     <ClCompile Include="EventTalk.cpp" />
     <ClCompile Include="FotMan.cpp" />
     <ClCompile Include="GameMain.cpp" />
+    <ClCompile Include="HealSkill.cpp" />
     <ClCompile Include="HpBean.cpp" />
     <ClCompile Include="Jojo.cpp" />
     <ClCompile Include="Logo.cpp" />
+    <ClCompile Include="MouseBox.cpp" />
     <ClCompile Include="MoveBox.cpp" />
     <ClCompile Include="MpWater.cpp" />
     <ClCompile Include="Player.cpp" />

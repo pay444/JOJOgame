@@ -95,7 +95,8 @@ public:
 	virtual E_SCENE Update(float dt);
 	virtual void Draw();
 	virtual void OnHit(MActor* pCollidee);
-	virtual void OnHit(MActor* pCollider, MActor* pCollidee);
+	virtual void OnHit(MActor* pCollider, MActor* pCollidee,float delayTime = 0.8f);
+	virtual void OnHitHeal(MActor* pCollider, MActor* pCollidee, float delayTime = 0.8f);
 	virtual void DoDamage(MActor* pAttacker);
 	void MoveStateCheck();
 protected:
@@ -126,7 +127,10 @@ protected:
 						//MoveBox *mpMoveBox;
 	int mClassType;		//현재 캐릭터의 직업
 	int				mCamp;		//캐릭터의 진영
-
+	bool mbSkillActionFlag;			//행동시간 플래그
+	float mfSkillActionElpTime;		//스킬의 시간측정
+	bool mbMotionFlag;			//모션의 플래그
+	float mfDelayMotionTime;		//모션 딜레이 시간
 public:
 	void SetStaus(int health, int attack,int mana,int sp, int moveDis, int AttackDis)
 	{
@@ -141,7 +145,11 @@ public:
 		this->mAttackDistance = AttackDis;
 		//mpMoveBox->SetMoveDis(mMoveDistance);
 	}
-	
+	void SetDelayTime(float delay) { mfDelayMotionTime = delay; }
+	float GetDelayTime() { return mfDelayMotionTime; }
+
+	void SetMotionFlag(bool flag) { mbMotionFlag = flag; }
+	bool GetMotionFlag() { return mbMotionFlag; }
 
 	void SetAniName(char* name) { mAnimName2 = name; }
 	char* GetAniName() { return mAnimName2; }

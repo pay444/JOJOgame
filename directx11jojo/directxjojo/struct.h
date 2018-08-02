@@ -2,9 +2,9 @@
 
 struct ANIMINFO
 {
-	string animName;
+	wstring animName;
 	XMFLOAT2 pos;
-	ANIMINFO(string name, XMFLOAT2 pos_)
+	ANIMINFO(wstring name, XMFLOAT2 pos_)
 	{
 		animName = name;
 		pos = pos_;

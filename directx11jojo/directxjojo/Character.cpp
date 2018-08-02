@@ -20,6 +20,10 @@ Character::Character(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pF
 	mVisbleScope = false;
 	mActionTurn = 0;
 	mMotion = false;
+	mbSkillActionFlag = false;
+	mbMotionFlag = false;
+	mfSkillActionElpTime = 0.0f;
+	mfDelayMotionTime = 0.8;
 	//Animation anim[] = {
 	//	{ "CursorBox", 2,{ { "CursorBox0", 0.3f },
 	//	{ "CursorBox1", 0.3f }, }
@@ -97,7 +101,16 @@ E_SCENE Character::Update(float dt)
 	//{
 	//	this->SetAnimation("DEAD");
 	//}
+	//스킬의 플래그 올라가면 시간측정
+	if (mbSkillActionFlag)
+	{
+		mfSkillActionElpTime += dt;
+	}
+	//스킬의 시간이 커지면 
+	if (mfSkillActionElpTime >= 3.0f)
+	{
 
+	}
 	//죽음 시간측정후 없어지도록
 	if (this->mHealth <= 0)
 	{
@@ -115,9 +128,10 @@ E_SCENE Character::Update(float dt)
 	//}
 
 	//공격 모션후 색깔 딜레이주기
-	if (mfActionElapsedTime > 0.8f)
+	if (mbMotionFlag && mfActionElapsedTime > mfDelayMotionTime)
 	{
 		SetAnimation(mAnimName2);
+		mbMotionFlag = false;
 		if (mColorAllow && mActionTurn >= 2)
 		{
 			mColorAllow = false;
@@ -158,7 +172,7 @@ void Character::Draw()
 {
 	XMFLOAT2 offset = XMFLOAT2(0, 0);
 	Color tint = Colors::White;
-	
+	//tint = Color(255, 0, 255, 1.0f);
 	//offset = Vector2(0.0f, 0.0f);
 	//float speed = 48;
 
@@ -222,7 +236,7 @@ void Character::OnHit(MActor * pCollidee)
 	}
 }
 
-void Character::OnHit(MActor * pCollider, MActor * pCollidee)
+void Character::OnHit(MActor * pCollider, MActor * pCollidee, float delayTime)
 {
 	if (((Character*)this)->GetCamp() != ((Character*)pCollidee)->GetCamp())
 	{
@@ -231,7 +245,13 @@ void Character::OnHit(MActor * pCollider, MActor * pCollidee)
 		((Character*)pCollidee)->SetActionTurn(2);
 		//때린놈의 색깔을 바꿔준다.
 		((Character*)pCollidee)->SetColorAllow(true);
+		//때린놈의 어택플래그 를 바꿔준다
+		((Character*)pCollidee)->SetMotionFlag(true);
 
+		//때린놈의 어택딜레이시간 을 바꿔준다
+		//((Character*)pCollidee)->SetDelayTime(delayTime);
+		//맞은 놈의 어택딜레이 시간을 바꿔준다
+		mfDelayMotionTime = delayTime;
 		//때린놈의 애니메이션 상태 변경
 		const vector<unique_ptr<TILE>>* pVecTile = MActorManager::Instance().GetTileInfo();
 		int attackerIndex = GetTileIndex(pCollidee->GetPosition());
@@ -275,6 +295,63 @@ void Character::OnHit(MActor * pCollider, MActor * pCollidee)
 	}
 }
 
+void Character::OnHitHeal(MActor* pCollider, MActor* pCollidee, float delayTime /*= 0.8f*/)
+{
+	//때린놈의 액션턴을 바꿔준다.
+	((Character*)pCollidee)->SetActionTurn(2);
+	//때린놈의 색깔을 바꿔준다.
+	((Character*)pCollidee)->SetColorAllow(true);
+	//때린놈의 어택플래그 를 바꿔준다
+	((Character*)pCollidee)->SetMotionFlag(true);
+
+	//때린놈의 어택딜레이시간 을 바꿔준다
+	//((Character*)pCollidee)->SetDelayTime(delayTime);
+	//맞은 놈의 어택딜레이 시간을 바꿔준다
+	mfDelayMotionTime = delayTime;
+	//때린놈의 애니메이션 상태 변경
+	const vector<unique_ptr<TILE>>* pVecTile = MActorManager::Instance().GetTileInfo();
+	int attackerIndex = GetTileIndex(pCollidee->GetPosition());
+	int defenderIndex = GetTileIndex(mPosition);
+
+	//아래 애니매이션 변경
+	if (mPosition.y >
+		(*pVecTile)[attackerIndex]->vPos.y + JOJOTILESY) //+ JOJOTILESY / 2 + JOJOTILESY / 2)
+	{
+		//pCollidee->SetAnimation("DATTACK");
+		((Character*)pCollidee)->SetAniName("DOWN");
+	}
+	//위 애니매이션 변경
+	else if (mPosition.y <
+		(*pVecTile)[attackerIndex]->vPos.y)// + JOJOTILESY / 2 - JOJOTILESY / 2)
+	{
+		//pCollidee->SetAnimation("UATTACK");
+		((Character*)pCollidee)->SetAniName("UP");
+	}
+
+	//오른쪽과 왼쪽 변경
+	else if ((mPosition.x <
+		(*pVecTile)[attackerIndex]->vPos.x))
+		//&&(mPosition.x != (*pVecTile)[iDestinationIdx]->vPos.x))
+	{
+		//pCollidee->SetAnimation("LATTACK");
+		((Character*)pCollidee)->SetAniName("LEFT");
+	}
+	else if (mPosition.x >
+		(*pVecTile)[attackerIndex]->vPos.x + JOJOTILESX)
+	{
+		//pCollidee->SetAnimation("RATTACK");
+		((Character*)pCollidee)->SetAniName("RIGHT");
+	}
+	//때린놈 행동 시간 초기화
+	pCollidee->SetActionTime(0.0f);
+
+	//mfActionElapsedTime = 0;
+	//mActionTurn++;
+	//DoDamage(pCollider);
+	mfActionElapsedTime = 0.0f;
+	mbMotionFlag = true;
+}
+
 void Character::DoDamage(MActor * pAttacker)
 {
 	//AttackBox* pCharacter = (AttackBox*)pAttacker;
@@ -296,7 +373,11 @@ void Character::DoDamage(MActor * pAttacker)
 	mspTint->Start(0.1f, (Color)Colors::Wheat, (Color)Colors::Red);
 
 	this->SetAnimation("HIT");
+	//Color cr = Colors::White;
+	//mColor = cr;
 	mfActionElapsedTime = 0.0f;
+	mbMotionFlag = true;
+
 	//MActorManager::Instance().SetUiCheck(false);
 	if (this->mHealth <= 0)
 	{

@@ -8,7 +8,8 @@ AttackBox::AttackBox()
 
 AttackBox::AttackBox(SpriteBatch * pBatch, SpriteSheet * pSheet, SpriteFont * pFont)
 	:MActor(pBatch, pSheet, pFont),
-	mAtVisible(false)
+	mAtVisible(false),
+	mMultiSkillAtVisible(false)
 {
 	
 }
@@ -25,9 +26,11 @@ void AttackBox::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
 	Animation anim[] = {
 		{ "AttackBox", 1,{ { "AttackBox0", 0.3f } }
 		},
+	{ "SkillBox", 1,{ { "skillArea", 0.3f } }
+	},
 	};
 	mAtVisible = visible;
-	MActor::Init(anim, 1, eSortID);
+	MActor::Init(anim, 2, eSortID);
 	SetPosition(pos);
 	SetAnimation("AttackBox");
 }
@@ -70,6 +73,7 @@ void AttackBox::Draw()
 			AttackScope();
 		}
 		//mAtSeekScope = AttackScopeSeek();
+		SetAnimation("AttackBox");
 		for (int x = 0; x < mspVecAtScopeIndex.size(); ++x)
 		{
 			auto a = *mspVecAtScopeIndex[x].get();
@@ -78,6 +82,14 @@ void AttackBox::Draw()
 				(*pVecTile)[*mspVecAtScopeIndex[x].get()]->vPos.y + JOJOTILESY / 2);
 			mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + vTilePos - offset, tint);
 		}
+		//SetAnimation("SkillBox");
+		//for (size_t i = 0; i < mVecSkillAtScopeIndex.size(); i++)
+		//{
+		//	Vector2 vTilePos = Vector2(
+		//		(*pVecTile)[mVecSkillAtScopeIndex[i]]->vPos.x + JOJOTILESX / 2,
+		//		(*pVecTile)[mVecSkillAtScopeIndex[i]]->vPos.y + JOJOTILESY / 2);
+		//	mpSheet->Draw(mpBatch, *mpSpriteFrame, mWorldPos + vTilePos - offset, tint);
+		//}
 
 	}
 	else //if(!MActorManager::Instance().GetUICheckArea() && mAtVisible== false && posIndex!=mouseIndex)
@@ -124,7 +136,7 @@ void AttackBox::Release()
 
 	mspVecAtScopeIndex.clear();
 
-	mVecAtScopeIndex.clear();
+	//mVecSkillAtScopeIndex.clear();
 }
 
 bool AttackBox::UIntersecRectScope(MActor * pActor)
@@ -385,7 +397,7 @@ void AttackBox::AttackScope()
 		}
 }
 
-void AttackBox::AttackCubeScope(bool isChracterPospush)
+void AttackBox::AttackCubeScope(bool isChracterPospush,vector<unique_ptr<int>> &vecAtScopeIndex)
 {
 	vector<unique_ptr<TILE>> *pVecTile = MActorManager::Instance().GetTileInfo();
 	int JoTileCx = 20;
@@ -396,67 +408,258 @@ void AttackBox::AttackCubeScope(bool isChracterPospush)
 	if (isChracterPospush)
 	{
 		//벡터안에 플레이어가 서있는 위치를 넣어줌
-		mspVecAtScopeIndex.push_back(make_unique<int>(tileOnPlayerIndex));
+		vecAtScopeIndex.push_back(make_unique<int>(tileOnPlayerIndex));
 	}
 	//8방향 확인후 범위 벡터에 넣어줌
 	//위
 	if ((tileOnPlayerIndex) >= JoTileCx)
 	{
-		mspVecAtScopeIndex.push_back(make_unique<int>(tileOnPlayerIndex - JoTileCx));
+		vecAtScopeIndex.push_back(make_unique<int>(tileOnPlayerIndex - JoTileCx));
 	}
 	//오위
 	if ((tileOnPlayerIndex) >= JoTileCx && tileOnPlayerIndex
 		% JoTileCx != JoTileCx - 1)
 	{
-		mspVecAtScopeIndex.push_back(
+		vecAtScopeIndex.push_back(
 			make_unique<int>(tileOnPlayerIndex - (JoTileCx - 1)));
 	}
 	//오
 	if (tileOnPlayerIndex % JoTileCx != JoTileCx - 1)
 	{
-		mspVecAtScopeIndex.push_back(make_unique<int>(tileOnPlayerIndex + 1));
+		vecAtScopeIndex.push_back(make_unique<int>(tileOnPlayerIndex + 1));
 	}
 	//오아
 	if ((tileOnPlayerIndex) < JoTileCx * JoTileCy - JoTileCx
 		&& tileOnPlayerIndex % JoTileCx != JoTileCx - 1)
 	{
-		mspVecAtScopeIndex.push_back(
+		vecAtScopeIndex.push_back(
 			make_unique<int>(tileOnPlayerIndex + (JoTileCx + 1)));
 	}
 	//아래
 	if ((tileOnPlayerIndex) < JoTileCx * JoTileCy - JoTileCx)
 	{
-		mspVecAtScopeIndex.push_back(make_unique<int>(tileOnPlayerIndex + JoTileCx));
+		vecAtScopeIndex.push_back(make_unique<int>(tileOnPlayerIndex + JoTileCx));
 	}
 	//왼아
 	if ((tileOnPlayerIndex) < JoTileCx * JoTileCy - JoTileCx
 		&& tileOnPlayerIndex % JoTileCx != 0)
 	{
-		mspVecAtScopeIndex.push_back(
+		vecAtScopeIndex.push_back(
 			make_unique<int>(tileOnPlayerIndex + (JoTileCx - 1)));
 
 	}
 	//왼
 	if (tileOnPlayerIndex % JoTileCx != 0)
 	{
-		mspVecAtScopeIndex.push_back(
+		vecAtScopeIndex.push_back(
 			make_unique<int>(tileOnPlayerIndex - 1));
 	}
 	//왼위
 	if ((tileOnPlayerIndex) >= JoTileCx
 		&& tileOnPlayerIndex % JoTileCx != 0)
 	{
-		mspVecAtScopeIndex.push_back(
+		vecAtScopeIndex.push_back(
 			make_unique<int>(tileOnPlayerIndex - (JoTileCx + 1)));
 	}
 
 	//타일의 위치 측정 초기화
 	(*pVecTile)[GetTileIndex(mPosition)]->AttackNum = 0;
-	for (int x = 0; x < mspVecAtScopeIndex.size(); ++x)
+	for (int x = 0; x < vecAtScopeIndex.size(); ++x)
 	{
-		(*pVecTile)[*mspVecAtScopeIndex[x].get()]->AttackNum = 0;
+		(*pVecTile)[*vecAtScopeIndex[x].get()]->AttackNum = 0;
 	}
 }
+
+bool AttackBox::SkillScope(vector<int> &vecAtSkillScopeIndex, int activeArea, int camp)
+{
+	//측정전에 초기화
+	vecAtSkillScopeIndex.clear();
+
+	vector<unique_ptr<TILE>> *pVecTile = MActorManager::Instance().GetTileInfo();
+	int JoTileCx = 20;
+	int JoTileCy = 20;
+	
+	XMFLOAT2 f2Scrol = XMFLOAT2(ScrollMgr::Instance().GetScroll().x
+		, ScrollMgr::Instance().GetScroll().y);
+	auto mouse = Mouse::Get().GetState();
+	//내가 클릭한 주위의 해당 범위에 들어오는 캐릭터 인덱스 위치만 벡터에 기록한다.
+	int tileOnPlayerIndex = GetTileIndex(Vector2(mouse.x + f2Scrol.x, mouse.y + f2Scrol.y));
+	vecAtSkillScopeIndex.push_back(tileOnPlayerIndex);
+	//십자인지 마방진인지 다른것인지에 따른 해당 하는 로직이다름
+	switch (activeArea)
+	{
+	//십자
+	case 1:
+	{
+		//4방향 확인후 범위 벡터에 넣어줌
+		//위
+		if ((tileOnPlayerIndex) >= JoTileCx)
+		{
+			//그타일에 적이 올라와 있다면벡터에 넣어줌
+			if ((*pVecTile)[tileOnPlayerIndex - JoTileCx]->underObject == camp)
+			{
+				vecAtSkillScopeIndex.push_back((tileOnPlayerIndex - JoTileCx));
+			}
+		}
+		//오
+		if (tileOnPlayerIndex % JoTileCx != JoTileCx - 1)
+		{
+			if ((*pVecTile)[(tileOnPlayerIndex + 1)]->underObject == camp)
+			{
+				vecAtSkillScopeIndex.push_back((tileOnPlayerIndex + 1));
+			}
+
+		}
+		//아래
+		if ((tileOnPlayerIndex) < JoTileCx * JoTileCy - JoTileCx)
+		{
+			if ((*pVecTile)[(tileOnPlayerIndex + JoTileCx)]->underObject == camp)
+			{
+				vecAtSkillScopeIndex.push_back((tileOnPlayerIndex + JoTileCx));
+			}
+		}
+		//왼
+		if (tileOnPlayerIndex % JoTileCx != 0)
+		{
+			if ((*pVecTile)[(tileOnPlayerIndex - 1)]->underObject == camp)
+			{
+				vecAtSkillScopeIndex.push_back(
+					(tileOnPlayerIndex - 1));
+			}
+		}
+
+	}
+	break;
+	//마방진
+	case 2:
+	{
+		//8방향 확인후 범위 벡터에 넣어줌
+		//위
+		if ((tileOnPlayerIndex) >= JoTileCx)
+		{
+			//그타일에 적이 올라와 있다면벡터에 넣어줌
+			if ((*pVecTile)[tileOnPlayerIndex - JoTileCx]->underObject == camp)
+			{
+				vecAtSkillScopeIndex.push_back((tileOnPlayerIndex - JoTileCx));
+			}
+		}
+		//오위
+		if ((tileOnPlayerIndex) >= JoTileCx && tileOnPlayerIndex
+			% JoTileCx != JoTileCx - 1)
+		{
+			if ((*pVecTile)[(tileOnPlayerIndex - (JoTileCx - 1))]->underObject == camp)
+			{
+				vecAtSkillScopeIndex.push_back(
+					(tileOnPlayerIndex - (JoTileCx - 1)));
+			}
+		}
+		//오
+		if (tileOnPlayerIndex % JoTileCx != JoTileCx - 1)
+		{
+			if ((*pVecTile)[(tileOnPlayerIndex + 1)]->underObject == camp)
+			{
+				vecAtSkillScopeIndex.push_back((tileOnPlayerIndex + 1));
+			}
+
+		}
+		//오아
+		if ((tileOnPlayerIndex) < JoTileCx * JoTileCy - JoTileCx
+			&& tileOnPlayerIndex % JoTileCx != JoTileCx - 1)
+		{
+			if ((*pVecTile)[(tileOnPlayerIndex + (JoTileCx + 1))]->underObject == camp)
+			{
+				vecAtSkillScopeIndex.push_back(
+					(tileOnPlayerIndex + (JoTileCx + 1)));
+			}
+		}
+		//아래
+		if ((tileOnPlayerIndex) < JoTileCx * JoTileCy - JoTileCx)
+		{
+			if ((*pVecTile)[(tileOnPlayerIndex + JoTileCx)]->underObject == camp)
+			{
+				vecAtSkillScopeIndex.push_back((tileOnPlayerIndex + JoTileCx));
+			}
+		}
+		//왼아
+		if ((tileOnPlayerIndex) < JoTileCx * JoTileCy - JoTileCx
+			&& tileOnPlayerIndex % JoTileCx != 0)
+		{
+			if ((*pVecTile)[(tileOnPlayerIndex + (JoTileCx - 1))]->underObject == camp)
+			{
+				vecAtSkillScopeIndex.push_back(
+					(tileOnPlayerIndex + (JoTileCx - 1)));
+			}
+			
+		}
+		//왼
+		if (tileOnPlayerIndex % JoTileCx != 0)
+		{
+			if ((*pVecTile)[(tileOnPlayerIndex - 1)]->underObject == camp)
+			{
+				vecAtSkillScopeIndex.push_back(
+					(tileOnPlayerIndex - 1));
+			}
+		}
+		//왼위
+		if ((tileOnPlayerIndex) >= JoTileCx
+			&& tileOnPlayerIndex % JoTileCx != 0)
+		{
+			if ((*pVecTile)[(tileOnPlayerIndex - (JoTileCx + 1))]->underObject == camp)
+			{
+				vecAtSkillScopeIndex.push_back(
+					(tileOnPlayerIndex - (JoTileCx + 1)));
+
+			}
+		}
+
+	}
+	break;
+	//전체범위
+	case 4:
+	{
+		//타일정보를 싹다 불러와서 해당 녀석을 벡터에 넣어줌 즉 전체 공격 및 전체회복
+		for (size_t i = 0; i < (*pVecTile).size(); i++)
+		{
+			//해당 타일에 적이나 우리편이 올라가 있다면 벡터에 넣어줌
+			if ((*pVecTile)[i]->underObject == camp)
+			{
+				vecAtSkillScopeIndex.push_back(i);
+			}
+		}
+	}
+	break;
+	default:
+		break;
+	}
+
+	//타일의 위치 측정 초기화
+	//(*pVecTile)[GetTileIndex(mPosition)]->AttackNum = 0;
+	//for (int x = 0; x < vecAtSkillScopeIndex.size(); ++x)
+	//{
+	//	(*pVecTile)[vecAtSkillScopeIndex[x]]->AttackNum = 0;
+	//}
+	return false;
+}
+
+//void AttackBox::SkillScopeAll(vector<int> &vecAtSkillScopeIndex, int camp)
+//{
+//	//측정전에 초기화
+//	vecAtSkillScopeIndex.clear();
+//
+//	vector<unique_ptr<TILE>> *pVecTile = MActorManager::Instance().GetTileInfo();
+//	int JoTileCx = 20;
+//	int JoTileCy = 20;
+//
+//	//타일정보를 싹다 불러와서 해당 녀석을 벡터에 넣어줌 즉 전체 공격 및 전체회복
+//	for (size_t i = 0; i < (*pVecTile).size(); i++)
+//	{
+//		//해당 타일에 적이나 우리편이 올라가 있다면 벡터에 넣어줌
+//		if ((*pVecTile)[i]->underObject == camp)
+//		{
+//			vecAtSkillScopeIndex.push_back(i);
+//		}
+//	}
+//}
 
 bool AttackBox::AttackScopeSeek()
 {
