@@ -276,10 +276,16 @@ void World::Draw()
 					int y = mTileInfo[index]->vPos.y;
 					swprintf_s(wch, L"x=%d \n y=%d",x , y);
 					//swprintf_s(wch, L"ÇÏ³ª");
+					//mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-10.0f, 10.0f)), DirectX::Colors::Black, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.7f, 0.7f));
 
 					//int x = mTileInfo[index]->AttackNum;
-					//swprintf_s(wch, L"uno=   %d", mTileInfo[index]->underObject);
-					mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-10.0f, 10.0f)), DirectX::Colors::Black, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.7f, 0.7f));
+					int a = mTileInfo[index]->byOption;
+					swprintf_s(wch, L"bO= %d", a);//mTileInfo[index]->byOption);
+					mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-10.0f, 10.0f)), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.7f, 0.7f));
+					
+					swprintf_s(wch, L"uno=  %d", mTileInfo[index]->underObject);//mTileInfo[index]->byOption);
+					mpFont->DrawString(mpBatch, wch, XMFLOAT2(mPosition + XMFLOAT2(-10.0f, 20.0f)), DirectX::Colors::White, 0.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(0.7f, 0.7f));
+
 				}
 			}
 		}

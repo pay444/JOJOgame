@@ -11,6 +11,7 @@ Stage::Stage():
 
 Stage::~Stage()
 {
+	Release();
 }
 
 HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
@@ -199,7 +200,7 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 	mpPlayer->SetName(L"이전");
 	((MActor*)mpPlayer)->Init(Ianim, 11, E_SORTID_SECOND);
 	mpPlayer->Init(500.0f, XMFLOAT2(341.0f, 145.0f), E_SORTID_SECOND);
-	mpPlayer->SetStaus(100, 10, 100, 255, 4, 2);
+	mpPlayer->SetStaus(100, 10, 100, 255, 4, 3);
 
 	//장비추가
 	mpPlayer = MActorManager::Instance().Create<Player>(spriteBatch, pAllPSheet, spriteFont);
@@ -496,7 +497,7 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 	mpEnemy->SetClassType(JoJoGun::ClassType::NOMAL);
 	mpEnemy->SetName(L"황건적");
 	((MActor*)mpEnemy)->Init(Hanim, 11, E_SORTID_SECOND);
-	mpEnemy->Init(500.0f, XMFLOAT2(600.0f, 200.0f), E_SORTID_SECOND);
+	mpEnemy->Init(500.0f, XMFLOAT2(260.0f, 500.0f), E_SORTID_SECOND);
 	mpEnemy->SetStaus(100, 10, 100, 255, 4, 2);
 	mpEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.3f, 0.8f);
 
@@ -505,7 +506,7 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 	mpEnemy->SetClassType(JoJoGun::ClassType::NOMAL);
 	mpEnemy->SetName(L"황건적");
 	((MActor*)mpEnemy)->Init(Hanim, 11, E_SORTID_SECOND);
-	mpEnemy->Init(500.0f, XMFLOAT2(400.0f, 200.0f), E_SORTID_SECOND);
+	mpEnemy->Init(500.0f, XMFLOAT2(260.0f, 548.0f), E_SORTID_SECOND);
 	mpEnemy->SetStaus(100, 10, 100, 255, 4, 2);
 	mpEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.3f, 0.8f);
 	
@@ -514,7 +515,7 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 	mpEnemy->SetClassType(JoJoGun::ClassType::NOMAL);
 	mpEnemy->SetName(L"황건적");
 	((MActor*)mpEnemy)->Init(Hanim, 11, E_SORTID_SECOND);
-	mpEnemy->Init(500.0f, XMFLOAT2(500.0f, 200.0f), E_SORTID_SECOND);
+	mpEnemy->Init(500.0f, XMFLOAT2(452.0f, 692.0f), E_SORTID_SECOND);
 	mpEnemy->SetStaus(100, 10, 100, 255, 4, 2);
 	mpEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.3f, 0.8f);
 	
@@ -523,7 +524,43 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 	mpEnemy->SetClassType(JoJoGun::ClassType::NOMAL);
 	mpEnemy->SetName(L"황건적");
 	((MActor*)mpEnemy)->Init(Hanim, 11, E_SORTID_SECOND);
-	mpEnemy->Init(500.0f, XMFLOAT2(550.0f, 200.0f), E_SORTID_SECOND);
+	mpEnemy->Init(500.0f, XMFLOAT2(500, 692), E_SORTID_SECOND);
+	mpEnemy->SetStaus(100, 10, 100, 255, 4, 2);
+	mpEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.3f, 0.8f);
+
+	mpEnemy = MActorManager::Instance().Create<Enemy>(spriteBatch, pSheet2, spriteFont);
+	mpEnemy->SetCamp(JoJoGun::CampType::ENEMY);
+	mpEnemy->SetClassType(JoJoGun::ClassType::NOMAL);
+	mpEnemy->SetName(L"황건적");
+	((MActor*)mpEnemy)->Init(Hanim, 11, E_SORTID_SECOND);
+	mpEnemy->Init(500.0f, XMFLOAT2(644, 596), E_SORTID_SECOND);
+	mpEnemy->SetStaus(100, 10, 100, 255, 4, 2);
+	mpEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.3f, 0.8f);
+
+	mpEnemy = MActorManager::Instance().Create<Enemy>(spriteBatch, pSheet2, spriteFont);
+	mpEnemy->SetCamp(JoJoGun::CampType::ENEMY);
+	mpEnemy->SetClassType(JoJoGun::ClassType::NOMAL);
+	mpEnemy->SetName(L"황건적");
+	((MActor*)mpEnemy)->Init(Hanim, 11, E_SORTID_SECOND);
+	mpEnemy->Init(500.0f, XMFLOAT2(644, 644), E_SORTID_SECOND);
+	mpEnemy->SetStaus(100, 10, 100, 255, 4, 2);
+	mpEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.3f, 0.8f);
+
+	mpEnemy = MActorManager::Instance().Create<Enemy>(spriteBatch, pSheet2, spriteFont);
+	mpEnemy->SetCamp(JoJoGun::CampType::ENEMY);
+	mpEnemy->SetClassType(JoJoGun::ClassType::NOMAL);
+	mpEnemy->SetName(L"황건적");
+	((MActor*)mpEnemy)->Init(Hanim, 11, E_SORTID_SECOND);
+	mpEnemy->Init(500.0f, XMFLOAT2(644, 356), E_SORTID_SECOND);
+	mpEnemy->SetStaus(100, 10, 100, 255, 4, 2);
+	mpEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.3f, 0.8f);
+
+	mpEnemy = MActorManager::Instance().Create<Enemy>(spriteBatch, pSheet2, spriteFont);
+	mpEnemy->SetCamp(JoJoGun::CampType::ENEMY);
+	mpEnemy->SetClassType(JoJoGun::ClassType::NOMAL);
+	mpEnemy->SetName(L"황건적");
+	((MActor*)mpEnemy)->Init(Hanim, 11, E_SORTID_SECOND);
+	mpEnemy->Init(500.0f, XMFLOAT2(308, 356), E_SORTID_SECOND);
 	mpEnemy->SetStaus(100, 10, 100, 255, 4, 2);
 	mpEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.3f, 0.8f);
 
@@ -579,7 +616,7 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 	mpEnemy->SetClassType(JoJoGun::ClassType::NOMAL);
 	mpEnemy->SetName(L"장보");
 	((MActor*)mpEnemy)->Init(Jbanim, 11, E_SORTID_SECOND);
-	mpEnemy->Init(500.0f, XMFLOAT2(650.0f, 200.0f), E_SORTID_SECOND);
+	mpEnemy->Init(500.0f, XMFLOAT2(452.0f, 548.0f), E_SORTID_SECOND);
 	mpEnemy->SetStaus(100, 10, 100, 255, 4, 2);
 	mpEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.3f, 0.8f);
 
@@ -639,10 +676,94 @@ HRESULT Stage::Initialize(SpriteBatch *spriteBatch, SpriteFont * spriteFont)
 	mpEnemy->SetClassType(JoJoGun::ClassType::NOMAL);
 	mpEnemy->SetName(L"장량");
 	((MActor*)mpEnemy)->Init(Jlanim, 11, E_SORTID_SECOND);
-	mpEnemy->Init(500.0f, XMFLOAT2(700.0f, 200.0f), E_SORTID_SECOND);
+	mpEnemy->Init(500.0f, XMFLOAT2(500.0f, 548.0f), E_SORTID_SECOND);
 	mpEnemy->SetStaus(100, 10, 100, 255, 4, 2);
 	mpEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.3f, 0.8f);
 
+	// 사운드 생성
+	FMOD_SOUND* pSound = NULL;
+	FMOD_System_CreateSound(MActorManager::Instance().GetFMODSystem(), "Sound\\07-AudioTrack 07.mp3", FMOD_DEFAULT | FMOD_LOOP_NORMAL, 0, &pSound);
+	MActorManager::Instance().GetVecFMODSound()->push_back(pSound);
+	// 채널
+	//MActorManager::Instance().GetVecFMODChannal()->resize(2);
+
+	// 사운드 재생
+	FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), pSound, 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[0]);
+	//
+	//1
+	pSound = NULL;
+	FMOD_System_CreateSound(MActorManager::Instance().GetFMODSystem(), "Sound/Se_m_01fire1.wav", FMOD_DEFAULT | FMOD_LOOP_OFF, 0, &pSound);
+	MActorManager::Instance().GetVecFMODSound()->push_back(pSound);
+	//2
+	pSound = NULL;
+	FMOD_System_CreateSound(MActorManager::Instance().GetFMODSystem(), "Sound/Se_m_04wind.wav", FMOD_DEFAULT | FMOD_LOOP_OFF, 0, &pSound);
+	MActorManager::Instance().GetVecFMODSound()->push_back(pSound);
+	//3
+	pSound = NULL;
+	FMOD_System_CreateSound(MActorManager::Instance().GetFMODSystem(), "Sound/Se_m_12firebird.wav", FMOD_DEFAULT | FMOD_LOOP_OFF, 0, &pSound);
+	MActorManager::Instance().GetVecFMODSound()->push_back(pSound);
+	//4
+	pSound = NULL;
+	FMOD_System_CreateSound(MActorManager::Instance().GetFMODSystem(), "Sound/Se_m_15becho.wav", FMOD_DEFAULT | FMOD_LOOP_OFF, 0, &pSound);
+	MActorManager::Instance().GetVecFMODSound()->push_back(pSound);
+	//5
+	pSound = NULL;
+	FMOD_System_CreateSound(MActorManager::Instance().GetFMODSystem(), "Sound/Se_m_16fDragon.wav", FMOD_DEFAULT | FMOD_LOOP_OFF, 0, &pSound);
+	MActorManager::Instance().GetVecFMODSound()->push_back(pSound);
+	//6
+	pSound = NULL;
+	FMOD_System_CreateSound(MActorManager::Instance().GetFMODSystem(), "Sound/Se_m_25heal.wav", FMOD_DEFAULT | FMOD_LOOP_OFF, 0, &pSound);
+	MActorManager::Instance().GetVecFMODSound()->push_back(pSound);
+	//7
+	pSound = NULL;
+	FMOD_System_CreateSound(MActorManager::Instance().GetFMODSystem(), "Sound/Se00click.wav", FMOD_DEFAULT | FMOD_LOOP_OFF, 0, &pSound);
+	MActorManager::Instance().GetVecFMODSound()->push_back(pSound);
+	//8
+	pSound = NULL;
+	FMOD_System_CreateSound(MActorManager::Instance().GetFMODSystem(), "Sound/Se05pincer.wav", FMOD_DEFAULT | FMOD_LOOP_OFF, 0, &pSound);
+	MActorManager::Instance().GetVecFMODSound()->push_back(pSound);
+	//9
+	pSound = NULL;
+	FMOD_System_CreateSound(MActorManager::Instance().GetFMODSystem(), "Sound/Se14item.wav", FMOD_DEFAULT | FMOD_LOOP_OFF, 0, &pSound);
+	MActorManager::Instance().GetVecFMODSound()->push_back(pSound);
+	//10
+	pSound = NULL;
+	FMOD_System_CreateSound(MActorManager::Instance().GetFMODSystem(), "Sound/Se23walk.wav", FMOD_DEFAULT | FMOD_LOOP_NORMAL, 0, &pSound);
+	MActorManager::Instance().GetVecFMODSound()->push_back(pSound);
+	//11
+	pSound = NULL;
+	FMOD_System_CreateSound(MActorManager::Instance().GetFMODSystem(), "Sound/Se24raid.wav", FMOD_DEFAULT | FMOD_LOOP_NORMAL, 0, &pSound);
+	MActorManager::Instance().GetVecFMODSound()->push_back(pSound);
+	//12
+	pSound = NULL;
+	FMOD_System_CreateSound(MActorManager::Instance().GetFMODSystem(), "Sound/Se34sword.wav", FMOD_DEFAULT | FMOD_LOOP_OFF, 0, &pSound);
+	MActorManager::Instance().GetVecFMODSound()->push_back(pSound);
+	//13
+	pSound = NULL;
+	FMOD_System_CreateSound(MActorManager::Instance().GetFMODSystem(), "Sound/Se35hit.wav", FMOD_DEFAULT | FMOD_LOOP_OFF, 0, &pSound);
+	MActorManager::Instance().GetVecFMODSound()->push_back(pSound);
+	//14
+	pSound = NULL;
+	FMOD_System_CreateSound(MActorManager::Instance().GetFMODSystem(), "Sound/Se36Hhit.wav", FMOD_DEFAULT | FMOD_LOOP_OFF, 0, &pSound);
+	MActorManager::Instance().GetVecFMODSound()->push_back(pSound);
+	//15
+	pSound = NULL;
+	FMOD_System_CreateSound(MActorManager::Instance().GetFMODSystem(), "Sound/Se37autor.wav", FMOD_DEFAULT | FMOD_LOOP_OFF, 0, &pSound);
+	MActorManager::Instance().GetVecFMODSound()->push_back(pSound);
+	//16
+	pSound = NULL;
+	FMOD_System_CreateSound(MActorManager::Instance().GetFMODSystem(), "Sound/Se39skilstart.wav", FMOD_DEFAULT | FMOD_LOOP_OFF, 0, &pSound);
+	MActorManager::Instance().GetVecFMODSound()->push_back(pSound);
+	//17
+	pSound = NULL;
+	FMOD_System_CreateSound(MActorManager::Instance().GetFMODSystem(), "Sound/Se16dead.wav", FMOD_DEFAULT | FMOD_LOOP_OFF, 0, &pSound);
+	MActorManager::Instance().GetVecFMODSound()->push_back(pSound);
+	//18
+	pSound = NULL;
+	FMOD_System_CreateSound(MActorManager::Instance().GetFMODSystem(), "Sound/Se01cencel.wav", FMOD_DEFAULT | FMOD_LOOP_OFF, 0, &pSound);
+	MActorManager::Instance().GetVecFMODSound()->push_back(pSound);
+
+	
 	return S_OK;
 }
 
@@ -662,6 +783,8 @@ E_SCENE Stage::Update(float dt)
 		return E_SCENE_STAGE;
 	else if (state.D3)
 		return E_SCENE_EVENT0;
+	else if (state.D4)
+		return E_SCENE_END;
 
 	E_SCENE eResult = MActorManager::Instance().Update(dt);
 	if (eResult > E_SCENE_NONPASS)
@@ -678,4 +801,10 @@ void Stage::Render()
 
 void Stage::Release()
 {
+	//// 사운드 해제
+	//for (auto p : MFramework::m_vecSound)
+	//{
+	//	FMOD_Sound_Release(p);
+	//}
+
 }

@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.5.0</string>
+        <string>4.6.2</string>
         <key>fileName</key>
         <string>C:/Users/hi/Source/Repos/JOJOgame/directx11jojo/directxjojo/Images/jojo/ss/texturpacker.tps</string>
         <key>autoSDSettings</key>

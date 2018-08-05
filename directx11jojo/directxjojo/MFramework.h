@@ -1,5 +1,5 @@
 #pragma once
-
+#include "stdafx.h"
 #include "Timer.h"
 #include "CommonStates.h"
 //#include "World.h"
@@ -9,14 +9,15 @@
 
 //폰트 새로운 시도 
 //DrawWirte로 했으나 TK와의 충돌로 안됨
-#include "Dwrite.h"
-#include "D2D1.h"
-#include "D2D1helper.h"
-#pragma comment (lib, "Dwrite.lib")
-#pragma comment (lib, "d2d1.lib")
+//#include "Dwrite.h"
+//#include "D2D1.h"
+//#include "D2D1helper.h"
+//#pragma comment (lib, "Dwrite.lib")
+//#pragma comment (lib, "d2d1.lib")
 
 //#define DEFAULT_SCREEN_WIDTH	960
 //#define DEFAULT_SCREEN_HEIGHT	576
+class SoundClass;
 
 class MFramework
 {
@@ -40,6 +41,11 @@ protected:
 
 	unique_ptr<CommonStates>	mspStates;
 	
+	//사운드 추가
+	unique_ptr<SoundClass>		mspSound;
+
+
+
 	//DrawWirte로 했으나 TK와의 충돌로 안됨
 	//IDWriteFactory*			pDWriteFactory_;
 	//IDWriteTextFormat*		pTextFormat_;
@@ -67,6 +73,10 @@ protected:
 public:
 	static DirectX::Mouse::ButtonStateTracker				mMouseTracker;
 	static DirectX::Keyboard::KeyboardStateTracker			mKeyboardTracker;
+	//fmod 사운드 추가
+	 //FMOD_SYSTEM*	m_pSystem;
+	 //vector<FMOD_SOUND*>		m_vecSound;
+	 //vector<FMOD_CHANNEL*>	m_vecChannel;
 	//static std::unique_ptr<SpriteBatch> spriteBatch(new SpriteBatch(mspDeviceCon));
 public:
 	virtual void InitD3D(HWND hWnd);
@@ -81,5 +91,10 @@ public:
 	void InitWindow(HINSTANCE hInstance, LPCTSTR title = L"JoJo", UINT width = 1280, UINT height = 720);
 	virtual LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	int GameLoop();
+
+public:
+	//FMOD_SYSTEM * GetFMODSystem() { return m_pSystem; }
+	//vector<FMOD_SOUND*>* GetVecFMODSound() { return &m_vecSound; }
+	//vector<FMOD_CHANNEL*>* GetVecFMODChannal() { return &m_vecChannel; }
 };
 

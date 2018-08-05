@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "AStar.h"
-
+#include "MoveBox.h"
 
 AStar::AStar()
 {
@@ -233,9 +233,11 @@ void AStar::VecMakeRoute()
 		*/
 		// 위
 		iIndex = pParent2->iIndex - JOJOCX;
-
+		auto moveBox = MActorManager::Instance().GetClassMoveBox();
+		auto pCharacter = moveBox->GetCharacter();
 		if (pParent2->iIndex >= JOJOCX &&		// 맨 윗줄이아니라면,
-			(*pVecTile)[iIndex]->byOption == 0 &&	// 갈수 있는 타일?
+			((*pVecTile)[iIndex]->byOption == 0 || 
+			(*pVecTile)[iIndex]->underObject == pCharacter->GetCamp())&&	// 갈수 있는 타일?
 			this->CheckList(iIndex))
 		{
 			unique_ptr<NODE> pNode = nullptr;
@@ -258,7 +260,8 @@ void AStar::VecMakeRoute()
 		// 오른쪽
 		iIndex = pParent2->iIndex + 1;
 		if (pParent2->iIndex % JOJOCX != JOJOCX - 1 &&
-			(*pVecTile)[iIndex]->byOption == 0 &&
+			((*pVecTile)[iIndex]->byOption == 0 ||
+			(*pVecTile)[iIndex]->underObject == pCharacter->GetCamp()) &&
 			CheckList(iIndex))
 		{
 			unique_ptr<NODE> pNode = nullptr;
@@ -282,7 +285,8 @@ void AStar::VecMakeRoute()
 		// 아래
 		iIndex = pParent2->iIndex + JOJOCX;
 		if (pParent2->iIndex < JOJOCX * JOJOCY - JOJOCX &&
-			(*pVecTile)[iIndex]->byOption == 0 &&
+			((*pVecTile)[iIndex]->byOption == 0 ||
+			(*pVecTile)[iIndex]->underObject == pCharacter->GetCamp()) &&
 			CheckList(iIndex))
 		{
 			unique_ptr<NODE> pNode = nullptr;
@@ -306,7 +310,8 @@ void AStar::VecMakeRoute()
 		// 왼쪽
 		iIndex = pParent2->iIndex - 1;
 		if (pParent2->iIndex % (JOJOCX) != 0 &&
-			(*pVecTile)[iIndex]->byOption == 0 &&
+			((*pVecTile)[iIndex]->byOption == 0 ||
+			(*pVecTile)[iIndex]->underObject == pCharacter->GetCamp()) &&
 			CheckList(iIndex))
 		{
 			unique_ptr<NODE> pNode = nullptr;

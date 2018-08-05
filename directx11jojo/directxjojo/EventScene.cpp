@@ -122,6 +122,19 @@ HRESULT EventScene::Initialize(SpriteBatch * spriteBatch, SpriteFont * spriteFon
 	mpEventStageMap = MActorManager::Instance().Create<EventStageMap>(spriteBatch, pSheet, spriteFont);
 	mpEventStageMap->Init(E_SORTID_FIRST, XMFLOAT2(mScreenWidth *0.5f, mScreenHeight*0.5f), false);
 	EventEditorMgr::Instance().Init();
+
+	// 荤款靛 积己
+	FMOD_SOUND* pSound = NULL;
+	FMOD_System_CreateSound(MActorManager::Instance().GetFMODSystem(), "Sound\\Se_e_01event0.wav", FMOD_DEFAULT | FMOD_LOOP_NORMAL, 0, &pSound);
+	MActorManager::Instance().GetVecFMODSound()->push_back(pSound);
+
+	// 荤款靛 犁积
+	FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), pSound, 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[0]);
+
+	pSound = NULL;
+	FMOD_System_CreateSound(MActorManager::Instance().GetFMODSystem(), "Sound/Se04startStage.wav", FMOD_DEFAULT | FMOD_LOOP_OFF, 0, &pSound);
+	MActorManager::Instance().GetVecFMODSound()->push_back(pSound);
+
 	return S_OK;
 }
 

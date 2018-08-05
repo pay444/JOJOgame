@@ -88,6 +88,12 @@
     <Filter Include="02.Object\01.UI\01.Skills\02.HealSkill">
       <UniqueIdentifier>{455be150-7943-4364-856a-161d04a73a53}</UniqueIdentifier>
     </Filter>
+    <Filter Include="99.Mgrs\SoundMgr">
+      <UniqueIdentifier>{fa120bc8-3f98-49e5-a1f5-8b4a9a719493}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Scene\04.EndScene">
+      <UniqueIdentifier>{32788bec-a48a-4e96-8f14-c6dfdfa56471}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -255,8 +261,14 @@
     <ClInclude Include="MouseBox.h">
       <Filter>02.Object\01.UI\03.Mouse</Filter>
     </ClInclude>
+    <ClInclude Include="SoundClass.h">
+      <Filter>99.Mgrs\SoundMgr</Filter>
+    </ClInclude>
     <ClInclude Include="HealSkill.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>02.Object\01.UI\01.Skills\02.HealSkill</Filter>
+    </ClInclude>
+    <ClInclude Include="EndScene.h">
+      <Filter>01.Scene\04.EndScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -407,8 +419,14 @@
     <ClCompile Include="MouseBox.cpp">
       <Filter>02.Object\01.UI\03.Mouse</Filter>
     </ClCompile>
+    <ClCompile Include="SoundClass.cpp">
+      <Filter>99.Mgrs\SoundMgr</Filter>
+    </ClCompile>
     <ClCompile Include="HealSkill.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>02.Object\01.UI\01.Skills\02.HealSkill</Filter>
+    </ClCompile>
+    <ClCompile Include="EndScene.cpp">
+      <Filter>01.Scene\04.EndScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -426,5 +444,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Images\Mouse\cur1.cur">
+      <Filter>리소스 파일</Filter>
+    </None>
   </ItemGroup>
 </Project>

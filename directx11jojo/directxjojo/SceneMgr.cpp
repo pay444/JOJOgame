@@ -38,6 +38,9 @@ HRESULT SceneMgr::InitScene(SpriteBatch *spritBatch,SpriteFont* spriteFont,E_SCE
 	case E_SCENE_EVENT0:
 		mspScene = make_unique<EventScene>();
 		break;
+	case E_SCENE_END:
+		mspScene = make_unique<EndScene>();
+		break;
 	}
 
 	if (FAILED(mspScene->Initialize(spritBatch,spriteFont)))

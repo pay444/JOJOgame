@@ -395,6 +395,40 @@ void AttackBox::AttackScope()
 		{
 			(*pVecTile)[*mspVecAtScopeIndex[x].get()]->AttackNum = 0;
 		}
+
+		//궁수일경우 범위중 내위치 4방향은 제외
+		if (mpCharacter->GetClassType() == JoJoGun::ClassType::ARCHER)
+		{
+			for (size_t i = 0; i < mspVecAtScopeIndex.size(); i++)
+			{
+
+				//위
+				if (*mspVecAtScopeIndex[i] == (posIndex - joTileCx))
+				{
+					mspVecAtScopeIndex[i].reset();
+					mspVecAtScopeIndex.erase(mspVecAtScopeIndex.begin() + i);
+				}
+				//아래
+				if (*mspVecAtScopeIndex[i] == (posIndex + joTileCx))
+				{
+					mspVecAtScopeIndex[i].reset();
+					mspVecAtScopeIndex.erase(mspVecAtScopeIndex.begin() + i);
+				}
+				//왼쪽
+				if (*mspVecAtScopeIndex[i] == (posIndex - 1))
+				{
+					mspVecAtScopeIndex[i].reset();
+					mspVecAtScopeIndex.erase(mspVecAtScopeIndex.begin() + i);
+				}
+				//오른쪽
+				if (*mspVecAtScopeIndex[i] == (posIndex + 1))
+				{
+					mspVecAtScopeIndex[i].reset();
+					mspVecAtScopeIndex.erase(mspVecAtScopeIndex.begin() + i);
+				}
+
+			}
+		}
 }
 
 void AttackBox::AttackCubeScope(bool isChracterPospush,vector<unique_ptr<int>> &vecAtScopeIndex)

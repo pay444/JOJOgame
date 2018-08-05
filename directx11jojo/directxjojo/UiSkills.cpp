@@ -208,6 +208,10 @@ E_SCENE UiSkills::Update(float dt)
 					mspVecSkills[i].reset();
 				}
 				mspVecSkills.clear();
+
+				//클릭음악
+				FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[7], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
 			}
 		}
 	
@@ -266,7 +270,7 @@ E_SCENE UiSkills::Update(float dt)
 							if (PtInRect(&rc, pt))
 							{
 								// ,mpCurSkill->GetTotalDelayTime() + 0.5f
-								epActor->OnHit(attackBox, mpPlayer);
+								((Character*)epActor)->OnHitSkillDamege(attackBox, mpPlayer);
 								break;
 							}
 						}
@@ -353,6 +357,7 @@ E_SCENE UiSkills::Update(float dt)
 					//내가 마우스로 찍은곳이 공격범위인지 확인
 					if (((AttackBox*)pCollider)->AttackScopeSeek())
 					{
+
 						//해당 캐릭터를 찾아서 공격을 진행한다
 						for (const auto &actor : (*MActorManager::Instance().GetActors()))
 						{
@@ -360,6 +365,7 @@ E_SCENE UiSkills::Update(float dt)
 							//단일스킬 일경우
 							if (mpCurSkill->GetSingleMulti() == 0)
 							{
+
 								if (((AttackBox*)pCollider)->UIntersecRectScope(pCollidee))
 								{
 									if (typeid(*pCollidee) == typeid(Enemy))
@@ -368,8 +374,10 @@ E_SCENE UiSkills::Update(float dt)
 										if (typeid(*mpCurSkill) == typeid(DamegeSkill)
 											|| typeid(*mpCurSkill) == typeid(SeonPung))
 										{
+											FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[16], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
 											((AttackBox*)pCollider)->SetAttackDamge(((DamegeSkill*)mpCurSkill)->GetDamege());
-											pCollidee->OnHit(pCollider, mpPlayer, 1.0f);
+											((Character*)pCollidee)->OnHitSkillDamege(pCollider, mpPlayer, 1.0f);
 											//pCollidee->SetAnimation("HIT");
 
 											//마나 감소
@@ -396,6 +404,8 @@ E_SCENE UiSkills::Update(float dt)
 											{
 												break;
 											}
+											FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[16], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
 											pCollidee->SetAnimation("POWER");
 											//((AttackBox*)pCollider)->SetAttackDamge(0);
 											((Character*)pCollidee)->OnHitHeal(pCollider, mpPlayer, 1.0f);
@@ -443,6 +453,28 @@ E_SCENE UiSkills::Update(float dt)
 										if (typeid(*mpCurSkill) == typeid(DamegeSkill))
 										{
 											((AttackBox*)pCollider)->SetAttackDamge(((DamegeSkill*)mpCurSkill)->GetDamege());
+											//애니메이션 스킬인지?
+											if (mpCurSkill->GetAnumSkil())
+											{
+												//해당 녀석에 맞는 음악 재생
+												switch (mpCurSkill->GetElemental())
+												{
+												//주작
+												case 4:
+												{
+													FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[3], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+												}
+												break;
+												//나머지는 화룡
+												default :
+												{
+													FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[5], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+												}
+												break;
+												}
+
+											}
+
 											//해당 스킬의 범위안에 들어온 캐릭터를 모두 공격
 											for (const auto &actor : (*MActorManager::Instance().GetActors()))
 											{
@@ -492,6 +524,34 @@ E_SCENE UiSkills::Update(float dt)
 										//어떤 스킬인지 에 따라 다른 행동을 진행
 										if (typeid(*mpCurSkill) == typeid(HealSkill))
 										{
+											//애니메이션 스킬인지?
+											if (mpCurSkill->GetAnumSkil())
+											{
+												//해당 녀석에 맞는 음악 재생
+												switch (mpCurSkill->GetElemental())
+												{
+													//백호
+												case 6:
+												{
+													FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[4], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+												}
+												break;
+												//나머지는 아직 없음
+												default:
+												{
+													//FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[5], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+												}
+												break;
+												}
+
+											}
+											//아니라면 일반 효과음재생
+											else
+											{
+												FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[6], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
+											}
+
 											//해당 스킬의 범위안에 들어온 캐릭터를 모두 회복
 											for (const auto &actor : (*MActorManager::Instance().GetActors()))
 											{
@@ -561,6 +621,10 @@ E_SCENE UiSkills::Update(float dt)
 			//마우스 스킬 이펙트 초기화
 			auto mouseBox = MActorManager::Instance().GetClassMouseBox();
 			mouseBox->SetSkillAreaVisible(false);
+
+			//취소음악
+			FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[18], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
 		}
 	}
 	//선택된 스킬의 Update
@@ -1123,7 +1187,7 @@ void UiSkills::SkillRegister()
 			};
 			heal->Init(meSortID, mPosition, false, SHanim, 1);
 			heal->SetSkillProperty(7, 4, 10, L"회복(소)"
-				, 0, 20, 1.0f, 0, false);
+				, 0, 20, 1.0f, 0, true);
 			heal->SetName(L"소보급");
 			mspVecSkills.push_back(move(heal));
 			auto classname = mspVecSkills[mspVecSkills.size() - 1].get();

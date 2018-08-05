@@ -28,7 +28,20 @@ MActorManager::MActorManager() :
 
 MActorManager::~MActorManager()
 {
+	// 사운드 해제
+	//for (auto p : mvecSound)
+	//{
+	//	if (p)
+	//	{
+	//		FMOD_Sound_Release(p);
+	//	}
+	//}
+	mvecSound.clear();
+	// 사운드 시스템 종료
+	FMOD_System_Close(mpSystem);
 
+	// 사운드 시스템 해제
+	FMOD_System_Release(mpSystem);
 }
 
 E_SCENE MActorManager::Update(float dt)
@@ -140,12 +153,21 @@ E_SCENE MActorManager::Update(float dt)
 				mPlayerCount--;
 				mEndTurnPlayerCount = 0;
 				(*pVecTile)[pActor->GetTileIndex(pActor->GetPosition())]->byOption = 0;
+				(*pVecTile)[pActor->GetTileIndex(pActor->GetPosition())]->underObject = 0;
+
 			}
 			else if (dynamic_cast<Enemy*>(pActor))
 			{
 				mEnemyCount--;
 				mEndTurnEnemyCount = 0;
 				(*pVecTile)[pActor->GetTileIndex(pActor->GetPosition())]->byOption = 0;
+				(*pVecTile)[pActor->GetTileIndex(pActor->GetPosition())]->underObject = 0;
+				//모든 적이 죽었다면 엔드씬으로
+				if (mEnemyCount == 0)
+				{
+					return E_SCENE_END;
+				}
+
 			}
 			iter->reset();
 			*iter = nullptr;
@@ -181,8 +203,6 @@ E_SCENE MActorManager::Update(float dt)
 	{
 		mTurn = true;
 	}
-
-
 
 	return E_SCENE_NONPASS;
 }
@@ -234,6 +254,9 @@ void MActorManager::CheckAction()
 				//공격 UI를 눌럿을때
 				if (((UI*)pCollider)->CheckAttackArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
 				{
+					//클릭음악
+					FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[7], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
 					mUiCheck = true;
 					SetAtVisible(true);
 					((UI*)pCollider)->SetVisible(false);
@@ -243,6 +266,9 @@ void MActorManager::CheckAction()
 				//취소 버튼을 눌럿을때
 				else if (((UI*)pCollider)->CheckCancelArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
 				{
+					//클릭음악
+					FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[7], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
 					((UI*)pCollider)->SetVisible(false);
 					attackBox->SetVisible(false);
 					mClickCount = 0;
@@ -251,6 +277,9 @@ void MActorManager::CheckAction()
 				//대기 UI를 눌렷을때
 				else if (((UI*)pCollider)->CheckWaitArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
 				{
+					//클릭음악
+					FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[7], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
 					Color color = Colors::Gray;
 					((Character*)pUi->GetPlayer())->SetColor(color);
 					((Character*)pUi->GetPlayer())->SetActionTurn(2);
@@ -265,6 +294,9 @@ void MActorManager::CheckAction()
 				//책략 버튼을 눌럿을때
 				else if (((UI*)pCollider)->CheckSkillArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
 				{
+					//클릭음악
+					FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[7], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
 					auto uiSkill = ((UI*)pCollider)->GetUiSkills();
 					//Ui스킬 위치선정 및 플레이어 지정
 					uiSkill->SetVisible(true);
@@ -277,6 +309,9 @@ void MActorManager::CheckAction()
 				//도구 버튼을 눌럿을때
 				else if (((UI*)pCollider)->CheckConsumItemArea() && ((Character*)pUi->GetPlayer())->GetActionTurn() < 2)
 				{
+					//클릭음악
+					FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[7], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
 					auto uiConsum = ((UI*)pCollider)->GetUiConsumItem();
 					//Ui도구 위치선정 및 플레이어 지정
 					uiConsum->SetVisible(true);
@@ -322,6 +357,9 @@ void MActorManager::CheckAction()
 					attackBox->SetVisible(true);
 					((UI*)pCollider)->SetVisible(false);
 					mbUltimateFlag = true;
+					//클릭음악
+					FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[7], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
 					break;
 				}
 				//협공 버튼 구현
@@ -334,6 +372,9 @@ void MActorManager::CheckAction()
 					if (mbPincerAtkFlag)
 					{
 						attackBox->SetVisible(true);
+						//클릭음악
+						FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[7], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
 					}
 					break;
 				}
@@ -353,6 +394,9 @@ void MActorManager::CheckAction()
 			attackBox->SetVisible(false);
 			GetClassUi()->SetVisible(true);
 			mUiCheck = false;
+			//취소음악
+			FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[18], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
 		}
 
 		//공격이 눌렷고 해당 캐릭터가 눌리면 공격함
@@ -374,6 +418,9 @@ void MActorManager::CheckAction()
 							if (((AttackBox*)pCollider)->UIntersecRectScope(pCollidee) &&
 								dynamic_cast<Character*>(pCollidee))
 							{
+								//떄린놈 음악
+								//FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[12], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
 								pCollidee->OnHit(pCollider, ((AttackBox*)pCollider)->GetCharacter());
 								
 								//((AttackBox*)pCollider)->GetCharacter()->OnHit(pCollider, pCollidee);
@@ -463,6 +510,9 @@ void MActorManager::CheckAction()
 			attackBox->SetVisible(false);
 			GetClassUi()->SetVisible(true);
 			mbUltimateFlag = false;
+			//취소음악
+			FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[18], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
 		}
 
 		if (MFramework::mMouseTracker.leftButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
@@ -483,7 +533,7 @@ void MActorManager::CheckAction()
 								//데미지를 2배로 해서 어택박스에게 넘겨주고 데미지를 줌
 								auto pPlayer = ((AttackBox*)pCollider)->GetCharacter();
 								((AttackBox*)pCollider)->SetAttackDamge(((Character*)pPlayer)->GetAttack()*2);
-								Color cr(1, 1, 1, 0.001f);
+								Color cr(0.8, 0.8, 0.8, 0.5f);
 								pPlayer->SetColor(cr);
 								((Character*)pPlayer)->SetSp(((Character*)pPlayer)->GetSp() - 50);
 								pCollidee->OnHit(pCollider, pPlayer);
@@ -513,6 +563,9 @@ void MActorManager::CheckAction()
 			auto attackBox = GetClassAttackBox();
 			auto pui = GetClassUi();
 			attackBox->SetVisible(false);
+			//취소음악
+			FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[18], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
 			//pui->SetVisible(true);
 			//pui->SetPosition(attackBox->GetCharacter()->GetPosition());
 			//mUiCheck = false;
@@ -549,6 +602,11 @@ void MActorManager::CheckAction()
 							//먼저 혐공을 실행한 녀석이 공격한다.
 							mVecAttAreaCharacter[miPickPincerIndex]->OnHit(atkBox, atkBox->GetCharacter());
 						}
+						
+						//협공 시작 효과음
+						//FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[8], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
+
 						//반격을 했는지에대한 변수 초기화 때리는 녀석마다 반격을 활성화 하기위한 처리
 						//((Character*)mCountChracter)->SetisCountAction(true);
 						break;
@@ -1088,6 +1146,13 @@ void MActorManager::Release()
 
 	//}
 
+	// 사운드 해제
+	for (auto p : mvecSound)
+	{
+		FMOD_Sound_Release(p);
+	}
+	mvecSound.clear();
+	//mvecChannel.clear();
 	//신이 바뀌었거나 했을경우 모두 초기화 시켜줌
 	mbCountAtkFlag = false;
 	mCountChracter = nullptr;
@@ -2021,6 +2086,16 @@ class MouseBox* MActorManager::GetClassMouseBox()
 		}
 	}
 	return nullptr;
+}
+
+void MActorManager::SoundInit()
+{
+	//fmod 사운드 생성
+	FMOD_System_Create(&mpSystem); // FMOD system 객체 생성
+	FMOD_System_Init(mpSystem, 32, FMOD_INIT_NORMAL, NULL); // FMOD system 초기화
+
+	// 채널 생성
+	MActorManager::Instance().GetVecFMODChannal()->resize(2);
 }
 
 //void MActorManager::InsertMap(string str, unique_ptr<MActor> actor)

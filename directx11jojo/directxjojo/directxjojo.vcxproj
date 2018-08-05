@@ -152,6 +152,7 @@
     <ClInclude Include="Defines.h" />
     <ClInclude Include="directxjojo.h" />
     <ClInclude Include="dxerr.h" />
+    <ClInclude Include="EndScene.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyState.h" />
     <ClInclude Include="EventBaseMap.h" />
@@ -185,6 +186,7 @@
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="MainGameMap.h" />
     <ClInclude Include="Skill.h" />
+    <ClInclude Include="SoundClass.h" />
     <ClInclude Include="SpriteSheet.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Stage.h" />
@@ -211,6 +213,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="EndScene.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyState.cpp" />
     <ClCompile Include="EventBaseMap.cpp" />
@@ -243,6 +246,7 @@
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="MainGameMap.cpp" />
     <ClCompile Include="Skill.cpp" />
+    <ClCompile Include="SoundClass.cpp" />
     <ClCompile Include="SpriteSheet.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Stage.cpp" />
@@ -272,6 +276,7 @@
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Images\Mouse\cur1.cur" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

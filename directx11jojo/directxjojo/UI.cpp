@@ -66,6 +66,21 @@ E_SCENE UI::Update(float dt)
 		//mspUiSkill->SetPlayer(mpPlayer);
 		//mspUiConsumItem->SetPosition(mPosition + XMFLOAT2(100.0f, 0.0f));
 		//mspUiConsumItem->SetPlayer(mpPlayer);
+
+		//화면 밖으로 넘어간다면 왼쪽에 위치시켜줌 기보은 오른쪽위치
+		XMFLOAT2 pos = mPosition + XMFLOAT2(84.0f, 22.0f*8);
+		RECT crc;
+		GetClientRect(SceneMgr::Instance().GetHWND(), &crc);
+		auto screen = XMFLOAT2(crc.right, crc.bottom);
+		if (pos.x >= screen.x)
+		{
+			mPosition = mPosition + XMFLOAT2(-200.0f, 0);
+		}
+		else if (pos.y >= screen.y)
+		{
+			mPosition = XMFLOAT2(mPosition.x, (screen.y-(22.0f*8)));
+		}
+
 		//7개의 UI그림 위치 지정
 		if (mVecUiPos.size() == 0)
 		{

@@ -30,7 +30,7 @@ void HpBean::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
 	MActor::Init(anim, 1, eSortID);
 	SetPosition(pos + XMFLOAT2(100.0f, 0.0f));
 	SetAnimation("Bean");
-	mPlus = 5;
+	mPlus = 20;
 	mStock = 3;
 	mName = L"Äá";
 	mEfficacy = L"HPÈ¸º¹";

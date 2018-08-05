@@ -29,7 +29,7 @@ void EventBaseMap::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
 	RECT rc;
 	GetWindowRect(SceneMgr::Instance().GetHWND(), &rc);
 	MoveWindow(SceneMgr::Instance().GetHWND()
-		, rc.left, rc.top, 658, 438, true);
+		, rc.left, rc.top, 656, 438, true);
 
 }
 

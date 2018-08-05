@@ -49,9 +49,36 @@ E_SCENE DamegeSkill::Update(float dt)
 		mfAnimTime = 0.0f;
 	}
 
-	//애니메이션이 끝나면 다음 녀석을 실행한다.
+	//애니메이션이 끝나면 다음 녀석을 실행한다. //단일 스킬일 경우도 애니메이션은 아니지만 들어옴
 	if (mbAnimSkill && mfAnimTime >= mfDelayAnimTime)
 	{
+		//속성에 따른 음악재생
+		switch (mElemental)
+		{
+		//불
+		case 1:
+		{
+			FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[1], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
+		}
+		break;
+		//바람
+		case 2:
+		{
+			FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[2], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+		}
+		break;
+		//주작도 불
+		case 4:
+		{
+			FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[1], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
+		}
+		break;
+		default:
+			break;
+		}
+
 		mbAnimSkill = false;
 		mfAnimTime = 0.0f;
 

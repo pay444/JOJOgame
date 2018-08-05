@@ -83,5 +83,18 @@ E_SCENE Jojo::Update(float dt)
 	//	meScene = E_SCENE_NONPASS;
 
 	//return meScene;
+
+	if (MFramework::mKeyboardTracker.IsKeyPressed(Keyboard::D8))
+	{
+		mHealth = 1;
+		auto atkBox = MActorManager::Instance().GetClassAttackBox();
+		atkBox->SetAttackDamge(100);
+		this->DoDamage(atkBox);
+		
+	}
+	//조조 사망시 게임이 종료됨
+	if (mHealth <= 0 && mbDestroyed)
+		return E_SCENE_END;
+
 	return E_SCENE_NONPASS;
 }

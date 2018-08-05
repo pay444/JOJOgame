@@ -34,16 +34,46 @@
 #include <Mouse.h>
 #include <WICTextureLoader.h>
 #include <SpriteFont.h>
+
+//사운드 추가
+#include <mmsystem.h>
+#include <dsound.h>
+#include <stdio.h>
+
 #include "vld.h"
 
 #pragma comment (lib, "d3d11.lib")
+
+#pragma comment(lib, "dsound.lib") 
+#pragma comment(lib, "dxguid.lib") 
+#pragma comment(lib, "winmm.lib") 
+
+//fmod 사운드 추가
+#include "inc\\fmod.h"
+
+#pragma comment(lib, "lib\\fmod_vc.lib")
+#pragma comment(lib, "lib\\fmod64_vc.lib")
+//#pragma comment(lib, "lib\\fmod64_vc.lib")
+//#pragma comment(lib, "fmodL_vc.lib")
+//#pragma comment(lib, "fmodL64_vc.lib")
+
+
+//#pragma comment(lib, "libogg_static.lib")
+//#pragma comment(lib, "libvorbis_static.lib")
+//#pragma comment(lib, "libvorbisfile_static.lib")
+
+//#pragma comment(lib, "dinput8.lib")
+//#include <codec.h>
+
+//#include <dinput.h>
+
+//#include <vorbisfile.h>
 
 using namespace std;
 using namespace Microsoft::WRL;
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-#include <mmsystem.h>
 #include "dxerr.h"
 #include "Defines.h"
 #include "commonMacroFunction.h"

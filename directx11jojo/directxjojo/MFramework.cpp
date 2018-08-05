@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include <sstream>
+#include "SoundClass.h"
+#include "Resource.h"
+
 //폰트를 위한 헤더 안됨
 //#include <d2d1helper.h>
 //#include <d2d1.h>
@@ -19,7 +22,6 @@ template <class T> void SafeRelease(T **ppT)
 MFramework* gpDispatch = 0;
  DirectX::Mouse::ButtonStateTracker MFramework::mMouseTracker;
  DirectX::Keyboard::KeyboardStateTracker MFramework::mKeyboardTracker;
-using namespace std;
 
 LRESULT CALLBACK GlobalWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -180,6 +182,39 @@ void MFramework::InitD3D(HWND hWnd)
  	//);
 	
 
+	//directSound 생성
+
+	//// Create the sound object.
+	//mspSound = make_unique<SoundClass>();
+	//if (!mspSound)
+	//{
+	//	MessageBox(hWnd, L"Could not Create Direct Sound.", L"Error", MB_OK);
+	//}
+	//// Initialize the sound object.
+	//if (!mspSound->Initialize(hWnd))
+	//{
+	//	MessageBox(hWnd, L"Could not initialize Direct Sound.", L"Error", MB_OK);
+	//}
+
+	//fmod 사운드 생성
+	//FMOD_System_Create(&m_pSystem); // FMOD system 객체 생성
+	//FMOD_System_Init(m_pSystem, 32, FMOD_INIT_NORMAL, NULL); // FMOD system 초기화
+	//MFramework::GameLoop();
+
+	// // 사운드 생성
+	//FMOD_SOUND* pSound = NULL;
+	//FMOD_System_CreateSound(MFramework::m_pSystem, "Sound\\02-AudioTrack 02.mp3", FMOD_DEFAULT, 0, &pSound);
+	//MFramework::m_vecSound.push_back(pSound);
+	//// 채널 생성
+	//MFramework::m_vecChannel.resize(2);
+
+	//// 사운드 재생
+	//FMOD_System_PlaySound(MFramework::m_pSystem, pSound, 0, 0, &MFramework::m_vecChannel[0]);
+
+	//pSound = NULL;
+	//FMOD_System_CreateSound(MFramework::m_pSystem, "Sound/Se_m_07.wav", FMOD_DEFAULT | FMOD_LOOP_OFF, 0, &pSound);
+	//MFramework::m_vecSound.push_back(pSound);
+
 	OnResize();
 }
 
@@ -190,8 +225,27 @@ void MFramework::ClearD3D()
 	SceneMgr::Instance().Release();
 	mspSwapchain->SetFullscreenState(FALSE, NULL);
 
+	// Release the sound object.
+	if (mspSound)
+	{
+		mspSound->Shutdown();
+		mspSound.reset();
+		mspSound = nullptr;
+	}
 	//SafeRelease(&pRT);
 	//SafeRelease(&pBlackBrush_);
+
+	//// 사운드 해제
+	//for (auto p : m_vecSound)
+	//{
+	//	FMOD_Sound_Release(p);
+	//}
+
+	//// 사운드 시스템 종료
+	//FMOD_System_Close(m_pSystem);
+
+	//// 사운드 시스템 해제
+	//FMOD_System_Release(m_pSystem);
 }
 
 void MFramework::Update(float dt)
@@ -309,7 +363,7 @@ void MFramework::InitWindow(HINSTANCE hInstance, LPCTSTR title, UINT width, UINT
 	wc.style = CS_HREDRAW | CS_VREDRAW;
 	wc.lpszClassName = L"JoJo";
 	wc.hInstance = hInstance;
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hCursor = LoadCursor(hInstance, (LPCTSTR)IDC_CURSOR3);
 	wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
 	wc.lpfnWndProc = GlobalWindowProc;
 	wc.cbSize = sizeof(WNDCLASSEX);
@@ -435,8 +489,22 @@ LRESULT MFramework::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lP
 
 		case WM_INPUT:
 		case WM_MOUSEMOVE:
+			//break;
 		case WM_LBUTTONDOWN:
+		{
+			
+			//FMOD_System_PlaySound(m_pSystem, m_vecSound[1], 0, 0, &m_vecChannel[1]);
+
+			//FMOD_Channel_SetPaused(m_vecChannel[0],true);
+		}
+		//break;
 		case WM_LBUTTONUP:
+		{
+			//FMOD_Channel_SetPaused(m_vecChannel[0], false);
+
+			//FMOD_System_PlaySound(m_pSystem, m_vecSound[0], 0, 0, &m_vecChannel[0]);
+		}
+		//break;
 		case WM_RBUTTONDOWN:
 		case WM_RBUTTONUP:
 		case WM_MBUTTONDOWN:

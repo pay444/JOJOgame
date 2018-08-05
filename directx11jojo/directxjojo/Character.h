@@ -96,6 +96,7 @@ public:
 	virtual void Draw();
 	virtual void OnHit(MActor* pCollidee);
 	virtual void OnHit(MActor* pCollider, MActor* pCollidee,float delayTime = 0.8f);
+	virtual void OnHitSkillDamege(MActor* pCollider, MActor* pCollidee, float delayTime = 0.8f);
 	virtual void OnHitHeal(MActor* pCollider, MActor* pCollidee, float delayTime = 0.8f);
 	virtual void DoDamage(MActor* pAttacker);
 	void MoveStateCheck();
@@ -153,6 +154,9 @@ public:
 
 	void SetAniName(char* name) { mAnimName2 = name; }
 	char* GetAniName() { return mAnimName2; }
+
+	void SetAniName1(char* name) { mAnimName = name; }
+	char* GetAniName1() { return mAnimName; }
 
 	void SetColorAllow(bool colorBool) { mColorAllow = colorBool; }
 	bool GetColorAllow() { return mColorAllow; }

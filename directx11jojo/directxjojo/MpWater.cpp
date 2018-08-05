@@ -30,7 +30,7 @@ void MpWater::Init(E_SORTID eSortID, XMFLOAT2 pos, bool visible)
 	MActor::Init(anim, 1, eSortID);
 	SetPosition(pos + XMFLOAT2(100.0f, 0.0f));
 	SetAnimation("Water");
-	mPlus = 5;
+	mPlus = 50;
 	mStock = 3;
 	mName = L"신비물";
 	mEfficacy = L"MP회복";

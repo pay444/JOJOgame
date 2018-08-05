@@ -387,7 +387,7 @@ void MoveBox::TileScope()
 			}
 		}*/
 		//타일 위치 값 초기화
-		(*pVecTile)[GetTileIndex(mPosition)]->moveNum = 0;
+		//(*pVecTile)[GetTileIndex(mPosition)]->moveNum = 0;
 		for (int x = 0; x < mspVecScopeIndex.size(); ++x)
 		{
 			(*pVecTile)[*mspVecScopeIndex[x]]->moveNum = 0;

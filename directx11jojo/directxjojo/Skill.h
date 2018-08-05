@@ -46,5 +46,6 @@ public:
 	float GetTotalDelayTime() { return mfTotalDelayTime; }
 	int GetActiveArea(){return miActiveArea;}
 	int GetScope() { return mScope; }
+	bool GetAnumSkil() { return mbAnimSkill; }
 };
 

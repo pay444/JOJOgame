@@ -288,6 +288,11 @@ void EventEditorMgr::EventCheck()
 		eventSMap->SetVisible(true);
 		eventSMap->SetStageName(stageName);
 		eventSMap->SetScene(scene);
+
+		FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[1], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+		FMOD_Channel_Stop((*MActorManager::Instance().GetVecFMODChannal())[0]);
+		mOrder++;
+
 	}
 
 }

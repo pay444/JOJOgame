@@ -190,6 +190,7 @@ void Player::UpdateMove(float dt)
 	if (mActionTurn < 1)
 	{
 		JoAStar_Move(dt);
+
 	}
 	
 	if (MFramework::mMouseTracker.rightButton == Mouse::ButtonStateTracker::ButtonState::RELEASED)
@@ -208,6 +209,9 @@ void Player::UpdateMove(float dt)
 			//타일이 가지고 있는 내위에 캐릭터가 있다는 표시를 초기화
 			(*pVecTile)[mGoalIndex]->byOption = 0;
 			(*pVecTile)[mGoalIndex]->underObject = 0;
+
+			//취소음악
+			FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[18], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
 		}
 		//MActorManager::Instance().SetMBVisible(false);
 		////MoveBox::Instance()->SetVisible(false);

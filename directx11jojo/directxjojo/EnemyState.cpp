@@ -65,6 +65,7 @@ void IdleState::Execute(float dt)
 		//적의 무브박스와 어텍박스 위치를 바꿔줌
 		moveBox->SetPosition(pEnemy->GetPosition());
 		moveBox->SetMoveDis(pEnemy->GetMoveDistance());
+		moveBox->SetCharacter(pEnemy);
 		moveBox->TileScope();
 		moveBox->SetVisible(true);
 
@@ -88,37 +89,38 @@ void IdleState::Execute(float dt)
 
 		//플레이어주위 4칸과 적과의 거리중 가장 가까운곳의 
 		//타일을 정해줌 못가게 되어있으면 안움직임
-		XMFLOAT2 topPos = pPlayer->GetPosition() - XMFLOAT2(0.0f, 48.0f);
-		vecPos.push_back(topPos);
-		XMFLOAT2 botumPos = pPlayer->GetPosition() + XMFLOAT2(0.0f, 48.0f);
-		vecPos.push_back(botumPos);
-		XMFLOAT2 leftPos = pPlayer->GetPosition() - XMFLOAT2(48.0f, 0.0f);
-		vecPos.push_back(leftPos);
-		XMFLOAT2 rightPos = pPlayer->GetPosition() + XMFLOAT2(48.0f, 0.0f);
-		vecPos.push_back(rightPos);
+		vecPos.push_back(pPlayer->GetPosition());
+		//XMFLOAT2 topPos = pPlayer->GetPosition() - XMFLOAT2(0.0f, 48.0f);
+		//vecPos.push_back(topPos);
+		//XMFLOAT2 botumPos = pPlayer->GetPosition() + XMFLOAT2(0.0f, 48.0f);
+		//vecPos.push_back(botumPos);
+		//XMFLOAT2 leftPos = pPlayer->GetPosition() - XMFLOAT2(48.0f, 0.0f);
+		//vecPos.push_back(leftPos);
+		//XMFLOAT2 rightPos = pPlayer->GetPosition() + XMFLOAT2(48.0f, 0.0f);
+		//vecPos.push_back(rightPos);
 
 		//0보다 작아지는 값은 제외 다른캐릭터가 올라와 있으면 제외
-		auto iter1 = vecPos.begin();
-		while (iter1 != vecPos.cend())
-		{
-			Vector2 vec2 = Vector2(iter1->x,iter1->y);
-			
-			//화면 끝에 다다랐을때 예외처리
-			auto a = pEnemy->GetTileIndex(vec2);
-			
-			if (iter1->x < 0 || iter1->y < 0)
-			{
-				iter1 = vecPos.erase(iter1);
-			}
-			else if (pEnemy->GetTileIndex(vec2) > 0 &&(*pVecTile)[pEnemy->GetTileIndex(vec2)]->byOption == 1)
-			{
-				iter1 = vecPos.erase(iter1);
-			}
-			else 
-			{
-				iter1++;
-			}
-		}
+		//auto iter1 = vecPos.begin();
+		//while (iter1 != vecPos.cend())
+		//{
+		//	Vector2 vec2 = Vector2(iter1->x,iter1->y);
+		//	
+		//	//화면 끝에 다다랐을때 예외처리
+		//	auto a = pEnemy->GetTileIndex(vec2);
+		//	
+		//	if (iter1->x < 0 || iter1->y < 0)
+		//	{
+		//		iter1 = vecPos.erase(iter1);
+		//	}
+		//	else if (pEnemy->GetTileIndex(vec2) > 0 &&(*pVecTile)[pEnemy->GetTileIndex(vec2)]->byOption == 1)
+		//	{
+		//		iter1 = vecPos.erase(iter1);
+		//	}
+		//	else 
+		//	{
+		//		iter1++;
+		//	}
+		//}
 		
 		//적과 플레이어의 위치 dist 측정및 등록
 		for (int i = 0; i < vecPos.size(); ++i)
@@ -129,22 +131,29 @@ void IdleState::Execute(float dt)
 			faf.dist = dist;
 			vecFloat2Dis.push_back(faf);
 		}
-		std::sort(vecFloat2Dis.begin(), vecFloat2Dis.end(), less_than_dist());
+		//std::sort(vecFloat2Dis.begin(), vecFloat2Dis.end(), less_than_dist());
 
 		//플레이어와 적의 근접한 위치와 무브박스의 위치를 비교해서 넣어줌
+		vector<int> vecindex;
 		for (int i = 0; i < (*pVecMoveBoxIndex).size(); ++i)
 		{
 			float dist = Vector2::Distance(vecFloat2Dis[0].pos,
-				(*pVecTile)[*(*pVecMoveBoxIndex)[i].get()]->vPos + XMFLOAT2(24.0f,24.0f));
+				(*pVecTile)[*(*pVecMoveBoxIndex)[i].get()]->vPos + XMFLOAT2(24.0f, 24.0f));//
 			Float2Andflaot faf;
-			faf.pos = (*pVecTile)[*(*pVecMoveBoxIndex)[i].get()]->vPos + XMFLOAT2(24.0f, 24.0f);
+			faf.pos = (*pVecTile)[*(*pVecMoveBoxIndex)[i].get()]->vPos + XMFLOAT2(24.0f, 24.0f);//
 			faf.dist = dist;
-			vecMoveBoxFloat2Dis.push_back(faf);
+			int index = *(*pVecMoveBoxIndex)[i].get();
+			//단 이동범위에 어떤 캐릭터가 올라와있으면 안됨
+			if ((*pVecTile)[*(*pVecMoveBoxIndex)[i].get()]->underObject == 0)
+			{
+				vecindex.push_back(index);
+				vecMoveBoxFloat2Dis.push_back(faf);
+			}
 		}
-		std::sort(vecMoveBoxFloat2Dis.begin(), vecMoveBoxFloat2Dis.end(), less_than_dist());
+ 		std::sort(vecMoveBoxFloat2Dis.begin(), vecMoveBoxFloat2Dis.end(), less_than_dist());
 
 		//에너미의 AStar시작
-		pEnemy->JoAstar_Start(pEnemy->GetPosition(), vecMoveBoxFloat2Dis[0].pos+XMFLOAT2(24.0f,24.0f));
+		pEnemy->JoAstar_Start(pEnemy->GetPosition(), vecMoveBoxFloat2Dis[0].pos);//+XMFLOAT2(24.0f,24.0f)
 
 
 
@@ -299,8 +308,14 @@ void AttackState::Execute(float dt)
 	{	
 		auto attackBox = MActorManager::Instance().GetClassAttackBox();
 		attackBox->SetVisible(true);
+		//떄린놈 음악
+		//FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[12], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
 		pPlayer->OnHit(attackBox,
 			attackBox->GetCharacter());
+
+		auto moveBox = MActorManager::Instance().GetClassMoveBox();
+		moveBox->Release();
 		//MActorManager::Instance().SetAtVisible(false);
 		MActorManager::Instance().SetMBVisible(false);
 		mfElapsedTime = 0.0f;

@@ -75,6 +75,13 @@ HRESULT Logo::Initialize(SpriteBatch* spriteBatch, SpriteFont* spriteFont)
 	//pEnemy->SetStaus(100, 10, 3, 1);
 	//pEnemy->SetAI(40.0f, 500.0f, 100.0f, 0.8f, 0.8f);
 
+	// 荤款靛 积己
+	FMOD_SOUND* pSound = NULL;
+	FMOD_System_CreateSound(MActorManager::Instance().GetFMODSystem(), "Sound\\02-AudioTrack 02.mp3", FMOD_DEFAULT | FMOD_LOOP_NORMAL, 0, &pSound);
+	MActorManager::Instance().GetVecFMODSound()->push_back(pSound);
+
+	// 荤款靛 犁积
+	FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), pSound, 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[0]);
 
 	return S_OK;
 }

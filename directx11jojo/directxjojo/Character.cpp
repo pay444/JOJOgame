@@ -114,8 +114,12 @@ E_SCENE Character::Update(float dt)
 	//죽음 시간측정후 없어지도록
 	if (this->mHealth <= 0)
 	{
-		if (mfActionElapsedTime > 2.2f)
+
+		if (mfActionElapsedTime > 1.2f)
 		{
+			//죽는 음악
+			FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[17], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
 			this->SetDestroyed();
 			mfActionElapsedTime = 0.0f;
 			return E_SCENE_NONPASS;
@@ -131,6 +135,12 @@ E_SCENE Character::Update(float dt)
 	if (mbMotionFlag && mfActionElapsedTime > mfDelayMotionTime)
 	{
 		SetAnimation(mAnimName2);
+		//때린 음악
+		if (mAnimName == "DATTACK")
+		{
+			mAnimName = mAnimName2;
+			//FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[12], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+		}
 		mbMotionFlag = false;
 		if (mColorAllow && mActionTurn >= 2)
 		{
@@ -139,6 +149,7 @@ E_SCENE Character::Update(float dt)
 			MActorManager::Instance().GetClassAttackBox()->SetVisible(false);
 			//tint = mColor;
 			mfActionElapsedTime = 0.0f;
+
 
 		}
 		else if ( mActionTurn < 2)//mActionTurn > 0 &&
@@ -262,6 +273,7 @@ void Character::OnHit(MActor * pCollider, MActor * pCollidee, float delayTime)
 			(*pVecTile)[attackerIndex]->vPos.y + JOJOTILESY) //+ JOJOTILESY / 2 + JOJOTILESY / 2)
 		{
 			pCollidee->SetAnimation("DATTACK");
+			((Character*)pCollidee)->SetAniName1("DATTACK");
 			((Character*)pCollidee)->SetAniName("DOWN");
 		}
 		//위 애니매이션 변경
@@ -291,6 +303,71 @@ void Character::OnHit(MActor * pCollider, MActor * pCollidee, float delayTime)
  
 		//mfActionElapsedTime = 0;
 		//mActionTurn++;
+		//맞은 효과음
+		FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[13], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
+
+		DoDamage(pCollider);
+	}
+}
+
+void Character::OnHitSkillDamege(MActor* pCollider, MActor* pCollidee, float delayTime /*= 0.8f*/)
+{
+	if (((Character*)this)->GetCamp() != ((Character*)pCollidee)->GetCamp())
+	{
+
+		//때린놈의 액션턴을 바꿔준다.
+		((Character*)pCollidee)->SetActionTurn(2);
+		//때린놈의 색깔을 바꿔준다.
+		((Character*)pCollidee)->SetColorAllow(true);
+		//때린놈의 어택플래그 를 바꿔준다
+		((Character*)pCollidee)->SetMotionFlag(true);
+
+		//때린놈의 어택딜레이시간 을 바꿔준다
+		//((Character*)pCollidee)->SetDelayTime(delayTime);
+		//맞은 놈의 어택딜레이 시간을 바꿔준다
+		mfDelayMotionTime = delayTime;
+		//때린놈의 애니메이션 상태 변경
+		const vector<unique_ptr<TILE>>* pVecTile = MActorManager::Instance().GetTileInfo();
+		int attackerIndex = GetTileIndex(pCollidee->GetPosition());
+		int defenderIndex = GetTileIndex(mPosition);
+
+		//아래 애니매이션 변경
+		if (mPosition.y >
+			(*pVecTile)[attackerIndex]->vPos.y + JOJOTILESY) //+ JOJOTILESY / 2 + JOJOTILESY / 2)
+		{
+			pCollidee->SetAnimation("DATTACK");
+			((Character*)pCollidee)->SetAniName("DOWN");
+		}
+		//위 애니매이션 변경
+		else if (mPosition.y <
+			(*pVecTile)[attackerIndex]->vPos.y)// + JOJOTILESY / 2 - JOJOTILESY / 2)
+		{
+			pCollidee->SetAnimation("UATTACK");
+			((Character*)pCollidee)->SetAniName("UP");
+		}
+
+		//오른쪽과 왼쪽 변경
+		else if ((mPosition.x <
+			(*pVecTile)[attackerIndex]->vPos.x))
+			//&&(mPosition.x != (*pVecTile)[iDestinationIdx]->vPos.x))
+		{
+			pCollidee->SetAnimation("LATTACK");
+			((Character*)pCollidee)->SetAniName("LEFT");
+		}
+		else if (mPosition.x >
+			(*pVecTile)[attackerIndex]->vPos.x + JOJOTILESX)
+		{
+			pCollidee->SetAnimation("RATTACK");
+			((Character*)pCollidee)->SetAniName("RIGHT");
+		}
+		//때린놈 행동 시간 초기화
+		pCollidee->SetActionTime(0.0f);
+
+		//mfActionElapsedTime = 0;
+		//mActionTurn++;
+		
+
 		DoDamage(pCollider);
 	}
 }
@@ -373,6 +450,7 @@ void Character::DoDamage(MActor * pAttacker)
 	mspTint->Start(0.1f, (Color)Colors::Wheat, (Color)Colors::Red);
 
 	this->SetAnimation("HIT");
+	mAnimName = "HIT";
 	//Color cr = Colors::White;
 	//mColor = cr;
 	mfActionElapsedTime = 0.0f;
@@ -383,6 +461,7 @@ void Character::DoDamage(MActor * pAttacker)
 	{
 		mAnimName2 = "DEAD";
 		this->SetAnimation(mAnimName2);
+
 		mfActionElapsedTime = 0.0f;
 		//this->SetDestroyed();
 		
@@ -463,6 +542,17 @@ void Character::JoAstar_Start(const Vector2 & vDestPos, const Vector2 & vSorcePo
 	// 길찾기 시작 !
 	mpJoAStar->AStarStat(iStartIdx, iGoalIdx);
 
+	//걷는 음악 재생
+	if (mClassType == JoJoGun::ClassType::CAVALRY || mClassType == JoJoGun::ClassType::LORD)
+	{
+		FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[11], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+	}
+	else
+	{
+		FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[10], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
+	}
+
 }
 
 bool Character::JoAStar_Move(float dt)
@@ -522,19 +612,36 @@ bool Character::JoAStar_Move(float dt)
 	}
 	else
 	{
-		(*pVecTile)[mStartIndex]->underObject = 1;
-		(*pVecTile)[mStartIndex]->byOption = 1;
-		(*pVecTile)[iDestinationIdx]->underObject = 0;
-		(*pVecTile)[iDestinationIdx]->byOption = 0;
+		////만약 내가 플레이어 라면 이 타일 값 설정
+		//if (this->GetCamp() == JoJoGun::CampType::PLAYER)
+		//{
+		//	(*pVecTile)[pBestList->back()]->underObject = 1;
+		//}
+		////만약 내가 적이라면 이 타일 값 설정
+		//else if (this->GetCamp() == JoJoGun::CampType::ENEMY)
+		//{
+		//	(*pVecTile)[pBestList->back()]->underObject = 2;
+		//}
+		//(*pVecTile)[mStartIndex]->byOption = 1;
+		//(*pVecTile)[mStartIndex]->underObject = 0;
+		////단 지나가다가 나랑 같은 녀석을 지나지않아야 초기화해줌
+		//if ((*pVecTile)[iDestinationIdx]->underObject != mCamp)
+		//{
+		//	(*pVecTile)[iDestinationIdx]->underObject = 0;
+		//	(*pVecTile)[iDestinationIdx]->byOption = 0;
+		//}
 	}
 
 	if (fDistance < 5.f)
 	{
 		pBestList->pop_front();
+
 	}
 
 	if (pBestList->size() == 0)
 	{
+		FMOD_Channel_Stop((*MActorManager::Instance().GetVecFMODChannal())[1]);
+
 		mActionTurn++;
 		if (GetCamp() == JoJoGun::CampType::PLAYER)
 		{

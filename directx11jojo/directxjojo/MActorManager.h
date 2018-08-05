@@ -50,7 +50,13 @@ private:
 	vector<int> mVecPicerTileIndex;				//협공시 어떤타일 위에 캐릭터가 올라가있는지 체크
 	vector<Character*> mVecAttAreaCharacter;		//내 공격범위에 들어있는 캐릭터를 담고있는 벡터
 	vector<PINCERINFO> mVecPincerCharacter;			//협공할수있는 캐릭터를 담고있는 벡터
+
+	//fmod 사운드 추가
+	FMOD_SYSTEM*	mpSystem;
+	vector<FMOD_SOUND*>		mvecSound;
+	vector<FMOD_CHANNEL*>	mvecChannel;
 public:
+	void SoundInit();			//사운드초기화
 	E_SCENE Update(float dt);					//게임 전투씬에서의 Update();
 	E_SCENE GameMainUpdate(float dt);			//게임 시작하기 전의 Update();
 	E_SCENE EventUpdate(float dt);				//게임 이벤트 씬의 Update();
@@ -70,6 +76,11 @@ public:
 	void SortActors();
 	void CheckEnemyTarget();
 	
+public:
+	FMOD_SYSTEM * GetFMODSystem() { return mpSystem; }
+	vector<FMOD_SOUND*>* GetVecFMODSound() { return &mvecSound; }
+	vector<FMOD_CHANNEL*>* GetVecFMODChannal() { return &mvecChannel; }
+
 	E_SCENE GetScene();
 	bool GetMBSeekScope();
 	bool GetUICheckArea();

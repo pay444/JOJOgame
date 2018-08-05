@@ -49,3 +49,13 @@ typedef struct PINCERINFO
 //	int iIndex;
 //	unique_ptr<tagNode> &pParent;
 //}NODE;
+
+struct soundFile
+{
+	LPDIRECTSOUNDBUFFER pDSB;	// 사운드 버퍼
+	bool bFileOpened;			// 파일을 열었냐?
+	bool bLoop;					// 루프할꺼냐?
+	int nLastSection;			// 사운드의 끝지점
+	int nCurSection;			// 현재 재생되고있는 지점
+	unsigned int actualsize;	// 버퍼의 크기
+};

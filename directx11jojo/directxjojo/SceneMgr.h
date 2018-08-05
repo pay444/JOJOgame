@@ -3,6 +3,7 @@
 #include "Logo.h"
 #include "Stage.h"
 #include "EventScene.h"
+#include "EndScene.h"
 
 class SceneMgr final
 {

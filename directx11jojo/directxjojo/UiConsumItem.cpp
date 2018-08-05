@@ -144,6 +144,8 @@ E_SCENE UiConsumItem::Update(float dt)
 					{
 						break;
 					}
+
+	
 					//CalArea(mpCurSkill->GetArea());
 					mAreaVisible = true;
 					//아이템을 사용할수있는 범위를 보여주는 설정을 한다
@@ -155,6 +157,8 @@ E_SCENE UiConsumItem::Update(float dt)
 
 					//attackbox->SetAttackDis(5);
 					mUICVisible = false;
+
+
 					break;
 				}
 				else
@@ -185,6 +189,10 @@ E_SCENE UiConsumItem::Update(float dt)
 				mUICVisible = false;
 				//도구아이템들 클래스 초기화
 				MActorManager::Instance().GetClassUi()->SetVisible(true);
+
+				//클릭음악
+				FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[7], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
+
 				//for (size_t i = 0; i < mspVecConsumItems.size(); i++)
 				//{
 				//	mspVecConsumItems[i].reset();
@@ -221,6 +229,7 @@ E_SCENE UiConsumItem::Update(float dt)
 		mpPlayer->SetColorAllow(true);
 		Color cr = Colors::Gray;
 		mpPlayer->SetColor(cr);
+
 		//mpPlayer->
 	}
 
@@ -304,6 +313,8 @@ E_SCENE UiConsumItem::Update(float dt)
 								mpCurItem->SetStock(mpCurItem->GetStock()-1);
 								mFlag = true;
 								mAreaVisible = false;
+								//아이템 사용 음악
+								FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[9], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
 
 								break;
 							}
@@ -325,6 +336,8 @@ E_SCENE UiConsumItem::Update(float dt)
 			//	mspVecConsumItems[i].reset();
 			//}
 			//mspVecConsumItems.clear();
+			//취소음악
+			FMOD_System_PlaySound(MActorManager::Instance().GetFMODSystem(), (*MActorManager::Instance().GetVecFMODSound())[18], 0, 0, &(*MActorManager::Instance().GetVecFMODChannal())[1]);
 			mAreaVisible = false;
 		}
 	}
